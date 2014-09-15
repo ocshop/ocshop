@@ -97,11 +97,7 @@ class ModelCatalogCoolfilter extends Model {
 	
  public function getParametereItemNames($coolfilter_parameteres_id, $categories_id) {
 
-<<<<<<< HEAD
 			$sql = "SELECT DISTINCT f.filter_id as value, f.filter_group_id as id,  fd.name as name FROM `" . DB_PREFIX . "filter` f LEFT JOIN " . DB_PREFIX . "filter_description fd ON (f.filter_id = fd.filter_id) LEFT JOIN " . DB_PREFIX . "filter_group fg ON (f.filter_group_id = fg.filter_group_id) WHERE f.filter_group_id IN (" . $this->db->escape($coolfilter_parameteres_id) . ") AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY f.sort_order ";
-=======
-			$sql = "SELECT DISTINCT f.filter_id as value, f.filter_group_id as id,  fd.name as name FROM `" . DB_PREFIX . "filter` f LEFT JOIN filter_description fd ON (f.filter_id = fd.filter_id) LEFT JOIN filter_group fg ON (f.filter_group_id = fg.filter_group_id) WHERE f.filter_group_id IN (" . $this->db->escape($coolfilter_parameteres_id) . ") AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY f.sort_order ";
->>>>>>> origin/ocshop-1.5.6.3
 			$query = $this->db->query($sql);
 		
 	
