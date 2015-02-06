@@ -1,81 +1,45 @@
 /////////////////////////////////
 ///       OpenCart V2.0.x     ///
-///    Install Instructions   ///
-///  http://www.opencart.com  ///
+///  Инструкция по установке  ///
+///  http://opencart.com.ru   ///
 /////////////////////////////////
 
+ВНИМАНИЕ: ИНСТРУКЦИЯ ОПИСЫВАЕТ УСТАНОВКУ НОВОГО ИНТЕРНЕТ-МАГАЗИНА!
+ЕСЛИ НУЖНО ОБНОВИТЬ СУЩЕСТВУЮЩИЙ МАГАЗИН - ЧИТАЙТЕ UPGRADE.TXT.
 
-NOTE: THIS IS FOR NEW INSTALL ONLY!
-IF UPGRADING YOUR EXISTING CART, BE SURE TO READ THE UPGRADE.TXT FILE INSTEAD
+---------
+УСТАНОВКА
+---------
 
+Инструкция описывает установку с использованием FTP, cPanel или других панелей управления хостингом
 
--------
-INSTALL
--------
-These instructions are for a manual installation using FTP, cPanel or other web hosting Control Panel.
+1. Распакуйте архив, и закачайте все файлы и папки из папки «Upload» на сервер, поместите их в корневую папку веб-сайта. Корневая папка может различаться в зависимости от сервера. Если у вас cPanel, то она скорее всего public_html/, а на Plesk - httpdocs/.
 
-- Linux Install -
+2. Переименуйте файл config-dist.php в config.php, а admin/config-dist.php в admin/config.php.
 
-1. Upload all of the files and folders to your server from the "Upload" folder, place them in your web root. The web root is different on some servers, cPanel it should be public_html/ and on Plesk it should be httpdocs/.
+3. Для Linux/Unix убедитесь, что следующие папки и файлы разрешены на запись:
 
-2. Rename config-dist.php to config.php and admin/config-dist.php to admin/config.php
+    chmod 0755 system/cache/
+    chmod 0755 system/logs/
+    chmod 0755 system/download/
+    chmod 0755 system/upload/
+    chmod 0755 image/
+    chmod 0755 image/cache/
+    chmod 0755 image/catalog/
+    chmod 0755 config.php
+    chmod 0755 admin/config.php
 
-3. For Linux/Unix make sure the following folders and files are writeable.
+4. Если прав 0755 не достаточно - попробуйте 0777.
 
-		chmod 0755 or 0777 system/cache/
-		chmod 0755 or 0777 system/logs/
-		chmod 0755 or 0777 system/download/
-		chmod 0755 or 0777 system/upload/
-		chmod 0755 or 0777 image/
-		chmod 0755 or 0777 image/cache/
-		chmod 0755 or 0777 image/catalog/
-		chmod 0755 or 0777 config.php
-		chmod 0755 or 0777 admin/config.php
+5. Убедитесь, что у вас установлена СУБД MySQL или MariaDB и в ней создан пользователь. Не используйте root-пользователя для подключения к СУБД.
 
-		If 0755 does not work try 0777.
+6. Откройте главную страницу сайта, т.е. http://www.example.ru или http://www.example.ru/store/
 
-4. Make sure you have installed a MySQL Database which has a user assigned to it
-	DO NOT USE YOUR ROOT USERNAME AND ROOT PASSWORD
+7. Вы должны оказаться на странице установки. Следуйте инструкциям по установке.
 
-5. Visit the store homepage e.g. http://www.example.com or http://www.example.com/store/
-
-6. You should be taken to the installer page. Follow the on screen instructions.
-
-7. After successful install, delete the /install/ directory from ftp.
+8. После успешной установки удалите папку /install/ на сервере.
 
 
-- Windows Install -
+- Локальная установка -
 
-1. Upload all the files and folders to your server from the "Upload" folder. This can be to anywhere of your choice. e.g. /wwwroot/store or /wwwroot
-
-2. Rename config-dist.php to config.php and admin/config-dist.php to admin/config.php
-
-3. For Windows make sure the following folders and files permissions allow Read and Write.
-
-		system/cache/
-		system/logs/
-		system/download/
-		system/upload/
-		image/
-		image/cache/
-		image/catalog/
-		config.php
-		admin/config.php
-
-4. Make sure you have installed a MySQL Database which has a user assigned to it
-	DO NOT USE YOUR ROOT USERNAME AND ROOT PASSWORD
-
-5. You should be taken to the installer page. Follow the on screen instructions.
-
-6. After successful install, delete the /install/ directory.
-
-
-
-- Local Install -
-
-There are many all-in-one web servers out there and most of them should work with OpenCart out of the box. Some examples...
-
-http://www.apachefriends.org/en/xampp.html
-http://www.ampps.com/
-http://www.usbwebserver.net
-http://www.wampserver.com/en/
+Существует несколько готовых дистрибутивов веб-серверов «все в одном», которые будут работать с OpenCart. Мы рекомендуем Денвер.
