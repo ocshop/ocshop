@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerCommonMenu extends Controller {
 	public function index() {
 		$this->load->language('common/menu');
@@ -10,6 +15,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_attribute_group'] = $this->language->get('text_attribute_group');
 		$data['text_backup'] = $this->language->get('text_backup');
 		$data['text_banner'] = $this->language->get('text_banner');
+		$data['text_menu'] = $this->language->get('text_menu');
 		$data['text_captcha'] = $this->language->get('text_captcha');
 		$data['text_catalog'] = $this->language->get('text_catalog');
 		$data['text_category'] = $this->language->get('text_category');
@@ -27,7 +33,15 @@ class ControllerCommonMenu extends Controller {
 		$data['text_paypal_search'] = $this->language->get('text_paypal_search');
 		$data['text_design'] = $this->language->get('text_design');
 		$data['text_download'] = $this->language->get('text_download');
+		$data['text_seomanager'] = $this->language->get('text_seomanager');
 		$data['text_error_log'] = $this->language->get('text_error_log');
+		//blog
+		$data['text_blog'] = $this->language->get('text_blog');
+		$data['text_blog_category'] = $this->language->get('text_blog_category');
+		$data['text_blog_article'] = $this->language->get('text_blog_article');
+		$data['text_blog_review'] = $this->language->get('text_blog_review');
+		$data['text_blog_setting'] = $this->language->get('text_blog_setting');
+		//end blog
 		$data['text_extension'] = $this->language->get('text_extension');
 		$data['text_feed'] = $this->language->get('text_feed');
 		$data['text_fraud'] = $this->language->get('text_fraud');
@@ -106,6 +120,14 @@ class ControllerCommonMenu extends Controller {
 		$data['text_openbay_links'] = $this->language->get('text_openbay_links');
 		$data['text_openbay_report_price'] = $this->language->get('text_openbay_report_price');
 		$data['text_openbay_order_import'] = $this->language->get('text_openbay_order_import');
+		
+		$data['text_seo'] = $this->language->get('text_seo');
+		$data['text_gogettop'] = $this->language->get('text_gogettop');
+		$data['text_gogettop_help'] = $this->language->get('text_gogettop_help');
+		$data['text_seopult'] = $this->language->get('text_seopult');
+		$data['text_seopult_help'] = $this->language->get('text_seopult_help');
+		$data['text_blogun'] = $this->language->get('text_blogun');
+		$data['text_blogun_help'] = $this->language->get('text_blogun_help');
 
 		$data['analytics'] = $this->url->link('extension/analytics', 'token=' . $this->session->data['token'], true);
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true);
@@ -115,6 +137,7 @@ class ControllerCommonMenu extends Controller {
 		$data['attribute_group'] = $this->url->link('catalog/attribute_group', 'token=' . $this->session->data['token'], true);
 		$data['backup'] = $this->url->link('tool/backup', 'token=' . $this->session->data['token'], true);
 		$data['banner'] = $this->url->link('design/banner', 'token=' . $this->session->data['token'], true);
+		$data['menu'] = $this->url->link('design/menu', 'token=' . $this->session->data['token'], true);
 		$data['captcha'] = $this->url->link('extension/captcha', 'token=' . $this->session->data['token'], true);
 		$data['category'] = $this->url->link('catalog/category', 'token=' . $this->session->data['token'], true);
 		$data['country'] = $this->url->link('localisation/country', 'token=' . $this->session->data['token'], true);
@@ -126,12 +149,19 @@ class ControllerCommonMenu extends Controller {
 		$data['customer_group'] = $this->url->link('customer/customer_group', 'token=' . $this->session->data['token'], true);
 		$data['custom_field'] = $this->url->link('customer/custom_field', 'token=' . $this->session->data['token'], true);
 		$data['download'] = $this->url->link('catalog/download', 'token=' . $this->session->data['token'], true);
+		$data['seomanager'] = $this->url->link('tool/seomanager', 'token=' . $this->session->data['token'], true);
 		$data['error_log'] = $this->url->link('tool/error_log', 'token=' . $this->session->data['token'], true);
 		$data['feed'] = $this->url->link('extension/feed', 'token=' . $this->session->data['token'], true);
 		$data['filter'] = $this->url->link('catalog/filter', 'token=' . $this->session->data['token'], true);
 		$data['fraud'] = $this->url->link('extension/fraud', 'token=' . $this->session->data['token'], true);
 		$data['geo_zone'] = $this->url->link('localisation/geo_zone', 'token=' . $this->session->data['token'], true);
 		$data['information'] = $this->url->link('catalog/information', 'token=' . $this->session->data['token'], true);
+		//blog
+		$data['blog_article'] = $this->url->link('blog/article', 'token=' . $this->session->data['token'], true);
+		$data['blog_category'] = $this->url->link('blog/category', 'token=' . $this->session->data['token'], true);
+		$data['blog_review'] = $this->url->link('blog/review', 'token=' . $this->session->data['token'], true);
+		$data['blog_setting'] = $this->url->link('blog/setting', 'token=' . $this->session->data['token'], true);
+		//blog
 		$data['installer'] = $this->url->link('extension/installer', 'token=' . $this->session->data['token'], true);
 		$data['language'] = $this->url->link('localisation/language', 'token=' . $this->session->data['token'], true);
 		$data['layout'] = $this->url->link('design/layout', 'token=' . $this->session->data['token'], true);
@@ -182,6 +212,10 @@ class ControllerCommonMenu extends Controller {
 		$data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], true);
 		$data['recurring'] = $this->url->link('catalog/recurring', 'token=' . $this->session->data['token'], true);
 		$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], true);
+		
+		$data['gogettop'] = $this->url->link('howto/gogettop', 'token=' . $this->session->data['token'], true);
+		$data['seopult'] = $this->url->link('howto/seopult', 'token=' . $this->session->data['token'], true);
+		$data['blogun'] = $this->url->link('howto/blogun', 'token=' . $this->session->data['token'], true);
 
 		$data['openbay_show_menu'] = $this->config->get('openbaypro_menu');
 		$data['openbay_link_extension'] = $this->url->link('extension/openbay', 'token=' . $this->session->data['token'], true);

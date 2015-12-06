@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerAccountReturn extends Controller {
 	private $error = array();
 
@@ -12,6 +17,7 @@ class ControllerAccountReturn extends Controller {
 		$this->load->language('account/return');
 
 		$this->document->setTitle($this->language->get('heading_title'));
+		$this->document->setRobots('noindex,follow');
 
 		$data['breadcrumbs'] = array();
 
@@ -37,6 +43,8 @@ class ControllerAccountReturn extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
+		
+		$this->document->setRobots('noindex,follow');
 
 		$data['text_empty'] = $this->language->get('text_empty');
 
@@ -117,6 +125,8 @@ class ControllerAccountReturn extends Controller {
 
 		if ($return_info) {
 			$this->document->setTitle($this->language->get('text_return'));
+			
+			$this->document->setRobots('noindex,follow');
 
 			$data['breadcrumbs'] = array();
 
@@ -147,6 +157,8 @@ class ControllerAccountReturn extends Controller {
 			);
 
 			$data['heading_title'] = $this->language->get('text_return');
+			
+			$this->document->setRobots('noindex,follow');
 
 			$data['text_return_detail'] = $this->language->get('text_return_detail');
 			$data['text_return_id'] = $this->language->get('text_return_id');
@@ -213,6 +225,8 @@ class ControllerAccountReturn extends Controller {
 			$this->response->setOutput($this->load->view('account/return_info', $data));
 		} else {
 			$this->document->setTitle($this->language->get('text_return'));
+			
+			$this->document->setRobots('noindex,follow');
 
 			$data['breadcrumbs'] = array();
 
@@ -243,6 +257,8 @@ class ControllerAccountReturn extends Controller {
 			);
 
 			$data['heading_title'] = $this->language->get('text_return');
+			
+			$this->document->setRobots('noindex,follow');
 
 			$data['text_error'] = $this->language->get('text_error');
 
@@ -295,6 +311,7 @@ class ControllerAccountReturn extends Controller {
 		$this->load->language('account/return');
 
 		$this->document->setTitle($this->language->get('heading_title'));
+		$this->document->setRobots('noindex,follow');
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 		$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
@@ -317,6 +334,8 @@ class ControllerAccountReturn extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
+		
+		$this->document->setRobots('noindex,follow');
 
 		$data['text_description'] = $this->language->get('text_description');
 		$data['text_order'] = $this->language->get('text_order');
@@ -597,6 +616,8 @@ class ControllerAccountReturn extends Controller {
 		$this->load->language('account/return');
 
 		$this->document->setTitle($this->language->get('heading_title'));
+		
+		$this->document->setRobots('noindex,follow');
 
 		$data['breadcrumbs'] = array();
 
@@ -611,6 +632,8 @@ class ControllerAccountReturn extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
+		
+		$this->document->setRobots('noindex,follow');
 
 		$data['text_message'] = $this->language->get('text_message');
 

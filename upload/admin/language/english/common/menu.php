@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Text
 $_['text_analytics']                   = 'Analytics';
 $_['text_affiliate']                   = 'Affiliates';
@@ -7,6 +12,7 @@ $_['text_attribute']                   = 'Attributes';
 $_['text_attribute_group']             = 'Attribute Groups';
 $_['text_backup']                      = 'Backup / Restore';
 $_['text_banner']                      = 'Banners';
+$_['text_menu']                        = 'Menus';
 $_['text_captcha']                     = 'Captcha';
 $_['text_catalog']                     = 'Catalog';
 $_['text_category']                    = 'Categories';
@@ -19,6 +25,7 @@ $_['text_custom_field']                = 'Custom Fields';
 $_['text_dashboard']                   = 'Dashboard';
 $_['text_design']                      = 'Design';
 $_['text_download']                    = 'Downloads';
+$_['text_seomanager'] 				   = 'SEO Manager';
 $_['text_error_log']                   = 'Error Logs';
 $_['text_extension']                   = 'Extensions';
 $_['text_feed']                        = 'Feeds';
@@ -98,3 +105,15 @@ $_['text_openbay_report_price']        = 'Pricing report';
 $_['text_openbay_order_import']        = 'Order import';
 $_['text_paypal_manage']               = 'PayPal';
 $_['text_paypal_search']               = 'Search';
+$_['text_seo']                     	   = 'SEO';
+$_['text_gogettop']                    = 'GoGetTop';
+$_['text_gogettop_help']               = 'How To GoGetTop';
+$_['text_seopult']                     = 'SeoPult';
+$_['text_seopult_help']                = 'How To SeoPult';
+$_['text_blogun']                      = 'Blogun';
+$_['text_blogun_help']                 = 'How To Blogun';
+$_['text_blog']                 	   = 'Blog';
+$_['text_blog_article']                = 'Articles';
+$_['text_blog_category']               = 'Blog Categories';
+$_['text_blog_review']                 = 'Blog review';
+$_['text_blog_setting']                = 'Blog setting';

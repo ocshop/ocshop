@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Locale
 $_['code']                          = 'en';
 $_['direction']                     = 'ltr';
@@ -41,6 +46,7 @@ $_['button_disable']                = 'Disable';
 $_['button_filter']                 = 'Filter';
 $_['button_send']                   = 'Send';
 $_['button_edit']                   = 'Edit';
+$_['button_shop']                   = 'Look';
 $_['button_copy']                   = 'Copy';
 $_['button_back']                   = 'Back';
 $_['button_remove']                 = 'Remove';
@@ -96,6 +102,8 @@ $_['button_currency']               = 'Refresh Currency Values';
 $_['button_apply']                  = 'Apply';
 $_['button_category_add']           = 'Add Category';
 $_['button_order']                  = 'View Order';
+$_['button_enable']             	= 'Enable';
+$_['button_disable']       		    = 'Disable';
 
 // Tab
 $_['tab_address']                   = 'Address';
@@ -135,6 +143,9 @@ $_['tab_activity']                  = 'Recent Activity';
 $_['tab_recurring']                 = 'Recurring';
 $_['tab_action']                    = 'Action';
 $_['tab_google']                    = 'Google';
+$_['tab_sms']                       = 'SMS';
+$_['tab_extra_tab']          		= 'Extra Tab';
+$_['tab_module']          	 		= 'Tab';
 
 // Error
 $_['error_exception']               = 'Error Code(%s): %s in %s on line %s';
