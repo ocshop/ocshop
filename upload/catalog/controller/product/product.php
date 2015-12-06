@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerProductProduct extends Controller {
 	private $error = array();
 
@@ -213,8 +218,23 @@ class ControllerProductProduct extends Controller {
 				'text' => $product_info['name'],
 				'href' => $this->url->link('product/product', $url . '&product_id=' . $this->request->get['product_id'])
 			);
-
-			$this->document->setTitle($product_info['meta_title']);
+			
+			if ($product_info['meta_title']) {
+				$this->document->setTitle($product_info['meta_title']);
+			} else {
+				$this->document->setTitle($product_info['name']);
+			}
+			
+			if ($product_info['noindex'] <= 0) {
+				$this->document->setRobots('noindex,follow');
+			}
+			
+			if ($product_info['meta_h1']) {	
+				$data['heading_title'] = $product_info['meta_h1'];
+			} else {
+				$data['heading_title'] = $product_info['name'];
+			}
+			
 			$this->document->setDescription($product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
@@ -223,8 +243,6 @@ class ControllerProductProduct extends Controller {
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
 			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
-
-			$data['heading_title'] = $product_info['name'];
 
 			$data['text_select'] = $this->language->get('text_select');
 			$data['text_manufacturer'] = $this->language->get('text_manufacturer');
@@ -472,6 +490,18 @@ class ControllerProductProduct extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			
+			$data['product_tabs']=array();
+			
+			$tabresults = $this->model_catalog_product->getproducttab($this->request->get['product_id']);
+			
+			foreach($tabresults as $result){
+				$data['product_tabs'][]=array(
+					'product_tab_id' => $result['product_tab_id'],
+					'title'   => $result['heading'],
+					'description' => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+				);
+			}
 
 			$this->response->setOutput($this->load->view('product/product', $data));
 		} else {

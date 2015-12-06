@@ -19,6 +19,14 @@
       <li><a href="<?php echo $information; ?>"><?php echo $text_information; ?></a></li>
     </ul>
   </li>
+  <li id="blog"><a class="parent"><i class="fa fa-book fa-fw"></i> <span><?php echo $text_blog; ?></span></a>
+    <ul>
+      <li><a href="<?php echo $blog_article; ?>"><?php echo $text_blog_article; ?></a></li>
+	  <li><a href="<?php echo $blog_category; ?>"><?php echo $text_blog_category; ?></a></li>
+      <li><a href="<?php echo $blog_review; ?>"><?php echo $text_blog_review; ?></a></li>
+      <li><a href="<?php echo $blog_setting; ?>"><?php echo $text_blog_setting; ?></a></li>
+	</ul>
+  </li>
   <li id="extension"><a class="parent"><i class="fa fa-puzzle-piece fa-fw"></i> <span><?php echo $text_extension; ?></span></a>
     <ul>
       <li><a href="<?php echo $installer; ?>"><?php echo $text_installer; ?></a></li>
@@ -79,12 +87,6 @@
       <?php } ?>
     </ul>
   </li>
-  <li id="design"><a class="parent"><i class="fa fa-television fa-fw"></i> <span><?php echo $text_design; ?></span></a>
-    <ul>
-      <li><a href="<?php echo $layout; ?>"><?php echo $text_layout; ?></a></li>
-      <li><a href="<?php echo $banner; ?>"><?php echo $text_banner; ?></a></li>
-    </ul>
-  </li>
   <li id="sale"><a class="parent"><i class="fa fa-shopping-cart fa-fw"></i> <span><?php echo $text_sale; ?></span></a>
     <ul>
       <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
@@ -116,6 +118,13 @@
       <li><a href="<?php echo $affiliate; ?>"><?php echo $text_affiliate; ?></a></li>
       <li><a href="<?php echo $coupon; ?>"><?php echo $text_coupon; ?></a></li>
       <li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
+    </ul>
+  </li>
+  <li id="design"><a class="parent"><i class="fa fa-desktop fa-fw"></i> <span><?php echo $text_design; ?></span></a>
+    <ul>
+      <li><a href="<?php echo $layout; ?>"><?php echo $text_layout; ?></a></li>
+	  <li><a href="<?php echo $menu; ?>"><?php echo $text_menu; ?></a></li>
+      <li><a href="<?php echo $banner; ?>"><?php echo $text_banner; ?></a></li>
     </ul>
   </li>
   <li id="system"><a class="parent"><i class="fa fa-cog fa-fw"></i> <span><?php echo $text_system; ?></span></a>
@@ -159,6 +168,7 @@
         <ul>
           <li><a href="<?php echo $upload; ?>"><?php echo $text_upload; ?></a></li>
           <li><a href="<?php echo $backup; ?>"><?php echo $text_backup; ?></a></li>
+		  <li><a href="<?php echo $seomanager; ?>"><?php echo $text_seomanager; ?></a></li>
           <li><a href="<?php echo $error_log; ?>"><?php echo $text_error_log; ?></a></li>
         </ul>
       </li>
@@ -198,5 +208,27 @@
         </ul>
       </li>
     </ul>
+  </li>
+  <li id="seo"><a class="parent"><i class="fa fa-comment-o fa-fw"></i> <span><?php echo $text_seo; ?></span></a>
+    <ul>
+      <li><a class="parent"><?php echo $text_gogettop; ?></a>
+        <ul>
+          <li><a href="http://gogettop.ru/?ref=16605" target="_blank"><?php echo $text_gogettop; ?></a></li>
+          <li><a href="<?php echo $gogettop; ?>"><?php echo $text_gogettop_help; ?></a></li>
+        </ul>
+      </li>
+      <li><a class="parent"><?php echo $text_seopult; ?></a>
+        <ul>
+          <li><a href="http://seopult.ru/ref/f8924f1b27c4ffd6/aHR0cDovL3Nlb3B1bHQucnUvcmVnaXN0ZXIuaHRtbD9zPXRodG9w" target="_blank"><?php echo $text_seopult; ?></a></li>
+          <li><a href="<?php echo $seopult; ?>"><?php echo $text_seopult_help; ?></a></li>
+        </ul>
+      </li>
+      <li><a class="parent"><?php echo $text_blogun; ?></a>
+        <ul>
+          <li><a href="https://blogun.ru/unimpairedcedcdhg.html" target="_blank"><?php echo $text_blogun; ?></a></li>
+          <li><a href="<?php echo $blogun; ?>"><?php echo $text_blogun_help; ?></a></li>
+        </ul>
+      </li>
+	  </ul>
   </li>
 </ul>

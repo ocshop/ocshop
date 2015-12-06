@@ -1,9 +1,9 @@
 <?php
-/**
- * Modifcation XML Documentation can be found here:
- *
- * https://github.com/opencart/opencart/wiki/Modification-System
- */
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerExtensionModification extends Controller {
 	private $error = array();
 

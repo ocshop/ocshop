@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Heading
 $_['heading_title']                    = 'Settings';
 
@@ -24,6 +29,9 @@ $_['text_shipping']                    = 'Shipping Address';
 $_['text_payment']                     = 'Payment Address';
 $_['text_mail']                        = 'Mail';
 $_['text_smtp']                        = 'SMTP';
+$_['text_seo_url'] 					   = 'Default';
+$_['text_seo_pro']					   = 'SeoPro';
+$_['text_howtosms']          	       = 'How to';
 $_['text_general']                     = 'General';
 $_['text_security']                    = 'Security';
 $_['text_upload']                      = 'Uploads';
@@ -127,6 +135,9 @@ $_['entry_secure']                     = 'Use SSL';
 $_['entry_shared']                     = 'Use Shared Sessions';
 $_['entry_robots']                     = 'Robots';
 $_['entry_seo_url']                    = 'Use SEO URLs';
+$_['entry_seo_url_type'] 			   = 'Type Friendly URL';
+$_['entry_seo_url_include_path'] 	   = 'Friendly URL goods categories';
+$_['entry_seo_url_postfix']			   = 'End Friendly URL';
 $_['entry_file_max_size']	           = 'Max File Size';
 $_['entry_file_ext_allowed']           = 'Allowed File Extensions';
 $_['entry_file_mime_allowed']          = 'Allowed File Mime Types';
@@ -138,6 +149,14 @@ $_['entry_error_display']              = 'Display Errors';
 $_['entry_error_log']                  = 'Log Errors';
 $_['entry_error_filename']             = 'Error Log Filename';
 $_['entry_status']                     = 'Status';
+$_['entry_sms_gatename']       		   = 'Сервис отправки SMS';
+$_['entry_sms_to']             		   = 'Номер телефона получателя';
+$_['entry_sms_from']           		   = 'Псевдоним отправителя';
+$_['entry_sms_message']        		   = 'Текст сообщения';
+$_['entry_sms_gate_username']  		   = 'Логин на SMS шлюз';
+$_['entry_sms_gate_password']  		   = 'Пароль на SMS шлюз';
+$_['entry_sms_alert']          		   = 'Включить SMS уведомления';
+$_['entry_sms_copy']           		   = 'Дополнительные номера';
 
 // Help
 $_['help_geocode']                     = 'Please enter your store location geocode manually.';
@@ -202,6 +221,12 @@ $_['help_maintenance']                 = 'Prevents customers from browsing your 
 $_['help_password']                    = 'Allow forgotten password to be used for the admin. This will be disabled automatically if the system detects a hack attempt.';
 $_['help_encryption']                  = 'Please provide a secret key that will be used to encrypt private information when processing orders.';
 $_['help_compression']                 = 'GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9.';
+$_['help_seo_url_include_path'] 	   = '/category/subcategory/product<br />(Only SeoPro)';
+$_['help_seo_url_postfix']			   = 'For example. html<br />(Only SeoPro)';
+$_['help_sms_from']					   = 'Не более 11 символов, либо номер телефона до 15 цифр';
+$_['help_sms_to']					   = 'В международном формате, только цифры 7926xxxxxxx';
+$_['help_sms_copy']					   = 'Указывать через запятую, в международном формате, без разделителей 7926xxxxxxx';
+$_['help_sms_message']				   = 'Можно использовать теги:<br/>{ID} - номер заказа<br/>{DATE} - дата заказа<br/>{TIME} - время заказа<br/>{SUM} - сумма заказа<br/>{FIRST_NAME} - имя клиента<br/>{LAST_NAME} - фамилия клиента<br/>{PHONE} - телефон клиента';
 
 // Error
 $_['error_warning']                    = 'Warning: Please check the form carefully for errors!';

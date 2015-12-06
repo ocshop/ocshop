@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerFeedGoogleSitemap extends Controller {
 	public function index() {
 		if ($this->config->get('google_sitemap_status')) {
@@ -15,7 +20,6 @@ class ControllerFeedGoogleSitemap extends Controller {
 					$output .= '<url>';
 					$output .= '<loc>' . $this->url->link('product/product', 'product_id=' . $product['product_id']) . '</loc>';
 					$output .= '<changefreq>weekly</changefreq>';
-					$output .= '<lastmod>' . date('Y-m-d\TH:i:sP', strtotime($product['date_modified'])) . '</lastmod>';
 					$output .= '<priority>1.0</priority>';
 					$output .= '<image:image>';
 					$output .= '<image:loc>' . $this->model_tool_image->resize($product['image'], $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')) . '</image:loc>';
@@ -40,16 +44,6 @@ class ControllerFeedGoogleSitemap extends Controller {
 				$output .= '<changefreq>weekly</changefreq>';
 				$output .= '<priority>0.7</priority>';
 				$output .= '</url>';
-
-				$products = $this->model_catalog_product->getProducts(array('filter_manufacturer_id' => $manufacturer['manufacturer_id']));
-
-				foreach ($products as $product) {
-					$output .= '<url>';
-					$output .= '<loc>' . $this->url->link('product/product', 'manufacturer_id=' . $manufacturer['manufacturer_id'] . '&product_id=' . $product['product_id']) . '</loc>';
-					$output .= '<changefreq>weekly</changefreq>';
-					$output .= '<priority>1.0</priority>';
-					$output .= '</url>';
-				}
 			}
 
 			$this->load->model('catalog/information');
@@ -88,16 +82,6 @@ class ControllerFeedGoogleSitemap extends Controller {
 			$output .= '<changefreq>weekly</changefreq>';
 			$output .= '<priority>0.7</priority>';
 			$output .= '</url>';
-
-			$products = $this->model_catalog_product->getProducts(array('filter_category_id' => $result['category_id']));
-
-			foreach ($products as $product) {
-				$output .= '<url>';
-				$output .= '<loc>' . $this->url->link('product/product', 'path=' . $new_path . '&product_id=' . $product['product_id']) . '</loc>';
-				$output .= '<changefreq>weekly</changefreq>';
-				$output .= '<priority>1.0</priority>';
-				$output .= '</url>';
-			}
 
 			$output .= $this->getCategories($result['category_id'], $new_path);
 		}

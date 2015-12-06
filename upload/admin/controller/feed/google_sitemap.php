@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerFeedGoogleSitemap extends Controller {
 	private $error = array();
 
@@ -14,7 +19,7 @@ class ControllerFeedGoogleSitemap extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$this->response->redirect($this->url->link('extension/feed', 'token=' . $this->session->data['token'], true));
+			$this->response->redirect($this->url->link('extension/feed', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -25,6 +30,7 @@ class ControllerFeedGoogleSitemap extends Controller {
 
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_data_feed'] = $this->language->get('entry_data_feed');
+		$data['entry_data_yandex_feed'] = $this->language->get('entry_data_yandex_feed');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -41,22 +47,22 @@ class ControllerFeedGoogleSitemap extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true)
+			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_feed'),
-			'href' => $this->url->link('extension/feed', 'token=' . $this->session->data['token'], true)
+			'href' => $this->url->link('extension/feed', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('feed/google_sitemap', 'token=' . $this->session->data['token'], true)
+			'href' => $this->url->link('feed/google_sitemap', 'token=' . $this->session->data['token'], 'SSL')
 		);
 
-		$data['action'] = $this->url->link('feed/google_sitemap', 'token=' . $this->session->data['token'], true);
+		$data['action'] = $this->url->link('feed/google_sitemap', 'token=' . $this->session->data['token'], 'SSL');
 
-		$data['cancel'] = $this->url->link('extension/feed', 'token=' . $this->session->data['token'], true);
+		$data['cancel'] = $this->url->link('extension/feed', 'token=' . $this->session->data['token'], 'SSL');
 
 		if (isset($this->request->post['google_sitemap_status'])) {
 			$data['google_sitemap_status'] = $this->request->post['google_sitemap_status'];
@@ -65,6 +71,7 @@ class ControllerFeedGoogleSitemap extends Controller {
 		}
 
 		$data['data_feed'] = HTTP_CATALOG . 'index.php?route=feed/google_sitemap';
+		$data['data_yandex_feed'] = HTTP_CATALOG . 'index.php?route=feed/yandex_sitemap';
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

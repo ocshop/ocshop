@@ -38,6 +38,7 @@
             <li><a href="#tab-image" data-toggle="tab"><?php echo $tab_image; ?></a></li>
             <li><a href="#tab-ftp" data-toggle="tab"><?php echo $tab_ftp; ?></a></li>
             <li><a href="#tab-mail" data-toggle="tab"><?php echo $tab_mail; ?></a></li>
+			<li><a href="#tab-sms" data-toggle="tab"><?php echo $tab_sms; ?></a></li>
             <li><a href="#tab-server" data-toggle="tab"><?php echo $tab_server; ?></a></li>
           </ul>
           <div class="tab-content">
@@ -1366,6 +1367,82 @@
                 </div>
               </div>
             </div>
+			<div class="tab-pane" id="tab-sms">
+			<div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo $entry_sms_alert; ?></label>
+                <div class="col-sm-10">
+                  <label class="radio-inline">
+                    <?php if ($config_sms_alert) { ?>
+                    <input type="radio" name="config_sms_alert" value="1" checked="checked" />
+                    <?php echo $text_yes; ?>
+                    <?php } else { ?>
+                    <input type="radio" name="config_sms_alert" value="1" />
+                    <?php echo $text_yes; ?>
+                    <?php } ?>
+                  </label>
+                  <label class="radio-inline">
+                    <?php if (!$config_sms_alert) { ?>
+                    <input type="radio" name="config_sms_alert" value="0" checked="checked" />
+                    <?php echo $text_no; ?>
+                    <?php } else { ?>
+                    <input type="radio" name="config_sms_alert" value="0" />
+                    <?php echo $text_no; ?>
+                    <?php } ?>
+                  </label>
+				  <span style="padding-top:12px;vertical-align:middle;">&nbsp;&nbsp;&nbsp;<a target="_blank" href="<?php echo $howtosms; ?>"><?php echo $text_howtosms; ?></a> <a target="_blank" href="http://smsc.ru/?ppocshop">smsc.ru</a></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-gatename"><?php echo $entry_sms_gatename; ?></label>
+                <div class="col-sm-10">
+                  <select name="config_sms_gatename" id="input-sms-gatename" class="form-control">
+					<?php foreach($sms_gatenames as $sms_gatename) { ?>
+					<?php if ($config_sms_gatename == $sms_gatename) { ?>
+					<option value="<?php echo $sms_gatename; ?>" selected="selected"><?php echo $sms_gatename; ?></option>
+					<?php } else { ?>
+					<option value="<?php echo $sms_gatename; ?>"><?php echo $sms_gatename; ?></option>
+					<?php } ?>
+					<?php } ?>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-from"><span data-toggle="tooltip" title="<?php echo $help_sms_from; ?>"><?php echo $entry_sms_from; ?></span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_sms_from" value="<?php echo $config_sms_from; ?>" maxlength="15" placeholder="<?php echo $entry_sms_from; ?>" id="input-sms-from" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-to"><span data-toggle="tooltip" title="<?php echo $help_sms_to; ?>"><?php echo $entry_sms_to; ?></span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_sms_to" value="<?php echo $config_sms_to; ?>" maxlength="15" placeholder="<?php echo $entry_sms_to; ?>" id="input-sms-to" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-copy"><span data-toggle="tooltip" title="<?php echo $help_sms_copy; ?>"><?php echo $entry_sms_copy; ?></span></label>
+                <div class="col-sm-10">
+                  <textarea name="config_sms_copy" rows="5" placeholder="<?php echo $entry_sms_copy; ?>" id="input-sms-copy" class="form-control"><?php echo $config_sms_copy; ?></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-message"><span data-toggle="tooltip" title="<?php echo $help_sms_message; ?>"><?php echo $entry_sms_message; ?></span></label>
+                <div class="col-sm-10">
+                  <textarea name="config_sms_message" rows="5" placeholder="<?php echo $entry_sms_message; ?>" id="input-sms-message" class="form-control"><?php echo $config_sms_message; ?></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-gate-username"><?php echo $entry_sms_gate_username; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_sms_gate_username" value="<?php echo $config_sms_gate_username; ?>" placeholder="<?php echo $entry_sms_gate_username; ?>" id="input-sms-gate-username" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sms-gate-password"><?php echo $entry_sms_gate_password; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_sms_gate_password" value="<?php echo $config_sms_gate_password; ?>" placeholder="<?php echo $entry_sms_gate_password; ?>" id="input-sms-gate-password" class="form-control" />
+                </div>
+              </div>
+            </div>
             <div class="tab-pane" id="tab-server">
               <fieldset>
                 <legend><?php echo $text_general; ?></legend>
@@ -1415,6 +1492,49 @@
                      </label>
                    </div>
                  </div>
+				 <div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo $entry_seo_url_type; ?></label>
+                <div class="col-sm-10">
+					<select class="form-control" name="config_seo_url_type">
+						<?php foreach ($seo_types as $seo_type) { ?>
+							<?php if ($seo_type['type'] == $config_seo_url_type) { ?>
+								<option value="<?php echo $seo_type['type']; ?>" selected="selected"><?php echo $seo_type['name']; ?></option>
+							<?php } else { ?>
+								<option value="<?php echo $seo_type['type']; ?>"><?php echo $seo_type['name']; ?></option>
+							<?php } ?>
+						<?php } ?>
+					</select>
+				</div>
+              </div>
+			  <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_include_path; ?>"><?php echo $entry_seo_url_include_path; ?></span></label>
+                <div class="col-sm-10">
+                  <label class="radio-inline">
+                    <?php if ($config_seo_url_include_path) { ?>
+                    <input type="radio" name="config_seo_url_include_path" value="1" checked="checked" />
+                    <?php echo $text_yes; ?>
+                    <?php } else { ?>
+                    <input type="radio" name="config_seo_url_include_path" value="1" />
+                    <?php echo $text_yes; ?>
+                    <?php } ?>
+                  </label>
+                  <label class="radio-inline">
+                    <?php if (!$config_seo_url_include_path) { ?>
+                    <input type="radio" name="config_seo_url_include_path" value="0" checked="checked" />
+                    <?php echo $text_no; ?>
+                    <?php } else { ?>
+                    <input type="radio" name="config_seo_url_include_path" value="0" />
+                    <?php echo $text_no; ?>
+                    <?php } ?>
+                  </label>
+                </div>
+               </div>
+			   <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_postfix; ?>"><?php echo $entry_seo_url_postfix; ?></span></label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="config_seo_url_postfix" value="<?php echo $config_seo_url_postfix; ?>" />
+				</div>
+              </div>
                  <div class="form-group">
                    <label class="col-sm-2 control-label" for="input-robots"><span data-toggle="tooltip" title="<?php echo $help_robots; ?>"><?php echo $entry_robots; ?></span></label>
                    <div class="col-sm-10">

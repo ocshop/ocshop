@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2015.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Version
 define('VERSION', '2.1.0.2_rc');
 
@@ -270,7 +275,10 @@ $controller = new Front($registry);
 $controller->addPreAction(new Action('common/maintenance'));
 
 // SEO URL's
-$controller->addPreAction(new Action('common/seo_url'));
+if (!$seo_type = $config->get('config_seo_url_type')) {
+	$seo_type = 'seo_url';
+}
+$controller->addPreAction(new Action('common/' . $seo_type));
 
 // Router
 if (isset($request->get['route'])) {
