@@ -605,7 +605,8 @@ CREATE TABLE `oc_category_path` (
   `category_id` int(11) NOT NULL,
   `path_id` int(11) NOT NULL,
   `level` int(11) NOT NULL,
-  PRIMARY KEY (`category_id`,`path_id`)
+  PRIMARY KEY (`category_id`,`path_id`),
+  KEY `path` (`path_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --

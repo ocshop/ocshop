@@ -22,6 +22,8 @@ $_['text_amount']            = 'Фиксированная сумма';
 
 // Column
 $_['column_name']            = 'Название товара';
+$_['column_category']        = 'Категория';
+$_['column_manufacturer']    = 'Производитель';
 $_['column_model']           = 'Код товара';
 $_['column_image']           = 'Изображение';
 $_['column_price']           = 'Цена';
@@ -80,6 +82,7 @@ $_['entry_status']           = 'Статус';
 $_['entry_noindex']          = 'Индексация';
 $_['entry_sort_order']       = 'Порядок сортировки';
 $_['entry_category']         = 'Категории';
+$_['entry_sub_category']     = 'включая подкатегории';
 $_['entry_main_category']    = 'Главная категория';
 $_['entry_filter']           = 'Фильтры';
 $_['entry_download']         = 'Файлы для скачивания';

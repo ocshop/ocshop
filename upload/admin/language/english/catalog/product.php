@@ -22,6 +22,8 @@ $_['text_amount']            = 'Fixed Amount';
 
 // Column
 $_['column_name']            = 'Product Name';
+$_['column_category']        = 'Category';
+$_['column_manufacturer']    = 'Manufacturer';
 $_['column_model']           = 'Model';
 $_['column_image']           = 'Image';
 $_['column_price']           = 'Price';
@@ -80,6 +82,7 @@ $_['entry_status']           = 'Status';
 $_['entry_noindex']          = 'Index';
 $_['entry_sort_order']       = 'Sort Order';
 $_['entry_category']         = 'Categories';
+$_['entry_sub_category']     = 'include subcategories';
 $_['entry_main_category']    = 'Main Category';
 $_['entry_filter']           = 'Filters';
 $_['entry_download']         = 'Downloads';
