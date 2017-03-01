@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Heading
 $_['heading_title']     = 'Manufacturers';
 
@@ -23,6 +28,12 @@ $_['entry_keyword']     = 'SEO URL';
 $_['entry_image']       = 'Image';
 $_['entry_sort_order']  = 'Sort Order';
 $_['entry_type']        = 'Type';
+$_['entry_noindex']          = 'Index';
+$_['entry_layout']           = 'Layout Override';
+$_['tab_design']             = 'Design';
+$_['entry_related_mn']       = 'Featured Products:';
+$_['entry_related_article']  = 'Featured Articles:';
+ 
 
 // Help
 $_['help_keyword']      = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';

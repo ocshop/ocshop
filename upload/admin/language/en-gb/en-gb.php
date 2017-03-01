@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Locale
 $_['code']                          = 'en';
 $_['direction']                     = 'ltr';
@@ -41,6 +46,7 @@ $_['button_disable']                = 'Disable';
 $_['button_filter']                 = 'Filter';
 $_['button_send']                   = 'Send';
 $_['button_edit']                   = 'Edit';
+$_['button_shop']                   = 'Look';
 $_['button_copy']                   = 'Copy';
 $_['button_back']                   = 'Back';
 $_['button_remove']                 = 'Remove';
@@ -124,6 +130,7 @@ $_['tab_session']                   = 'Session';
 $_['tab_local']                     = 'Local';
 $_['tab_mail']                      = 'Mail';
 $_['tab_module']                    = 'Module';
+$_['tab_related']          	 		= 'Related';
 $_['tab_payment']                   = 'Payment Details';
 $_['tab_product']                   = 'Products';
 $_['tab_reward']                    = 'Reward Points';
@@ -138,6 +145,8 @@ $_['tab_activity']                  = 'Recent Activity';
 $_['tab_recurring']                 = 'Recurring';
 $_['tab_action']                    = 'Action';
 $_['tab_google']                    = 'Google';
+$_['tab_extra_tab']          		= 'Extra Tab';
+$_['tab_module']          	 		= 'Tab';
 
 // Error
 $_['error_exception']               = 'Error Code(%s): %s in %s on line %s';

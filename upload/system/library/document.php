@@ -1,6 +1,12 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class Document {
 	private $title;
+	private $robots;
 	private $description;
 	private $keywords;
 	private $links = array();
@@ -13,6 +19,14 @@ class Document {
 
 	public function getTitle() {
 		return $this->title;
+	}
+	
+	public function setRobots($robots) {
+		$this->robots = $robots;
+	}
+	
+	public function getRobots() {
+		return $this->robots;
 	}
 
 	public function setDescription($description) {

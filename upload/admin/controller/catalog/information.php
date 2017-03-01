@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerCatalogInformation extends Controller {
 	private $error = array();
 
@@ -157,6 +162,9 @@ class ControllerCatalogInformation extends Controller {
 
 		$data['add'] = $this->url->link('catalog/information/add', 'token=' . $this->session->data['token'] . $url, true);
 		$data['delete'] = $this->url->link('catalog/information/delete', 'token=' . $this->session->data['token'] . $url, true);
+		$data['enabled'] = $this->url->link('catalog/information/enable', 'token=' . $this->session->data['token'] . $url, true);
+        $data['disabled'] = $this->url->link('catalog/information/disable', 'token=' . $this->session->data['token'] . $url, true);
+
 
 		$data['informations'] = array();
 
@@ -176,6 +184,8 @@ class ControllerCatalogInformation extends Controller {
 				'information_id' => $result['information_id'],
 				'title'          => $result['title'],
 				'sort_order'     => $result['sort_order'],
+				'noindex'  	  	 => $result['noindex'],
+				'href_shop'  	 => HTTP_CATALOG . 'index.php?route=information/information&information_id=' . ($result['information_id']),
 				'edit'           => $this->url->link('catalog/information/edit', 'token=' . $this->session->data['token'] . '&information_id=' . $result['information_id'] . $url, true)
 			);
 		}
@@ -188,11 +198,15 @@ class ControllerCatalogInformation extends Controller {
 
 		$data['column_title'] = $this->language->get('column_title');
 		$data['column_sort_order'] = $this->language->get('column_sort_order');
+		$data['column_noindex'] = $this->language->get('column_noindex');
 		$data['column_action'] = $this->language->get('column_action');
 
 		$data['button_add'] = $this->language->get('button_add');
 		$data['button_edit'] = $this->language->get('button_edit');
+		$data['button_shop'] = $this->language->get('button_shop');
 		$data['button_delete'] = $this->language->get('button_delete');
+		$data['button_enable'] = $this->language->get('button_enable');
+        $data['button_disable'] = $this->language->get('button_disable');
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -228,6 +242,7 @@ class ControllerCatalogInformation extends Controller {
 
 		$data['sort_title'] = $this->url->link('catalog/information', 'token=' . $this->session->data['token'] . '&sort=id.title' . $url, true);
 		$data['sort_sort_order'] = $this->url->link('catalog/information', 'token=' . $this->session->data['token'] . '&sort=i.sort_order' . $url, true);
+		$data['sort_noindex'] = $this->url->link('catalog/information', 'token=' . $this->session->data['token'] . '&sort=i.noindex' . $url, true);
 
 		$url = '';
 
@@ -270,6 +285,7 @@ class ControllerCatalogInformation extends Controller {
 		$data['entry_title'] = $this->language->get('entry_title');
 		$data['entry_description'] = $this->language->get('entry_description');
 		$data['entry_meta_title'] = $this->language->get('entry_meta_title');
+		$data['entry_meta_h1'] = $this->language->get('entry_meta_h1');
 		$data['entry_meta_description'] = $this->language->get('entry_meta_description');
 		$data['entry_meta_keyword'] = $this->language->get('entry_meta_keyword');
 		$data['entry_keyword'] = $this->language->get('entry_keyword');
@@ -277,10 +293,12 @@ class ControllerCatalogInformation extends Controller {
 		$data['entry_bottom'] = $this->language->get('entry_bottom');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		$data['entry_status'] = $this->language->get('entry_status');
+		$data['entry_noindex'] = $this->language->get('entry_noindex');
 		$data['entry_layout'] = $this->language->get('entry_layout');
 
 		$data['help_keyword'] = $this->language->get('help_keyword');
 		$data['help_bottom'] = $this->language->get('help_bottom');
+		$data['help_noindex'] = $this->language->get('help_noindex');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -311,6 +329,12 @@ class ControllerCatalogInformation extends Controller {
 			$data['error_meta_title'] = $this->error['meta_title'];
 		} else {
 			$data['error_meta_title'] = array();
+		}
+		
+		if (isset($this->error['meta_h1'])) {
+			$data['error_meta_h1'] = $this->error['meta_h1'];
+		} else {
+			$data['error_meta_h1'] = array();
 		}
 
 		if (isset($this->error['keyword'])) {
@@ -370,6 +394,11 @@ class ControllerCatalogInformation extends Controller {
 		} else {
 			$data['information_description'] = array();
 		}
+		
+		$language_id = $this->config->get('config_language_id');
+		if (isset($data['information_description'][$language_id]['title'])) {
+			$data['heading_title'] = $data['information_description'][$language_id]['title'];
+		}
 
 		$this->load->model('setting/store');
 
@@ -405,6 +434,22 @@ class ControllerCatalogInformation extends Controller {
 			$data['status'] = $information_info['status'];
 		} else {
 			$data['status'] = true;
+		}
+		
+		if (isset($this->request->post['noindex'])) {
+			$data['noindex'] = $this->request->post['noindex'];
+		} elseif (!empty($information_info)) {
+			$data['noindex'] = $information_info['noindex'];
+		} else {
+			$data['noindex'] = 1;
+		}
+		
+		if (isset($this->request->post['sort_order'])) {
+			$data['sort_order'] = $this->request->post['sort_order'];
+		} elseif (!empty($information_info)) {
+			$data['sort_order'] = $information_info['sort_order'];
+		} else {
+			$data['sort_order'] = '';
 		}
 
 		if (isset($this->request->post['sort_order'])) {
@@ -448,8 +493,12 @@ class ControllerCatalogInformation extends Controller {
 				$this->error['description'][$language_id] = $this->language->get('error_description');
 			}
 
-			if ((utf8_strlen($value['meta_title']) < 3) || (utf8_strlen($value['meta_title']) > 255)) {
+			if ((utf8_strlen($value['meta_title']) < 0) || (utf8_strlen($value['meta_title']) > 255)) {
 				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+			}
+			
+			if ((utf8_strlen($value['meta_h1']) < 0) || (utf8_strlen($value['meta_h1']) > 255)) {
+				$this->error['meta_h1'][$language_id] = $this->language->get('error_meta_h1');
 			}
 		}
 
@@ -473,6 +522,53 @@ class ControllerCatalogInformation extends Controller {
 
 		return !$this->error;
 	}
+	
+	public function enable() {
+        $this->load->language('catalog/information');
+        $this->document->setTitle($this->language->get('heading_title'));
+        $this->load->model('catalog/information');
+        if (isset($this->request->post['selected'])) {
+            foreach ($this->request->post['selected'] as $information_id) {
+                $this->model_catalog_information->editInformationStatus($information_id, 1);
+            }
+            $this->session->data['success'] = $this->language->get('text_success');
+            $url = '';
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+            $this->response->redirect($this->url->link('catalog/information', 'token=' . $this->session->data['token'] . $url, true));
+        }
+        $this->getList();
+    }
+    public function disable() {
+        $this->load->language('catalog/information');
+        $this->document->setTitle($this->language->get('heading_title'));
+        $this->load->model('catalog/information');
+        if (isset($this->request->post['selected'])) {
+            foreach ($this->request->post['selected'] as $information_id) {
+                $this->model_catalog_information->editInformationStatus($information_id, 0);
+            }
+            $this->session->data['success'] = $this->language->get('text_success');
+            $url = '';
+            if (isset($this->request->get['page'])) {
+                $url .= '&page=' . $this->request->get['page'];
+            }
+            if (isset($this->request->get['sort'])) {
+                $url .= '&sort=' . $this->request->get['sort'];
+            }
+            if (isset($this->request->get['order'])) {
+                $url .= '&order=' . $this->request->get['order'];
+            }
+            $this->response->redirect($this->url->link('catalog/information', 'token=' . $this->session->data['token'] . $url, true));
+        }
+        $this->getList();
+    }
 
 	protected function validateDelete() {
 		if (!$this->user->hasPermission('modify', 'catalog/information')) {
