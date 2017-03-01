@@ -26,6 +26,8 @@ class ControllerExtensionModuleManufacturer extends Controller {
 
 		$manufacturers = $this->model_catalog_manufacturer->getManufacturers();
 
+        $data['manufacturers']=array();
+
 		foreach ($manufacturers as $manufacturer) {
 			
 		
