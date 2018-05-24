@@ -34,6 +34,10 @@ $('#button-filter').on('click', function() {
 		filter.push(this.value);
 	});
 
-	location = '<?php echo $action; ?>&filter=' + filter.join(',');
+	if (filter != 0) {
+        	location = '<?php echo $action; ?>&filter=' + filter.join(',',$('input[type=checkbox]:checked').length);
+    	} else if (filter = []) {
+        	location = '<?php echo $action; ?>';
+    	}
 });
 //--></script>
