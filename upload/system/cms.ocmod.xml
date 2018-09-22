@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>CMS</name>
+	<code>OT_1.0</code>
+	<version>1.0.0</version>
+	<author>opencart.pro</author>
+	<link>http://opencart.pro</link>
+	<file path="catalog/view/theme/*/template/common/header.tpl">
+		<operation>
+		<search><![CDATA[<base href="<?php echo $base; ?>" />]]></search>
+			<add position="before"><![CDATA[<?php if ($robots) { ?><meta name="robots" content="<?php echo $robots; ?>" /><?php } ?>
+			]]></add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/common/footer.tpl">
+		<operation>
+		<search><![CDATA[<li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>]]></search>
+			<add position="after"><![CDATA[<li><a href="<?php echo $mostviewed; ?>"><?php echo $text_mostviewed; ?></a></li><li><a href="<?php echo $bestseller; ?>"><?php echo $text_bestseller; ?></a></li><li><a href="<?php echo $latest; ?>"><?php echo $text_latest; ?></a></li>
+			]]></add>
+		</operation>
+	</file>
+</modification>

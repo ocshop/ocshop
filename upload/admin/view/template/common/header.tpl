@@ -16,6 +16,7 @@
 <link href="view/stylesheet/bootstrap.css" type="text/css" rel="stylesheet" />
 <link href="view/javascript/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
 <script src="view/javascript/jquery/datetimepicker/moment.js" type="text/javascript"></script>
+<script type="text/javascript" src="view/javascript/jquery/translit.js"></script>
 <script src="view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <link href="view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" media="screen" />
 <link type="text/css" href="view/stylesheet/stylesheet.css" rel="stylesheet" media="screen" />
@@ -39,7 +40,28 @@
     <?php } ?>
     <a href="<?php echo $home; ?>" class="navbar-brand"><img src="view/image/logo.png" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" /></a></div>
   <?php if ($logged) { ?>
+   <ul class="nav pull-left">
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"  title="<?php echo $text_new; ?>"><i class="fa fa-plus fa-lg"></i> <span class="header-item"><?php echo $text_new; ?></span></a>
+      <ul class="dropdown-menu dropdown-menu-left alerts-dropdown">
+        <li><a href="<?php echo $new_product; ?>" style="display: block; overflow: auto;"><?php echo $text_new_product; ?></a></li>
+        <li><a href="<?php echo $new_category; ?>" style="display: block; overflow: auto;"><?php echo $text_new_category; ?></a></li>
+        <li><a href="<?php echo $new_manufacturer; ?>" style="display: block; overflow: auto;"><?php echo $text_new_manufacturer; ?></a></li>
+        <li><a href="<?php echo $new_customer; ?>" style="display: block; overflow: auto;"><?php echo $text_new_customer; ?></a></li>
+        <li><a href="<?php echo $new_download; ?>" style="display: block; overflow: auto;"><?php echo $text_new_download; ?></a></li>
+      </ul>
+    </li> 
+  </ul>
+  <div id="ocpro-search-div" class="col-sm-3 col-md-3 pull-left">
+    <?php echo $search; ?>
+  </div>
   <ul class="nav pull-right">
+  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-refresh fa-lg"></i></a>
+      <ul class="dropdown-menu dropdown-menu-right">
+        <li><a href="<?php echo $clearcache; ?>"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;<?php echo $button_clearcache; ?></a></li>
+        <li><a href="<?php echo $clearsystemcache; ?>"><i class="fa fa-cogs"></i>&nbsp;&nbsp;<?php echo $button_clearsystemcache; ?></a></li>
+        <li><a href="<?php echo $clearallcache; ?>"><i class="fa fa-refresh"></i>&nbsp;&nbsp;<?php echo $button_clearallcache; ?></a></li>
+      </ul>
+    </li>
     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><?php if($alerts > 0) { ?><span class="label label-danger pull-left"><?php echo $alerts; ?></span><?php } ?> <i class="fa fa-bell fa-lg"></i></a>
       <ul class="dropdown-menu dropdown-menu-right alerts-dropdown">
         <li class="dropdown-header"><?php echo $text_order; ?></li>
@@ -70,9 +92,9 @@
     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-life-ring fa-lg"></i></a>
       <ul class="dropdown-menu dropdown-menu-right">
         <li class="dropdown-header"><?php echo $text_help; ?></li>
-        <li><a href="http://www.opencart.com" target="_blank"><?php echo $text_homepage; ?></a></li>
-        <li><a href="http://docs.opencart.com" target="_blank"><?php echo $text_documentation; ?></a></li>
-        <li><a href="http://forum.opencart.com" target="_blank"><?php echo $text_support; ?></a></li>
+        <li><a href="http://opencart.pro/blog/" target="_blank"><?php echo $text_homepage; ?></a></li>
+        <li><a href="http://opencart.pro/wiki/" target="_blank"><?php echo $text_documentation; ?></a></li>
+        <li><a href="http://forum.opencart.pro/" target="_blank"><?php echo $text_support; ?></a></li>
       </ul>
     </li>
     <li><a href="<?php echo $logout; ?>"><span class="hidden-xs hidden-sm hidden-md"><?php echo $text_logout; ?></span> <i class="fa fa-sign-out fa-lg"></i></a></li>

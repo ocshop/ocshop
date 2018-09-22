@@ -28,6 +28,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab"><?php echo $tab_general; ?></a></li>
             <li><a href="#tab-data" data-toggle="tab"><?php echo $tab_data; ?></a></li>
+			<li><a href="#tab-related" data-toggle="tab"><?php echo $tab_related; ?></a></li>
             <li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
           </ul>
           <div class="tab-content">
@@ -49,13 +50,16 @@
                       <?php } ?>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
+				  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-h1<?php echo $language['language_id']; ?>"><?php echo $entry_meta_h1; ?></label>
                     <div class="col-sm-10">
-                      <textarea name="category_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>" class="form-control summernote"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['description'] : ''; ?></textarea>
+                      <input type="text" name="category_description[<?php echo $language['language_id']; ?>][meta_h1]" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['meta_h1'] : ''; ?>" placeholder="<?php echo $entry_meta_h1; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
+                      <?php if (isset($error_meta_h1[$language['language_id']])) { ?>
+                      <div class="text-danger"><?php echo $error_meta_h1[$language['language_id']]; ?></div>
+                      <?php } ?>
                     </div>
-                  </div>
-                  <div class="form-group required">
+				   </div>
+				   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><?php echo $entry_meta_title; ?></label>
                     <div class="col-sm-10">
                       <input type="text" name="category_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['meta_title'] : ''; ?>" placeholder="<?php echo $entry_meta_title; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
@@ -75,6 +79,18 @@
                     <div class="col-sm-10">
                       <textarea name="category_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
                     </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="category_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>" class="form-control summernote"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['description'] : ''; ?></textarea>
+                    </div>
+                  </div>
+				  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-description_bottom<?php echo $language['language_id']; ?>"><?php echo $entry_description_bottom; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="category_description[<?php echo $language['language_id']; ?>][description_bottom]" placeholder="<?php echo $entry_description_bottom; ?>" id="input-description_bottom<?php echo $language['language_id']; ?>" class="form-control summernote"><?php echo isset($category_description[$language['language_id']]) ? $category_description[$language['language_id']]['description_bottom'] : ''; ?></textarea>
+                   </div>
                   </div>
                 </div>
                 <?php } ?>
@@ -190,7 +206,49 @@
                   </select>
                 </div>
               </div>
+			<div class="form-group">
+                <label class="col-sm-2 control-label" for="input-noindex"><span data-toggle="tooltip" title="<?php echo $help_noindex; ?>"><?php echo $entry_noindex; ?></span></label>
+                <div class="col-sm-10">
+                  <select name="noindex" id="input-noindex" class="form-control">
+                    <?php if ($noindex) { ?>
+                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                    <option value="0"><?php echo $text_disabled; ?></option>
+                    <?php } else { ?>
+                    <option value="1"><?php echo $text_enabled; ?></option>
+                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
+			</div>
+						<div class="tab-pane" id="tab-related">
+			<div class="form-group">
+            <label class="col-sm-2 control-label" for="input-product-related"><?php echo $entry_related_wb; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="product_related_input" value="" placeholder="<?php echo $entry_related_wb; ?>" id="input-product-related" class="form-control" />
+              <div id="product-related" class="well well-sm" style="height: 150px; overflow: auto;">
+                <?php foreach ($product_related as $product_related) { ?>
+                <div id="product-related<?php echo $product_related['product_id']; ?>"><i class="fa fa-minus-circle"></i> <?php echo $product_related['name']; ?>
+                  <input type="hidden" name="product_related[]" value="<?php echo $product_related['product_id']; ?>" />
+                </div>
+                <?php } ?>
+              </div>
+			  </div>
+			  </div>
+			<div class="form-group">
+            <label class="col-sm-2 control-label" for="input-article-related"><?php echo $entry_related_article; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="article_related_input" value="" placeholder="<?php echo $entry_related_article; ?>" id="input-article-related" class="form-control" />
+              <div id="article-related" class="well well-sm" style="height: 150px; overflow: auto;">
+                <?php foreach ($article_related as $article_related) { ?>
+                <div id="article-related<?php echo $article_related['article_id']; ?>"><i class="fa fa-minus-circle"></i> <?php echo $article_related['name']; ?>
+                  <input type="hidden" name="article_related[]" value="<?php echo $article_related['article_id']; ?>" />
+                </div>
+                <?php } ?>
+              </div>
             </div>
+          </div>
+			</div>
             <div class="tab-pane" id="tab-design">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
@@ -299,5 +357,64 @@ $('#category-filter').delegate('.fa-minus-circle', 'click', function() {
 //--></script> 
   <script type="text/javascript"><!--
 $('#language a:first').tab('show');
-//--></script></div>
+//--></script>
+<script type="text/javascript"><!--
+$('input[name=\'product_related_input\']').autocomplete({
+	source: function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	select: function(item) {
+		$('input[name=\'product\']').val('');
+		
+		$('#product-related' + item['value']).remove();
+		
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_related[]" value="' + item['value'] + '" /></div>');	
+	}
+});
+	
+$('#product-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script>
+<script type="text/javascript"><!--
+$('input[name=\'article_related_input\']').autocomplete({
+	source: function(request, response) {
+		$.ajax({
+			url: 'index.php?route=blog/article/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['article_id']
+					}
+				}));
+			}
+		});
+	},
+	select: function(item) {
+		$('input[name=\'product\']').val('');
+		
+		$('#article-related' + item['value']).remove();
+		
+		$('#article-related').append('<div id="article-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_related[]" value="' + item['value'] + '" /></div>');	
+	}
+});
+	
+$('#article-related').delegate('.fa-minus-circle', 'click', function() {
+	$(this).parent().remove();
+});
+//--></script>
+</div>
 <?php echo $footer; ?>

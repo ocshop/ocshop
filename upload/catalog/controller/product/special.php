@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerProductSpecial extends Controller {
 	public function index() {
 		$this->load->language('product/special');
@@ -9,6 +14,7 @@ class ControllerProductSpecial extends Controller {
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$sort = 'p.sort_order';
 		}
@@ -21,17 +27,39 @@ class ControllerProductSpecial extends Controller {
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$page = 1;
 		}
 
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
 		}
 
-		$this->document->setTitle($this->language->get('heading_title'));
+		if ($this->config->get('seomanager_meta_title_special')) {
+			$this->document->setTitle($this->config->get('seomanager_meta_title_special'));
+		} else {
+			$this->document->setTitle($this->language->get('heading_title'));
+		}
+		
+		if ($this->config->get('seomanager_html_h1_special')) {
+			$data['heading_title'] = $this->config->get('seomanager_html_h1_special');
+		} else {
+			$data['heading_title'] = $this->language->get('heading_title');
+		}
+		
+		if ($this->config->get('seomanager_meta_description_special')) {
+			$this->document->setDescription($this->config->get('seomanager_meta_description_special'));
+		}		
+		
+		if ($this->config->get('seomanager_meta_keyword_special')) {
+			$this->document->setKeywords($this->config->get('seomanager_meta_keyword_special'));
+		}
+		
+		$data['description'] = html_entity_decode(($this->config->get('seomanager_description_special')), ENT_QUOTES, 'UTF-8');
 
 		$data['breadcrumbs'] = array();
 
@@ -63,8 +91,6 @@ class ControllerProductSpecial extends Controller {
 			'href' => $this->url->link('product/special', $url)
 		);
 
-		$data['heading_title'] = $this->language->get('heading_title');
-
 		$data['text_empty'] = $this->language->get('text_empty');
 		$data['text_quantity'] = $this->language->get('text_quantity');
 		$data['text_manufacturer'] = $this->language->get('text_manufacturer');
@@ -75,6 +101,7 @@ class ControllerProductSpecial extends Controller {
 		$data['text_compare'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
 		$data['text_sort'] = $this->language->get('text_sort');
 		$data['text_limit'] = $this->language->get('text_limit');
+		$data['text_benefits'] = $this->language->get('text_benefits');
 
 		$data['button_cart'] = $this->language->get('button_cart');
 		$data['button_wishlist'] = $this->language->get('button_wishlist');
@@ -128,15 +155,50 @@ class ControllerProductSpecial extends Controller {
 			} else {
 				$rating = false;
 			}
+			
+			if ($result['description_mini']) {
+				$description = utf8_substr(strip_tags(html_entity_decode($result['description_mini'], ENT_QUOTES, 'UTF-8')), 0);
+			} else {
+				$description = utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..';
+			}
+			
+			$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($result['product_id']);
+				
+				$benefits = array();
+				
+				foreach ($productbenefits as $benefit) {
+					if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
+						$bimage = $benefit['image'];
+						if ($benefit['type']) {
+							$bimage = $this->model_tool_image->resize($bimage, 25, 25);
+						} else {
+							$bimage = $this->model_tool_image->resize($bimage, 120, 60);
+						}
+					} else {
+						$bimage = 'no_image.jpg';
+					}
+					$benefits[] = array(
+						'benefit_id'      	=> $benefit['benefit_id'],
+						'name'      		=> $benefit['name'],
+						'description'      	=> strip_tags(html_entity_decode($benefit['description'])),
+						'thumb'      		=> $bimage,
+						'link'      		=> $benefit['link'],
+						'type'      		=> $benefit['type']
+					);
+				}
+				
+				$stickers = $this->getStickers($result['product_id']) ;
 
 			$data['products'][] = array(
 				'product_id'  => $result['product_id'],
 				'thumb'       => $image,
 				'name'        => $result['name'],
-				'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
+				'description' => $description,
 				'price'       => $price,
 				'special'     => $special,
 				'tax'         => $tax,
+				'sticker'     => $stickers,
+				'benefits'    => $benefits,
 				'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 				'rating'      => $result['rating'],
 				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
@@ -282,5 +344,27 @@ class ControllerProductSpecial extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 		$this->response->setOutput($this->load->view('product/special', $data));
+	}
+	
+	private function getStickers($product_id) {
+	
+ 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
+
+		
+		if (!$stickers) {
+			return;
+		}
+		
+		$data['stickers'] = array();
+		
+		foreach ($stickers as $sticker) {
+			$data['stickers'][] = array(
+				'position' => $sticker['position'],
+				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
+			);		
+		}
+				
+		return $this->load->view('product/stickers', $data);
+	
 	}
 }

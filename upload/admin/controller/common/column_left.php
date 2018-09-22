@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerCommonColumnLeft extends Controller {
 	public function index() {
 		if (isset($this->request->get['token']) && isset($this->session->data['token']) && ($this->request->get['token'] == $this->session->data['token'])) {
@@ -152,6 +157,51 @@ class ControllerCommonColumnLeft extends Controller {
 				);		
 			}
 			
+			// BLOG
+			$blog = array();
+
+			if ($this->user->hasPermission('access', 'blog/article')) {		
+				$blog[] = array(
+					'name'	   => $this->language->get('text_blog_article'),
+					'href'     => $this->url->link('blog/article', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);					
+			}	
+			
+			if ($this->user->hasPermission('access', 'blog/category')) {		
+				$blog[] = array(
+					'name'	   => $this->language->get('text_blog_category'),
+					'href'     => $this->url->link('blog/category', 'token=' . $this->session->data['token'], true),
+					'children' => array()
+				);
+			}
+					
+			if ($this->user->hasPermission('access', 'blog/review')) {
+				$blog[] = array(
+					'name'	   => $this->language->get('text_blog_review'),
+					'href'     => $this->url->link('blog/review', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'blog/setting')) {
+				$blog[] = array(
+					'name'	   => $this->language->get('text_blog_setting'),
+					'href'     => $this->url->link('blog/setting', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+					
+			if ($blog) {					
+				$data['menus'][] = array(
+					'id'       => 'menu-blog',
+					'icon'	   => 'fa-book', 
+					'name'	   => $this->language->get('text_blog'),
+					'href'     => '',
+					'children' => $blog
+				);		
+			}
+			
 	
 			// Extension
 			$extension = array();
@@ -216,6 +266,14 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => array()		
 				);	
 			}
+			
+			if ($this->user->hasPermission('access', 'design/custommenu')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_custommenu'),
+					'href'     => $this->url->link('design/custommenu', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);	
+			}
 			/*
 			if ($this->user->hasPermission('access', 'design/menu')) {
 				$design[] = array(
@@ -246,6 +304,22 @@ class ControllerCommonColumnLeft extends Controller {
 				$design[] = array(
 					'name'	   => $this->language->get('text_banner'),
 					'href'     => $this->url->link('design/banner', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'design/sticker')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_sticker'),
+					'href'     => $this->url->link('design/sticker', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'design/benefit')) {
+				$design[] = array(
+					'name'	   => $this->language->get('text_benefit'),
+					'href'     => $this->url->link('design/benefit', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);
 			}
@@ -624,6 +698,14 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 			
+			if ($this->user->hasPermission('access', 'tool/seomanager')) {
+				$tool[] = array(
+					'name'	   => $this->language->get('text_seomanager'),
+					'href'     => $this->url->link('tool/seomanager', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			
 			if ($this->user->hasPermission('access', 'tool/log')) {
 				$tool[] = array(
 					'name'	   => $this->language->get('text_log'),
@@ -834,6 +916,102 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => $report
 				);	
 			}		
+			
+			//howto
+			// Report
+			$howto = array();
+			
+			// gogettop			
+			$howto_gogettop = array();	
+			
+			if ($this->user->hasPermission('access', 'howto/gogettop')) {
+				$howto_gogettop[] = array(
+					'name'	   => $this->language->get('text_gogettop'),
+					'href'     => ('http://gogettop.ru/?ref=16605'),
+					'children' => array()	
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'howto/gogettop')) {
+				$howto_gogettop[] = array(
+					'name'	   => $this->language->get('text_gogettop_help'),
+					'href'     => $this->url->link('howto/gogettop', 'token=' . $this->session->data['token'], true),
+					'children' => array()	
+				);
+			}
+			
+			if ($howto_gogettop) {	
+				$howto[] = array(
+					'name'	   => $this->language->get('text_gogettop'),
+					'href'     => '',
+					'children' => $howto_gogettop	
+				);		
+			}
+			
+			// seopult			
+			$howto_seopult = array();	
+			
+			if ($this->user->hasPermission('access', 'howto/seopult')) {
+				$howto_seopult[] = array(
+					'name'	   => $this->language->get('text_seopult'),
+					'href'     => ('http://seopult.ru/ref/f8924f1b27c4ffd6/aHR0cDovL3Nlb3B1bHQucnUvcmVnaXN0ZXIuaHRtbD9zPXRodG9w'),
+					'children' => array()	
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'howto/seopult')) {
+				$howto_seopult[] = array(
+					'name'	   => $this->language->get('text_seopult_help'),
+					'href'     => $this->url->link('howto/seopult', 'token=' . $this->session->data['token'], true),
+					'children' => array()	
+				);
+			}
+			
+			if ($howto_seopult) {	
+				$howto[] = array(
+					'name'	   => $this->language->get('text_seopult'),
+					'href'     => '',
+					'children' => $howto_seopult	
+				);		
+			}
+			
+			// blogun			
+			$howto_blogun = array();	
+			
+			if ($this->user->hasPermission('access', 'howto/blogun')) {
+				$howto_blogun[] = array(
+					'name'	   => $this->language->get('text_blogun'),
+					'href'     => ('https://blogun.ru/unimpairedcedcdhg.html'),
+					'children' => array()	
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'howto/blogun')) {
+				$howto_blogun[] = array(
+					'name'	   => $this->language->get('text_blogun_help'),
+					'href'     => $this->url->link('howto/blogun', 'token=' . $this->session->data['token'], true),
+					'children' => array()	
+				);
+			}
+			
+			if ($howto_blogun) {	
+				$howto[] = array(
+					'name'	   => $this->language->get('text_blogun'),
+					'href'     => '',
+					'children' => $howto_blogun	
+				);		
+			}
+			
+			if ($howto) {	
+				$data['menus'][] = array(
+					'id'       => 'menu-howto',
+					'icon'	   => 'fa-comment-o', 
+					'name'	   => $this->language->get('text_seo'),
+					'href'     => '',
+					'children' => $howto
+				);	
+			}	
+			
 			
 			// Stats
 			$data['text_complete_status'] = $this->language->get('text_complete_status');

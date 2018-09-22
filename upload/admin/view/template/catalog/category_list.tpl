@@ -3,7 +3,9 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a> <a href="<?php echo $repair; ?>" data-toggle="tooltip" title="<?php echo $button_rebuild; ?>" class="btn btn-default"><i class="fa fa-refresh"></i></a>
-        <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-category').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_enable; ?>" class="btn btn-default" onclick="$('#form-category').attr('action', '<?php echo $enabled; ?>').submit()"><i class="fa fa-play"></i></button>
+		<button type="button" data-toggle="tooltip" title="<?php echo $button_disable; ?>" class="btn btn-default" onclick="$('#form-category').attr('action', '<?php echo $disabled; ?>').submit()"><i class="fa fa-pause"></i></button>
+		<button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-category').submit() : false;"><i class="fa fa-trash-o"></i></button>
       </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
@@ -35,16 +37,9 @@
               <thead>
                 <tr>
                   <td style="width: 1px;" class="text-center"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
-                  <td class="text-left"><?php if ($sort == 'name') { ?>
-                    <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-                    <?php } ?></td>
-                  <td class="text-right"><?php if ($sort == 'sort_order') { ?>
-                    <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_sort_order; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_sort_order; ?></a>
-                    <?php } ?></td>
+                  <td class="text-left"><?php echo $column_name; ?></td>
+                  <td class="text-right"><?php echo $column_sort_order; ?></td>
+				  <td class="text-right"><?php echo $column_noindex; ?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -57,9 +52,17 @@
                     <?php } else { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $category['category_id']; ?>" />
                     <?php } ?></td>
-                  <td class="text-left"><?php echo $category['name']; ?></td>
+                  <?php if ($category['href']) { ?>
+                  <td class="left"><?php echo $category['indent']; ?><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></td>
+					<?php } else { ?>
+                  <td class="left"><?php echo $category['indent']; ?><?php echo $category['name']; ?></td>
+                  <?php } ?>
                   <td class="text-right"><?php echo $category['sort_order']; ?></td>
-                  <td class="text-right"><a href="<?php echo $category['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+				  <td class="text-right"><?php echo $category['noindex']; ?></td>
+                   <td class="text-right">
+				  <a target="_blank" href="<?php echo $category['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
+				  <a href="<?php echo $category['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+				   </td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>
@@ -72,8 +75,7 @@
           </div>
         </form>
         <div class="row">
-          <div class="col-sm-6 text-left"><?php echo $pagination; ?></div>
-          <div class="col-sm-6 text-right"><?php echo $results; ?></div>
+          <div class="col-sm-12 text-right"><?php echo $results; ?></div>
         </div>
       </div>
     </div>

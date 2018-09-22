@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerExtensionExtensionCaptcha extends Controller {
 	private $error = array();
 
@@ -111,6 +116,19 @@ class ControllerExtensionExtensionCaptcha extends Controller {
 				);
 			}
 		}
+		
+		$sort_order = array();
+
+		foreach ($data['extensions'] as $key => $value) {
+			if($value['installed']){
+				$add = '0';
+			}else{
+				$add = '1';
+			}
+				$sort_order[$key] = $add.$value['name'];
+		}
+
+		array_multisort($sort_order, SORT_ASC, $data['extensions']);
 
 		$this->response->setOutput($this->load->view('extension/extension/captcha', $data));
 	}

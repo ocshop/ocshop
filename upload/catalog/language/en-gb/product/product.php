@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Text
 $_['text_search']              = 'Search';
 $_['text_brand']               = 'Brand';
@@ -30,6 +35,7 @@ $_['text_week']                = 'week';
 $_['text_semi_month']          = 'half-month';
 $_['text_month']               = 'month';
 $_['text_year']                = 'year';
+$_['text_benefits']     	   = 'Benefits:';
 
 // Entry
 $_['entry_qty']                = 'Qty';

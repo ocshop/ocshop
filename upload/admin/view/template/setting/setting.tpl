@@ -888,7 +888,7 @@
                   <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_affiliate_auto; ?>"><?php echo $entry_affiliate_auto; ?></span></label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
-                      <?php if ($config_stock_checkout) { ?>
+                      <?php if ($config_affiliate_auto) { ?>
                       <input type="radio" name="config_affiliate_auto" value="1" checked="checked" />
                       <?php echo $text_yes; ?>
                       <?php } else { ?>
@@ -897,7 +897,7 @@
                       <?php } ?>
                     </label>
                     <label class="radio-inline">
-                      <?php if (!$config_stock_checkout) { ?>
+                      <?php if (!$config_affiliate_auto) { ?>
                       <input type="radio" name="config_affiliate_auto" value="0" checked="checked" />
                       <?php echo $text_no; ?>
                       <?php } else { ?>
@@ -1163,7 +1163,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-mail-alert-email"><span data-toggle="tooltip" title="<?php echo $help_mail_alert_email; ?>"><?php echo $entry_mail_alert_email; ?></span></label>
                   <div class="col-sm-10">
-                    <textarea name="config_mail_alert_email" rows="5" placeholder="<?php echo $entry_mail_alert_email; ?>" id="input-alert-email" class="form-control"><?php echo $config_alert_email; ?></textarea>
+                    <textarea name="config_alert_email" rows="5" placeholder="<?php echo $entry_mail_alert_email; ?>" id="input-alert-email" class="form-control"><?php echo $config_alert_email; ?></textarea>
                   </div>
                 </div>
               </fieldset>
@@ -1217,6 +1217,41 @@
                     </label>
                   </div>
                 </div>
+				<div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_include_path; ?>"><?php echo $entry_seo_url_include_path; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_seo_url_include_path) { ?>
+                      <input type="radio" name="config_seo_url_include_path" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_seo_url_include_path" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_seo_url_include_path) { ?>
+                      <input type="radio" name="config_seo_url_include_path" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_seo_url_include_path" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div>
+			   <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_postfix; ?>"><?php echo $entry_seo_url_postfix; ?></span></label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="config_seo_url_postfix" value="<?php echo $config_seo_url_postfix; ?>" />
+				</div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-file-max-size"><span data-toggle="tooltip" title="<?php echo $help_file_max_size; ?>"><?php echo $entry_file_max_size; ?></span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_file_max_size" value="<?php echo $config_file_max_size; ?>" placeholder="<?php echo $entry_file_max_size; ?>" id="input-file-max-size" class="form-control" />
+                </div>
+				</div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-robots"><span data-toggle="tooltip" title="<?php echo $help_robots; ?>"><?php echo $entry_robots; ?></span></label>
                   <div class="col-sm-10">

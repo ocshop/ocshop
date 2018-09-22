@@ -1,6 +1,12 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 // Heading
-$_['heading_title']        = 'Your order has been placed!';
+$_['heading_title'] 		 = 'Your order has been placed!';
+$_['heading_title_customer'] = 'Your order #%s has been placed!';
 
 // Text
 $_['text_basket']          = 'Shopping Cart';

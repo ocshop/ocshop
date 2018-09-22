@@ -1,4 +1,9 @@
 <?php
+// *	@copyright	OPENCART.PRO 2011 - 2018.
+// *	@forum	http://forum.opencart.pro
+// *	@source		See SOURCE.txt for source and other copyright.
+// *	@license	GNU General Public License version 3; see LICENSE.txt
+
 class ControllerProductCategory extends Controller {
 	public function index() {
 		$this->load->language('product/category');
@@ -11,12 +16,14 @@ class ControllerProductCategory extends Controller {
 
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$filter = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$sort = 'p.sort_order';
 		}
@@ -29,12 +36,14 @@ class ControllerProductCategory extends Controller {
 
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$page = 1;
 		}
 
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
 		}
@@ -90,11 +99,23 @@ class ControllerProductCategory extends Controller {
 		$category_info = $this->model_catalog_category->getCategory($category_id);
 
 		if ($category_info) {
-			$this->document->setTitle($category_info['meta_title']);
+			if ($category_info['meta_title']) {
+				$this->document->setTitle($category_info['meta_title']);
+			} else {
+				$this->document->setTitle($category_info['name']);
+			}
+			
+			if ($category_info['noindex'] <= 0) {
+				$this->document->setRobots('noindex,follow');
+			}
+			
+			if ($category_info['meta_h1']) {
+				$data['heading_title'] = $category_info['meta_h1'];
+			} else {
+				$data['heading_title'] = $category_info['name'];
+			}
 			$this->document->setDescription($category_info['meta_description']);
 			$this->document->setKeywords($category_info['meta_keyword']);
-
-			$data['heading_title'] = $category_info['name'];
 
 			$data['text_refine'] = $this->language->get('text_refine');
 			$data['text_empty'] = $this->language->get('text_empty');
@@ -107,6 +128,7 @@ class ControllerProductCategory extends Controller {
 			$data['text_compare'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
 			$data['text_sort'] = $this->language->get('text_sort');
 			$data['text_limit'] = $this->language->get('text_limit');
+			$data['text_benefits'] = $this->language->get('text_benefits');
 
 			$data['button_cart'] = $this->language->get('button_cart');
 			$data['button_wishlist'] = $this->language->get('button_wishlist');
@@ -128,6 +150,7 @@ class ControllerProductCategory extends Controller {
 			}
 
 			$data['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
+			$data['description_bottom'] = html_entity_decode($category_info['description_bottom'], ENT_QUOTES, 'UTF-8');
 			$data['compare'] = $this->url->link('product/compare');
 
 			$url = '';
@@ -209,15 +232,52 @@ class ControllerProductCategory extends Controller {
 				} else {
 					$rating = false;
 				}
+				
+				if ($result['description_mini']) {
+					$description = utf8_substr(strip_tags(html_entity_decode($result['description_mini'], ENT_QUOTES, 'UTF-8')), 0);
+				} else {
+					$description = utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..';
+				}
+				
+				$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($result['product_id']);
+				
+				$benefits = array();
+				
+				foreach ($productbenefits as $benefit) {
+					if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
+						$bimage = $benefit['image'];
+						if ($benefit['type']) {
+							$bimage = $this->model_tool_image->resize($bimage, 25, 25);
+						} else {
+							$bimage = $this->model_tool_image->resize($bimage, 120, 60);
+						}
+					} else {
+						$bimage = 'no_image.jpg';
+					}
+					$benefits[] = array(
+						'benefit_id'      	=> $benefit['benefit_id'],
+						'name'      		=> $benefit['name'],
+						'description'      	=> strip_tags(html_entity_decode($benefit['description'])),
+						'thumb'      		=> $bimage,
+						'link'      		=> $benefit['link'],
+						'type'      		=> $benefit['type']
+					);
+				}
+				
+				$stickers = $this->getStickers($result['product_id']) ;
+				
+
 
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'name'        => $result['name'],
-					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
+					'description' => $description,
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
+					'sticker'     => $stickers,
+					'benefits'    => $benefits,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $result['rating'],
 					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
@@ -349,16 +409,17 @@ class ControllerProductCategory extends Controller {
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-			if ($page == 1) {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'], true), 'canonical');
-			} elseif ($page == 2) {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'], true), 'prev');
-			} else {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page - 1), true), 'prev');
-			}
+			 
+			$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'], true), 'canonical');
 
+			if ($page == 2)  {
+				$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'], true), 'prev');
+			} elseif($page > 2)   {
+				$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page - 1), true), 'prev');
+			}
+			
 			if ($limit && ceil($product_total / $limit) > $page) {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page + 1), true), 'next');
+				$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page + 1), true), 'next');
 			}
 
 			$data['sort'] = $sort;
@@ -428,5 +489,27 @@ class ControllerProductCategory extends Controller {
 
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}
+	}
+	
+	private function getStickers($product_id) {
+	
+ 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
+
+		
+		if (!$stickers) {
+			return;
+		}
+		
+		$data['stickers'] = array();
+		
+		foreach ($stickers as $sticker) {
+			$data['stickers'][] = array(
+				'position' => $sticker['position'],
+				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
+			);		
+		}
+				
+		return $this->load->view('product/stickers', $data);
+	
 	}
 }
