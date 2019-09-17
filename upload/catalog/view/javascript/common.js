@@ -133,6 +133,17 @@ $(document).ready(function() {
 	$(document).ajaxStop(function() {
 		$('[data-toggle=\'tooltip\']').tooltip({container: 'body'});
 	});
+
+	//Module-container layout fix
+	cols = $('#column-right, #column-left').length;
+	productSet =  $('#content .product-layout:not(.product-list,.product-grid)');
+	if (cols == 2) {
+		productSet.attr('class', 'product-layout col-lg-6 col-md-6 col-sm-12 col-xs-12');
+	} else if (cols == 1) {
+		productSet.attr('class', 'product-layout col-lg-4 col-md-4 col-sm-12 col-xs-12');
+	} else {
+		productSet.attr('class', 'product-layout col-lg-3 col-md-3 col-sm-12 col-xs-12');
+	}
 });
 
 // Cart add remove functions
