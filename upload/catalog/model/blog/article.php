@@ -83,35 +83,7 @@ class ModelBlogArticle extends Model {
 					$sql .= "MATCH(pd.tag) AGAINST('" . $this->db->escape(utf8_strtolower($data['filter_tag'])) . "')";
 				}
 			
-				$sql .= ")";
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.model) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.sku) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}	
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.upc) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}		
-
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.ean) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.jan) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.isbn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}		
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.mpn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}					
+				$sql .= ")";					
 			}
 			
 			if (!empty($data['filter_blog_category_id'])) {
@@ -375,35 +347,7 @@ class ModelBlogArticle extends Model {
 					$sql .= "MATCH(pd.tag) AGAINST('" . $this->db->escape(utf8_strtolower($data['filter_tag'])) . "')";
 				}
 			
-				$sql .= ")";
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.model) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.sku) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}	
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.upc) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}		
-
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.ean) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.jan) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.isbn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}		
-				
-				if (!empty($data['filter_name'])) {
-					$sql .= " OR LCASE(p.mpn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
-				}				
+				$sql .= ")";				
 			}
 						
 			if (!empty($data['filter_blog_category_id'])) {
@@ -414,7 +358,7 @@ class ModelBlogArticle extends Model {
 					
 					$this->load->model('blog/category');
 					
-					$categories = $this->model_blog_category->getCategoriesByParentId($data['filter_category_id']);
+					$categories = $this->model_blog_category->getCategoriesByParentId($data['filter_blog_category_id']);
 										
 					foreach ($categories as $blog_category_id) {
 						$implode_data[] = (int)$blog_category_id;
@@ -425,9 +369,7 @@ class ModelBlogArticle extends Model {
 					$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_blog_category_id'] . "'";
 				}
 			}		
-			
-	
-			
+
 			$query = $this->db->query($sql);
 			
 			$article_data = $query->row['total']; 
