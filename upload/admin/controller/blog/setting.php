@@ -27,13 +27,16 @@ class ControllerBlogSetting extends Controller {
 		$data['text_edit'] = $this->language->get('text_edit');
 		$data['text_yes'] = $this->language->get('text_yes');
 		$data['text_no'] = $this->language->get('text_no');
+		$data['text_blog_search'] = $this->language->get('text_blog_search');
 		$data['text_article'] = $this->language->get('text_article');
 		$data['text_review'] = $this->language->get('text_review');
+
 		$data['entry_article_limit'] = $this->language->get('entry_article_limit');
 		$data['entry_article_description_length'] = $this->language->get('entry_article_description_length');
 		$data['entry_limit_admin'] = $this->language->get('entry_limit_admin');
 		$data['entry_article_count'] = $this->language->get('entry_article_count');
 		$data['entry_blog_menu'] = $this->language->get('entry_blog_menu');
+		$data['entry_blog_search'] = $this->language->get('entry_blog_search');
 		$data['entry_article_download'] = $this->language->get('entry_article_download');
 		$data['entry_review'] = $this->language->get('entry_review');
 		$data['entry_review_guest'] = $this->language->get('entry_review_guest');
@@ -55,6 +58,7 @@ class ControllerBlogSetting extends Controller {
 		$data['help_limit_admin'] = $this->language->get('help_limit_admin');
 		$data['help_article_count'] = $this->language->get('help_article_count');
 		$data['help_blog_menu'] = $this->language->get('help_blog_menu');
+		$data['help_blog_search'] = $this->language->get('help_blog_search');
 		$data['help_review'] = $this->language->get('help_review');
 		$data['help_review_guest'] = $this->language->get('help_review_guest');
 		$data['help_review_mail'] = $this->language->get('help_review_mail');
@@ -157,13 +161,19 @@ class ControllerBlogSetting extends Controller {
 		} else {
 			$data['configblog_article_count'] = $this->config->get('configblog_article_count');
 		}
-		
+
 		if (isset($this->request->post['configblog_blog_menu'])) {
 			$data['configblog_blog_menu'] = $this->request->post['configblog_blog_menu'];
 		} else {
 			$data['configblog_blog_menu'] = $this->config->get('configblog_blog_menu');
 		}
-		
+
+		if (isset($this->request->post['configblog_blog_search'])) {
+			$data['configblog_blog_search'] = $this->request->post['configblog_blog_search'];
+		} else {
+			$data['configblog_blog_search'] = $this->config->get('configblog_blog_search');
+		}
+
 		if (isset($this->request->post['configblogarticle_download'])) {
 			$data['configblog_article_download'] = $this->request->post['configblog_article_download'];
 		} else {
@@ -262,7 +272,7 @@ class ControllerBlogSetting extends Controller {
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'setting/setting')) {
+		if (!$this->user->hasPermission('modify', 'blog/setting')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
