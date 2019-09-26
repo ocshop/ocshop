@@ -179,6 +179,29 @@ class ControllerCommonHeader extends Controller {
 			$data['menu'] = '';
 		}
 		$data['search'] = $this->load->controller('common/search');
+		if ($this->config->get('configblog_blog_search')) {
+			$blog_search_status = false;
+
+			if ($this->config->get('configblog_blog_search') == 2) {
+				$blog_search_status = true;
+			} else {
+				if (isset($this->request->get[ 'route' ])) {
+					if ($this->request->get['route'] == 'blog/article') {
+						$blog_search_status = true;
+					} elseif ($this->request->get['route'] == 'blog/category') {
+						$blog_search_status = true;
+					} elseif ($this->request->get['route'] == 'blog/latest') {
+						$blog_search_status = true;
+					} elseif ($this->request->get['route'] == 'blog/search') {
+						$blog_search_status = true;
+					}
+				}
+			}
+
+			if ($blog_search_status) {
+				$data[ 'search' ] = $this->load->controller('extension/module/blog_search');
+			}
+		}
 		$data['cart'] = $this->load->controller('common/cart');
 
 		// For page specific css
@@ -187,6 +210,10 @@ class ControllerCommonHeader extends Controller {
 				$class = '-' . $this->request->get['product_id'];
 			} elseif (isset($this->request->get['path'])) {
 				$class = '-' . $this->request->get['path'];
+			} elseif (isset($this->request->get['article_id'])) {
+				$class = '-' . $this->request->get['article_id'];
+			} elseif (isset($this->request->get['blog_category_id'])) {
+				$class = '-' . $this->request->get['blog_category_id'];
 			} elseif (isset($this->request->get['manufacturer_id'])) {
 				$class = '-' . $this->request->get['manufacturer_id'];
 			} elseif (isset($this->request->get['information_id'])) {
