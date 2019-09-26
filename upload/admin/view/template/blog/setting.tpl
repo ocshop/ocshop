@@ -121,7 +121,7 @@
                     <?php } ?>
                   </div>
                 </div>
-				<div class="form-group">
+                <div class="form-group">
                   <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_blog_menu; ?>"><?php echo $entry_blog_menu; ?></span></label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
@@ -144,7 +144,27 @@
                     </label>
                   </div>
                 </div>
-				<div class="form-group">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-blog-search"><span data-toggle="tooltip" title="<?php echo $help_blog_search; ?>"><?php echo $entry_blog_search; ?></span></label>
+                  <div class="col-sm-10">
+                    <select name="configblog_blog_search" id="input-blog-search" class="form-control">
+                      <?php if ($configblog_blog_search == 1) { ?>
+                      <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+                      <option value="2"><?php echo $text_blog_search; ?></option>
+                      <option value="0"><?php echo $text_no; ?></option>
+                      <?php } elseif ($configblog_blog_search == 2) { ?>
+                      <option value="1" selected="selected"><?php echo $text_yes; ?></option>
+                      <option value="2" selected="selected"><?php echo $text_blog_search; ?></option>
+                      <option value="0"><?php echo $text_no; ?></option>
+                      <?php } else { ?>
+                      <option value="1"><?php echo $text_yes; ?></option>
+                      <option value="2"><?php echo $text_blog_search; ?></option>
+                      <option value="0" selected="selected"><?php echo $text_no; ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-sm-2 control-label"><?php echo $entry_article_download; ?></label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
