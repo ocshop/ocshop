@@ -187,6 +187,7 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
                     <?php } ?></td>
+					<td class="text-left"><?php echo $column_category; ?></td>
                   <td class="text-left"><?php if ($sort == 'p.model') { ?>
                     <a href="<?php echo $sort_model; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_model; ?></a>
                     <?php } else { ?>
@@ -230,6 +231,12 @@
                     <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
                     <?php } ?></td>
                   <td class="text-left"><?php echo $product['name']; ?></td>
+				  <td class="text-left">
+                    <?php foreach ($categories as $category) { ?>
+                    <?php if (in_array($category['category_id'], $product['category'])) { ?>
+                    <?php echo $category['name'];?><br>
+                    <?php } ?>
+                    <?php } ?></td>
                   <td class="text-left"><?php echo $product['model']; ?></td>
                   <td class="text-right"><?php if ($product['special']) { ?>
                     <span style="text-decoration: line-through;"><?php echo $product['price']; ?></span><br/>

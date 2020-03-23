@@ -1,5 +1,5 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@copyright	OPENCART.PRO 2011 - 2020.
 // *	@forum	http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
@@ -611,6 +611,15 @@ class ControllerCatalogProduct extends Controller {
 		$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
 
 		$results = $this->model_catalog_product->getProducts($filter_data);
+		
+		$this->load->model('catalog/category');
+		
+		$filter_data = array(
+			'sort'        => 'name',
+			'order'       => 'ASC'
+		);
+		
+		$data['categories'] = $this->model_catalog_category->getCategories($filter_data);
 
 		foreach ($results as $result) {
 			if (is_file(DIR_IMAGE . $result['image'])) {
@@ -619,6 +628,8 @@ class ControllerCatalogProduct extends Controller {
 				$image = $this->model_tool_image->resize('no_image.png', 40, 40);
 			}
 
+			$category =  $this->model_catalog_product->getProductCategories($result['product_id']);
+			
 			$special = false;
 
 			$product_specials = $this->model_catalog_product->getProductSpecials($result['product_id']);
@@ -635,6 +646,7 @@ class ControllerCatalogProduct extends Controller {
 				'product_id' => $result['product_id'],
 				'image'      => $image,
 				'name'       => $result['name'],
+				'category'   => $category,
 				'model'      => $result['model'],
 				'price'      => $result['price'],
 				'special'    => $special,
@@ -660,6 +672,7 @@ class ControllerCatalogProduct extends Controller {
 
 		$data['column_image'] = $this->language->get('column_image');
 		$data['column_name'] = $this->language->get('column_name');
+		$data['column_category'] = $this->language->get('column_category');
 		$data['column_model'] = $this->language->get('column_model');
 		$data['column_price'] = $this->language->get('column_price');
 		$data['column_quantity'] = $this->language->get('column_quantity');
