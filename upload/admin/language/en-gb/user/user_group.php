@@ -1,5 +1,5 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@copyright	OPENCART.PRO 2011 - 2020.
 // *	@forum	http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
@@ -21,6 +21,10 @@ $_['column_action']    = 'Action';
 $_['entry_name']       = 'User Group Name';
 $_['entry_access']     = 'Access Permission';
 $_['entry_modify']     = 'Modify Permission';
+$_['entry_hide']        = 'Hide extensions';
+
+// Help
+$_['help_hide']         = 'Selected extensions will not be displayed on the pages of the module, payments, deliveries';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify user groups!';

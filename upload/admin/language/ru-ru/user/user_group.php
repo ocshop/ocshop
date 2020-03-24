@@ -1,5 +1,5 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@copyright	OPENCART.PRO 2011 - 2020.
 // *	@forum	http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
@@ -21,6 +21,10 @@ $_['column_action']     = 'Действие';
 $_['entry_name']        = 'Название группы пользователей';
 $_['entry_access']      = 'Разрешён просмотр';
 $_['entry_modify']      = 'Разрешено внесение изменений';
+$_['entry_hide']        = 'Скрыть дополнения';
+
+// Help
+$_['help_hide']         = 'Выбранные дополнения не будут отображаться на страницах модулей, платежей, доставок';
 
 // Error
 $_['error_permission']  = 'У вас недостаточно прав для внесения изменений!';

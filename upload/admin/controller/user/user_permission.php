@@ -1,5 +1,5 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
+// *	@copyright	OPENCART.PRO 2011 - 2020.
 // *	@forum	http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
@@ -271,6 +271,9 @@ class ControllerUserUserPermission extends Controller {
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_access'] = $this->language->get('entry_access');
 		$data['entry_modify'] = $this->language->get('entry_modify');
+		$data['entry_hide'] = $this->language->get('entry_hide');
+		
+		$data['help_hide'] = $this->language->get('help_hide');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -378,9 +381,26 @@ class ControllerUserUserPermission extends Controller {
 
 			$permission = substr($controller, 0, strrpos($controller, '.'));
 
+			$hidefiles = explode("/", $permission);
+            //var_dump($hidefiles);
+
+			if ($hidefiles[1] == "module" or $hidefiles[1] == "payment" or $hidefiles[1] == "shipping") {
+				if (!in_array($permission, $ignore)) {
+					$data['hiden'][] = $permission;
+				}
+			}
+
 			if (!in_array($permission, $ignore)) {
 				$data['permissions'][] = $permission;
 			}
+		}
+
+		if (isset($this->request->post['permission']['hiden'])) {
+			$data['ishide'] = $this->request->post['permission']['hiden'];
+		} elseif (isset($user_group_info['permission']['hiden'])) {
+			$data['ishide'] = $user_group_info['permission']['hiden'];
+		} else {
+			$data['ishide'] = array();
 		}
 
 		if (isset($this->request->post['permission']['access'])) {
