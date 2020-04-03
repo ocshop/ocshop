@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2018.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -41,7 +41,7 @@ class ModelBlogArticle extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_to_blog_category SET article_id = '" . (int)$article_id . "', blog_category_id = '" . (int)$blog_category_id . "'");
 			}
 		}
-		
+
 		if (isset($data['main_blog_category_id']) && $data['main_blog_category_id'] > 0) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "article_to_blog_category WHERE article_id = '" . (int)$article_id . "' AND blog_category_id = '" . (int)$data['main_blog_category_id'] . "'");
 			$this->db->query("INSERT INTO " . DB_PREFIX . "article_to_blog_category SET article_id = '" . (int)$article_id . "', blog_category_id = '" . (int)$data['main_blog_category_id'] . "', main_blog_category = 1");
@@ -57,7 +57,7 @@ class ModelBlogArticle extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "'");
 			}
 		}
-		
+
 		if (isset($data['product_related'])) {
 			foreach ($data['product_related'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "' AND product_id = '" . (int)$related_id . "'");
@@ -70,15 +70,14 @@ class ModelBlogArticle extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_to_layout SET article_id = '" . (int)$article_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
 			}
 		}
-		
-		$this->cache->delete('seo_pro');
-		$this->cache->delete('seo_url');
 
-		if (isset($data['keyword']) && !empty($data['keyword'])) {
+		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'article_id=" . (int)$article_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		$this->cache->delete('article');
+		$this->cache->delete('seo_pro');
+		$this->cache->delete('seo_url');
 
 		return $article_id;
 	}
@@ -128,7 +127,7 @@ class ModelBlogArticle extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_to_blog_category SET article_id = '" . (int)$article_id . "', blog_category_id = '" . (int)$blog_category_id . "'");
 			}
 		}
-		
+
 		if (isset($data['main_blog_category_id']) && $data['main_blog_category_id'] > 0) {
 			$this->db->query("DELETE FROM " . DB_PREFIX . "article_to_blog_category WHERE article_id = '" . (int)$article_id . "' AND blog_category_id = '" . (int)$data['main_blog_category_id'] . "'");
 			$this->db->query("INSERT INTO " . DB_PREFIX . "article_to_blog_category SET article_id = '" . (int)$article_id . "', blog_category_id = '" . (int)$data['main_blog_category_id'] . "', main_blog_category = 1");
@@ -147,7 +146,7 @@ class ModelBlogArticle extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related SET article_id = '" . (int)$related_id . "', related_id = '" . (int)$article_id . "'");
 			}
 		}
-		
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "'");
 		
 		if (isset($data['product_related'])) {
@@ -167,24 +166,22 @@ class ModelBlogArticle extends Model {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'article_id=" . (int)$article_id . "'");
 
-		$this->cache->delete('seo_pro');
-		$this->cache->delete('seo_url');
-		
-		if ($data['keyword']) {
+		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'article_id=" . (int)$article_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		$this->cache->delete('article');
-
+		$this->cache->delete('seo_pro');
+		$this->cache->delete('seo_url');
 	}
-	
+
 	public function editArticleStatus($article_id, $status) {
-        $this->db->query("UPDATE " . DB_PREFIX . "article SET status = '" . (int)$status . "', date_modified = NOW() WHERE article_id = '" . (int)$article_id . "'");
-        
+		$this->db->query("UPDATE " . DB_PREFIX . "article SET status = '" . (int)$status . "', date_modified = NOW() WHERE article_id = '" . (int)$article_id . "'");
+
 		$this->cache->delete('article');
-		
+
 		return $article_id;
-    }
+	}
 
 	public function copyArticle($article_id) {
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) WHERE p.article_id = '" . (int)$article_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
@@ -211,7 +208,6 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function deleteArticle($article_id) {
-
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_description WHERE article_id = '" . (int)$article_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_image WHERE article_id = '" . (int)$article_id . "'");
@@ -226,7 +222,6 @@ class ModelBlogArticle extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'article_id=" . (int)$article_id . "'");
 
 		$this->cache->delete('article');
-
 	}
 
 	public function getArticle($article_id) {
@@ -237,17 +232,17 @@ class ModelBlogArticle extends Model {
 
 	public function getArticles($data = array()) {
 		$sql = "SELECT * FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id)";
-		
+
 		if (isset($data['filter_category'])) {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "article_to_blog_category a2c ON (p.article_id = a2c.article_id)";
 		}
-		
+
 		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
-		
+
 		if (isset($data['filter_category'])) {
 			$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_category'] . "'";
 		}
@@ -255,11 +250,11 @@ class ModelBlogArticle extends Model {
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
 			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
 		}
-		
+
 		if (isset($data['filter_noindex']) && !is_null($data['filter_noindex'])) {
 			$sql .= " AND p.noindex = '" . (int)$data['filter_noindex'] . "'";
 		}
-				
+
 		$sql .= " GROUP BY p.article_id";
 
 		$sort_data = array(
@@ -314,7 +309,7 @@ class ModelBlogArticle extends Model {
 				'name'             => $result['name'],
 				'description'      => $result['description'],
 				'meta_title'       => $result['meta_title'],
-				'meta_h1'	       => $result['meta_h1'],
+				'meta_h1'          => $result['meta_h1'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword'],
 				'tag'              => $result['tag']
@@ -335,10 +330,10 @@ class ModelBlogArticle extends Model {
 
 		return $article_category_data;
 	}
-	
+
 	public function getArticleMainCategoryId($article_id) {
 		$query = $this->db->query("SELECT blog_category_id FROM " . DB_PREFIX . "article_to_blog_category WHERE article_id = '" . (int)$article_id . "' AND main_blog_category = '1' LIMIT 1");
-		
+
 		return ($query->num_rows ? (int)$query->row['blog_category_id'] : 0);
 	}
 
@@ -395,16 +390,16 @@ class ModelBlogArticle extends Model {
 
 		return $article_related_data;
 	}
-	
+
 	public function getProductRelated($article_id) {
 		$article_related_product = array();
-		
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "'");
-		
+
 		foreach ($query->rows as $result) {
 			$article_related_product[] = $result['product_id'];
 		}
-		
+
 		return $article_related_product;
 	}
 
@@ -420,7 +415,7 @@ class ModelBlogArticle extends Model {
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
 			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
 		}
-		
+
 		if (isset($data['filter_noindex']) && $data['filter_noindex'] !== null) {
 			$sql .= " AND p.noindex = '" . (int)$data['filter_noindex'] . "'";
 		}

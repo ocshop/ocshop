@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2018.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -35,7 +35,7 @@ class ControllerBlogCategory extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = $this->request->get['limit'];
+			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get('configblog_article_limit') ? 100 : (int)$this->request->get['limit']);
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get('configblog_article_limit');
@@ -47,15 +47,15 @@ class ControllerBlogCategory extends Controller {
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/home')
 		);
-		
+
 		$configblog_name = $this->config->get('configblog_name');
-		
+
 		if (!empty($configblog_name)) {
 			$name = $this->config->get('configblog_name');
 		} else {
 			$name = $this->language->get('text_blog');
 		}
-		
+
 		$data['breadcrumbs'][] = array(
 			'text' => $name,
 			'href' => $this->url->link('blog/latest')
@@ -105,26 +105,24 @@ class ControllerBlogCategory extends Controller {
 		$category_info = $this->model_blog_category->getCategory($blog_category_id);
 
 		if ($category_info) {
-			
 			if ($category_info['meta_title']) {
 				$this->document->setTitle($category_info['meta_title']);
 			} else {
 				$this->document->setTitle($category_info['name']);
 			}
-			
+
 			if ($category_info['noindex'] <= 0) {
 				$this->document->setRobots('noindex,follow');
 			}
-			
+
 			if ($category_info['meta_h1']) {
 				$data['heading_title'] = $category_info['meta_h1'];
 			} else {
 				$data['heading_title'] = $category_info['name'];
 			}
-			
+
 			$this->document->setDescription($category_info['meta_description']);
 			$this->document->setKeywords($category_info['meta_keyword']);
-			$this->document->addLink($this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id']), 'canonical');
 
 			$data['text_refine'] = $this->language->get('text_refine');
 			$data['text_empty'] = $this->language->get('text_empty');
@@ -150,7 +148,7 @@ class ControllerBlogCategory extends Controller {
 			}
 
 			$data['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8');
-			$data['configblog_review_status'] = $this->config->get('configblog_review_status');
+			$configblog_review_status = $this->config->get('configblog_review_status');
 
 			$url = '';
 
@@ -166,38 +164,36 @@ class ControllerBlogCategory extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
-			$data['categories'] = array();
+			/* $data['categories'] = array();
 
 			$results = $this->model_blog_category->getCategories($blog_category_id);
 
 			foreach ($results as $result) {
-				
 				$filter_data = array(
-					'filter_blog_category_id'  => $result['blog_category_id'],
-					'filter_sub_category' => true
+					'filter_blog_category_id' => $result['blog_category_id'],
+					'filter_sub_category'     => true
 				);
 
 				$data['categories'][] = array(
 					'name'  => $result['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
 					'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '_' . $result['blog_category_id'] . $url)
 				);
-			}
+			} */
 
 			$data['articles'] = array();
 
 			$article_data = array(
 				'filter_blog_category_id' => $blog_category_id,
-				'sort'               => $sort,
-				'order'              => $order,
-				'start'              => ($page - 1) * $limit,
-				'limit'              => $limit
+				'sort'                    => $sort,
+				'order'                   => $order,
+				'start'                   => ($page - 1) * $limit,
+				'limit'                   => $limit
 			);
-			
-			
+
 			$article_total = $this->model_blog_article->getTotalArticles($article_data);
 
 			$results = $this->model_blog_article->getArticles($article_data);
-			
+
 			foreach ($results as $result) {
 				if ($result['image']) {
 					$image = $this->model_tool_image->resize($result['image'], $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
@@ -205,7 +201,7 @@ class ControllerBlogCategory extends Controller {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
 				}
 
-				if ($this->config->get('configblog_review_status')) {
+				if ($configblog_review_status) {
 					$rating = (int)$result['rating'];
 				} else {
 					$rating = false;
@@ -230,13 +226,13 @@ class ControllerBlogCategory extends Controller {
 			}
 
 			$data['sorts'] = array();
-			
+
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_default'),
 				'value' => 'p.sort_order-ASC',
 				'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&sort=p.sort_order&order=ASC' . $url)
 			);
-			
+
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_asc'),
 				'value' => 'pd.name-ASC',
@@ -260,21 +256,21 @@ class ControllerBlogCategory extends Controller {
 				'value' => 'p.date_added-DESC',
 				'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&sort=p.date_added&order=DESC' . $url)
 			); 
-			
-			if ($this->config->get('configblog_review_status')) {
+
+			if ($configblog_review_status) {
 				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_desc'),
 					'value' => 'rating-DESC',
 					'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&sort=rating&order=DESC' . $url)
 				); 
-				
+
 				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_asc'),
 					'value' => 'rating-ASC',
 					'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&sort=rating&order=ASC' . $url)
 				);
 			}
-			
+
 			//opencart.pro sort viewed
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_viewed_asc'),
@@ -288,7 +284,7 @@ class ControllerBlogCategory extends Controller {
 				'href'  => $this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&sort=p.viewed&order=DESC' . $url)
 			); 
 			//opencart.pro sort viewed
-			
+
 			$url = '';
 
 			if (isset($this->request->get['sort'])) {
@@ -301,7 +297,7 @@ class ControllerBlogCategory extends Controller {
 
 			$data['limits'] = array();
 
-			$limits = array_unique(array($this->config->get('configblog_article_limit'), 25, 50, 75, 100));
+			$limits = array_unique(array((int)$this->config->get('configblog_article_limit'), 25, 50, 75, 100));
 
 			sort($limits);
 
@@ -336,6 +332,19 @@ class ControllerBlogCategory extends Controller {
 			$data['pagination'] = $pagination->render();
 
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($article_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($article_total - $limit)) ? $article_total : ((($page - 1) * $limit) + $limit), $article_total, ceil($article_total / $limit));
+
+			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
+			$this->document->addLink($this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'], true), 'canonical');
+
+			if ($page == 2)  {
+				$this->document->addLink($this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'], true), 'prev');
+			} elseif($page > 2)   {
+				$this->document->addLink($this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&page='. ($page - 1), true), 'prev');
+			}
+
+			if ($limit && ceil($article_total / $limit) > $page) {
+				$this->document->addLink($this->url->link('blog/category', 'blog_category_id=' . $this->request->get['blog_category_id'] . '&page='. ($page + 1), true), 'next');
+			}
 
 			$data['sort'] = $sort;
 			$data['order'] = $order;

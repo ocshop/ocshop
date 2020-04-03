@@ -1,6 +1,6 @@
 <?php
 // *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum	http://forum.opencart.pro
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -15,23 +15,17 @@ class ControllerBlogSearch extends Controller {
 		$this->load->model('tool/image');
 
 		if (isset($this->request->get['search'])) {
-			$search = ($this->request->get['search'] > '' ? $this->request->get['search'] : '');
+			$search = $this->request->get['search'];
 		} else {
 			$search = '';
 		}
 
 		if (isset($this->request->get['tag'])) {
-			$tag = ($this->request->get['tag'] > '' ? $this->request->get['tag'] : '');
+			$tag = $this->request->get['tag'];
 		} elseif (isset($this->request->get['search'])) {
-			$tag = ($this->request->get['search'] > '' ? $this->request->get['search'] : '');
+			$tag = $this->request->get['search'];
 		} else {
 			$tag = '';
-		}
-
-		if (isset($this->request->get['description'])) {
-			$description = $this->request->get['description'];
-		} else {
-			$description = '';
 		}
 
 		if (isset($this->request->get['blog_category_id'])) {
@@ -41,9 +35,15 @@ class ControllerBlogSearch extends Controller {
 		}
 
 		if (isset($this->request->get['sub_category'])) {
-			$sub_category = $this->request->get['sub_category'];
+			$sub_category = 1;
 		} else {
-			$sub_category = '';
+			$sub_category = 0;
+		}
+
+		if (isset($this->request->get['description'])) {
+			$description = 1;
+		} else {
+			$description = 0;
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -65,9 +65,9 @@ class ControllerBlogSearch extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > $this->config->get('configblog_article_limit') ? 100 : (int)$this->request->get['limit']);
+			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get('configblog_article_limit') ? 100 : (int)$this->request->get['limit']);
 		} else {
-			$limit = $this->config->get('configblog_article_limit');
+			$limit = (int)$this->config->get('configblog_article_limit');
 		}
 
 		if (isset($this->request->get['search'])) {
@@ -95,16 +95,16 @@ class ControllerBlogSearch extends Controller {
 			$url .= '&tag=' . urlencode(html_entity_decode($this->request->get['tag'], ENT_QUOTES, 'UTF-8'));
 		}
 
-		if (isset($this->request->get['description'])) {
-			$url .= '&description=' . $this->request->get['description'];
-		}
-
 		if (isset($this->request->get['blog_category_id'])) {
 			$url .= '&blog_category_id=' . $this->request->get['blog_category_id'];
 		}
 
 		if (isset($this->request->get['sub_category'])) {
 			$url .= '&sub_category=' . $this->request->get['sub_category'];
+		}
+
+		if (isset($this->request->get['description'])) {
+			$url .= '&description=' . $this->request->get['description'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -195,15 +195,15 @@ class ControllerBlogSearch extends Controller {
 
 		if ($search || $tag) {
 			$filter_data = array(
-				'filter_name'				=> $search,
-				'filter_tag'				=> $tag,
-				'filter_description'		=> $description,
-				'filter_blog_category_id'	=> $blog_category_id,
-				'filter_sub_category'		=> $sub_category,
-				'sort'						=> $sort,
-				'order'						=> $order,
-				'start'						=> ($page - 1) * $limit,
-				'limit'						=> $limit
+				'filter_name'             => $search,
+				'filter_tag'              => $tag,
+				'filter_description'      => $description,
+				'filter_blog_category_id' => $blog_category_id,
+				'filter_sub_category'     => $sub_category,
+				'sort'                    => $sort,
+				'order'                   => $order,
+				'start'                   => ($page - 1) * $limit,
+				'limit'                   => $limit
 			);
 
 			$article_total = $this->model_blog_article->getTotalArticles($filter_data);
@@ -224,37 +224,8 @@ class ControllerBlogSearch extends Controller {
 				}
 
 				//if ($result['description_mini']) {
-					//$description = utf8_substr(strip_tags(html_entity_decode($result['description_mini'], ENT_QUOTES, 'UTF-8')), 0);
-				//} else {
-					$description = utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_article_description_length')) . '..';
+					//$result['description'] = $result['description_mini'];
 				//}
-
-				/* $articlebenefits = $this->model_blog_article->getArticleBenefitsbyArticleId($result['article_id']);
-
-				$benefits = array();
-
-				foreach ($articlebenefits as $benefit) {
-					if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
-						$bimage = $benefit['image'];
-						if ($benefit['type']) {
-							$bimage = $this->model_tool_image->resize($bimage, 25, 25);
-						} else {
-							$bimage = $this->model_tool_image->resize($bimage, 120, 60);
-						}
-					} else {
-						$bimage = 'no_image.jpg';
-					}
-					$benefits[] = array(
-						'benefit_id'      	=> $benefit['benefit_id'],
-						'name'      		=> $benefit['name'],
-						'description'      	=> strip_tags(html_entity_decode($benefit['description'])),
-						'thumb'      		=> $bimage,
-						'link'      		=> $benefit['link'],
-						'type'      		=> $benefit['type']
-					);
-				}
-				
-				$stickers = $this->getStickers($result['article_id']) ; */
 
 				$data['articles'][] = array(
 					'article_id'  => $result['article_id'],
@@ -263,8 +234,10 @@ class ControllerBlogSearch extends Controller {
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('configblog_article_description_length')) . '..',
 					'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 					'viewed'      => $result['viewed'],
+					//'sticker'     => $this->getProBlogStickers($result['article_id']),
+					//'benefits'    => $this->getProBlogBenefits($result['article_id']),
 					'rating'      => $result['rating'],
-					'href'        => $this->url->link('blog/article', '&article_id=' . $result['article_id'] . $url)
+					'href'        => $this->url->link('blog/article', 'article_id=' . $result['article_id'] . $url)
 				);
 			}
 
@@ -278,16 +251,16 @@ class ControllerBlogSearch extends Controller {
 				$url .= '&tag=' . urlencode(html_entity_decode($this->request->get['tag'], ENT_QUOTES, 'UTF-8'));
 			}
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
-			}
-
 			if (isset($this->request->get['blog_category_id'])) {
 				$url .= '&blog_category_id=' . $this->request->get['blog_category_id'];
 			}
 
 			if (isset($this->request->get['sub_category'])) {
 				$url .= '&sub_category=' . $this->request->get['sub_category'];
+			}
+
+			if (isset($this->request->get['description'])) {
+				$url .= '&description=' . $this->request->get['description'];
 			}
 
 			if (isset($this->request->get['limit'])) {
@@ -299,59 +272,59 @@ class ControllerBlogSearch extends Controller {
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_default'),
 				'value' => 'p.sort_order-ASC',
-				'href'  => $this->url->link('blog/category', '&sort=p.sort_order&order=ASC' . $url)
+				'href'  => $this->url->link('blog/search', '&sort=p.sort_order&order=ASC' . $url)
 			);
-			
+
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_asc'),
 				'value' => 'pd.name-ASC',
-				'href'  => $this->url->link('blog/category', '&sort=pd.name&order=ASC' . $url)
+				'href'  => $this->url->link('blog/search', '&sort=pd.name&order=ASC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_name_desc'),
 				'value' => 'pd.name-DESC',
-				'href'  => $this->url->link('blog/category', '&sort=pd.name&order=DESC' . $url)
+				'href'  => $this->url->link('blog/search', '&sort=pd.name&order=DESC' . $url)
 			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_date_asc'),
 				'value' => 'p.date_added-ASC',
-				'href'  => $this->url->link('blog/category', '&sort=p.date_added&order=ASC' . $url)
-			); 
+				'href'  => $this->url->link('blog/search', '&sort=p.date_added&order=ASC' . $url)
+			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_date_desc'),
 				'value' => 'p.date_added-DESC',
-				'href'  => $this->url->link('blog/category', '&sort=p.date_added&order=DESC' . $url)
-			); 
-			
+				'href'  => $this->url->link('blog/search', '&sort=p.date_added&order=DESC' . $url)
+			);
+
 			if ($this->config->get('configblog_review_status')) {
 				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_desc'),
 					'value' => 'rating-DESC',
-					'href'  => $this->url->link('blog/category', '&sort=rating&order=DESC' . $url)
-				); 
-				
+					'href'  => $this->url->link('blog/search', '&sort=rating&order=DESC' . $url)
+				);
+
 				$data['sorts'][] = array(
 					'text'  => $this->language->get('text_rating_asc'),
 					'value' => 'rating-ASC',
-					'href'  => $this->url->link('blog/category', '&sort=rating&order=ASC' . $url)
+					'href'  => $this->url->link('blog/search', '&sort=rating&order=ASC' . $url)
 				);
 			}
-			
+
 			//opencart.pro sort viewed
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_viewed_asc'),
 				'value' => 'p.viewed-ASC',
-				'href'  => $this->url->link('blog/category', '&sort=p.viewed&order=ASC' . $url)
-			); 
+				'href'  => $this->url->link('blog/search', '&sort=p.viewed&order=ASC' . $url)
+			);
 
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_viewed_desc'),
 				'value' => 'p.viewed-DESC',
-				'href'  => $this->url->link('blog/category', '&sort=p.viewed&order=DESC' . $url)
-			); 
+				'href'  => $this->url->link('blog/search', '&sort=p.viewed&order=DESC' . $url)
+			);
 			//opencart.pro sort viewed
 
 			$url = '';
@@ -364,16 +337,16 @@ class ControllerBlogSearch extends Controller {
 				$url .= '&tag=' . urlencode(html_entity_decode($this->request->get['tag'], ENT_QUOTES, 'UTF-8'));
 			}
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
-			}
-
 			if (isset($this->request->get['blog_category_id'])) {
 				$url .= '&blog_category_id=' . $this->request->get['blog_category_id'];
 			}
 
 			if (isset($this->request->get['sub_category'])) {
 				$url .= '&sub_category=' . $this->request->get['sub_category'];
+			}
+
+			if (isset($this->request->get['description'])) {
+				$url .= '&description=' . $this->request->get['description'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -386,7 +359,7 @@ class ControllerBlogSearch extends Controller {
 
 			$data['limits'] = array();
 
-			$limits = array_unique(array($this->config->get('configblog_article_limit'), 25, 50, 75, 100));
+			$limits = array_unique(array((int)$this->config->get('configblog_article_limit'), 25, 50, 75, 100));
 
 			sort($limits);
 
@@ -408,16 +381,16 @@ class ControllerBlogSearch extends Controller {
 				$url .= '&tag=' . urlencode(html_entity_decode($this->request->get['tag'], ENT_QUOTES, 'UTF-8'));
 			}
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
-			}
-
 			if (isset($this->request->get['blog_category_id'])) {
 				$url .= '&blog_category_id=' . $this->request->get['blog_category_id'];
 			}
 
 			if (isset($this->request->get['sub_category'])) {
 				$url .= '&sub_category=' . $this->request->get['sub_category'];
+			}
+
+			if (isset($this->request->get['description'])) {
+				$url .= '&description=' . $this->request->get['description'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -444,19 +417,19 @@ class ControllerBlogSearch extends Controller {
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 			if ($page == 1) {
-			    $this->document->addLink($this->url->link('blog/search', '', true), 'canonical');
+				$this->document->addLink($this->url->link('blog/search', '', true), 'canonical');
 			} elseif ($page == 2) {
-			    $this->document->addLink($this->url->link('blog/search', '', true), 'prev');
+				$this->document->addLink($this->url->link('blog/search', '', true), 'prev');
 			} else {
-			    $this->document->addLink($this->url->link('blog/search', $url . '&page='. ($page - 1), true), 'prev');
+				$this->document->addLink($this->url->link('blog/search', $url . '&page='. ($page - 1), true), 'prev');
 			}
 
 			if ($limit && ceil($article_total / $limit) > $page) {
-			    $this->document->addLink($this->url->link('blog/search', $url . '&page='. ($page + 1), true), 'next');
+				$this->document->addLink($this->url->link('blog/search', $url . '&page='. ($page + 1), true), 'next');
 			}
 
-			if (isset($this->request->get['search']) && $this->config->get('config_customer_search')) {
-				$this->load->model('account/search');
+			if (isset($this->request->get['search']) && $this->config->get('configblog_customer_blog_search')) {
+				$this->load->model('blog/search');
 
 				if ($this->customer->isLogged()) {
 					$customer_id = $this->customer->getId();
@@ -471,23 +444,23 @@ class ControllerBlogSearch extends Controller {
 				}
 
 				$search_data = array(
-					'keyword'       => $search,
-					'blog_category_id'   => $blog_category_id,
-					'sub_category'  => $sub_category,
-					'description'   => $description,
-					'articles'      => $article_total,
-					'customer_id'   => $customer_id,
-					'ip'            => $ip
+					'keyword'          => $search,
+					'blog_category_id' => $blog_category_id,
+					'sub_category'     => $sub_category,
+					'description'      => $description,
+					'articles'         => $article_total,
+					'customer_id'      => $customer_id,
+					'ip'               => $ip
 				);
 
-				$this->model_account_search->addSearch($search_data);
+				$this->model_blog_search->addSearch($search_data);
 			}
 		}
 
 		$data['search'] = $search;
-		$data['description'] = $description;
 		$data['blog_category_id'] = $blog_category_id;
 		$data['sub_category'] = $sub_category;
+		$data['description'] = $description;
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -503,23 +476,63 @@ class ControllerBlogSearch extends Controller {
 		$this->response->setOutput($this->load->view('blog/search', $data));
 	}
 
-	/* private function getStickers($article_id) {
-		$stickers = $this->model_blog_article->getArticleStickerbyarticleId($article_id) ;	
+	/* private function getProBlogStickers($article_id) {
+		$stickers = $this->model_blog_article->getArticleStickerbyArticleId($article_id);
 
 		if (!$stickers) {
 			return;
 		}
+
+		$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
 
 		$data['stickers'] = array();
 
 		foreach ($stickers as $sticker) {
 			$data['stickers'][] = array(
 				'position' => $sticker['position'],
-				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
-			);		
+				'name'     => $sticker['name'],
+				'image'    => ($sticker['image'] ? $server . 'image/' . $sticker['image'] : false)
+			);
 		}
 
-		return $this->load->view('article/stickers', $data);
-	
+		return $this->load->view('product/stickers', $data);
+	}
+
+	private function getProBlogBenefits($article_id, $width = 120, $height = 60) {
+		$benefits = array();
+
+		$articlebenefits = $this->model_blog_article->getArticleBenefitsbyArticleId($article_id);
+
+		foreach ($articlebenefits as $benefit) {
+			if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
+				if ($benefit['type']) {
+					$bimage = $this->model_tool_image->resize($benefit['image'], 25, 25);
+				} else {
+					$bimage = $this->model_tool_image->resize($benefit['image'], $width, $height);
+				}
+			} else {
+				if ($benefit['type']) {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', 25, 25);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', 25, 25);
+				} else {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', $width, $height);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', $width, $height);
+				}
+			}
+
+			$benefits[] = array(
+				'benefit_id'  => $benefit['benefit_id'],
+				'name'        => $benefit['name'],
+				'description' => strip_tags(html_entity_decode($benefit['description'])),
+				'thumb'       => $bimage,
+				'link'        => $benefit['link'],
+				'type'        => $benefit['type']
+				//'sort_order'  => $benefit['sort_order']
+			);
+		}
+
+		return $benefits;
 	} */
 }

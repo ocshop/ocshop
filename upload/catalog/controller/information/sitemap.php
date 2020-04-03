@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -34,6 +34,7 @@ class ControllerInformationSitemap extends Controller {
 		$data['text_cart'] = $this->language->get('text_cart');
 		$data['text_checkout'] = $this->language->get('text_checkout');
 		$data['text_search'] = $this->language->get('text_search');
+		$data['text_blog_search'] = $this->language->get('text_blog_search');
 		$data['text_information'] = $this->language->get('text_information');
 		$data['text_contact'] = $this->language->get('text_contact');
 
@@ -75,6 +76,23 @@ class ControllerInformationSitemap extends Controller {
 			);
 		}
 
+		$data['pro_blog_categories'] = false;
+
+		if ($this->config->get('configblog_sitemap')) {
+			$this->load->model('blog/category');
+
+			$data['pro_blog_categories'] = $this->getProBlogCategories(0);
+		}
+
+		$data['pro_manufacturers'] = false;
+
+		$this->config->set('config_manufacturers_sitemap', 1);
+		if ($this->config->get('config_manufacturers_sitemap')) {
+			$this->load->model('catalog/manufacturer');
+
+			$data['pro_manufacturers'] = $this->getProManufacturers(0);
+		}
+
 		$data['special'] = $this->url->link('product/special');
 		$data['account'] = $this->url->link('account/account', '', true);
 		$data['edit'] = $this->url->link('account/edit', '', true);
@@ -85,6 +103,7 @@ class ControllerInformationSitemap extends Controller {
 		$data['cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link('checkout/checkout', '', true);
 		$data['search'] = $this->url->link('product/search');
+		$data['blog_search'] = ($this->config->get('configblog_sitemap') ? $this->url->link('blog/search') : false);
 		$data['contact'] = $this->url->link('information/contact');
 
 		$this->load->model('catalog/information');
@@ -106,5 +125,110 @@ class ControllerInformationSitemap extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 		$this->response->setOutput($this->load->view('information/sitemap', $data));
+	}
+
+	private function getProBlogCategories($parent_id, $current_path = '') {
+		$output = '';
+
+		$pro_blog_categories = $this->model_blog_category->getCategories($parent_id);
+
+		if ($pro_blog_categories) {
+			//$output .= '<br/>';
+
+			if ($current_path) {
+				$output .= '                <ul>';
+				$output .= "\n";
+			}
+
+			if (!$current_path) {
+				if ($this->config->get('configblog_name')) {
+					$output .= '<li><a href="' . $this->url->link('blog/latest') . '">' . $this->config->get('configblog_name') . '</a>';
+					$output .= "\n";
+				} else {
+					$output .= '<li><a href="' . $this->url->link('blog/latest') . '">' . $this->language->get('text_blog') . '</a>';
+					$output .= "\n";
+				}
+
+				$output .= '              <ul>';
+				$output .= "\n";
+			}
+
+			foreach ($pro_blog_categories as $blogcategory) {
+				if (!$current_path) {
+					$new_path = $blogcategory['blog_category_id'];
+				} else {
+					$new_path = $current_path . '_' . $blogcategory['blog_category_id'];
+				}
+
+				$output .= '                <li><a href="' . $this->url->link('blog/category', 'blog_category_id=' . $new_path) . '">' . $blogcategory['name'] . '</a>';
+				$output .= "\n";
+				$output .= $this->getProBlogCategories($blogcategory['blog_category_id'], $new_path);
+				$output .= '                </li>';
+				$output .= "\n";
+			}
+
+			if (!$current_path) {
+				$output .= '              </ul>';
+				$output .= "\n";
+				$output .= '            </li>';
+				$output .= "\n";
+			}
+
+			if ($current_path) {
+				$output .= '                </ul>';
+				$output .= "\n";
+			}
+		}
+
+		return $output;
+	}
+
+	private function getProManufacturers($parent_id, $current_path = '') {
+		$output = '';
+
+		$pro_manufacturers = $this->model_catalog_manufacturer->getManufacturers($parent_id);
+
+		if ($pro_manufacturers) {
+			//$output .= '<br/>';
+
+			if ($current_path) {
+				$output .= '                <ul>';
+				$output .= "\n";
+			}
+
+			if (!$current_path) {
+				$output .= '<li><a href="' . $this->url->link('product/manufacturer') . '">' . $this->language->get('text_manufacturers') . '</a>';
+				$output .= "\n";
+				$output .= '              <ul>';
+				$output .= "\n";
+			}
+
+			foreach ($pro_manufacturers as $manufacturer) {
+				if (!$current_path) {
+					$new_path = $manufacturer['manufacturer_id'];
+				} else {
+					$new_path = $current_path . '_' . $manufacturer['manufacturer_id'];
+				}
+
+				$output .= '                <li><a href="' . $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $new_path) . '">' . $manufacturer['name'] . '</a>';
+				$output .= "\n";
+				$output .= '                </li>';
+				$output .= "\n";
+			}
+
+			if (!$current_path) {
+				$output .= '              </ul>';
+				$output .= "\n";
+				$output .= '            </li>';
+				$output .= "\n";
+			}
+
+			if ($current_path) {
+				$output .= '                </ul>';
+				$output .= "\n";
+			}
+		}
+
+		return $output;
 	}
 }

@@ -33,6 +33,30 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
+                <label class="control-label" for="input-store"><?php echo $entry_store; ?></label>
+                <select name="filter_store" id="input-store" class="form-control">
+                  <option value=""><?php echo $text_all; ?></option>
+                  <?php foreach ($stores as $store) { ?>
+                  <option value="<?php echo $store['store_id']; ?>"<?php if ($store['store_id'] == $filter_store) { ?> selected="selected"<?php } ?>><?php echo $store['name']; ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-language"><?php echo $entry_language; ?></label>
+                <select name="filter_language" id="input-language" class="form-control">
+                  <option value=""><?php echo $text_all; ?></option>
+                  <?php foreach ($languages as $language) { ?>
+                  <option value="<?php echo $language['language_id']; ?>"<?php if ($language['language_id'] == $filter_language) { ?> selected="selected"<?php } ?>><?php echo $language['name']; ?></option>
+                  <?php } ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-keyword"><?php echo $entry_keyword; ?></label>
+                <input type="text" name="filter_keyword" value="<?php echo $filter_keyword; ?>" placeholder="<?php echo $entry_keyword; ?>" id="input-keyword" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
                 <label class="control-label" for="input-date-start"><?php echo $entry_date_start; ?></label>
                 <div class="input-group date">
                   <input type="text" name="filter_date_start" value="<?php echo $filter_date_start; ?>" placeholder="<?php echo $entry_date_start; ?>" data-date-format="YYYY-MM-DD" id="input-date-start" class="form-control" />
@@ -58,12 +82,6 @@
                 <label class="control-label" for="input-ip"><?php echo $entry_ip; ?></label>
                 <input type="text" name="filter_ip" value="<?php echo $filter_ip; ?>" placeholder="<?php echo $entry_ip; ?>" id="input-ip" class="form-control" />
               </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label class="control-label" for="input-keyword"><?php echo $entry_keyword; ?></label>
-                <input type="text" name="filter_keyword" value="<?php echo $filter_keyword; ?>" placeholder="<?php echo $entry_keyword; ?>" id="input-keyword" class="form-control" />
-              </div>
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-filter"></i> <?php echo $button_filter; ?></button>
             </div>
           </div>
@@ -72,9 +90,13 @@
           <table class="table table-bordered">
             <thead>
               <tr>
+                <td class="text-left"><?php echo $column_store; ?></td>
+                <td class="text-left"><?php echo $column_language; ?></td>
                 <td class="text-left"><?php echo $column_keyword; ?></td>
-                <td class="text-left"><?php echo $column_products; ?></td>
+                <td class="text-left"><?php echo $column_articles; ?></td>
                 <td class="text-left"><?php echo $column_category; ?></td>
+                <td class="text-left"><?php echo $column_sub_category; ?></td>
+                <td class="text-left"><?php echo $column_description; ?></td>
                 <td class="text-left"><?php echo $column_customer; ?></td>
                 <td class="text-left"><?php echo $column_ip; ?></td>
                 <td class="text-left"><?php echo $column_date_added; ?></td>
@@ -84,9 +106,13 @@
               <?php if ($searches) { ?>
               <?php foreach ($searches as $search) { ?>
               <tr>
+                <td class="text-left"><a href="<?php echo $search['store']['url']; ?>"><?php echo $search['store']['url']; ?></a></td>
+                <td class="text-left"><img src="language/<?php echo $search['language']['code']; ?>/<?php echo $search['language']['code']; ?>.png" title="<?php echo $search['language']['name']; ?>" /><?php //echo $search['language']['name']; ?></td>
                 <td class="text-left"><?php echo $search['keyword']; ?></td>
-                <td class="text-left"><?php echo $search['products']; ?></td>
-                <td class="text-left"><?php echo $search['category']; ?></td>
+                <td class="text-left"><?php echo $search['articles']; ?></td>
+                <td class="text-left"><a href="<?php echo $search['category_href']; ?>"><?php echo $search['category']; ?></a></td>
+                <td class="text-left"><?php echo $search['sub_category']; ?></td>
+                <td class="text-left"><?php echo $search['description']; ?></td>
                 <td class="text-left"><?php echo $search['customer']; ?></td>
                 <td class="text-left"><?php echo $search['ip']; ?></td>
                 <td class="text-left"><?php echo $search['date_added']; ?></td>
@@ -94,7 +120,7 @@
               <?php } ?>
               <?php } else { ?>
               <tr>
-                <td class="text-center" colspan="6"><?php echo $text_no_results; ?></td>
+                <td class="text-center" colspan="10"><?php echo $text_no_results; ?></td>
               </tr>
               <?php } ?>
             </tbody>
@@ -107,9 +133,9 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
-	url = 'index.php?route=report/customer_search&token=<?php echo $token; ?>';
+	url = 'index.php?route=report/customer_blog_search&token=<?php echo $token; ?>';
 
 	var filter_date_start = $('input[name=\'filter_date_start\']').val();
 
@@ -121,6 +147,18 @@ $('#button-filter').on('click', function() {
 
 	if (filter_date_end) {
 		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+	}
+
+	var filter_store = $('select[name=\'filter_store\']').val();
+
+	if (filter_store) {
+		url += '&filter_store=' + encodeURIComponent(filter_store);
+	}
+
+	var filter_language = $('select[name=\'filter_language\']').val();
+
+	if (filter_language) {
+		url += '&filter_language=' + encodeURIComponent(filter_language);
 	}
 
 	var filter_keyword = $('input[name=\'filter_keyword\']').val();
@@ -144,30 +182,31 @@ $('#button-filter').on('click', function() {
 	location = url;
 });
 //--></script> 
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('.date').datetimepicker({
 	pickTime: false
 });
 //--></script>
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('input[name=\'filter_customer\']').autocomplete({
-  'source': function(request, response) {
-    $.ajax({
-      url: 'index.php?route=customer/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['name'],
-            value: item['customer_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'filter_customer\']').val(item['label']);
-  }
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=customer/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['customer_id']
+					}
+				}));
+			}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_customer\']').val(item['label']);
+	}
 });
-//--></script></div>
+//--></script>
+</div>
 <?php echo $footer; ?>

@@ -4,7 +4,8 @@
     <div class="container-fluid">
       <div class="pull-right">
         <button type="submit" form="form-article" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
-        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
         <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -50,7 +51,7 @@
                       <?php } ?>
                     </div>
                   </div>
-				  <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-h1<?php echo $language['language_id']; ?>"><?php echo $entry_meta_h1; ?></label>
                     <div class="col-sm-10">
                       <input type="text" name="article_description[<?php echo $language['language_id']; ?>][meta_h1]" value="<?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['meta_h1'] : ''; ?>" placeholder="<?php echo $entry_meta_h1; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
@@ -59,7 +60,7 @@
                       <?php } ?>
                     </div>
                   </div>
-				   <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><?php echo $entry_meta_title; ?></label>
                     <div class="col-sm-10">
                       <input type="text" name="article_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['meta_title'] : ''; ?>" placeholder="<?php echo $entry_meta_title; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
@@ -68,7 +69,7 @@
                       <?php } ?>
                     </div>
                   </div>
-				  <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
                     <div class="col-sm-10">
                       <textarea name="article_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
@@ -84,7 +85,8 @@
                     <label class="col-sm-2 control-label" for="input-description<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
                     <div class="col-sm-10">
                       <textarea name="article_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>" class="form-control summernote"><?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['description'] : ''; ?></textarea>
-                    </div>
+                      <?php echo $text_nogallery; ?>
+		    </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-tag<?php echo $language['language_id']; ?>"><span data-toggle="tooltip" title="<?php echo $help_tag; ?>"><?php echo $entry_tag; ?></span></label>
@@ -110,7 +112,7 @@
                   <input type="text" name="keyword" value="<?php echo $keyword; ?>" placeholder="<?php echo $entry_keyword; ?>" id="input-keyword" class="form-control" />
                   <?php if ($error_keyword) { ?>
                   <div class="text-danger"><?php echo $error_keyword; ?></div>
-                  <?php } ?>               
+                  <?php } ?>
                 </div>
               </div>
               <div class="form-group">
@@ -127,7 +129,7 @@
                   </select>
                 </div>
               </div>
-			  <div class="form-group">
+              <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-noindex"><span data-toggle="tooltip" title="<?php echo $help_noindex; ?>"><?php echo $entry_noindex; ?></span></label>
                 <div class="col-sm-10">
                   <select name="noindex" id="input-noindex" class="form-control">
@@ -149,21 +151,21 @@
               </div>
             </div>
             <div class="tab-pane" id="tab-links">
-			  <div class="form-group">
-				<label class="col-sm-2 control-label" for="input-category"><?php echo $entry_main_category; ?></label>
-				<div class="col-sm-10">
-				<select class="form-control" name="main_blog_category_id">
-					<option value="0" selected="selected"><?php echo $text_none; ?></option>
-						<?php foreach ($categories as $category) { ?>
-							<?php if ($category['blog_category_id'] == $main_blog_category_id) { ?>
-					<option value="<?php echo $category['blog_category_id']; ?>" selected="selected"><?php echo $category['name']; ?></option>
-						<?php } else { ?>
-					<option value="<?php echo $category['blog_category_id']; ?>"><?php echo $category['name']; ?></option>
-						<?php } ?>
-						<?php } ?>
-				</select>
-				</div>
-				</div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-category"><?php echo $entry_main_category; ?></label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="main_blog_category_id">
+                    <option value="0" selected="selected"><?php echo $text_none; ?></option>
+                    <?php foreach ($categories as $category) { ?>
+                    <?php if ($category['blog_category_id'] == $main_blog_category_id) { ?>
+                    <option value="<?php echo $category['blog_category_id']; ?>" selected="selected"><?php echo $category['name']; ?></option>
+                    <?php } else { ?>
+                    <option value="<?php echo $category['blog_category_id']; ?>"><?php echo $category['name']; ?></option>
+                    <?php } ?>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="<?php echo $help_category; ?>"><?php echo $entry_category; ?></span></label>
                 <div class="col-sm-10">
@@ -234,7 +236,7 @@
                   </div>
                 </div>
               </div>
-			  <div class="form-group">
+              <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-related-product"><span data-toggle="tooltip" title="<?php echo $help_related_product; ?>"><?php echo $entry_related_product; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="relatedproduct" value="" placeholder="<?php echo $entry_related_product; ?>" id="input-related-product" class="form-control" />
@@ -269,7 +271,8 @@
                           <option value="<?php echo $layout['layout_id']; ?>"><?php echo $layout['name']; ?></option>
                           <?php } ?>
                           <?php } ?>
-                        </select></td>
+                        </select>
+                      </td>
                     </tr>
                     <?php foreach ($stores as $store) { ?>
                     <tr>
@@ -283,7 +286,8 @@
                           <option value="<?php echo $layout['layout_id']; ?>"><?php echo $layout['name']; ?></option>
                           <?php } ?>
                           <?php } ?>
-                        </select></td>
+                        </select>
+                      </td>
                     </tr>
                     <?php } ?>
                   </tbody>
@@ -295,9 +299,9 @@
       </div>
     </div>
   </div>
- <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
-  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
-  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
 <script type="text/javascript"><!--
 // Category
 $('input[name=\'category\']').autocomplete({
@@ -317,9 +321,9 @@ $('input[name=\'category\']').autocomplete({
 	},
 	'select': function(item) {
 		$('input[name=\'category\']').val('');
-		
+
 		$('#article-category' + item['value']).remove();
-		
+
 		$('#article-category').append('<div id="article-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_category[]" value="' + item['value'] + '" /></div>');	
 	}
 });
@@ -385,6 +389,7 @@ $('input[name=\'related\']').autocomplete({
 $('#article-related').delegate('.fa-minus-circle', 'click', function() {
 	$(this).parent().remove();
 });
+
 // Related Product
 $('input[name=\'relatedproduct\']').autocomplete({
 	'source': function(request, response) {
@@ -413,8 +418,8 @@ $('input[name=\'relatedproduct\']').autocomplete({
 $('#product-related').delegate('.fa-minus-circle', 'click', function() {
 	$(this).parent().remove();
 });
-//--></script> 
-  <script type="text/javascript"><!--
+//--></script>
+<script type="text/javascript"><!--
 $('.date').datetimepicker({
 	pickTime: false
 });
@@ -427,8 +432,9 @@ $('.datetime').datetimepicker({
 	pickDate: true,
 	pickTime: true
 });
-//--></script> 
-  <script type="text/javascript"><!--
+//--></script>
+<script type="text/javascript"><!--
 $('#language a:first').tab('show');
-//--></script></div>
+//--></script>
+</div>
 <?php echo $footer; ?> 

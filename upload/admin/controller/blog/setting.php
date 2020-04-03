@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -37,6 +37,9 @@ class ControllerBlogSetting extends Controller {
 		$data['entry_article_count'] = $this->language->get('entry_article_count');
 		$data['entry_blog_menu'] = $this->language->get('entry_blog_menu');
 		$data['entry_blog_search'] = $this->language->get('entry_blog_search');
+		$data['entry_customer_blog_search'] = $this->language->get('entry_customer_blog_search');
+		$data['entry_sitemap'] = $this->language->get('entry_sitemap');
+		$data['entry_cache_status'] = $this->language->get('entry_cache_status');
 		$data['entry_article_download'] = $this->language->get('entry_article_download');
 		$data['entry_review'] = $this->language->get('entry_review');
 		$data['entry_review_guest'] = $this->language->get('entry_review_guest');
@@ -59,6 +62,9 @@ class ControllerBlogSetting extends Controller {
 		$data['help_article_count'] = $this->language->get('help_article_count');
 		$data['help_blog_menu'] = $this->language->get('help_blog_menu');
 		$data['help_blog_search'] = $this->language->get('help_blog_search');
+		$data['help_customer_blog_search'] = $this->language->get('help_customer_blog_search');
+		$data['help_sitemap'] = $this->language->get('help_sitemap');
+		$data['help_cache_status'] = $this->language->get('help_cache_status');
 		$data['help_review'] = $this->language->get('help_review');
 		$data['help_review_guest'] = $this->language->get('help_review_guest');
 		$data['help_review_mail'] = $this->language->get('help_review_mail');
@@ -137,7 +143,7 @@ class ControllerBlogSetting extends Controller {
 		$data['cancel'] = $this->url->link('setting/store', 'token=' . $this->session->data['token'], true);
 
 		$data['token'] = $this->session->data['token'];
-		
+
 		if (isset($this->request->post['configblog_article_limit'])) {
 			$data['configblog_article_limit'] = $this->request->post['configblog_article_limit'];
 		} else {
@@ -172,6 +178,24 @@ class ControllerBlogSetting extends Controller {
 			$data['configblog_blog_search'] = $this->request->post['configblog_blog_search'];
 		} else {
 			$data['configblog_blog_search'] = $this->config->get('configblog_blog_search');
+		}
+
+		if (isset($this->request->post['configblog_customer_blog_search'])) {
+			$data['configblog_customer_blog_search'] = $this->request->post['configblog_customer_blog_search'];
+		} else {
+			$data['configblog_customer_blog_search'] = $this->config->get('configblog_customer_blog_search');
+		}
+
+		if (isset($this->request->post['configblog_sitemap'])) {
+			$data['configblog_sitemap'] = $this->request->post['configblog_sitemap'];
+		} else {
+			$data['configblog_sitemap'] = $this->config->get('configblog_sitemap');
+		}
+
+		if (isset($this->request->post['configblog_cache_status'])) {
+			$data['configblog_cache_status'] = $this->request->post['configblog_cache_status'];
+		} else {
+			$data['configblog_cache_status'] = $this->config->get('configblog_cache_status');
 		}
 
 		if (isset($this->request->post['configblogarticle_download'])) {
@@ -233,19 +257,19 @@ class ControllerBlogSetting extends Controller {
 		} else {
 			$data['configblog_image_related_height'] = $this->config->get('configblog_image_related_height');
 		}
-		
+
 		if (isset($this->request->post['configblog_name'])) {
 			$data['configblog_name'] = $this->request->post['configblog_name'];
 		} else {
 			$data['configblog_name'] = $this->config->get('configblog_name');
 		}
-		
+
 		if (isset($this->request->post['configblog_html_h1'])) {
 			$data['configblog_html_h1'] = $this->request->post['configblog_html_h1'];
 		} else {
 			$data['configblog_html_h1'] = $this->config->get('configblog_html_h1');
 		}
-		
+
 		if (isset($this->request->post['configblog_meta_title'])) {
 			$data['configblog_meta_title'] = $this->request->post['configblog_meta_title'];
 		} else {

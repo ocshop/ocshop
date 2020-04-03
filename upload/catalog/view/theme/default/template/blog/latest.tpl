@@ -15,18 +15,18 @@
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
       <h1><?php echo $heading_title; ?></h1>
-	  <?php $thumb = ''; $description = ''; ?>
-	  <?php if ($thumb || $description) { ?>
+      <?php $thumb = ''; $description = ''; ?>
+      <?php if ($thumb || $description) { ?>
       <div class="row">
         <?php if ($thumb) { ?>
         <div class="col-sm-2"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" class="img-thumbnail" /></div>
         <?php } ?>
         <?php if ($description) { ?>
         <div class="col-sm-10"><?php echo $description; ?></div>
-		<?php } ?>
+        <?php } ?>
       </div>
       <hr>
-	  <?php } ?>
+      <?php } ?>
       <?php if ($articles) { ?>
       <div class="row">
         <div class="col-md-5 col-sm-6 hidden-xs">
@@ -73,7 +73,7 @@
             <div class="caption">
               <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
               <p class="description"><?php echo $article['description']; ?></p>
-              <?php if ($configblog_review_status) { ?>
+              <?php if ($article['rating']) { ?>
               <div class="rating">
                 <?php for ($i = 1; $i <= 5; $i++) { ?>
                 <?php if ($article['rating'] < $i) { ?>
@@ -83,21 +83,21 @@
                 <?php } ?>
                 <?php } ?>
               </div>
-			  <?php } ?>
+              <?php } ?>
             </div>
             <div class="button-group"> 
-			  <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
-			  <!-- <button type="button""><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><a class="button button-more" href="<?php echo $article['href']; ?>"><?php echo $button_more; ?></a></span></button> -->
-			  <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
-			  <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
-			</div>
+              <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
+              <!-- <button type="button""><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><a class="button button-more" href="<?php echo $article['href']; ?>"><?php echo $button_more; ?></a></span></button> -->
+              <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
+            </div>
           </div>
         </div>
         <?php } ?>
       </div>
       <div class="row">
         <div class="col-sm-6 text-left"><?php echo $pagination; ?></div>
-        <!-- <div class="col-sm-6 text-right"><?php //echo $results; ?></div> -->
+        <div class="col-sm-6 text-right"><?php echo $results; ?></div>
       </div>
       <?php } else { ?>
       <p><?php echo $text_empty; ?></p>

@@ -53,7 +53,8 @@
             <?php } else { ?>
             <input type="checkbox" name="sub_category" value="1" />
             <?php } ?>
-            <?php echo $text_sub_category; ?></label>
+            <?php echo $text_sub_category; ?>
+	  </label>
         </div>
       </div>
       <p>
@@ -63,7 +64,8 @@
           <?php } else { ?>
           <input type="checkbox" name="description" value="1" id="description" />
           <?php } ?>
-          <?php echo $entry_description; ?></label>
+          <?php echo $entry_description; ?>
+	</label>
       </p>
       <input type="button" value="<?php echo $button_search; ?>" id="button-search" class="btn btn-primary" />
       <h2><?php echo $text_search; ?></h2>
@@ -113,43 +115,42 @@
               <div class="caption">
                 <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
                 <p><?php echo $article['description']; ?></p>
-				<?php if (1 == 0) { ?>
-				<?php if ($article['benefits']) { ?>
-				<div class="benefits col-sm-12 hidden-sm hidden-xs">
-				<div class="benefit-text"><?php echo $text_benefits; ?></div>
-					<ul class="benefit">
-					<?php foreach ($article['benefits'] as $benefit) { ?>	
-						<?php if ($benefit['type'] == 1) { ?>
-							<li class="col-sm-1">
-								<?php if (!$benefit['link']) { ?>
-								   <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-								<?php } else { ?> 
-								   <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-								<?php } ?>
-								<?php if ($benefit['description']) { ?>
-								<div class="benefit_description"><?php echo $benefit['description']; ?></div>
-								<?php } ?>
-							</li>
-						<?php } ?> 
-					<?php } ?>
-					</ul>
-					</div>
-					<div class="present hidden-sm hidden-xs">
-						<?php foreach ($article['benefits'] as $benefit) { ?>	
-							<?php if ($benefit['type'] == 0) { ?>
-								<div>
-									<?php if (!$benefit['link']) { ?>
-										<span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-									<?php } else { ?> 
-										<a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-									<?php } ?>
-								</div>
-							<?php } ?> 
-						<?php } ?>
-					</div>
-				<?php } ?>
-				<?php } ?>
-
+                <?php if (1 == 0) { ?>
+                <?php if ($article['benefits']) { ?>
+                <div class="benefits col-sm-12 hidden-sm hidden-xs">
+                  <div class="benefit-text"><?php echo $text_benefits; ?></div>
+                  <ul class="benefit">
+                    <?php foreach ($article['benefits'] as $benefit) { ?>	
+                    <?php if ($benefit['type'] == 1) { ?>
+                    <li class="col-sm-1">
+                      <?php if (!$benefit['link']) { ?>
+                      <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
+                      <?php } else { ?> 
+                      <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
+                      <?php } ?>
+                      <?php if ($benefit['description']) { ?>
+                      <div class="benefit_description"><?php echo $benefit['description']; ?></div>
+                      <?php } ?>
+                    </li>
+                    <?php } ?> 
+                    <?php } ?>
+                  </ul>
+                </div>
+                <div class="present hidden-sm hidden-xs">
+                  <?php foreach ($article['benefits'] as $benefit) { ?>	
+                  <?php if ($benefit['type'] == 0) { ?>
+                  <div>
+                    <?php if (!$benefit['link']) { ?>
+                    <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
+                    <?php } else { ?> 
+                    <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
+                    <?php } ?>
+                   </div>
+                   <?php } ?> 
+                   <?php } ?>
+                </div>
+                <?php } ?>
+                <?php } ?>
                 <?php if ($article['rating']) { ?>
                 <div class="rating">
                   <?php for ($i = 1; $i <= 5; $i++) { ?>
@@ -163,10 +164,10 @@
                 <?php } ?>
               </div>
               <div class="button-group">
-				<button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
-				<button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
-				<a type="button" href="<?php echo $article['href']; ?>" title="<?php echo $button_more; ?> <?php echo $article['name']; ?>"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></a>
-			  </div>
+                <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
+                <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
+                <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
+              </div>
             </div>
           </div>
         </div>
@@ -180,7 +181,7 @@
       <p><?php echo $text_empty; ?></p>
       <?php } ?>
       <?php echo $content_bottom; ?></div>
-    <?php echo $column_right; ?></div>
+  <?php echo $column_right; ?></div>
 </div>
 <script type="text/javascript"><!--
 $('#button-search').bind('click', function() {

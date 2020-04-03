@@ -1,22 +1,25 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Heading
-$_['heading_title']    = 'Карта сайта';
+$_['heading_title']      = 'Карта сайта';
 
 // Text
-$_['text_special']     = 'Акции';
-$_['text_account']     = 'Личный кабинет';
-$_['text_edit']        = 'Личная информация';
-$_['text_password']    = 'Пароль';
-$_['text_address']     = 'Мои адреса';
-$_['text_history']     = 'История заказа';
-$_['text_download']    = 'Файлы для скачивания';
-$_['text_cart']        = 'Корзина покупок';
-$_['text_checkout']    = 'Оформление заказа';
-$_['text_search']      = 'Поиск';
-$_['text_information'] = 'Информация';
-$_['text_contact']     = 'Связаться с нами';
+$_['text_special']       = 'Акции';
+$_['text_account']       = 'Личный кабинет';
+$_['text_edit']          = 'Личная информация';
+$_['text_password']      = 'Пароль';
+$_['text_address']       = 'Мои адреса';
+$_['text_history']       = 'История заказа';
+$_['text_download']      = 'Файлы для скачивания';
+$_['text_cart']          = 'Корзина покупок';
+$_['text_checkout']      = 'Оформление заказа';
+$_['text_search']        = 'Поиск';
+$_['text_blog_search']   = 'Поиск по блогу';
+$_['text_information']   = 'Информация';
+$_['text_contact']       = 'Связаться с нами';
+$_['text_blog']          = 'Блог';
+$_['text_manufacturers'] = 'Производители';

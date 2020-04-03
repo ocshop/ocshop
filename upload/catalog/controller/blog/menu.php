@@ -1,18 +1,17 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerBlogMenu extends Controller {
 	public function index() {
-
 		$this->load->language('blog/menu');
-		
+
 		$configblog_name = $this->config->get('configblog_name');
-		
+
 		if (!empty($configblog_name)) {
-			$data['text_blog'] = $this->config->get('configblog_name');
+			$data['text_blog'] = $configblog_name;
 		} else {
 			$data['text_blog'] = $this->language->get('text_blog');
 		}
@@ -39,8 +38,8 @@ class ControllerBlogMenu extends Controller {
 
 				foreach ($children as $child) {
 					$filter_data = array(
-						'filter_blog_category_id'  => $child['blog_category_id'],
-						'filter_sub_category' => true
+						'filter_blog_category_id' => $child['blog_category_id'],
+						'filter_sub_category'     => true
 					);
 
 					$children_data[] = array(
@@ -51,9 +50,9 @@ class ControllerBlogMenu extends Controller {
 
 				// Level 1
 				$filter_data = array(
-						'filter_blog_category_id'  => $category['blog_category_id']
-					);
-				
+					'filter_blog_category_id' => $category['blog_category_id']
+				);
+
 				$data['categories'][] = array(
 					'name'     => $category['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
 					'children' => $children_data,
@@ -62,7 +61,7 @@ class ControllerBlogMenu extends Controller {
 				);
 			}
 		}
-		
+
 		return $this->load->view('blog/menu', $data);
 	}
 }

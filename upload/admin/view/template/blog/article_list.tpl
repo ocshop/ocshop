@@ -5,8 +5,8 @@
       <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
         <button type="button" data-toggle="tooltip" title="<?php echo $button_copy; ?>" class="btn btn-default" onclick="$('#form-article').attr('action', '<?php echo $copy; ?>').submit()"><i class="fa fa-copy"></i></button>
         <button type="button" data-toggle="tooltip" title="<?php echo $button_enable; ?>" class="btn btn-default" onclick="$('#form-article').attr('action', '<?php echo $enabled; ?>').submit()"><i class="fa fa-play"></i></button>
-		<button type="button" data-toggle="tooltip" title="<?php echo $button_disable; ?>" class="btn btn-default" onclick="$('#form-article').attr('action', '<?php echo $disabled; ?>').submit()"><i class="fa fa-pause"></i></button>
-		<button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-article').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_disable; ?>" class="btn btn-default" onclick="$('#form-article').attr('action', '<?php echo $disabled; ?>').submit()"><i class="fa fa-pause"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-article').submit() : false;"><i class="fa fa-trash-o"></i></button>
       </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
@@ -40,11 +40,11 @@
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
             </div>
-			<div class="col-sm-4">
-			<div class="form-group">
+            <div class="col-sm-4">
+              <div class="form-group">
                 <label class="control-label" for="input-category-name"><?php echo $entry_category_filter; ?></label> <label class="control-label pull-right" for="input-sub-category"><?php echo $entry_sub_category; ?> <input type="checkbox" class="checkbox-inline" name="filter_sub_category" id="input-sub-category" class="form-control"<?php echo ($filter_sub_category)?' checked="checked"':''; ?> /></label>
                 <div class="clearfix"></div>
-				<div class="input-group">
+                <div class="input-group">
                   <input type="text" name="filter_category_name" value="<?php echo $filter_category_name; ?>" placeholder="<?php echo $entry_category_filter; ?>" id="input-category-name" class="form-control" />
                   <div class="input-group-btn">
                     <button type="button" id="button-clear-input-category-name" class="btn btn-default"><i class="fa fa-times"></i></button>
@@ -53,7 +53,6 @@
                 <input type="hidden" name="filter_category" value="<?php echo $filter_category; ?>" id="input-category" class="form-control" />
               </div>
             </div>
-			
             <div class="col-sm-2">
               <div class="form-group">
                 <label class="control-label" for="input-status"><?php echo $entry_status; ?></label>
@@ -72,7 +71,7 @@
                 </select>
               </div>
             </div>
-			<div class="col-sm-2">
+            <div class="col-sm-2">
               <div class="form-group">
                 <label class="control-label" for="input-noindex"><?php echo $entry_noindex; ?></label>
                 <select name="filter_noindex" id="input-noindex" class="form-control">
@@ -89,7 +88,10 @@
                   <?php } ?>
                 </select>
               </div>
-              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+            </div>
+            <div class="col-sm-12 text-right">
+              <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-filter"></i> <?php echo $button_filter; ?></button>
+              <button type="button" id="button-clear-filter" class="btn btn-default"><i class="fa fa-times"></i><span class="hidden-sm"> <?php echo $button_clear; ?></span></button>
             </div>
           </div>
         </div>
@@ -104,13 +106,15 @@
                     <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-                    <?php } ?></td>
+                    <?php } ?>
+                  </td>
                   <td class="text-left"><?php if ($sort == 'p.status') { ?>
                     <a href="<?php echo $sort_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_status; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
-                    <?php } ?></td>
-				  <td class="text-left"><?php if ($sort == 'p.noindex') { ?>
+                    <?php } ?>
+                  </td>
+                  <td class="text-left"><?php if ($sort == 'p.noindex') { ?>
                     <a href="<?php echo $sort_noindex; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_noindex; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_noindex; ?>"><?php echo $column_noindex; ?></a>
@@ -126,19 +130,21 @@
                     <input type="checkbox" name="selected[]" value="<?php echo $article['article_id']; ?>" checked="checked" />
                     <?php } else { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $article['article_id']; ?>" />
-                    <?php } ?></td>
+                    <?php } ?>
+                  </td>
                   <td class="text-center"><?php if ($article['image']) { ?>
                     <img src="<?php echo $article['image']; ?>" alt="<?php echo $article['name']; ?>" class="img-thumbnail" />
                     <?php } else { ?>
                     <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
-                    <?php } ?></td>
+                    <?php } ?>
+                  </td>
                   <td class="text-left"><?php echo $article['name']; ?></td>
                   <td class="text-left"><?php echo $article['status']; ?></td>
-				  <td class="text-left"><?php echo $article['noindex']; ?></td>
+                  <td class="text-left"><?php echo $article['noindex']; ?></td>
                   <td class="text-right">
-				  <a target="_blank" href="<?php echo $article['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
-				  <a href="<?php echo $article['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
-				  </td>
+                    <a target="_blank" href="<?php echo $article['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                    <a href="<?php echo $article['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                  </td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>
@@ -192,6 +198,10 @@ $('#button-filter').on('click', function() {
 	}
 
 	location = url;
+});
+
+$('#button-clear-filter').on('click', function() {
+	location = 'index.php?route=blog/article&token=<?php echo $token; ?>';
 });
 //--></script>
   <script type="text/javascript"><!--
@@ -251,5 +261,6 @@ $('#button-clear-input-category-name').on('click',function(){
 	$('input[name=\'filter_category\']').val(null);
 	$('#button-filter').trigger('click');
 });
-//--></script></div>
+//--></script>
+</div>
 <?php echo $footer; ?>

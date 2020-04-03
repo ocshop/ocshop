@@ -37,6 +37,7 @@
               <?php } ?>
             </li>
             <?php } ?>
+<?php echo $pro_blog_categories; ?>
           </ul>
         </div>
         <div class="col-sm-6">
@@ -54,6 +55,7 @@
             <li><a href="<?php echo $cart; ?>"><?php echo $text_cart; ?></a></li>
             <li><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></li>
             <li><a href="<?php echo $search; ?>"><?php echo $text_search; ?></a></li>
+            <?php if ($blog_search) { ?><li><a href="<?php echo $blog_search; ?>"><?php echo $text_blog_search; ?></a></li><?php } ?>
             <li><?php echo $text_information; ?>
               <ul>
                 <?php foreach ($informations as $information) { ?>
@@ -62,6 +64,7 @@
                 <li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
               </ul>
             </li>
+<?php echo $pro_manufacturers; ?>
           </ul>
         </div>
       </div>
