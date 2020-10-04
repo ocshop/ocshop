@@ -49,5 +49,7 @@ Please donate via PayPal to donate@opencart.com
 //-->
 
 <!-- Theme created by Welford Media for OpenCart 2.0 www.welfordmedia.co.uk -->
-
+<?php foreach ($scripts as $script) { ?>
+<script src="<?php echo $script; ?>" type="text/javascript"></script>
+<?php } ?>
 </body></html>
