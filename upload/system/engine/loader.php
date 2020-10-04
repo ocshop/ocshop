@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -10,25 +10,25 @@ final class Loader {
 	public function __construct($registry) {
 		$this->registry = $registry;
 	}
-	
+
 	public function controller($route, $data = array()) {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
-		
+
 		$output = null;
-		
+
 		// Trigger the pre events
 		$result = $this->registry->get('event')->trigger('controller/' . $route . '/before', array(&$route, &$data, &$output));
-		
+
 		if ($result) {
 			return $result;
 		}
-		
+
 		if (!$output) {
 			$action = new Action($route);
 			$output = $action->execute($this->registry, array(&$data));
 		}
-			
+
 		// Trigger the post events
 		$result = $this->registry->get('event')->trigger('controller/' . $route . '/after', array(&$route, &$data, &$output));
 		
@@ -38,74 +38,112 @@ final class Loader {
 
 		return $output;
 	}
-	
+
 	public function model($route) {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
-		
+
 		// Trigger the pre events
 		$this->registry->get('event')->trigger('model/' . $route . '/before', array(&$route));
-		
+
 		if (!$this->registry->has('model_' . str_replace(array('/', '-', '.'), array('_', '', ''), $route))) {
 			$file  = DIR_APPLICATION . 'model/' . $route . '.php';
 			$class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $route);
-			
+
 			if (is_file($file)) {
 				include_once($file);
-	
+
 				$proxy = new Proxy();
-				
+
 				foreach (get_class_methods($class) as $method) {
 					$proxy->{$method} = $this->callback($this->registry, $route . '/' . $method);
 				}
-				
+
 				$this->registry->set('model_' . str_replace(array('/', '-', '.'), array('_', '', ''), (string)$route), $proxy);
 			} else {
 				throw new \Exception('Error: Could not load model ' . $route . '!');
 			}
 		}
-		
+
 		// Trigger the post events
 		$this->registry->get('event')->trigger('model/' . $route . '/after', array(&$route));
 	}
 
 	public function view($route, $data = array()) {
+		if (!defined('DIR_CATALOG')) {
+			if (!isset($data['description'])) {
+				$data['description'] = false;
+			}
+			if (!isset($data['description_bottom'])) {
+				$data['description_bottom'] = false;
+			}
+			if ((isset($data['footer']) || strpos($route, 'footer') !== false) && isset($this->registry->get('request')->get['route'])) {
+				$seomanager = $this->registry->get('db')->query("SELECT * FROM `" . DB_PREFIX . "pro_seo_tag` st LEFT JOIN `" . DB_PREFIX . "pro_seo_tag_to_store` stts ON (st.seo_tag_id = stts.seo_tag_id) WHERE st.status = '1' AND stts.store_id = '" . (int)$this->registry->get('config')->get('config_store_id') . "' AND st.query = '" . $this->registry->get('db')->escape($this->registry->get('request')->get['route']) . "'")->row;
+
+				if ($seomanager) {
+					$seomanager_desc = $this->registry->get('db')->query("SELECT * FROM `" . DB_PREFIX . "pro_seo_tag_description` WHERE seo_tag_id = '" . (int)$seomanager['seo_tag_id'] . "' AND language_id = '" . (int)$this->registry->get('config')->get('config_language_id') . "'")->row;
+
+					if (isset($data['footer']) && $seomanager['view']) {
+						$route = $seomanager['view'];
+					}
+					if ($seomanager_desc['meta_h1']) {
+						$data['heading_title'] = $seomanager_desc['meta_h1'];
+					}
+					if ($seomanager_desc['meta_title']) {
+						$this->registry->get('document')->setTitle($seomanager_desc['meta_title']);
+					}
+					if ($seomanager_desc['meta_description']) {
+						$this->registry->get('document')->setDescription($seomanager_desc['meta_description']);
+					}
+					if ($seomanager_desc['meta_keyword']) {
+						$this->registry->get('document')->setKeywords($seomanager_desc['meta_keyword']);
+					}
+					if ($seomanager_desc['description']) {
+						$data['description'] = html_entity_decode($seomanager_desc['description'], ENT_QUOTES, 'UTF-8');
+					}
+					if ($seomanager_desc['description_bottom']) {
+						$data['description_bottom'] = html_entity_decode($seomanager_desc['description_bottom'], ENT_QUOTES, 'UTF-8');
+					}
+				}
+			}
+		}
+
 		$output = null;
-		
+
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
-		
+
 		// Trigger the pre events
 		$result = $this->registry->get('event')->trigger('view/' . $route . '/before', array(&$route, &$data, &$output));
-		
+
 		if ($result) {
 			return $result;
 		}
-		
+
 		if (!$output) {
 			$template = new Template($this->registry->get('config')->get('template_type'));
-			
+
 			foreach ($data as $key => $value) {
 				$template->set($key, $value);
 			}
-		
+
 			$output = $template->render($route . '.tpl');
 		}
-		
+
 		// Trigger the post events
 		$result = $this->registry->get('event')->trigger('view/' . $route . '/after', array(&$route, &$data, &$output));
-		
+
 		if ($result) {
 			return $result;
 		}
-		
+
 		return $output;
 	}
 
 	public function library($route) {
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
-			
+
 		$file = DIR_SYSTEM . 'library/' . $route . '.php';
 		$class = str_replace('/', '\\', $route);
 
@@ -117,7 +155,7 @@ final class Loader {
 			throw new \Exception('Error: Could not load library ' . $route . '!');
 		}
 	}
-	
+
 	public function helper($route) {
 		$file = DIR_SYSTEM . 'helper/' . preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route) . '.php';
 
@@ -127,40 +165,40 @@ final class Loader {
 			throw new \Exception('Error: Could not load helper ' . $route . '!');
 		}
 	}
-	
+
 	public function config($route) {
 		$this->registry->get('event')->trigger('config/' . $route . '/before', array(&$route));
-		
+
 		$this->registry->get('config')->load($route);
-		
+
 		$this->registry->get('event')->trigger('config/' . $route . '/after', array(&$route));
 	}
 
 	public function language($route) {
 		$output = null;
-		
+
 		$this->registry->get('event')->trigger('language/' . $route . '/before', array(&$route, &$output));
-		
+
 		$output = $this->registry->get('language')->load($route);
-		
+
 		$this->registry->get('event')->trigger('language/' . $route . '/after', array(&$route, &$output));
-		
+
 		return $output;
 	}
-	
+
 	protected function callback($registry, $route) {
 		return function($args) use($registry, &$route) {
 			static $model = array(); 			
-			
+
 			$output = null;
-			
+
 			// Trigger the pre events
 			$result = $registry->get('event')->trigger('model/' . $route . '/before', array(&$route, &$args, &$output));
-			
+
 			if ($result) {
 				return $result;
 			}
-			
+
 			// Store the model object
 			if (!isset($model[$route])) {
 				$file = DIR_APPLICATION . 'model/' .  substr($route, 0, strrpos($route, '/')) . '.php';
@@ -168,7 +206,7 @@ final class Loader {
 
 				if (is_file($file)) {
 					include_once($file);
-				
+
 					$model[$route] = new $class($registry);
 				} else {
 					throw new \Exception('Error: Could not load model ' . substr($route, 0, strrpos($route, '/')) . '!');
@@ -176,7 +214,7 @@ final class Loader {
 			}
 
 			$method = substr($route, strrpos($route, '/') + 1);
-			
+
 			$callable = array($model[$route], $method);
 
 			if (is_callable($callable)) {
@@ -184,15 +222,15 @@ final class Loader {
 			} else {
 				throw new \Exception('Error: Could not call model/' . $route . '!');
 			}
-			
+
 			// Trigger the post events
 			$result = $registry->get('event')->trigger('model/' . $route . '/after', array(&$route, &$args, &$output));
-			
+
 			if ($result) {
 				return $result;
 			}
-						
+
 			return $output;
 		};
-	}	
+	}
 }
