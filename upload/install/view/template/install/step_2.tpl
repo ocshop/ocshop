@@ -155,6 +155,7 @@
                   <span class="text-danger"><i class="fa fa-minus-circle"></i></span>
                   <?php } ?></td>
               </tr>
+              <?php if (version_compare(phpversion(), '7.1.0', '<=') == true) { ?>
               <tr>
                 <td><?php echo $text_mcrypt; ?></td>
                 <td><?php if ($mcrypt_encrypt) { ?>
@@ -169,6 +170,22 @@
                   <span class="text-danger"><i class="fa fa-minus-circle"></i></span>
                   <?php } ?></td>
               </tr>
+              <?php } else { ?>
+              <tr>
+                <td><?php echo $text_openssl; ?></td>
+                <td><?php if ($openssl_encrypt) { ?>
+                  <?php echo $text_on; ?>
+                  <?php } else { ?>
+                  <?php echo $text_off; ?>
+                  <?php } ?></td>
+                <td><?php echo $text_on; ?></td>
+                <td class="text-center"><?php if ($openssl_encrypt) { ?>
+                  <span class="text-success"><i class="fa fa-check-circle"></i></span>
+                  <?php } else { ?>
+                  <span class="text-danger"><i class="fa fa-minus-circle"></i></span>
+                  <?php } ?></td>
+              </tr>
+              <?php } ?>
               <tr>
                 <td><?php echo $text_zlib; ?></td>
                 <td><?php if ($zlib) { ?>
