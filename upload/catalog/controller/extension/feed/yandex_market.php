@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -16,27 +16,47 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 	private $currencies = array();
 	private $categories = array();
 	private $offers = array();
-	private $from_charset = 'utf-8';
+	private $from_charset = 'UTF-8'; // UTF-8, windows-1251
 	private $eol = "\n";
+	private $desc_html = false;
 
 	public function index() {
 		if ($this->config->get('yandex_market_status')) {
+			// Защитный ключ
+			$secret_key = $this->config->get('yandex_market_secret_key');
 
-			if (!($allowed_categories = $this->config->get('yandex_market_categories'))) exit();
+			if ($secret_key) {
+				if (isset($this->request->get['secret_key'])) {
+					if ($this->request->get['secret_key'] != $secret_key) exit();
+				} else {
+					exit();
+				}
+			}
+
+			// Выбор кодировки документа
+			if ($this->config->get('yandex_market_from_charset')) {
+				$this->from_charset = $this->config->get('yandex_market_from_charset');
+			}
+
+			// Выборка категорий и производителей
+			$allowed_categories = $this->config->get('yandex_market_categories');
+			$allowed_manufacturers = $this->config->get('yandex_market_manufacturers');
 
 			$this->load->model('extension/feed/yandex_market');
 			$this->load->model('localisation/currency');
 			$this->load->model('tool/image');
 
-			// Магазин
-			$this->setShop('name', $this->config->get('yandex_market_shopname'));
-			$this->setShop('company', $this->config->get('yandex_market_company'));
+			// Магазин <shop></shop>
+			$this->setShop('name', ($this->config->get('yandex_market_shopname') ? $this->config->get('yandex_market_shopname') : $this->config->get('config_name')));
+			$this->setShop('company', ($this->config->get('yandex_market_company') ? $this->config->get('yandex_market_company') : $this->config->get('config_owner')));
 			$this->setShop('url', HTTP_SERVER);
 			$this->setShop('phone', $this->config->get('config_telephone'));
 			$this->setShop('platform', 'OPENCART.PRO');
 			$this->setShop('version', VERSION);
+			//$this->setShop('agency', 'Buslik');
+			$this->setShop('email', $this->config->get('config_email'));
 
-			// Валюты
+			// Валюты <currencies></currencies>
 			// TODO: Добавить возможность настраивать проценты в админке.
 			$offers_currency = $this->config->get('yandex_market_currency');
 			if (!$this->currency->has($offers_currency)) exit();
@@ -49,7 +69,7 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 
 			$currencies = $this->model_localisation_currency->getCurrencies();
 
-			$supported_currencies = array('RUR', 'RUB', 'USD', 'BYR', 'KZT', 'EUR', 'UAH');
+			$supported_currencies = array('RUR', 'RUB', 'USD', 'BYN', 'BYR', 'KZT', 'EUR', 'UAH');
 
 			$currencies = array_intersect_key($currencies, array_flip($supported_currencies));
 
@@ -59,67 +79,151 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 				}
 			}
 
-			// Категории
+			// Категории <categories></categories>
 			$categories = $this->model_extension_feed_yandex_market->getCategory();
 
 			foreach ($categories as $category) {
 				$this->setCategory($category['name'], $category['category_id'], $category['parent_id']);
 			}
 
-			// Товарные предложения
+			// Параметры товарного предложения <offer></offer>
+			$bus_id = $this->config->get('yandex_market_id'); // Идентификатор товара - "id"
+			$bus_type = $this->config->get('yandex_market_type'); // Тип предложений - "type"
+			$bus_name = $this->config->get('yandex_market_name'); // Название товара - "name"
+			$bus_model = $this->config->get('yandex_market_model'); // Код товара - "model"
+			$bus_vendorCode = $this->config->get('yandex_market_vendorCode'); // Артикул товара - "SKU"
+			$bus_barcode = $this->config->get('yandex_market_barcode'); // Штрих код производителя товара - "EAN или UPC"
+			$bus_image = $this->config->get('yandex_market_image'); // Статус товара без изображений
+			$bus_image_width = $this->config->get('yandex_market_image_width'); // Ширина изображения товара
+			$bus_image_height = $this->config->get('yandex_market_image_height'); // Высота изображения товара
+			$bus_image_quantity = $this->config->get('yandex_market_image_quantity'); // Количество изображений товара
+			if ($this->config->get('yandex_market_desc_html')) {
+				$this->desc_html = true; // статус html-разметки в описании <h1><h2><h3><h4><h5><h6><ul><li><p><br>
+			}
+			$bus_param = $this->config->get('yandex_market_param'); // Стату характеристик (атрибут)
+			$bus_main_category = $this->config->get('yandex_market_main_category'); // Статус товара без главной категории
 			$in_stock_id = $this->config->get('yandex_market_in_stock'); // id статуса товара "В наличии"
 			$out_of_stock_id = $this->config->get('yandex_market_out_of_stock'); // id статуса товара "Нет на складе"
-			$vendor_required = false; // true - только товары у которых задан производитель, необходимо для 'vendor.model' 
-			$products = $this->model_extension_feed_yandex_market->getProduct($allowed_categories, $out_of_stock_id, $vendor_required);
+			$bus_preorder_id = $this->config->get('yandex_market_preorder'); // id статуса товара "предзаказ"
+			$bus_quantity_status = $this->config->get('yandex_market_quantity_status'); // Статус товара "количество равное 0"
+			if ($bus_type == 'vendor.model') {
+				$vendor_required = true; // true - только товары у которых задан производитель, необходимо для 'vendor.model'
+			} else {
+				$vendor_required = false;
+			}
+
+			$products = $this->model_extension_feed_yandex_market->getProduct($allowed_categories, $allowed_manufacturers, $out_of_stock_id, $vendor_required, $bus_image, $bus_image_quantity, $bus_main_category, $bus_quantity_status);
 
 			foreach ($products as $product) {
 				$data = array();
 
 				// Атрибуты товарного предложения
-				$data['id'] = $product['product_id'];
-//				$data['type'] = 'vendor.model';
+				if (!empty($product[$bus_id])) {
+					$data['id'] = $product[$bus_id];
+				} else {
+					$data['id'] = $product['product_id'];
+				}
+				if ($bus_type == 'vendor.model') {
+					$data['type'] = $bus_type;
+				}
 				$data['available'] = ($product['quantity'] > 0 || $product['stock_status_id'] == $in_stock_id);
-//				$data['bid'] = 10;
-//				$data['cbid'] = 15;
+				//$data['bid'] = 10; // размер нейкой ставки https://yandex.ru/support/partnermarket/elements/bid-cbid.html
+				//$data['cbid'] = 15;
 
-				// Параметры товарного предложения
+				if (!empty($product[$bus_name])) {
+					$data['name'] = $product[$bus_name];
+				} else {
+					$data['name'] = $product['name'];
+				}
+				if (!empty($product['manufacturer'])) {
+					$data['vendor'] = $product['manufacturer'];
+				} else {
+					$data['vendor'] = '';
+				}
+				if (!empty($product[$bus_vendorCode])) {
+					$data['vendorCode'] = $product[$bus_vendorCode];
+				} else {
+					$data['vendorCode'] = '';
+				}
+				if (!empty($product[$bus_model])) {
+					$data['model'] = $product[$bus_model];
+				} else {
+					$data['model'] = '';
+				}
+
 				$data['url'] = $this->url->link('product/product', 'path=' . $this->getPath($product['category_id']) . '&product_id=' . $product['product_id']);
-				$data['price'] = number_format($this->currency->convert($this->tax->calculate($product['price'], $product['tax_class_id']), $shop_currency, $offers_currency), $decimal_place, '.', '');
+
+				if ($product['special']) {
+					$data['price'] = number_format($this->currency->convert($this->tax->calculate($product['special'], $product['tax_class_id']), $shop_currency, $offers_currency), $decimal_place, '.', '');
+					$data['oldprice'] = number_format($this->currency->convert($this->tax->calculate($product['price'], $product['tax_class_id']), $shop_currency, $offers_currency), $decimal_place, '.', '');
+				} else {
+					$data['price'] = number_format($this->currency->convert($this->tax->calculate($product['price'], $product['tax_class_id']), $shop_currency, $offers_currency), $decimal_place, '.', '');
+				}
+
 				$data['currencyId'] = $offers_currency;
 				$data['categoryId'] = $product['category_id'];
-				$data['delivery'] = 'true';
-//				$data['local_delivery_cost'] = 100;
-				$data['name'] = $product['name'];
-				$data['vendor'] = $product['manufacturer'];
-				$data['vendorCode'] = $product['model'];
-				$data['model'] = $product['name'];
-				$data['description'] = $product['description'];
-//				$data['manufacturer_warranty'] = 'true';
-//				$data['barcode'] = $product['sku'];
-				if ($product['image']) {
-					$data['picture'] = $this->model_tool_image->resize($product['image'], 100, 100);
+
+				if (!empty($product['image'])) {
+					$data['picture'] = $this->model_tool_image->resize($product['image'], $bus_image_width, $bus_image_height);
 				}
-/*
+
+				if (isset($product['images'])) {
+					foreach (explode(',', $product['images']) as $image) {
+						$data['picture'] .= ',' . $this->model_tool_image->resize($image, $bus_image_width, $bus_image_height);
+					}
+				}
+
+				if ($product['stock_status_id'] == $bus_preorder_id) {
+					$data['store'] = 'false'; // если товар без предзаказа нельзя купить
+				}
+				$data['delivery'] = 'true'; // если есть курьерская доставка - должно быть обязательно для показа на маркете, если pickup = false
+				//$data['local_delivery_days'] = 7; // дней доставки
+				//$data['local_delivery_cost'] = 100; // стоимость курьера
+				if ($this->config->get('pickup_status')) {
+					$data['pickup'] = 'true'; // если есть самовывоз
+					//$data['local_pickup_days'] = 7; // дней поставки для самовывоза
+					//$data['local_pickup_cost'] = 100; // стоимость самовывоза
+				}
+
+				if (!empty($product['description'])) {
+					$data['description'] = $product['description'];
+				} else {
+					$data['description'] = '';
+				}
+
+				if ($bus_param) {
+					$data['param'] = array();
+
+					$attributes = $this->model_extension_feed_yandex_market->getProductAttributes($product['product_id']);
+
+					foreach ($attributes as $attribute) {
+						$data['param'][] = array(
+							'name'  => $attribute['name'],
+							'value' => $attribute['text']
+						);
+					}
+				}
 				// пример структуры массива для вывода параметров
-				$data['param'] = array(
+				/* $data['param'] = array(
 					array(
-						'name'=>'Wi-Fi',
-						'value'=>'есть'
-					), array(
-						'name'=>'Размер экрана',
-						'unit'=>'дюйм',
-						'value'=>'20'
-					), array(
-						'name'=>'Вес',
-						'unit'=>'кг',
-						'value'=>'4.6'
+						'name'  => 'Размер экрана',
+						'unit'  => 'дюйм',
+						'value' => '20'
 					)
-				);
-*/
+				); */
+
+				//$data['manufacturer_warranty'] = 'true'; // гарантия производителя
+				//$data['country_of_origin'] = 'true'; // страна производства
+				if (!empty($product[$bus_barcode])) {
+					$data['barcode'] = $product[$bus_barcode]; // штрих код производителя EAN-13, EAN-8, UPC-A, UPC-E
+				}
+
 				$this->setOffer($data);
 			}
 
 			$this->categories = array_filter($this->categories, array($this, "filterCategory"));
+
+			if (!$this->categories) exit();
 
 			$this->response->addHeader('Content-Type: application/xml');
 			$this->response->setOutput($this->getYml());
@@ -146,20 +250,20 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 	/**
 	 * Валюты
 	 *
-	 * @param string $id - код валюты (RUR, RUB, USD, BYR, KZT, EUR, UAH)
+	 * @param string $id - код валюты (RUR, RUB, USD, BYN, BYR, KZT, EUR, UAH)
 	 * @param float|string $rate - курс этой валюты к валюте, взятой за единицу.
-	 *	Параметр rate может иметь так же следующие значения:
-	 *		CBRF - курс по Центральному банку РФ.
-	 *		NBU - курс по Национальному банку Украины.
-	 *		NBK - курс по Национальному банку Казахстана.
-	 *		СВ - курс по банку той страны, к которой относится интернет-магазин
-	 * 		по Своему региону, указанному в Партнерском интерфейсе Яндекс.Маркета.
+	 * Параметр rate может иметь так же следующие значения:
+	 * CBRF - курс по Центральному банку РФ.
+	 * NBU - курс по Национальному банку Украины.
+	 * NBK - курс по Национальному банку Казахстана.
+	 * СВ - курс по банку той страны, к которой относится интернет-магазин
+	 * по Своему региону, указанному в Партнерском интерфейсе Яндекс.Маркета.
 	 * @param float $plus - используется только в случае rate = CBRF, NBU, NBK или СВ
-	 *		и означает на сколько увеличить курс в процентах от курса выбранного банка
+	 * и означает на сколько увеличить курс в процентах от курса выбранного банка
 	 * @return bool
 	 */
 	private function setCurrency($id, $rate = 'CBRF', $plus = 0) {
-		$allow_id = array('RUR', 'RUB', 'USD', 'BYR', 'KZT', 'EUR', 'UAH');
+		$allow_id = array('RUR', 'RUB', 'USD', 'BYN', 'BYR', 'KZT', 'EUR', 'UAH');
 		if (!in_array($id, $allow_id)) {
 			return false;
 		}
@@ -267,7 +371,7 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 
 		$type = isset($offer['type']) ? $offer['type'] : '';
 
-		$allowed_tags = array('url'=>0, 'buyurl'=>0, 'price'=>1, 'wprice'=>0, 'currencyId'=>1, 'xCategory'=>0, 'categoryId'=>1, 'picture'=>0, 'store'=>0, 'pickup'=>0, 'delivery'=>0, 'deliveryIncluded'=>0, 'local_delivery_cost'=>0, 'orderingTime'=>0);
+		$allowed_tags = array('url'=>0, 'buyurl'=>0, 'price'=>1, 'oldprice'=>0, 'wprice'=>0, 'currencyId'=>1, 'xCategory'=>0, 'categoryId'=>1, 'picture'=>0, 'store'=>0, 'pickup'=>0, 'delivery'=>0, 'deliveryIncluded'=>0, 'local_delivery_cost'=>0, 'orderingTime'=>0);
 
 		switch ($type) {
 			case 'vendor.model':
@@ -295,7 +399,7 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 				break;
 
 			default:
-				$allowed_tags = array_merge($allowed_tags, array('name'=>1, 'vendor'=>0, 'vendorCode'=>0));
+				$allowed_tags = array_merge($allowed_tags, array('name'=>1, 'vendor'=>0, 'vendorCode'=>0, 'model'=>1));
 				break;
 		}
 
@@ -308,9 +412,9 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 		}
 
 		$data = array_intersect_key($data, $allowed_tags);
-//		if (isset($data['tarifplan']) && !isset($data['provider'])) {
-//			unset($data['tarifplan']);
-//		}
+		//if (isset($data['tarifplan']) && !isset($data['provider'])) {
+			//unset($data['tarifplan']);
+		//}
 
 		$allowed_tags = array_intersect_key($allowed_tags, $data);
 
@@ -318,7 +422,7 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 		// поэтому важно соблюдать его в соответствии с порядком описанным в DTD
 		$offer['data'] = array();
 		foreach ($allowed_tags as $key => $value) {
-			$offer['data'][$key] = $this->prepareField($data[$key]);
+			$offer['data'][$key] = $this->prepareField($data[$key], $key);
 		}
 
 		$this->offers[] = $offer;
@@ -330,7 +434,7 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 	 * @return string
 	 */
 	private function getYml() {
-		$yml  = '<?xml version="1.0" encoding="windows-1251"?>' . $this->eol;
+		$yml  = '<?xml version="1.0" encoding="' . $this->from_charset . '"?>' . $this->eol;
 		$yml .= '<!DOCTYPE yml_catalog SYSTEM "shops.dtd">' . $this->eol;
 		$yml .= '<yml_catalog date="' . date('Y-m-d H:i') . '">' . $this->eol;
 		$yml .= '<shop>' . $this->eol;
@@ -382,11 +486,11 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 	 * @return string
 	 */
 	private function getElement($attributes, $element_name, $element_value = '') {
-		$retval = '<' . $element_name . ' ';
+		$retval = '<' . $element_name;
 		foreach ($attributes as $key => $value) {
-			$retval .= $key . '="' . $value . '" ';
+			$retval .= ' ' . $key . '="' . $value . '"';
 		}
-		$retval .= $element_value ? '>' . $this->eol . $element_value . '</' . $element_name . '>' : '/>';
+		$retval .= $element_value ? '>' . ($element_name == 'offer' ? $this->eol : '') . $element_value . '</' . $element_name . '>' : '/>';
 		$retval .= $this->eol;
 
 		return $retval;
@@ -401,7 +505,13 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 	private function array2Tag($tags) {
 		$retval = '';
 		foreach ($tags as $key => $value) {
-			$retval .= '<' . $key . '>' . $value . '</' . $key . '>' . $this->eol;
+			if ($key == 'picture') {
+				foreach (explode(',', $value) as $val) {
+					$retval .= '<' . $key . '>' . $val . '</' . $key . '>' . $this->eol;
+				}
+			} else {
+				$retval .= '<' . $key . '>' . $value . '</' . $key . '>' . $this->eol;
+			}
 		}
 
 		return $retval;
@@ -435,16 +545,30 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 	 * @param string $text
 	 * @return string
 	 */
-	private function prepareField($field) {
-		$field = htmlspecialchars_decode($field);
-		$field = strip_tags($field);
-		$from = array('"', '&', '>', '<', '\'');
-		$to = array('&quot;', '&amp;', '&gt;', '&lt;', '&apos;');
-		$field = str_replace($from, $to, $field);
-		if ($this->from_charset != 'windows-1251') {
-			$field = iconv($this->from_charset, 'windows-1251//TRANSLIT//IGNORE', $field);
+	private function prepareField($field, $key = false) {
+		if ($field) {
+			$field = htmlspecialchars_decode($field);
+			if ($this->desc_html == true && $key == 'description') {
+				//$field = html_entity_decode($field, ENT_QUOTES, 'UTF-8');
+				$field = preg_replace('#<(\w*)\s(.*)>#iU', '<$1>', $field);
+				$field = strip_tags($field, '<h1><h2><h3><h4><h5><h6><ul><li><p><br>');
+				$field = str_replace('<br>', '<br/>', $field);
+				$field = "<![CDATA[" . mb_substr($field, 0, 3000) . "]]>";
+			} else {
+				$field = strip_tags($field);
+				$from = array('"', '&', '>', '<', '\'');
+				$to = array('&quot;', '&amp;', '&gt;', '&lt;', '&apos;');
+				$field = str_replace($from, $to, $field);
+				if ($this->desc_html == false && $key == 'description') {
+					$field = mb_substr($field, 0, 3000);
+				}
+			}
+
+			if ($this->from_charset == 'windows-1251') {
+				$field = iconv($this->from_charset, 'windows-1251//TRANSLIT//IGNORE', $field);
+			}
+			$field = preg_replace('#[\x00-\x08\x0B-\x0C\x0E-\x1F]+#is', ' ', $field);
 		}
-		$field = preg_replace('#[\x00-\x08\x0B-\x0C\x0E-\x1F]+#is', ' ', $field);
 
 		return trim($field);
 	}
@@ -457,14 +581,13 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 				$new_path = $this->categories[$category_id]['id'];
 			} else {
 				$new_path = $this->categories[$category_id]['id'] . '_' . $current_path;
-			}	
+			}
 
 			if (isset($this->categories[$category_id]['parentId'])) {
 				return $this->getPath($this->categories[$category_id]['parentId'], $new_path);
 			} else {
 				return $new_path;
 			}
-
 		}
 	}
 
@@ -472,4 +595,3 @@ class ControllerExtensionFeedYandexMarket extends Controller {
 		return isset($category['export']);
 	}
 }
-?>

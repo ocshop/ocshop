@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -55,8 +55,10 @@ class ControllerExtensionModuleBestSeller extends Controller {
 				} else {
 					$rating = false;
 				}
-				
-				$stickers = $this->getStickers($result['product_id']) ;
+
+				if ($result['description_mini']) {
+					$result['description'] = $result['description_mini'];
+				}
 
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
@@ -66,7 +68,7 @@ class ControllerExtensionModuleBestSeller extends Controller {
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
-					'sticker'     => $stickers,
+					'sticker'     => $this->getProStickers($result['product_id']),
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);
@@ -75,26 +77,26 @@ class ControllerExtensionModuleBestSeller extends Controller {
 			return $this->load->view('extension/module/bestseller', $data);
 		}
 	}
-	
-	private function getStickers($product_id) {
-	
- 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
 
-		
+	private function getProStickers($product_id) {
+		$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id);
+
 		if (!$stickers) {
 			return;
 		}
-		
+
+		$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
+
 		$data['stickers'] = array();
-		
+
 		foreach ($stickers as $sticker) {
 			$data['stickers'][] = array(
 				'position' => $sticker['position'],
-				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
-			);		
+				'name'     => $sticker['name'],
+				'image'    => ($sticker['image'] ? $server . 'image/' . $sticker['image'] : false)
+			);
 		}
-				
+
 		return $this->load->view('product/stickers', $data);
-	
 	}
 }

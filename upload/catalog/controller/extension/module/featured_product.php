@@ -1,43 +1,41 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionModuleFeaturedProduct extends Controller {
 	public function index($setting) {
-		
-		
 		if (!$setting['limit']) {
 			$setting['limit'] = 4;
 		}
-		
+
 		$results = array();
-		
+
 		$this->load->model('catalog/cms');
-		
+
 		if (isset($this->request->get['manufacturer_id'])) {
 			$filter_data = array(
-				'manufacturer_id'  => $this->request->get['manufacturer_id'],
-				'limit' => $setting['limit']
+				'manufacturer_id' => $this->request->get['manufacturer_id'],
+				'limit'           => $setting['limit']
 			);
-					
+
 			$results = $this->model_catalog_cms->getProductRelatedByManufacturer($filter_data);
 		} else {
 			if (isset($this->request->get['path'])) {
 				$parts = explode('_', (string)$this->request->get['path']);
-				
+
 				if(!empty($parts) && is_array($parts)) {
 					$filter_data = array(
-						'category_id'  => array_pop($parts),
-						'limit' => $setting['limit']
+						'category_id' => array_pop($parts),
+						'limit'       => $setting['limit']
 					);
-					
+
 					$results = $this->model_catalog_cms->getProductRelatedByCategory($filter_data);
 				}
 			}
 		}
-		
+
 		$this->load->language('extension/module/featured_product');
 
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -53,11 +51,9 @@ class ControllerExtensionModuleFeaturedProduct extends Controller {
 		$this->load->model('tool/image');
 
 		$data['products'] = array();
-		
-		if (!empty($results)) {
-			
-			foreach ($results as $product) {
 
+		if (!empty($results)) {
+			foreach ($results as $product) {
 				if ($product) {
 					if ($product['image']) {
 						$image = $this->model_tool_image->resize($product['image'], $setting['width'], $setting['height']);
@@ -88,8 +84,10 @@ class ControllerExtensionModuleFeaturedProduct extends Controller {
 					} else {
 						$rating = false;
 					}
-					
-					$stickers = $this->getStickers($product['product_id']) ;
+
+					if ($product['description_mini']) {
+						$product['description'] = $product['description_mini'];
+					}
 
 					$data['products'][] = array(
 						'product_id'  => $product['product_id'],
@@ -99,37 +97,36 @@ class ControllerExtensionModuleFeaturedProduct extends Controller {
 						'price'       => $price,
 						'special'     => $special,
 						'tax'         => $tax,
-						'sticker'     => $stickers,
+						'sticker'     => $this->getProStickers($product['product_id']),
 						'rating'      => $rating,
 						'href'        => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 					);
 				}
 			}
 		}
-		
+
 		return $this->load->view('extension/module/featured_product', $data);
-
 	}
-	
-	private function getStickers($product_id) {
-	
- 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
 
-		
+	private function getProStickers($product_id) {
+		$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id);
+
 		if (!$stickers) {
 			return;
 		}
-		
+
+		$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
+
 		$data['stickers'] = array();
-		
+
 		foreach ($stickers as $sticker) {
 			$data['stickers'][] = array(
 				'position' => $sticker['position'],
-				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
-			);		
+				'name'     => $sticker['name'],
+				'image'    => ($sticker['image'] ? $server . 'image/' . $sticker['image'] : false)
+			);
 		}
-				
+
 		return $this->load->view('product/stickers', $data);
-	
 	}
 }
