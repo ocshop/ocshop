@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -151,8 +151,13 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_password'] = $this->language->get('entry_password');
 		$data['entry_encryption'] = $this->language->get('entry_encryption');
 		$data['entry_seo_url'] = $this->language->get('entry_seo_url');
+		$data['entry_seo_url_cache'] = $this->language->get('entry_seo_url_cache');
 		$data['entry_seo_url_include_path'] = $this->language->get('entry_seo_url_include_path');
+		$data['entry_blog_full_path'] = $this->language->get('entry_blog_full_path');
+		$data['entry_manufacturers_full_path'] = $this->language->get('entry_manufacturers_full_path');
 		$data['entry_seo_url_postfix'] = $this->language->get('entry_seo_url_postfix');
+		$data['entry_valide_get_params_status'] = $this->language->get('entry_valide_get_params_status');
+		$data['entry_valide_get_params'] = $this->language->get('entry_valide_get_params');
 		$data['entry_compression'] = $this->language->get('entry_compression');
 		$data['entry_error_display'] = $this->language->get('entry_error_display');
 		$data['entry_error_log'] = $this->language->get('entry_error_log');
@@ -212,8 +217,13 @@ class ControllerSettingSetting extends Controller {
 		$data['help_shared'] = $this->language->get('help_shared');
 		$data['help_robots'] = $this->language->get('help_robots');
 		$data['help_seo_url'] = $this->language->get('help_seo_url');
+		$data['help_seo_url_cache'] = $this->language->get('help_seo_url_cache');
 		$data['help_seo_url_include_path'] = $this->language->get('help_seo_url_include_path');
+		$data['help_blog_full_path'] = $this->language->get('help_blog_full_path');
+		$data['help_manufacturers_full_path'] = $this->language->get('help_manufacturers_full_path');
 		$data['help_seo_url_postfix'] = $this->language->get('help_seo_url_postfix');
+		$data['help_valide_get_params_status'] = $this->language->get('help_valide_get_params_status');
+		$data['help_valide_get_params'] = $this->language->get('help_valide_get_params');
 		$data['help_file_max_size'] = $this->language->get('help_file_max_size');
 		$data['help_file_ext_allowed'] = $this->language->get('help_file_ext_allowed');
 		$data['help_file_mime_allowed'] = $this->language->get('help_file_mime_allowed');
@@ -435,13 +445,13 @@ class ControllerSettingSetting extends Controller {
 
 		foreach ($extensions as $code) {
 			$this->load->language('extension/theme/' . $code);
-			
+
 			$data['themes'][] = array(
 				'text'  => $this->language->get('heading_title'),
 				'value' => $code
 			);
 		}
-			
+
 		if (isset($this->request->post['config_layout_id'])) {
 			$data['config_layout_id'] = $this->request->post['config_layout_id'];
 		} else {
@@ -888,12 +898,12 @@ class ControllerSettingSetting extends Controller {
 			'text'  => $this->language->get('text_register'),
 			'value' => 'register'
 		);
-		
+
 		$data['captcha_pages'][] = array(
 			'text'  => $this->language->get('text_guest'),
 			'value' => 'guest'
 		);
-		
+
 		$data['captcha_pages'][] = array(
 			'text'  => $this->language->get('text_review'),
 			'value' => 'review'
@@ -1082,17 +1092,55 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_seo_url'] = $this->config->get('config_seo_url');
 		}
-		
+
+		if (isset($this->request->post['config_seo_url_cache'])) {
+			$data['config_seo_url_cache'] = $this->request->post['config_seo_url_cache'];
+		} else {
+			$data['config_seo_url_cache'] = $this->config->get('config_seo_url_cache');
+		}
+
 		if (isset($this->request->post['config_seo_url_include_path'])) {
 			$data['config_seo_url_include_path'] = $this->request->post['config_seo_url_include_path'];
 		} else {
 			$data['config_seo_url_include_path'] = $this->config->get('config_seo_url_include_path');
 		}
-		
+
+		if (isset($this->request->post['config_blog_full_path'])) {
+			$data['config_blog_full_path'] = $this->request->post['config_blog_full_path'];
+		} else {
+			$data['config_blog_full_path'] = $this->config->get('config_blog_full_path');
+		}
+
+		if (isset($this->request->post['config_manufacturers_full_path'])) {
+			$data['config_manufacturers_full_path'] = $this->request->post['config_manufacturers_full_path'];
+		} else {
+			$data['config_manufacturers_full_path'] = $this->config->get('config_manufacturers_full_path');
+		}
+
 		if (isset($this->request->post['config_seo_url_postfix'])) {
 			$data['config_seo_url_postfix'] = $this->request->post['config_seo_url_postfix'];
 		} else {
 			$data['config_seo_url_postfix'] = $this->config->get('config_seo_url_postfix');
+		}
+
+		if (isset($this->request->post['config_valide_get_params_status'])) {
+			$data['config_valide_get_params_status'] = $this->request->post['config_valide_get_params_status'];
+		// удалить в 2.3.0.2.7
+		} elseif ($this->config->get('config_valide_get_params_status') == null) {
+			$data['config_valide_get_params_status'] = 1;
+		// удалить в 2.3.0.2.7
+		} else {
+			$data['config_valide_get_params_status'] = $this->config->get('config_valide_get_params_status');
+		}
+
+		if (isset($this->request->post['config_valide_get_params'])) {
+			$data['config_valide_get_params'] = $this->request->post['config_valide_get_params'];
+		// удалить в 2.3.0.2.7
+		} elseif ($this->config->get('config_valide_get_params') == null) {
+			$data['config_valide_get_params'] = "tracking\r\nutm_source\r\nutm_campaign\r\nutm_medium\r\ntype\r\nsource\r\nblock\r\nposition\r\nkeyword\r\nyclid\r\ngclid";
+		// удалить в 2.3.0.2.7
+		} else {
+			$data['config_valide_get_params'] = $this->config->get('config_valide_get_params');
 		}
 
 		if (isset($this->request->post['config_file_max_size'])) {
@@ -1257,25 +1305,25 @@ class ControllerSettingSetting extends Controller {
 
 		return !$this->error;
 	}
-	
+
 	public function theme() {
 		if ($this->request->server['HTTPS']) {
 			$server = HTTPS_CATALOG;
 		} else {
 			$server = HTTP_CATALOG;
 		}
-		
+
 		// This is only here for compatibility with old themes.
 		if ($this->request->get['theme'] == 'theme_default') {
 			$theme = $this->config->get('theme_default_directory');
 		} else {
 			$theme = basename($this->request->get['theme']);
 		}
-		
+
 		if (is_file(DIR_CATALOG . 'view/theme/' . $theme . '/image/' . $theme . '.png')) {
 			$this->response->setOutput($server . 'catalog/view/theme/' . $theme . '/image/' . $theme . '.png');
 		} else {
 			$this->response->setOutput($server . 'image/no_image.png');
 		}
-	}	
+	}
 }
