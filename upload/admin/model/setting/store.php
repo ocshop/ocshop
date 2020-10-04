@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -30,7 +30,16 @@ class ModelSettingStore extends Model {
 
 	public function deleteStore($store_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "article_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "blog_category_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "category_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "custommenu_child_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "custommenu_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "information_to_store WHERE store_id = '" . (int)$store_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "layout_route WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "manufacturer_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_store WHERE store_id = '" . (int)$store_id . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "pro_seo_tag_to_store WHERE store_id = '" . (int)$store_id . "'");
 
 		$this->cache->delete('store');
 	}
