@@ -35,7 +35,7 @@
             <li><a href="#tab-discount" data-toggle="tab"><?php echo $tab_discount; ?></a></li>
             <li><a href="#tab-special" data-toggle="tab"><?php echo $tab_special; ?></a></li>
             <li><a href="#tab-image" data-toggle="tab"><?php echo $tab_image; ?></a></li>
-			<li><a href="#tab-extra" data-toggle="tab"><?php echo $tab_extra_tab; ?></a></li>
+            <li><a href="#tab-extra" data-toggle="tab"><?php echo $tab_extra_tab; ?></a></li>
             <li><a href="#tab-reward" data-toggle="tab"><?php echo $tab_reward; ?></a></li>
             <li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
           </ul>
@@ -58,7 +58,7 @@
                       <?php } ?>
                     </div>
                   </div>
-				  <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-h1<?php echo $language['language_id']; ?>"><?php echo $entry_meta_h1; ?></label>
                     <div class="col-sm-10">
                       <input type="text" name="product_description[<?php echo $language['language_id']; ?>][meta_h1]" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_h1'] : ''; ?>" placeholder="<?php echo $entry_meta_h1; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
@@ -66,8 +66,8 @@
                       <div class="text-danger"><?php echo $error_meta_h1[$language['language_id']]; ?></div>
                       <?php } ?>
                     </div>
-					</div>
-					<div class="form-group">
+                  </div>
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><?php echo $entry_meta_title; ?></label>
                     <div class="col-sm-10">
                       <input type="text" name="product_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_title'] : ''; ?>" placeholder="<?php echo $entry_meta_title; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
@@ -76,7 +76,7 @@
                       <?php } ?>
                     </div>
                   </div>
-				    <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
                     <div class="col-sm-10">
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
@@ -94,7 +94,7 @@
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>" class="form-control summernote"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['description'] : ''; ?></textarea>
                     </div>
                   </div>
-				  <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-description_mini<?php echo $language['language_id']; ?>"><?php echo $entry_description_mini; ?></label>
                     <div class="col-sm-10">
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][description_mini]" placeholder="<?php echo $entry_description_mini; ?>" id="input-description_mini<?php echo $language['language_id']; ?>" class="form-control summernote"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['description_mini'] : ''; ?></textarea>
@@ -111,75 +111,73 @@
               </div>
             </div>
             <div class="tab-pane" id="tab-data">
-			
-			<div class="form-group">
-			  <label class="col-sm-2 control-label" for="input-sticker"><?php echo $entry_sticker; ?></label>
-			  <div class="col-sm-10">
-			   <?php for ($i = 0; $i <= 3; $i++) { ?>
-			   <div class="sticker_block">
-			   <div class="corner_name">	   
-			   <?php echo ${'text_corner' . $i}; ?> <span class="square  <?php echo 'corner_' . $i; ?>"></span>
-			   </div>
-			   <div class="sticker-select">
-			   <select name="product_stickers[<?php echo $i; ?>]" id="input-stickers" class="form-control">
-                <option value="0" selected="selected"><?php echo $text_none; ?></option>
-                <?php foreach ($stickers as $sticker) { ?>
-                <?php if (!empty($product_stickers[$i]) && $product_stickers[$i] == $sticker['sticker_id']) { ?>
-                <option value="<?php echo $sticker['sticker_id']; ?>" selected="selected"><?php echo $sticker['name']; ?></option>
-                <?php } else { ?>
-                <option value="<?php echo $sticker['sticker_id']; ?>"><?php echo $sticker['name']; ?></option>
-                <?php } ?>
-                <?php } ?>
-              </select>
-			  </div>
-			  </div>
-			  <?php } ?>
-			  </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sticker"><?php echo $entry_sticker; ?></label>
+                <div class="col-sm-10">
+                  <?php for ($i = 0; $i <= 3; $i++) { ?>
+                  <div class="sticker_block">
+                    <div class="corner_name">	   
+                    <?php echo ${'text_corner' . $i}; ?> <span class="square  <?php echo 'corner_' . $i; ?>"></span>
+                    </div>
+                    <div class="sticker-select">
+                      <select name="product_stickers[<?php echo $i; ?>]" id="input-stickers" class="form-control">
+                        <option value="0" selected="selected"><?php echo $text_none; ?></option>
+                        <?php foreach ($stickers as $sticker) { ?>
+                        <?php if (!empty($product_stickers[$i]) && $product_stickers[$i] == $sticker['sticker_id']) { ?>
+                        <option value="<?php echo $sticker['sticker_id']; ?>" selected="selected"><?php echo $sticker['name']; ?></option>
+                        <?php } else { ?>
+                        <option value="<?php echo $sticker['sticker_id']; ?>"><?php echo $sticker['name']; ?></option>
+                        <?php } ?>
+                        <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                  <?php } ?>
+                </div>
               </div>
-			  
-			  <?php if ($benefits) { ?>
-			 <div class="form-group">
-			  <label class="col-sm-2 control-label" for="input-benefits"><?php echo $text_benefits; ?></label>
-			  <div class="col-sm-10">
-			  <ul class="benefit">
-			  <?php foreach ($benefits as $benefit) { ?>
-					<?php if (in_array($benefit['benefit_id'], $product_benefits)) { ?>
-						<li class="checked">
-						<span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="" /></span>
-						<span><?php echo $benefit['name']; ?></span>
-						<span style="display:none;"><input type="checkbox" name="product_benefits[]" value="<?php echo $benefit['benefit_id']; ?>" checked="checked"></span>
-						</li>
-					<?php } else { ?> 
-						<li>
-						<span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="" /></span>
-						<span><?php echo $benefit['name']; ?></span>
-						<span style="display:none;"><input type="checkbox" name="product_benefits[]" value="<?php echo 	$benefit['benefit_id']; ?>"></span>
-						</li>
-					<?php } ?>
-			  <?php } ?>
-			  </ul>
-			   </div>
+              <?php if ($benefits) { ?>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-benefits"><?php echo $text_benefits; ?></label>
+                <div class="col-sm-10">
+                  <ul class="benefit">
+                    <?php foreach ($benefits as $benefit) { ?>
+                    <?php if (in_array($benefit['benefit_id'], $product_benefits)) { ?>
+                    <li class="checked">
+                      <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="" /></span>
+                      <span><?php echo $benefit['name']; ?></span>
+                      <span style="display:none;"><input type="checkbox" name="product_benefits[]" value="<?php echo $benefit['benefit_id']; ?>" checked="checked"></span>
+                    </li>
+                    <?php } else { ?> 
+                    <li>
+                      <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="" /></span>
+                      <span><?php echo $benefit['name']; ?></span>
+                      <span style="display:none;"><input type="checkbox" name="product_benefits[]" value="<?php echo 	$benefit['benefit_id']; ?>"></span>
+                    </li>
+                    <?php } ?>
+                    <?php } ?>
+                  </ul>
+                </div>
               </div>
-		<?php } ?>
-	<style>
-	.benefit {list-style: none; padding: 0; margin: 0}
-	.benefit li {display: inline-block; border: 1px solid #aaa; padding: 4px 6px; margin: 2px; cursor: pointer; line-height: 8px;}
-	.benefit li.checked {border: 1px solid #0381CB; background: rgba(85, 190, 253, 0.2);}
-	.benefit li:hover {background: rgba(85, 190, 253, 0.1);}
-	.benefit li span {display: table-cell;vertical-align: middle;}
-	.thumb {padding-right: 5px;}
-	</style>
-	<script>
-	$('.benefit').on('click', 'li', function(){
-	if (!$(this).hasClass('checked'))		{
-		$(this).find('input').first().attr('checked', true) ;
-		} else {
-		$(this).find('input').first().attr('checked', false) ;
-		}
+              <?php } ?>
+<style type="text/css">
+.benefit {list-style: none; padding: 0; margin: 0}
+.benefit li {display: inline-block; border: 1px solid #aaa; padding: 4px 6px; margin: 2px; cursor: pointer; line-height: 8px;}
+.benefit li.checked {border: 1px solid #0381CB; background: rgba(85, 190, 253, 0.2);}
+.benefit li:hover {background: rgba(85, 190, 253, 0.1);}
+.benefit li span {display: table-cell;vertical-align: middle;}
+.thumb {padding-right: 5px;}
+</style>
+<script type="text/javascript">
+$('.benefit').on('click', 'li', function() {
+	if (!$(this).hasClass('checked')) {
+		$(this).find('input').first().attr('checked', true);
+	} else {
+		$(this).find('input').first().attr('checked', false);
+	}
+
 	$(this).toggleClass('checked');
-	})
-	</script> 
-			
+})
+</script>
               <div class="form-group required">
                 <label class="col-sm-2 control-label" for="input-model"><?php echo $entry_model; ?></label>
                 <div class="col-sm-10">
@@ -398,7 +396,7 @@
                   </select>
                 </div>
               </div>
-			   <div class="form-group">
+              <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-noindex"><span data-toggle="tooltip" title="<?php echo $help_noindex; ?>"><?php echo $entry_noindex; ?></span></label>
                 <div class="col-sm-10">
                   <select name="noindex" id="input-noindex" class="form-control">
@@ -411,7 +409,7 @@
                     <?php } ?>
                   </select>
                 </div>
-				</div>
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-sort-order"><?php echo $entry_sort_order; ?></label>
                 <div class="col-sm-10">
@@ -427,21 +425,21 @@
                   <input type="hidden" name="manufacturer_id" value="<?php echo $manufacturer_id; ?>" />
                 </div>
               </div>
-			  <div class="form-group">
-				<label class="col-sm-2 control-label" for="input-category"><?php echo $entry_main_category; ?></label>
-				<div class="col-sm-10">
-				<select class="form-control" name="main_category_id">
-					<option value="0" selected="selected"><?php echo $text_none; ?></option>
-						<?php foreach ($categories as $category) { ?>
-							<?php if ($category['category_id'] == $main_category_id) { ?>
-					<option value="<?php echo $category['category_id']; ?>" selected="selected"><?php echo $category['name']; ?></option>
-						<?php } else { ?>
-					<option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
-						<?php } ?>
-						<?php } ?>
-				</select>
-				</div>
-			  </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-category"><?php echo $entry_main_category; ?></label>
+                <div class="col-sm-10">
+                  <select class="form-control" name="main_category_id">
+                    <option value="0" selected="selected"><?php echo $text_none; ?></option>
+                    <?php foreach ($categories as $category) { ?>
+                    <?php if ($category['category_id'] == $main_category_id) { ?>
+                    <option value="<?php echo $category['category_id']; ?>" selected="selected"><?php echo $category['name']; ?></option>
+                    <?php } else { ?>
+                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['name']; ?></option>
+                    <?php } ?>
+                    <?php } ?>
+                  </select>
+                </div>
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="<?php echo $help_category; ?>"><?php echo $entry_category; ?></span></label>
                 <div class="col-sm-10">
@@ -791,9 +789,9 @@
                   <tbody>
                     <?php $recurring_row = 0; ?>
                     <?php foreach ($product_recurrings as $product_recurring) { ?>
-
                     <tr id="recurring-row<?php echo $recurring_row; ?>">
                       <td class="text-left"><select name="product_recurring[<?php echo $recurring_row; ?>][recurring_id]" class="form-control">
+                          <option value="0" selected="selected"><?php echo $text_select; ?></option>
                           <?php foreach ($recurrings as $recurring) { ?>
                           <?php if ($recurring['recurring_id'] == $product_recurring['recurring_id']) { ?>
                           <option value="<?php echo $recurring['recurring_id']; ?>" selected="selected"><?php echo $recurring['name']; ?></option>
@@ -976,77 +974,76 @@
                 </table>
               </div>
             </div>
-			<div class="tab-pane" id="tab-extra">
-					<div class="row">
-						<div class="col-sm-2">
-							<ul class="nav nav-pills nav-stacked" id="extra">
-								<?php $tab_row = 0; ?>
-								<?php foreach($product_tabs as $tab){  ?>
-								 <li><a href="#tab-extra<?php echo $tab_row; ?>" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-extra<?php echo $tab_row; ?>\']').parent().remove(); $('#tab-extra<?php echo $tab_row; ?>').remove(); $('#extra a:first').tab('show');"></i> Tab-<?php echo $tab_row ?></a></li>
-								 <?php $tab_row++; ?>
-								 <?php } ?>
-								  <li id="extratab-add"><a style="cursor:pointer" onclick="addproducttab();"><i class="fa fa-plus-circle"></i> <?php echo $text_add; ?></a></li>
-							</ul>
-						</div>
-						<?php $tab_row = 0; ?>
-						<div class="col-sm-10">
-						<div class="tab-content">
-						   <?php foreach($product_tabs as $tab){  ?>
-							  <div class="tab-pane" id="tab-extra<?php echo $tab_row; ?>">
-									<ul class="nav nav-tabs" id="language<?php echo $tab_row; ?>">
-										<?php foreach ($languages as $language) { ?>
-										<li><a href="#tab-extra-<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="language/<?php echo $language['code']; ?>/<?php echo $language['code']; ?>.png" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a></li>
-										<?php } ?>
-									</ul>
-								 <div class="tab-content">
-								 <?php foreach ($languages as $language){ ?>
-								   <div class="tab-pane" id="tab-extra-<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>">
-										<div class="form-group">
-											<label class="col-sm-2 control-label" for="input-heading-language<?php echo $language['language_id']; ?>"><?php echo $entry_heading; ?></label>
-											<div class="col-sm-10">
-											  <input name="product_tab[<?php echo $tab_row; ?>][description][<?php echo $language['language_id']; ?>][heading]" type="text" placeholder="<?php echo $entry_heading; ?>" id="input-heading<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>" value="<?php echo (isset($tab['description'][$language['language_id']]) ? $tab['description'][$language['language_id']]['heading'] : null) ?>" class="form-control" />
-											  <?php if(isset($error_tab[$tab_row][$language['language_id']])){ ?>
-												<div class="text-danger"><?php echo $error_tab[$tab_row][$language['language_id']]; ?></div>
-											  <?php } ?>
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-sm-2 control-label" for="input-description<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
-											<div class="col-sm-10">
-											  <textarea name="product_tab[<?php echo $tab_row; ?>][description][<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>" class="form-control"><?php echo (isset($tab['description'][$language['language_id']]) ? $tab['description'][$language['language_id']]['description'] : null) ?></textarea>
-											</div>
-										</div>
-									</div>
-									<?php } ?>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" for="input-status<?php echo $tab_row; ?>"><?php echo $entry_status; ?></label>
-										<div class="col-sm-10">
-										  <select name="product_tab[<?php echo $tab_row; ?>][status]" id="input-status<?php echo $tab_row; ?>" class="form-control">
-											<?php if (isset($tab['status']) && $tab['status']) { ?>
-											<option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-											<option value="0"><?php echo $text_disabled; ?></option>
-											<?php } else { ?>
-											<option value="1"><?php echo $text_enabled; ?></option>
-											<option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-											<?php } ?>
-										  </select>
-										</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-2 control-label" for="input-sort-order<?php echo $tab_row; ?>"><?php echo $entry_sort_order; ?></label>
-									<div class="col-sm-10">
-									  <input type="text" name="product_tab[<?php echo $tab_row; ?>][sort_order]" value="<?php echo isset($tab['sort_order']) ? $tab['sort_order'] : '';  ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order<?php echo $tab_row; ?>" class="form-control" />
-									</div>
-								</div>
-								<?php $tab_row++; ?>
-						   </div>
-						   <?php } ?>
-						</div>
-						
-					</div>
-				</div>
-			</div>
+            <div class="tab-pane" id="tab-extra">
+              <div class="row">
+                <div class="col-sm-2">
+                  <ul class="nav nav-pills nav-stacked" id="extra">
+                    <?php $tab_row = 0; ?>
+                    <?php foreach ($product_tabs as $tab) {  ?>
+                    <li><a href="#tab-extra<?php echo $tab_row; ?>" data-toggle="tab"><i class="fa fa-minus-circle" onclick="$('a[href=\'#tab-extra<?php echo $tab_row; ?>\']').parent().remove(); $('#tab-extra<?php echo $tab_row; ?>').remove(); $('#extra a:first').tab('show');"></i> Tab-<?php echo $tab_row ?></a></li>
+                    <?php $tab_row++; ?>
+                    <?php } ?>
+                    <li id="extratab-add"><a style="cursor:pointer" onclick="addproducttab();"><i class="fa fa-plus-circle"></i> <?php echo $text_add; ?></a></li>
+                  </ul>
+                </div>
+                <?php $tab_row = 0; ?>
+                <div class="col-sm-10">
+                  <div class="tab-content">
+                    <?php foreach ($product_tabs as $tab) {  ?>
+                    <div class="tab-pane" id="tab-extra<?php echo $tab_row; ?>">
+                      <ul class="nav nav-tabs" id="language<?php echo $tab_row; ?>">
+                        <?php foreach ($languages as $language) { ?>
+                        <li><a href="#tab-extra-<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="language/<?php echo $language['code']; ?>/<?php echo $language['code']; ?>.png" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a></li>
+                        <?php } ?>
+                      </ul>
+                      <div class="tab-content">
+                        <?php foreach ($languages as $language) { ?>
+                        <div class="tab-pane" id="tab-extra-<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>">
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-heading-language<?php echo $language['language_id']; ?>"><?php echo $entry_heading; ?></label>
+                            <div class="col-sm-10">
+                              <input name="product_tab[<?php echo $tab_row; ?>][description][<?php echo $language['language_id']; ?>][heading]" type="text" placeholder="<?php echo $entry_heading; ?>" id="input-heading<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>" value="<?php echo (isset($tab['description'][$language['language_id']]) ? $tab['description'][$language['language_id']]['heading'] : null) ?>" class="form-control" />
+                              <?php if (isset($error_tab[$tab_row][$language['language_id']])) { ?>
+                              <div class="text-danger"><?php echo $error_tab[$tab_row][$language['language_id']]; ?></div>
+                              <?php } ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-description<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>"><?php echo $entry_description; ?></label>
+                            <div class="col-sm-10">
+                              <textarea name="product_tab[<?php echo $tab_row; ?>][description][<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $tab_row; ?>-language<?php echo $language['language_id']; ?>" class="form-control"><?php echo (isset($tab['description'][$language['language_id']]) ? $tab['description'][$language['language_id']]['description'] : null) ?></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <?php } ?>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-status<?php echo $tab_row; ?>"><?php echo $entry_status; ?></label>
+                        <div class="col-sm-10">
+                          <select name="product_tab[<?php echo $tab_row; ?>][status]" id="input-status<?php echo $tab_row; ?>" class="form-control">
+                            <?php if (isset($tab['status']) && $tab['status']) { ?>
+                            <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                            <option value="0"><?php echo $text_disabled; ?></option>
+                            <?php } else { ?>
+                            <option value="1"><?php echo $text_enabled; ?></option>
+                            <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                            <?php } ?>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-sort-order<?php echo $tab_row; ?>"><?php echo $entry_sort_order; ?></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="product_tab[<?php echo $tab_row; ?>][sort_order]" value="<?php echo isset($tab['sort_order']) ? $tab['sort_order'] : '';  ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order<?php echo $tab_row; ?>" class="form-control" />
+                        </div>
+                      </div>
+                      <?php $tab_row++; ?>
+                    </div>
+                    <?php } ?>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="tab-pane" id="tab-reward">
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-points"><span data-toggle="tooltip" title="<?php echo $help_points; ?>"><?php echo $entry_points; ?></span></label>
@@ -1120,10 +1117,10 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
-  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
-  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
-  <script type="text/javascript"><!--
+<script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+<link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+<script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+<script type="text/javascript"><!--
 // Manufacturer
 $('input[name=\'manufacturer\']').autocomplete({
 	'source': function(request, response) {
@@ -1528,15 +1525,15 @@ var discount_row = <?php echo $discount_row; ?>;
 
 function addDiscount() {
 	html  = '<tr id="discount-row' + discount_row + '">';
-    html += '  <td class="text-left"><select name="product_discount[' + discount_row + '][customer_group_id]" class="form-control">';
-    <?php foreach ($customer_groups as $customer_group) { ?>
-    html += '    <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
-    <?php } ?>
-    html += '  </select></td>';
-    html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" placeholder="<?php echo $entry_quantity; ?>" class="form-control" /></td>';
-    html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][priority]" value="" placeholder="<?php echo $entry_priority; ?>" class="form-control" /></td>';
+	html += '  <td class="text-left"><select name="product_discount[' + discount_row + '][customer_group_id]" class="form-control">';
+	<?php foreach ($customer_groups as $customer_group) { ?>
+	html += '    <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
+	<?php } ?>
+	html += '  </select></td>';
+	html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" placeholder="<?php echo $entry_quantity; ?>" class="form-control" /></td>';
+	html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][priority]" value="" placeholder="<?php echo $entry_priority; ?>" class="form-control" /></td>';
 	html += '  <td class="text-right"><input type="text" name="product_discount[' + discount_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
-    html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" placeholder="<?php echo $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
+	html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" placeholder="<?php echo $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
 	html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_discount[' + discount_row + '][date_end]" value="" placeholder="<?php echo $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
 	html += '  <td class="text-left"><button type="button" onclick="$(\'#discount-row' + discount_row + '\').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 	html += '</tr>';
@@ -1555,14 +1552,14 @@ var special_row = <?php echo $special_row; ?>;
 
 function addSpecial() {
 	html  = '<tr id="special-row' + special_row + '">';
-    html += '  <td class="text-left"><select name="product_special[' + special_row + '][customer_group_id]" class="form-control">';
-    <?php foreach ($customer_groups as $customer_group) { ?>
-    html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
-    <?php } ?>
-    html += '  </select></td>';
-    html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][priority]" value="" placeholder="<?php echo $entry_priority; ?>" class="form-control" /></td>';
+	html += '  <td class="text-left"><select name="product_special[' + special_row + '][customer_group_id]" class="form-control">';
+	<?php foreach ($customer_groups as $customer_group) { ?>
+	html += '      <option value="<?php echo $customer_group['customer_group_id']; ?>"><?php echo addslashes($customer_group['name']); ?></option>';
+	<?php } ?>
+	html += '  </select></td>';
+	html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][priority]" value="" placeholder="<?php echo $entry_priority; ?>" class="form-control" /></td>';
 	html += '  <td class="text-right"><input type="text" name="product_special[' + special_row + '][price]" value="" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>';
-    html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_start]" value="" placeholder="<?php echo $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
+	html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_start]" value="" placeholder="<?php echo $entry_date_start; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
 	html += '  <td class="text-left" style="width: 20%;"><div class="input-group date"><input type="text" name="product_special[' + special_row + '][date_end]" value="" placeholder="<?php echo $entry_date_end; ?>" data-date-format="YYYY-MM-DD" class="form-control" /><span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button></span></div></td>';
 	html += '  <td class="text-left"><button type="button" onclick="$(\'#special-row' + special_row + '\').remove();" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
 	html += '</tr>';
@@ -1598,6 +1595,7 @@ function addRecurring() {
 	html  = '<tr id="recurring-row' + recurring_row + '">';
 	html += '  <td class="left">';
 	html += '    <select name="product_recurring[' + recurring_row + '][recurring_id]" class="form-control">>';
+	html += '      <option value="0"><?php echo $text_select; ?></option>';
 	<?php foreach ($recurrings as $recurring) { ?>
 	html += '      <option value="<?php echo $recurring['recurring_id']; ?>"><?php echo $recurring['name']; ?></option>';
 	<?php } ?>
@@ -1652,14 +1650,14 @@ $('#input-description<?php echo $key; ?>-language<?php echo $language['language_
 function addproducttab(){
 	html  = '<div class="tab-pane" id="tab-extra' + tab_row + '">';
 	html += '  <ul class="nav nav-tabs" id="language' + tab_row + '">';
-    <?php foreach ($languages as $language) { ?>
-    html += '    <li><a href="#tab-extra-' + tab_row + '-language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="language/<?php echo $language['code']; ?>/<?php echo $language['code']; ?>.png" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a></li>';
-    <?php } ?>
+	<?php foreach ($languages as $language) { ?>
+	html += '    <li><a href="#tab-extra-' + tab_row + '-language<?php echo $language['language_id']; ?>" data-toggle="tab"><img src="language/<?php echo $language['code']; ?>/<?php echo $language['code']; ?>.png" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a></li>';
+	<?php } ?>
 	html += '  </ul>';
 
 	html += '  <div class="tab-content">';
 
-	<?php foreach ($languages as $language){ ?>
+	<?php foreach ($languages as $language) { ?>
 	html += '    <div class="tab-pane" id="tab-extra-' + tab_row + '-language<?php echo $language['language_id']; ?>">';
 	html += '      <div class="form-group">';
 	html += '        <label class="col-sm-2 control-label" for="input-heading' + tab_row + '-language<?php echo $language['language_id']; ?>"><?php echo $entry_heading; ?></label>';
@@ -1683,11 +1681,11 @@ function addproducttab(){
 	html += ' </div>';
 	html += ' </div>';
 	html += ' <div class="form-group">';
-    html += ' <label class="col-sm-2 control-label" for="input-sort-order"><?php echo $entry_sort_order; ?></label>';
-    html += '<div class="col-sm-10">';
-    html += '<input type="text" name="product_tab['+ tab_row +'][sort_order]" value="" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order" class="form-control" />';
-    html += '</div>';
-    html += '</div>';
+	html += ' <label class="col-sm-2 control-label" for="input-sort-order"><?php echo $entry_sort_order; ?></label>';
+	html += '<div class="col-sm-10">';
+	html += '<input type="text" name="product_tab['+ tab_row +'][sort_order]" value="" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order" class="form-control" />';
+	html += '</div>';
+	html += '</div>';
 	html += '</div>';
 	
 	$('#tab-extra .tab-content:first-child').prepend(html);
@@ -1709,7 +1707,7 @@ function addproducttab(){
 //--></script>
 <script type="text/javascript"><!--
 $('#tab-extra li:first-child a').tab('show');
-<?php foreach($product_tabs as $key => $tab){  ?>
+<?php foreach ($product_tabs as $key => $tab) {  ?>
 $('#tab-extra #language<?php echo $key; ?> li:first-child a').tab('show');
 <?php } ?>
 //--></script>
