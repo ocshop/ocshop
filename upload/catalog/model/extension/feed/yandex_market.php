@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -11,10 +11,47 @@ class ModelExtensionFeedYandexMarket extends Model {
 		return $query->rows;
 	}
 
-	public function getProduct($allowed_categories, $out_of_stock_id, $vendor_required = true) {
-		$query = $this->db->query("SELECT p.*, pd.name, pd.description, m.name AS manufacturer, p2c.category_id, IFNULL(ps.price, p.price) AS price FROM " . DB_PREFIX . "product p JOIN " . DB_PREFIX . "product_to_category AS p2c ON (p.product_id = p2c.product_id) " . ($vendor_required ? '' : 'LEFT ') . "JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "product_special ps ON (p.product_id = ps.product_id) AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ps.date_start < NOW() AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW()) WHERE p2c.category_id IN (" . $this->db->escape($allowed_categories) . ") AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.date_available <= NOW() AND p.status = '1' AND (p.quantity > '0' OR p.stock_status_id != '" . (int)$out_of_stock_id . "') GROUP BY p.product_id");
+	public function getProduct($allowed_categories, $allowed_manufacturers, $out_of_stock_id, $vendor_required = true, $bus_image = true, $bus_image_quantity = '10', $bus_main_category = true, $bus_quantity_status = false) {
+		$sql = "SELECT p2c.category_id, p.product_id, p.model, p.sku, p.upc, p.ean, p.jan, p.isbn, p.mpn, p.location, p.quantity, p.stock_status_id, p.image, p.tax_class_id, pd.name, pd.description, pd.meta_title, pd.meta_description, pd.meta_keyword, pd.meta_h1,";
+
+		if ((int)$bus_image_quantity > '1') {
+			$sql .= " (SELECT SUBSTRING_INDEX(GROUP_CONCAT(pi.image ORDER BY pi.image SEPARATOR ','), ',', " . ((int)$bus_image_quantity <= "10" ? (int)$bus_image_quantity - 1 : "9") . ") FROM " . DB_PREFIX . "product_image pi WHERE pi.product_id = p2c.product_id) AS images,";
+		}
+
+		$sql .= " m.name AS manufacturer, p.price AS price, ps.price AS special FROM " . DB_PREFIX . "product_to_category AS p2c JOIN " . DB_PREFIX . "product AS p ON (p.product_id = p2c.product_id) " . ($vendor_required ? '' : 'LEFT ') . "JOIN " . DB_PREFIX . "manufacturer AS m ON (m.manufacturer_id = p.manufacturer_id) LEFT JOIN " . DB_PREFIX . "product_description AS pd ON (pd.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store AS p2s ON (p2s.product_id = p2c.product_id) LEFT JOIN " . DB_PREFIX . "product_special AS ps ON (ps.product_id = p2c.product_id) AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ps.date_start < NOW() AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())";
+
+		if (!empty($allowed_categories)) {
+			$sql .= " WHERE p2c.category_id IN (" . $this->db->escape($allowed_categories) . ")";
+		} else {
+			$sql .= " WHERE p2c.category_id";
+		}
+
+		if (!empty($bus_main_category)) {
+			$sql .= " AND p2c.main_category = '1'";
+		}
+
+		if (!empty($allowed_manufacturers)) {
+			$sql .= " AND m.manufacturer_id IN (" . $this->db->escape($allowed_manufacturers) . ")";
+		}
+
+		$sql .= " AND p.status = '1'";
+
+		if (!empty($bus_image)) {
+			$sql .= " AND p.image != ''";
+		}
+
+		$sql .= " AND p.date_available <= NOW() AND (p.quantity " . (!empty($bus_quantity_status) ? '>=' : '>') . " '0' OR p.stock_status_id != '" . (int)$out_of_stock_id . "') AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+
+		$sql .= " GROUP BY p2c.product_id";
+
+		$query = $this->db->query($sql);
+
+		return $query->rows;
+	}
+
+	public function getProductAttributes($product_id) {
+		$query = $this->db->query("SELECT ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) WHERE pa.product_id = '" . (int)$product_id . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY a.sort_order, ad.name");
 
 		return $query->rows;
 	}
 }
-?>
