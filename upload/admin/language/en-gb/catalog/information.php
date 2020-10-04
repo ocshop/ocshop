@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -16,17 +16,17 @@ $_['text_default']           = 'Default';
 
 // Column
 $_['column_title']           = 'Information Title';
-$_['column_sort_order']	     = 'Sort Order';
-$_['column_noindex']    	 = 'Index';
+$_['column_sort_order']      = 'Sort Order';
+$_['column_noindex']         = 'Index';
 $_['column_action']          = 'Action';
 
 // Entry
 $_['entry_title']            = 'Information Title';
-$_['entry_meta_h1'] 	     = 'HTML Tag H1';
+$_['entry_meta_h1']          = 'HTML Tag H1';
 $_['entry_description']      = 'Description';
 $_['entry_store']            = 'Stores';
-$_['entry_meta_title'] 	     = 'Meta Tag Title';
-$_['entry_meta_keyword'] 	 = 'Meta Tag Keywords';
+$_['entry_meta_title']       = 'Meta Tag Title';
+$_['entry_meta_keyword']     = 'Meta Tag Keywords';
 $_['entry_meta_description'] = 'Meta Tag Description';
 $_['entry_keyword']          = 'SEO URL';
 $_['entry_bottom']           = 'Bottom';
@@ -46,6 +46,7 @@ $_['error_permission']       = 'Warning: You do not have permission to modify in
 $_['error_title']            = 'Information Title must be between 3 and 64 characters!';
 $_['error_description']      = 'Description must be more than 3 characters!';
 $_['error_meta_title']       = 'Meta Title must be greater than 3 and less than 255 characters!';
+$_['error_meta_h1']          = 'Meta H1 must be greater than 3 and less than 255 characters!';
 $_['error_keyword']          = 'SEO URL already in use!';
 $_['error_account']          = 'Warning: This information page cannot be deleted as it is currently assigned as the store account terms!';
 $_['error_checkout']         = 'Warning: This information page cannot be deleted as it is currently assigned as the store checkout terms!';
