@@ -1,14 +1,15 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 $_['heading_title']    = 'Google reCAPTCHA';
 
 // Text
+$_['text_extension']   = 'Расширения';
 $_['text_captcha']     = 'Капча';
-$_['text_success']	   = 'Настройки успешно изменены!';
+$_['text_success']     = 'Настройки успешно изменены!';
 $_['text_edit']        = 'Настройки Google reCAPTCHA';
 $_['text_signup']      = 'Перейдите <a href="https://www.google.com/recaptcha/intro/index.html" target="_blank"><u>Google reCAPTCHA</u></a> и зарегистрируйте свой магазин.';
 
@@ -19,5 +20,5 @@ $_['entry_status']     = 'Статус';
 
 // Error
 $_['error_permission'] = 'У вас недостаточно прав для внесения изменений!';
-$_['error_key']	       = 'Необходим ключ сайта!';
-$_['error_secret']	   = 'Необходим секретный ключ!';
+$_['error_key']        = 'Необходим ключ сайта!';
+$_['error_secret']     = 'Необходим секретный ключ!';

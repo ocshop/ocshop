@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -8,6 +8,7 @@
 $_['heading_title']         = 'United States Postal Service';
 
 // Text
+$_['text_extension']        = 'Расширения';
 $_['text_shipping']         = 'Доставка';
 $_['text_success']          = 'Настройки успешно изменены!';
 $_['text_edit']             = 'Редактирование';
@@ -74,20 +75,20 @@ $_['entry_tax']             = 'Класс налога';
 $_['entry_geo_zone']        = 'Географическая зона';
 $_['entry_status']          = 'Статус';
 $_['entry_sort_order']      = 'Порядок сортировки';
-$_['entry_debug']      		= 'Debug Mode';
+$_['entry_debug']           = 'Debug Mode';
 
 // Help
 $_['help_dimension']        = 'Average package dimensions for shipping package. Product dimensions are not used for shipping at this time.';
 $_['help_display_time']     = 'Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)';
 $_['help_display_weight']   = 'Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 kg)';
 $_['help_weight_class']     = 'Must be set to Pound.';
-$_['help_debug']      		= 'Saves send/recv data to the system log';
+$_['help_debug']            = 'Saves send/recv data to the system log';
 
 // Error
 $_['error_permission']      = 'У вас недостаточно прав для внесения изменений!';
 $_['error_user_id']         = 'User ID Required!';
 $_['error_postcode']        = 'Zip Code Required!';
-$_['error_width']        	= 'Укажите Ширину!';
-$_['error_length']        	= 'Length Required!';
-$_['error_height']        	= 'Укажите Высоту!';
-$_['error_girth']        	= 'Girth Required!';
+$_['error_width']           = 'Укажите Ширину!';
+$_['error_length']          = 'Length Required!';
+$_['error_height']          = 'Укажите Высоту!';
+$_['error_girth']           = 'Girth Required!';

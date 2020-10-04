@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -8,6 +8,7 @@
 $_['heading_title']                           = 'FraudLabs Pro';
 
 // Text
+$_['text_extension']                          = 'Расширения';
 $_['text_fraud']                              = 'Anti-Fraud';
 $_['text_success']                            = 'Success: You have modified FraudLabs Pro Settings!';
 $_['text_edit']                               = 'Settings';
@@ -34,7 +35,7 @@ $_['text_score']                              = 'FraudLabs Pro Score';
 $_['text_status']                             = 'FraudLabs Pro Status';
 $_['text_message']                            = 'Message';
 $_['text_transaction_id']                     = 'Transaction ID';
-$_['text_credits']                     		    = 'Balance';
+$_['text_credits']                            = 'Balance';
 $_['text_error']                              = 'Error:';
 $_['text_flp_upgrade']                        = '<a href="http://www.fraudlabspro.com/plan" target="_blank">[Upgrade]</a>';
 $_['text_flp_merchant_area']                  = 'Please login to <a href="http://www.fraudlabspro.com/login" target="_blank">FraudLabs Pro Merchant Area</a> for more information about this order.';
