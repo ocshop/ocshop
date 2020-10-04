@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -8,6 +8,7 @@
 $_['heading_title']                    = 'Default Store Theme';
 
 // Text
+$_['text_extension']                   = 'Extensions';
 $_['text_theme']                       = 'Themes';
 $_['text_success']                     = 'Success: You have modified the default store theme!';
 $_['text_edit']                        = 'Edit Default Store Theme';
@@ -34,13 +35,13 @@ $_['entry_width']                      = 'Width';
 $_['entry_height']                     = 'Height';
 
 // Help
-$_['help_directory'] 	               = 'This field is only to enable older themes to be compatible with the new theme system. You can set the theme directory to use on the image size settings defined here.';
-$_['help_product_limit'] 	           = 'Determines how many catalog items are shown per page (products, categories, etc)';
+$_['help_directory']                   = 'This field is only to enable older themes to be compatible with the new theme system. You can set the theme directory to use on the image size settings defined here.';
+$_['help_product_limit']               = 'Determines how many catalog items are shown per page (products, categories, etc)';
 $_['help_product_description_length']  = 'In the list view, short description character limit (categories, special etc)';
 
 // Error
 $_['error_permission']                 = 'Warning: You do not have permission to modify the default store theme!';
-$_['error_limit']       	           = 'Product Limit required!';
+$_['error_limit']                      = 'Product Limit required!';
 $_['error_image_thumb']                = 'Product Image Thumb Size dimensions required!';
 $_['error_image_popup']                = 'Product Image Popup Size dimensions required!';
 $_['error_image_product']              = 'Product List Size dimensions required!';
