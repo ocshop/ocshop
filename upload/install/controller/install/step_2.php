@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,7 +9,7 @@ class ControllerInstallStep2 extends Controller {
 
 	public function index() {
 		$this->language->load('install/step_2');
-		
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->response->redirect($this->url->link('install/step_3'));
 		}
@@ -17,7 +17,7 @@ class ControllerInstallStep2 extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		
+
 		$data['text_step_2'] = $this->language->get('text_step_2');
 		$data['text_install_php'] = $this->language->get('text_install_php');
 		$data['text_install_extension'] = $this->language->get('text_install_extension');
@@ -44,6 +44,7 @@ class ControllerInstallStep2 extends Controller {
 		$data['text_gd'] = $this->language->get('text_gd');
 		$data['text_curl'] = $this->language->get('text_curl');
 		$data['text_mcrypt'] = $this->language->get('text_mcrypt');
+		$data['text_openssl'] = $this->language->get('text_openssl');
 		$data['text_zlib'] = $this->language->get('text_zlib');
 		$data['text_zip'] = $this->language->get('text_zip');
 		$data['text_mbstring'] = $this->language->get('text_mbstring');
@@ -81,15 +82,16 @@ class ControllerInstallStep2 extends Controller {
 		$data['gd'] = extension_loaded('gd');
 		$data['curl'] = extension_loaded('curl');
 		$data['mcrypt_encrypt'] = function_exists('mcrypt_encrypt');
+		$data['openssl_encrypt'] = function_exists('openssl_encrypt');
 		$data['zlib'] = extension_loaded('zlib');
 		$data['zip'] = extension_loaded('zip');
-		
+
 		$data['iconv'] = function_exists('iconv');
 		$data['mbstring'] = extension_loaded('mbstring');
 
 		$data['config_catalog'] = DIR_OPENCART . 'config.php';
 		$data['config_admin'] = DIR_OPENCART . 'admin/config.php';
-		
+
 		$data['image'] = DIR_OPENCART . 'image';
 		$data['image_cache'] = DIR_OPENCART . 'image/cache';
 		$data['image_catalog'] = DIR_OPENCART . 'image/catalog';
@@ -140,8 +142,10 @@ class ControllerInstallStep2 extends Controller {
 			$this->error['warning'] = $this->language->get('error_curl');
 		}
 
-		if (!function_exists('mcrypt_encrypt')) {
+		if (version_compare(phpversion(), '7.1.0', '<=') == true && !function_exists('mcrypt_encrypt')) {
 			$this->error['warning'] = $this->language->get('error_mcrypt');
+		} else if (version_compare(phpversion(), '7.1.0', '>') == true && !function_exists('openssl_encrypt')) {
+			$this->error['warning'] = $this->language->get('error_openssl');
 		}
 
 		if (!extension_loaded('zlib')) {
@@ -151,11 +155,11 @@ class ControllerInstallStep2 extends Controller {
 		if (!extension_loaded('zip')) {
 			$this->error['warning'] = $this->language->get('error_zip');
 		}
-		
+
 		if (!function_exists('iconv') && !extension_loaded('mbstring')) {
 			$this->error['warning'] = $this->language->get('error_mbstring');
 		}
-		
+
 		if (!file_exists(DIR_OPENCART . 'config.php')) {
 			$this->error['warning'] = $this->language->get('error_catalog_exist');
 		} elseif (!is_writable(DIR_OPENCART . 'config.php')) {
@@ -179,7 +183,7 @@ class ControllerInstallStep2 extends Controller {
 		if (!is_writable(DIR_OPENCART . 'image/catalog')) {
 			$this->error['warning'] = $this->language->get('error_image_catalog');
 		}
-		
+
 		if (!is_writable(DIR_SYSTEM . 'storage/cache')) {
 			$this->error['warning'] = $this->language->get('error_cache');
 		}

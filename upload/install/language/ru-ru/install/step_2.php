@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -18,7 +18,7 @@ $_['text_setting']           = 'Настройки PHP';
 $_['text_current']           = 'Ваши текущие настройки';
 $_['text_required']          = 'Необходимые настройки';
 $_['text_extension']         = 'Расширения';
-$_['text_db']            	 = 'База Данных';
+$_['text_db']                = 'База Данных';
 $_['text_db_driver']         = 'Драйвер БД';
 $_['text_file']              = 'Файлы';
 $_['text_directory']         = 'Директории';
@@ -31,6 +31,7 @@ $_['text_session']           = 'Session Auto Start';
 $_['text_gd']                = 'GD';
 $_['text_curl']              = 'cURL';
 $_['text_mcrypt']            = 'mCrypt';
+$_['text_openssl']           = 'OpenSSL';
 $_['text_zlib']              = 'ZLIB';
 $_['text_zip']               = 'ZIP';
 $_['text_mbstring']          = 'mbstring';
@@ -48,6 +49,7 @@ $_['error_db']               = 'Расширение базы данных до�
 $_['error_gd']               = 'Расширение GD должно быть установлено для работы OpenCart!';
 $_['error_curl']             = 'Расширение CURL должно быть установлено для работы OpenCart!';
 $_['error_mcrypt']           = 'Расширение mCrypt должно быть установлено для работы OpenCart!';
+$_['error_openssl']          = 'Расширение OpenSSL должно быть установлено для работы OpenCart!';
 $_['error_zlib']             = 'Расширение ZLIB должно быть установлено для работы OpenCart!';
 $_['error_zip']              = 'Расширение ZIP должно быть установлено для работы OpenCart!';
 $_['error_mbstring']         = 'Расширение mbstring должно быть установлено для работы OpenCart!';

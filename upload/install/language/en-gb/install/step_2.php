@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -18,7 +18,7 @@ $_['text_setting']           = 'PHP Settings';
 $_['text_current']           = 'Current Settings';
 $_['text_required']          = 'Required Settings';
 $_['text_extension']         = 'Extension Settings';
-$_['text_db']            	 = 'Database';
+$_['text_db']                = 'Database';
 $_['text_db_driver']         = 'Database Driver';
 $_['text_file']              = 'Files';
 $_['text_directory']         = 'Directories';
@@ -31,6 +31,7 @@ $_['text_session']           = 'Session Auto Start';
 $_['text_gd']                = 'GD';
 $_['text_curl']              = 'cURL';
 $_['text_mcrypt']            = 'mCrypt';
+$_['text_openssl']           = 'OpenSSL';
 $_['text_zlib']              = 'ZLIB';
 $_['text_zip']               = 'ZIP';
 $_['text_mbstring']          = 'mbstring';
@@ -48,6 +49,7 @@ $_['error_db']               = 'Warning: A database extension needs to be loaded
 $_['error_gd']               = 'Warning: GD extension needs to be loaded for OpenCart to work!';
 $_['error_curl']             = 'Warning: CURL extension needs to be loaded for OpenCart to work!';
 $_['error_mcrypt']           = 'Warning: mCrypt extension needs to be loaded for OpenCart to work!';
+$_['error_openssl']          = 'Warning: OpenSSL extension needs to be loaded for OpenCart to work!';
 $_['error_zlib']             = 'Warning: ZLIB extension needs to be loaded for OpenCart to work!';
 $_['error_zip']              = 'Warning: ZIP extension needs to be loaded for OpenCart to work!';
 $_['error_mbstring']         = 'Warning: mbstring extension needs to be loaded for OpenCart to work!';
