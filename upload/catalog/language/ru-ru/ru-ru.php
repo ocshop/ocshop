@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -51,7 +51,7 @@ $_['button_return']         = 'Возврат товара';
 $_['button_shopping']       = 'Продолжить покупки';
 $_['button_search']         = 'Поиск';
 $_['button_shipping']       = 'Применить Доставку';
-$_['button_submit']         = 'Применить';
+$_['button_submit']         = 'Отправить';
 $_['button_guest']          = 'Оформить заказ без регистрации';
 $_['button_view']           = 'Просмотр';
 $_['button_voucher']        = 'Применить подарочный сертификат';
