@@ -1,9 +1,9 @@
 <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-latest" data-toggle="tab"><?php echo $tab_latest; ?></a></li>
-			<?php if ($special_products) { ?>
+            <?php if ($special_products) { ?>
             <li><a href="#tab-special" data-toggle="tab"><?php echo $tab_special; ?></a></li>
             <?php } ?>
-			<?php if ($bestseller_products) { ?>
+            <?php if ($bestseller_products) { ?>
             <li><a href="#tab-bestseller" data-toggle="tab"><?php echo $tab_bestseller; ?></a></li>
             <?php } ?>
             <?php if ($featured_products) { ?>
@@ -15,7 +15,7 @@
 <div class="tab-pane active" id="tab-latest">
 <div class="row">
   <?php foreach ($latest_products as $product) { ?>
-  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+  <div class="product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
     <div class="product-thumb transition">
       <div class="image"><?php echo $product['sticker']; ?><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       <div class="caption">
@@ -59,7 +59,7 @@
 <div class="tab-pane" id="tab-special">
 <div class="row">
   <?php foreach ($special_products as $product) { ?>
-  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+  <div class="product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
     <div class="product-thumb transition">
      <div class="image"><?php echo $product['sticker']; ?><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       <div class="caption">
@@ -103,7 +103,7 @@
 <div class="tab-pane" id="tab-bestseller">
 <div class="row">
   <?php foreach ($bestseller_products as $product) { ?>
-  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+  <div class="product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
     <div class="product-thumb transition">
       <div class="image"><?php echo $product['sticker']; ?><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       <div class="caption">
@@ -147,7 +147,7 @@
 <div class="tab-pane" id="tab-featured">
 <div class="row">
   <?php foreach ($featured_products as $product) { ?>
-  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+  <div class="product-layout col-lg-3 col-md-3 col-sm-6 col-xs-12">
     <div class="product-thumb transition">
       <div class="image"><?php echo $product['sticker']; ?><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
       <div class="caption">
@@ -187,6 +187,5 @@
   <?php } ?>
 </div>
 </div>
-
 
 </div>
