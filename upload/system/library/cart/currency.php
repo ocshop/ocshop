@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -11,22 +11,48 @@ class Currency {
 	public function __construct($registry) {
 		$this->db = $registry->get('db');
 		$this->language = $registry->get('language');
+		$this->config = $registry->get('config');
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currency");
 
 		foreach ($query->rows as $result) {
-			$this->currencies[$result['code']] = array(
-				'currency_id'   => $result['currency_id'],
-				'title'         => $result['title'],
-				'symbol_left'   => $result['symbol_left'],
-				'symbol_right'  => $result['symbol_right'],
-				'decimal_place' => $result['decimal_place'],
-				'value'         => $result['value']
-			);
+			if ($result['status'] == 1 || $result['code'] == $this->config->get('config_currency')) {
+				$this->currencies[$result['code']] = array(
+					'currency_id'   => $result['currency_id'],
+					'title'         => $result['title'],
+					'symbol_left'   => $result['symbol_left'],
+					'symbol_right'  => $result['symbol_right'],
+					'decimal_place' => $result['decimal_place'],
+					'value'         => $result['value']
+				);
+			}
 		}
 	}
 
 	public function format($number, $currency, $value = '', $format = true) {
+		if (!isset($this->currencies[$currency])) {
+			if (isset($this->currencies[$this->config->get('config_currency')])) {
+				$currency = $this->config->get('config_currency');
+			} else {
+				$currency_main = false;
+				$currency_last = false;
+
+				foreach ($this->currencies as $key => $result) {
+					if ((float)$result['value'] == 1) {
+						$currency_main = $key;
+					} else {
+						$currency_last = $key;
+					}
+				}
+
+				if ($currency_main) {
+					$currency = $currency_main;
+				} else {
+					$currency = $currency_last;
+				}
+			}
+		}
+
 		$symbol_left = $this->currencies[$currency]['symbol_left'];
 		$symbol_right = $this->currencies[$currency]['symbol_right'];
 		$decimal_place = $this->currencies[$currency]['decimal_place'];
@@ -73,7 +99,7 @@ class Currency {
 
 		return $value * ($to / $from);
 	}
-	
+
 	public function getId($currency) {
 		if (isset($this->currencies[$currency])) {
 			return $this->currencies[$currency]['currency_id'];
