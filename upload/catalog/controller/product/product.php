@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -224,17 +224,17 @@ class ControllerProductProduct extends Controller {
 			} else {
 				$this->document->setTitle($product_info['name']);
 			}
-			
+
 			if ($product_info['noindex'] <= 0) {
 				$this->document->setRobots('noindex,follow');
 			}
-			
+
 			if ($product_info['meta_h1']) {	
 				$data['heading_title'] = $product_info['meta_h1'];
 			} else {
 				$data['heading_title'] = $product_info['name'];
 			}
-			
+
 			$this->document->setDescription($product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
@@ -289,7 +289,6 @@ class ControllerProductProduct extends Controller {
 			$data['reward'] = $product_info['reward'];
 			$data['points'] = $product_info['points'];
 			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
-			$data['sticker'] = $this->getStickers($product_info['product_id']);
 
 			if ($product_info['quantity'] <= 0) {
 				$data['stock'] = $product_info['stock_status'];
@@ -350,32 +349,6 @@ class ControllerProductProduct extends Controller {
 				$data['discounts'][] = array(
 					'quantity' => $discount['quantity'],
 					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency'])
-				);
-			}
-			
-			$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($product_info['product_id']);
-			
-			$data['benefits'] = array();
-				
-			foreach ($productbenefits as $benefit) {
-				if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
-					$bimage = $benefit['image'];
-					if ($benefit['type']) {
-						$bimage = $this->model_tool_image->resize($bimage, 25, 25);
-					} else {
-						$bimage = $this->model_tool_image->resize($bimage, 350, 140);
-					}
-				} else {
-					$bimage = 'no_image.jpg';
-				}
-				$data['benefits'][] = array(
-					'benefit_id'      	=> $benefit['benefit_id'],
-					'name'      		=> $benefit['name'],
-					'description'      	=> strip_tags(html_entity_decode($benefit['description'])),
-					'thumb'      		=> $bimage,
-					'link'      		=> $benefit['link'],
-					'type'      		=> $benefit['type']
-					//'sort_order' => $benefit['sort_order']
 				);
 			}
 
@@ -448,6 +421,10 @@ class ControllerProductProduct extends Controller {
 
 			$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($this->request->get['product_id']);
 
+			$data['sticker'] = $this->getProStickers($product_info['product_id']);
+
+			$data['benefits'] = $this->getProBenefits($product_info['product_id'], 350, 140);
+
 			$data['products'] = array();
 
 			$results = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
@@ -482,33 +459,10 @@ class ControllerProductProduct extends Controller {
 				} else {
 					$rating = false;
 				}
-				
-				$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($result['product_id']);
-				
-				$benefits = array();
-				
-				foreach ($productbenefits as $benefit) {
-					if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
-						$bimage = $benefit['image'];
-						if ($benefit['type']) {
-							$bimage = $this->model_tool_image->resize($bimage, 25, 25);
-						} else {
-							$bimage = $this->model_tool_image->resize($bimage, 120, 60);
-						}
-					} else {
-						$bimage = 'no_image.jpg';
-					}
-					$benefits[] = array(
-						'benefit_id'      	=> $benefit['benefit_id'],
-						'name'      		=> $benefit['name'],
-						'description'      	=> strip_tags(html_entity_decode($benefit['description'])),
-						'thumb'      		=> $bimage,
-						'link'      		=> $benefit['link'],
-						'type'      		=> $benefit['type']
-					);
+
+				if ($result['description_mini']) {
+					$result['description'] = $result['description_mini'];
 				}
-				
-				$stickers = $this->getStickers($result['product_id']) ;
 
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
@@ -518,8 +472,8 @@ class ControllerProductProduct extends Controller {
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
-					'sticker'     => $stickers,
-					'benefits'    => $benefits,
+					'sticker'     => $this->getProStickers($result['product_id']),
+					'benefits'    => $this->getProBenefits($result['product_id']),
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
@@ -549,16 +503,16 @@ class ControllerProductProduct extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
-			
-			$data['product_tabs']=array();
-			
+
+			$data['product_tabs'] = array();
+
 			$tabresults = $this->model_catalog_product->getproducttab($this->request->get['product_id']);
-			
+
 			foreach($tabresults as $result){
 				$data['product_tabs'][]=array(
 					'product_tab_id' => $result['product_tab_id'],
-					'title'   => $result['heading'],
-					'description' => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+					'title'          => $result['heading'],
+					'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
 				);
 			}
 
@@ -782,25 +736,64 @@ class ControllerProductProduct extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
-	
-	private function getStickers($product_id) {
-	
- 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
-		
+
+	private function getProStickers($product_id) {
+		$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id);
+
 		if (!$stickers) {
 			return;
 		}
-		
+
+		$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
+
 		$data['stickers'] = array();
-		
+
 		foreach ($stickers as $sticker) {
 			$data['stickers'][] = array(
 				'position' => $sticker['position'],
-				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
-			);		
+				'name'     => $sticker['name'],
+				'image'    => ($sticker['image'] ? $server . 'image/' . $sticker['image'] : false)
+			);
 		}
-		
+
 		return $this->load->view('product/stickers', $data);
-	
+	}
+
+	private function getProBenefits($product_id, $width = 120, $height = 60) {
+		$benefits = array();
+
+		$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($product_id);
+
+		foreach ($productbenefits as $benefit) {
+			if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
+				if ($benefit['type']) {
+					$bimage = $this->model_tool_image->resize($benefit['image'], 25, 25);
+				} else {
+					$bimage = $this->model_tool_image->resize($benefit['image'], $width, $height);
+				}
+			} else {
+				if ($benefit['type']) {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', 25, 25);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', 25, 25);
+				} else {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', $width, $height);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', $width, $height);
+				}
+			}
+
+			$benefits[] = array(
+				'benefit_id'  => $benefit['benefit_id'],
+				'name'        => $benefit['name'],
+				'description' => strip_tags(html_entity_decode($benefit['description'])),
+				'thumb'       => $bimage,
+				'link'        => $benefit['link'],
+				'type'        => $benefit['type']
+				//'sort_order'  => $benefit['sort_order']
+			);
+		}
+
+		return $benefits;
 	}
 }

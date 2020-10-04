@@ -148,7 +148,7 @@ class ControllerBlogLatest extends Controller {
 			if ($result['image']) {
 				$image = $this->model_tool_image->resize($result['image'], $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
 			} else {
-				$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
+				$image = false;
 			}
 
 			if ($configblog_review_status) {

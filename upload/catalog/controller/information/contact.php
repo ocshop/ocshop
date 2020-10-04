@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -28,7 +28,7 @@ class ControllerInformationContact extends Controller {
 			$mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
 			$mail->setText($this->request->post['enquiry']);
 			$mail->send();
-			
+
 			// Send to additional alert emails if new account email is enabled
 			$emails = explode(',', $this->config->get('config_alert_email'));
 
