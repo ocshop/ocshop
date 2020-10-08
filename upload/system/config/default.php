@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -49,7 +49,7 @@ $_['session_name']         = 'PHPSESSID';
 $_['template_type']        = 'php';
 
 // Error
-$_['config_error_display'] = true;
+$_['config_error_display'] = false;
 $_['config_error_log']     = true;
 $_['config_error_filename'] = 'error.log';
 
