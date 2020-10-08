@@ -14,9 +14,38 @@ $config->load($application_config);
 $registry->set('config', $config);
 
 // Error fix
-if (!$config->get('config_error_display')) {
-	error_reporting(0);
-}
+set_error_handler(function($code, $message, $file, $line) use($config) {
+	// error suppressed with @
+	if (error_reporting() === 0) {
+		return false;
+	}
+
+	switch ($code) {
+		case E_NOTICE:
+		case E_USER_NOTICE:
+			$error = 'Notice';
+			break;
+		case E_WARNING:
+		case E_USER_WARNING:
+			$error = 'Warning';
+			break;
+		case E_ERROR:
+		case E_USER_ERROR:
+			$error = 'Fatal Error';
+			break;
+		default:
+			$error = 'Unknown';
+			break;
+	}
+
+	if ($config->get('config_error_display')) {
+		echo '<b>' . $error . '</b>: ' . $message . ' in <b>' . $file . '</b> on line <b>' . $line . '</b>';
+	} else {
+		error_reporting(0);
+	}
+
+	return true;
+});
 
 // Event
 $event = new Event($registry);
