@@ -412,6 +412,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		$setting_cats['cats_vertical'] = $setting['cats']['cats_vertical'];
 		$setting_cats['cats_cell'] = $setting['cats']['cats_cell'];
 		$setting = $setting['setting'];
+		$setting['filter_status'] = true;
 
 		if (empty($setting['status'])) {
 			return false;
@@ -544,7 +545,6 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			//$setting['seo_now'] = $setting['seo_now'];
 			$setting['seo_then'] = (isset($setting['seo_then']) ? $setting['seo_then'] : false);
 			$setting['seo_cycle'] = (isset($setting['seo_cycle']) ? $setting['seo_cycle'] : false);
-			$setting['filter_status'] = true;
 			//$setting['path_status'] = $setting['path_status'];
 			//$setting['path_lvl'] = (isset($setting['path_lvl']) ? $setting['path_lvl'] : false);
 			//$setting['path_lvl_limit'] = (isset($setting['path_lvl_limit']) ? $setting['path_lvl_limit'] : 2);
