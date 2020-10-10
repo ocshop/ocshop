@@ -70,7 +70,7 @@ final class Loader {
 	}
 
 	public function view($route, $data = array()) {
-		if (!defined('DIR_CATALOG')) {
+		if (!defined('DIR_CATALOG') && $this->registry->get('config')->get('config_language_id')) {
 			if (!isset($data['description'])) {
 				$data['description'] = false;
 			}
