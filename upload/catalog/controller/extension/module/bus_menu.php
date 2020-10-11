@@ -434,7 +434,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			}
 		}
 
-		if ($setting['filter_status'] && isset($this->request->get['path'])) {
+		if ($setting['filter_status'] && $setting['type'] == 2 && isset($this->request->get['path'])) {
 			$id_request = explode('_', (string)$this->request->get['path']);
 			$id_request = array_pop($id_request);
 		} else {
@@ -607,13 +607,6 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 				$setting['cats_status'] = true;
 			} else {
-				if ($setting['filter_status'] && isset($this->request->get['path'])) {
-					$id_request = explode('_', (string)$this->request->get['path']);
-					$id_request = array_pop($id_request);
-				} else {
-					$id_request = 0;
-				}
-
 				if ($setting['path_lvl']) {
 					$cats = $this->model_extension_module_bus_menu->getCatsLevel($id_request, 'category', array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'limit' => $setting['path_limit'], 'top' => true));
 				} else {
