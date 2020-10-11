@@ -160,6 +160,8 @@ class ControllerExtensionEvent extends Controller {
 			'href' => $this->url->link('extension/event', 'token=' . $this->session->data['token'] . $url, true)
 		);
 
+		$data['delete'] = $this->url->link('extension/event/delete', 'token=' . $this->session->data['token'] . $url, true);
+
 		$data['events'] = array();
 
 		$filter_data = array(
