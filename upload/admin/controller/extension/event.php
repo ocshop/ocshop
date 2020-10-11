@@ -191,6 +191,7 @@ class ControllerExtensionEvent extends Controller {
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
+		$data['text_confirm'] = $this->language->get('text_confirm');
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_event'] = $this->language->get('text_event');
@@ -202,6 +203,7 @@ class ControllerExtensionEvent extends Controller {
 		$data['column_date_added'] = $this->language->get('column_date_added');
 		$data['column_action'] = $this->language->get('column_action');
 
+		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_enable'] = $this->language->get('button_enable');
 		$data['button_disable'] = $this->language->get('button_disable');
 
