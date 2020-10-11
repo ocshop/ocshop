@@ -1,12 +1,12 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionEvent extends Controller {
 	private $error = array();
-	
+
 	public function index() {
 		$this->load->language('extension/event');
 
@@ -80,7 +80,41 @@ class ControllerExtensionEvent extends Controller {
 
 		$this->getList();
 	}
-	
+
+	public function delete() {
+		$this->load->language('extension/event');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('extension/event');
+
+		if (isset($this->request->post['selected']) && $this->validate()) {
+			foreach ($this->request->post['selected'] as $event_id) {
+				$this->model_extension_event->deleteEvent($event_id);
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('extension/event', 'token=' . $this->session->data['token'] . $url, true));
+		}
+
+		$this->getList();
+	}	
+
 	public function getList() {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
