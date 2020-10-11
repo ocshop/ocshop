@@ -13,8 +13,8 @@ $_['text_module']              = 'Modules';
 $_['text_additional_1']        = 'Links consisting of routes with parameters';
 $_['text_additional_2']        = 'Links consisting of routes without parameters';
 $_['text_additional_3']        = 'Links with duplicates seo_url';
-$_['text_description']         = '- Set this description output code in the template: "<b>&lt;?php echo $description; ?&gt;</b>" to the place you need.';
-$_['text_description_bottom']  = '- Set this description output code in the template: "<b>&lt;?php echo $description_bottom; ?&gt;</b>" to the place you need.';
+$_['text_description']         = '- Set this description output code in the template: "<b>&lt;?php echo (isset($description) ? $description : false); ?&gt;</b>" to the place you need.';
+$_['text_description_bottom']  = '- Set this description output code in the template: "<b>&lt;?php echo (isset($description_bottom) ? $description_bottom : false); ?&gt;</b>" to the place you need.';
 
 // Column
 $_['column_query']             = 'Link (route or parameter)';
