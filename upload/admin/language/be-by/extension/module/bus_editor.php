@@ -43,8 +43,8 @@ $_['text_left_bottom']                      = 'У левым ніжнім куц
 $_['text_right_bottom']                     = 'У правым ніжнім куце';
 $_['text_example']                          = '<b>Напрыклад:</b> %s';
 $_['text_view']                             = '<b>Шаблон размешчаны па шляху:</b> catalog/view/theme/%s/template/';
-$_['text_author']                           = 'Аўтар: <a href="http://buslikdrev.by/" title="Вырабы рамеснай вытворчасці" target="_blank">БуслікДрэў</a>. Тэх. падтрымка: <a href="https://liveopencart.ru/buslikdrev" title="Тэхнічная дапамога па вырашэнні праблем звязаныя з модулем" target="_blank">ТУТ</a>. Тэма падтрымкі: <a href="http://forum.opencart.pro/topic/6294-удобный-редактор-convenient-editor/" title="Тэхнічная дапамога па вырашэнні праблем звязаныя з модулем" target="_blank">ТУТ</a>.';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" target="_blank">BuslikDrev</a> - Усе правы захаваны.';
+$_['text_author']                           = '';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" target="_blank">BuslikDrev</a> - Усе правы захаваны.';
 
 // Entry
 $_['entry_index']                           = 'Прапусціць паўторныя';
