@@ -162,6 +162,7 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_error_display'] = $this->language->get('entry_error_display');
 		$data['entry_error_log'] = $this->language->get('entry_error_log');
 		$data['entry_error_filename'] = $this->language->get('entry_error_filename');
+		$data['entry_debug_pro'] = $this->language->get('entry_debug_pro');
 		$data['entry_status'] = $this->language->get('entry_status');
 
 		$data['help_geocode'] = $this->language->get('help_geocode');
@@ -231,6 +232,7 @@ class ControllerSettingSetting extends Controller {
 		$data['help_password'] = $this->language->get('help_password');
 		$data['help_encryption'] = $this->language->get('help_encryption');
 		$data['help_compression'] = $this->language->get('help_compression');
+		$data['help_debug_pro'] = $this->language->get('help_debug_pro');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -1125,22 +1127,18 @@ class ControllerSettingSetting extends Controller {
 
 		if (isset($this->request->post['config_valide_get_params_status'])) {
 			$data['config_valide_get_params_status'] = $this->request->post['config_valide_get_params_status'];
-		// удалить в 2.3.0.2.7
-		} elseif ($this->config->get('config_valide_get_params_status') == null) {
-			$data['config_valide_get_params_status'] = 1;
-		// удалить в 2.3.0.2.7
-		} else {
+		} elseif ($this->config->has('config_valide_get_params_status')) {
 			$data['config_valide_get_params_status'] = $this->config->get('config_valide_get_params_status');
+		} else {
+			$data['config_valide_get_params_status'] = 1;
 		}
 
 		if (isset($this->request->post['config_valide_get_params'])) {
 			$data['config_valide_get_params'] = $this->request->post['config_valide_get_params'];
-		// удалить в 2.3.0.2.7
-		} elseif ($this->config->get('config_valide_get_params') == null) {
-			$data['config_valide_get_params'] = "tracking\r\nutm_source\r\nutm_campaign\r\nutm_medium\r\ntype\r\nsource\r\nblock\r\nposition\r\nkeyword\r\nyclid\r\ngclid";
-		// удалить в 2.3.0.2.7
-		} else {
+		} elseif ($this->config->has('config_valide_get_params')) {
 			$data['config_valide_get_params'] = $this->config->get('config_valide_get_params');
+		} else {
+			$data['config_valide_get_params'] = "tracking\r\nutm_source\r\nutm_campaign\r\nutm_medium\r\ntype\r\nsource\r\nblock\r\nposition\r\nkeyword\r\nyclid\r\ngclid";
 		}
 
 		if (isset($this->request->post['config_file_max_size'])) {
@@ -1203,6 +1201,30 @@ class ControllerSettingSetting extends Controller {
 			$data['config_error_filename'] = $this->request->post['config_error_filename'];
 		} else {
 			$data['config_error_filename'] = $this->config->get('config_error_filename');
+		}
+
+		if (isset($this->request->post['config_debug_pro'])) {
+			$data['config_debug_pro'] = $this->request->post['config_debug_pro'];
+
+			$this->load->model('extension/event'); 
+
+			if ($data['config_debug_pro']) {
+				$code = $this->model_extension_event->getEvent('config_debug_pro', 'controller/*/before', 'event/debug/before');
+
+				if (!$code) {
+					$this->model_extension_event->addEvent('config_debug_pro', 'controller/*/before', 'event/debug/after', 1, 0);
+				}
+
+				$code = $this->model_extension_event->getEvent('config_debug_pro', 'controller/*/after', 'event/debug/after');
+
+				if (!$code) {
+					$this->model_extension_event->addEvent('config_debug_pro', 'controller/*/after', 'event/debug/after', 1, 9999);
+				}
+			} else {
+				$this->model_extension_event->deleteEvent('config_debug_pro');
+			}
+		} else {
+			$data['config_debug_pro'] = $this->config->get('config_debug_pro');
 		}
 
 		$data['header'] = $this->load->controller('common/header');
