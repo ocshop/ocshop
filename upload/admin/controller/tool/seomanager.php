@@ -694,6 +694,16 @@ class ControllerToolSeoManager extends Controller {
 
 		// удалить в версии 2.3.0.2.7
 		$this->updateModule();
+
+		// создаём событие
+		$this->load->model('extension/event'); 
+
+		$code = $this->model_extension_event->getEvent('Seomanager', 'catalog/view/*/before', 'tool/seomanager/event');
+
+		if (!$code) {
+			$this->model_extension_event->addEvent('Seomanager', 'catalog/view/*/before', 'tool/seomanager/event', 1, 1001);
+		}
+		// удалить в версии 2.3.0.2.7
 	}
 
 	protected function validateForm() {
