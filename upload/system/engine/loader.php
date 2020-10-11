@@ -70,44 +70,6 @@ final class Loader {
 	}
 
 	public function view($route, $data = array()) {
-		if (!defined('DIR_CATALOG') && $this->registry->get('config')->get('config_language_id')) {
-			if (!isset($data['description'])) {
-				$data['description'] = false;
-			}
-			if (!isset($data['description_bottom'])) {
-				$data['description_bottom'] = false;
-			}
-			if ((isset($data['footer']) || strpos($route, 'footer') !== false) && isset($this->registry->get('request')->get['route'])) {
-				$seomanager = $this->registry->get('db')->query("SELECT * FROM `" . DB_PREFIX . "pro_seo_tag` st LEFT JOIN `" . DB_PREFIX . "pro_seo_tag_to_store` stts ON (st.seo_tag_id = stts.seo_tag_id) WHERE st.status = '1' AND stts.store_id = '" . (int)$this->registry->get('config')->get('config_store_id') . "' AND st.query = '" . $this->registry->get('db')->escape($this->registry->get('request')->get['route']) . "'")->row;
-
-				if ($seomanager) {
-					$seomanager_desc = $this->registry->get('db')->query("SELECT * FROM `" . DB_PREFIX . "pro_seo_tag_description` WHERE seo_tag_id = '" . (int)$seomanager['seo_tag_id'] . "' AND language_id = '" . (int)$this->registry->get('config')->get('config_language_id') . "'")->row;
-
-					if (isset($data['footer']) && $seomanager['view']) {
-						$route = $seomanager['view'];
-					}
-					if ($seomanager_desc['meta_h1']) {
-						$data['heading_title'] = $seomanager_desc['meta_h1'];
-					}
-					if ($seomanager_desc['meta_title']) {
-						$this->registry->get('document')->setTitle($seomanager_desc['meta_title']);
-					}
-					if ($seomanager_desc['meta_description']) {
-						$this->registry->get('document')->setDescription($seomanager_desc['meta_description']);
-					}
-					if ($seomanager_desc['meta_keyword']) {
-						$this->registry->get('document')->setKeywords($seomanager_desc['meta_keyword']);
-					}
-					if ($seomanager_desc['description']) {
-						$data['description'] = html_entity_decode($seomanager_desc['description'], ENT_QUOTES, 'UTF-8');
-					}
-					if ($seomanager_desc['description_bottom']) {
-						$data['description_bottom'] = html_entity_decode($seomanager_desc['description_bottom'], ENT_QUOTES, 'UTF-8');
-					}
-				}
-			}
-		}
-
 		$output = null;
 
 		// Sanitize the call
