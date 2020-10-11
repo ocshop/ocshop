@@ -18,7 +18,7 @@ class ControllerSettingSetting extends Controller {
 			if (isset($this->request->post['config_debug_pro'])) {
 				$this->load->model('extension/event'); 
 
-				if ($data['config_debug_pro']) {
+				if ($this->request->post['config_debug_pro']) {
 					$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before');
 
 					if (!$code) {
