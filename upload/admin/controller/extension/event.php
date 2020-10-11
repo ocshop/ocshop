@@ -90,7 +90,8 @@ class ControllerExtensionEvent extends Controller {
 
 		if (isset($this->request->post['selected']) && $this->validate()) {
 			foreach ($this->request->post['selected'] as $event_id) {
-				$this->model_extension_event->deleteEvent($event_id);
+				//$this->model_extension_event->deleteEvent($event_id);
+				$this->db->query("DELETE FROM `" . DB_PREFIX . "event` WHERE `event_id` = '" . (int)$event_id . "'");
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
