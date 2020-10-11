@@ -15,6 +15,26 @@ class ControllerSettingSetting extends Controller {
 		$this->load->model('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+			if (isset($this->request->post['config_debug_pro'])) {
+				$this->load->model('extension/event'); 
+
+				if ($data['config_debug_pro']) {
+					$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before');
+
+					if (!$code) {
+						$this->model_extension_event->addEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before', 1, 0);
+					}
+
+					$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/after', 'event/debug/after');
+
+					if (!$code) {
+						$this->model_extension_event->addEvent('config_debug_pro', 'catalog/controller/*/after', 'event/debug/after', 1, 9999);
+					}
+				} else {
+					$this->model_extension_event->deleteEvent('config_debug_pro');
+				}
+			}
+
 			$this->model_setting_setting->editSetting('config', $this->request->post);
 
 			if ($this->config->get('config_currency_auto')) {
@@ -1207,24 +1227,6 @@ class ControllerSettingSetting extends Controller {
 			$data['config_debug_pro'] = $this->request->post['config_debug_pro'];
 		} else {
 			$data['config_debug_pro'] = $this->config->get('config_debug_pro');
-		}
-
-		$this->load->model('extension/event'); 
-
-		if ($data['config_debug_pro']) {
-			$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before');
-
-			if (!$code) {
-				$this->model_extension_event->addEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before', 1, 0);
-			}
-
-			$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/after', 'event/debug/after');
-
-			if (!$code) {
-				$this->model_extension_event->addEvent('config_debug_pro', 'catalog/controller/*/after', 'event/debug/after', 1, 9999);
-			}
-		} else {
-			$this->model_extension_event->deleteEvent('config_debug_pro');
 		}
 
 		$data['header'] = $this->load->controller('common/header');
