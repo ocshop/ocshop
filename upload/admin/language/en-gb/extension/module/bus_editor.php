@@ -43,8 +43,8 @@ $_['text_left_bottom']                      = 'Left and bottom';
 $_['text_right_bottom']                     = 'Right and bottom';
 $_['text_example']                          = '<b>Example:</b> %s';
 $_['text_view']                             = '<b>The template is located along the path:</b> catalog/view/theme/%s/template/';
-$_['text_author']                           = 'Author: <a href="http://buslikdrev.by/" title="Handicraft Products" target="_blank">BuslikDrev</a>. Support: <a href="https://liveopencart.ru/buslikdrev" title="Technical help to solve problems associated with the module" target="_blank">HERE</a>. Support topic: <a href="http://forum.opencart.pro/topic/6294-удобный-редактор-convenient-editor/" title="Technical help to solve problems associated with the module" target="_blank">HERE</a>.';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" target="_blank">BuslikDrev</a> - All rights reserved.';
+$_['text_author']                           = '';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" target="_blank">BuslikDrev</a> - All rights reserved.';
 
 // Entry
 $_['entry_index']                           = 'Skip repeated';
