@@ -16,11 +16,11 @@ class ControllerEventDebug extends Controller {
 			if (isset($this->session->data['debug'][$route])) {
 				$data = array(
 					'route' => $route,
-					'time'  => microtime(true) - $this->session->data['debug'][$route]
+					'time'  => (round(microtime(true) - $this->session->data['debug'][$route], 3)*1000) . ' mc'
 				);
 
 				$this->log->write($data);
 			}
 		}
-	}	
+	}
 }
