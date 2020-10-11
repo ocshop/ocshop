@@ -747,6 +747,10 @@ h2.price {
     background-image: none;
     background-color: #df5c39;
 }
+/* fix carouse */
+[id*='carouse'] .img-responsive {
+	display: initial;
+}
 /*img category*/
 .imgcategory .product-thumb.transition > h4 {
 	padding-left: 10px;
