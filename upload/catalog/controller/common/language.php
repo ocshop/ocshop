@@ -1,11 +1,11 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerCommonLanguage extends Controller {
-	public function index() {
+	public function index($setting) {
 		$this->load->language('common/language');
 
 		$data['text_language'] = $this->language->get('text_language');
@@ -33,9 +33,9 @@ class ControllerCommonLanguage extends Controller {
 			$data['redirect'] = $this->url->link('common/home');
 		} else {
 			$url_data = $this->request->get;
-			
+
 			unset($url_data['_route_']);
-			
+
 			$route = $url_data['route'];
 
 			unset($url_data['route']);
