@@ -5,7 +5,7 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerCommonCart extends Controller {
-	public function index($setting) {
+	public function index() {
 		$this->load->language('common/cart');
 
 		// Totals
