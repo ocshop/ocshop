@@ -98,11 +98,11 @@ class ControllerCommonHeader extends Controller {
 
 			$data['categories'] = $this->load->controller('extension/module/custommenu');
 		} else {
-			$this->load->model('catalog/category');
+		$this->load->model('catalog/category');
 
-			$this->load->model('catalog/product');
+		$this->load->model('catalog/product');
 
-			$categories = $this->model_catalog_category->getCategories(0);
+		$categories = $this->model_catalog_category->getCategories(0);
 		}
 
 		foreach ($categories as $category) {
