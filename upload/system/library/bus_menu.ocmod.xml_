@@ -95,6 +95,26 @@
         </operation>
 		<operation error="skip">
             <search>
+			<![CDATA[$this->load->model('catalog/category');]]>
+            </search>
+            <add position="replace">
+			<![CDATA[if (!$bus_menu_status || !$this->config->get('configmenu_menu') || !$this->config->get('configcustommenu_custommenu')) {
+			$this->load->model('catalog/category');
+		}]]>
+            </add>
+        </operation>
+		<operation error="skip">
+            <search>
+			<![CDATA[$this->load->model('catalog/product');]]>
+            </search>
+            <add position="replace">
+			<![CDATA[if (!$bus_menu_status || !$this->config->get('configmenu_menu') || !$this->config->get('configcustommenu_custommenu')) {
+			$this->load->model('catalog/product');
+		}]]>
+            </add>
+        </operation>
+		<operation error="skip">
+            <search>
 			<![CDATA[$categories = $this->model_catalog_category->getCategories(0);]]>
             </search>
             <add position="replace">
