@@ -12,8 +12,11 @@
 	<!-- ↓ АДМИНКА КОНТРОЛЛЕРЫ ↓ -->
 	<file path="admin/view/template/common/footer.tpl">
 		<operation>
-			<search index="0"><![CDATA[</body>]]></search>
-			<add position="before"><![CDATA[<style type="text/css">
+			<search index="0">
+			<![CDATA[</body>]]>
+			</search>
+			<add position="before">
+			<![CDATA[<style type="text/css">
 /* bus-editor */
 a.bus-editor{margin-right:3px}
 #bus-editor .loading{display:none;position:relative;width:100%;height:300px;text-align:center;margin-top:15%;z-index:1}
@@ -92,87 +95,112 @@ $(document).ready(function() {
 		});
 	}
 });
-//--></script>]]></add>
+//--></script>]]>
+			</add>
 		</operation>
 	</file>
 	<!-- ↑ АДМИНКА КОНТРОЛЛЕРЫ ↑ -->
 	<!-- ↓ САЙТ КОНТРОЛЛЕРЫ ↓ -->
 	<file path="catalog/controller/blog/category.php">
 		<operation error="skip">
-			<search index="0"><![CDATA[function index(]]></search>
-			<add position="after"><![CDATA[			if ($this->config->get('bus_editor_blog_category_href_status')) {
-				$this->user = new Cart\User($this->registry);
-				if ($this->user->isLogged()) {
-					$data['button_bus_editor_href'] = $this->language->get('button_edit');
-					$id = explode('_', (string)$this->request->get['blog_category_id']);
-					$id = (int)array_pop($id);
-					$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'blog_category=' . $id);
-				}
-			}]]></add>
+			<search index="0">
+			<![CDATA[function index(]]>
+			</search>
+			<add position="after">
+			<![CDATA[		if ($this->config->get('bus_editor_blog_category_href_status')) {
+			$this->user = new Cart\User($this->registry);
+			if ($this->user->isLogged()) {
+				$data['button_bus_editor_href'] = $this->language->get('button_edit');
+				$id = explode('_', (string)$this->request->get['blog_category_id']);
+				$id = (int)array_pop($id);
+				$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'blog_category=' . $id);
+			}
+		}]]>
+			</add>
 		</operation>
 	</file>
 	<file path="catalog/controller/blog/article.php">
 		<operation error="skip">
-			<search index="0"><![CDATA[function index(]]></search>
-			<add position="after"><![CDATA[			if ($this->config->get('bus_editor_blog_article_href_status')) {
-				$this->user = new Cart\User($this->registry);
-				if ($this->user->isLogged()) {
-					$data['button_bus_editor_href'] = $this->language->get('button_edit');
-					$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'article=' . $this->request->get['article_id']);
-				}
-			}]]></add>
+			<search index="0">
+			<![CDATA[function index(]]>
+			</search>
+			<add position="after">
+			<![CDATA[		if ($this->config->get('bus_editor_blog_article_href_status')) {
+			$this->user = new Cart\User($this->registry);
+			if ($this->user->isLogged()) {
+				$data['button_bus_editor_href'] = $this->language->get('button_edit');
+				$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'article=' . $this->request->get['article_id']);
+			}
+		}]]>
+			</add>
 		</operation>
 	</file>
 	<file path="catalog/controller/product/category.php">
 		<operation error="skip">
-			<search index="0"><![CDATA[function index(]]></search>
-			<add position="after"><![CDATA[			if ($this->config->get('bus_editor_category_href_status')) {
-				$this->user = new Cart\User($this->registry);
-				if ($this->user->isLogged()) {
-					$data['button_bus_editor_href'] = $this->language->get('button_edit');
-					$id = explode('_', (string)$this->request->get['path']);
-					$id = (int)array_pop($id);
-					$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'category=' . $id);
-				}
-			}]]></add>
+			<search index="0">
+			<![CDATA[function index(]]>
+			</search>
+			<add position="after">
+			<![CDATA[		if ($this->config->get('bus_editor_category_href_status')) {
+			$this->user = new Cart\User($this->registry);
+			if ($this->user->isLogged()) {
+				$data['button_bus_editor_href'] = $this->language->get('button_edit');
+				$id = explode('_', (string)$this->request->get['path']);
+				$id = (int)array_pop($id);
+				$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'category=' . $id);
+			}
+		}]]>
+			</add>
 		</operation>
 	</file>
 	<file path="catalog/controller/information/information.php">
 		<operation error="skip">
-			<search index="0"><![CDATA[function index(]]></search>
-			<add position="after"><![CDATA[			if ($this->config->get('bus_editor_information_href_status')) {
-				$this->user = new Cart\User($this->registry);
-				if ($this->user->isLogged()) {
-					$data['button_bus_editor_href'] = $this->language->get('button_edit');
-					$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'information=' . $this->request->get['information_id']);
-				}
-			}]]></add>
+			<search index="0">
+			<![CDATA[function index(]]>
+			</search>
+			<add position="after">
+			<![CDATA[		if ($this->config->get('bus_editor_information_href_status')) {
+			$this->user = new Cart\User($this->registry);
+			if ($this->user->isLogged()) {
+				$data['button_bus_editor_href'] = $this->language->get('button_edit');
+				$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'information=' . $this->request->get['information_id']);
+			}
+		}]]>
+			</add>
 		</operation>
 	</file>
 	<file path="catalog/controller/product/manufacturer.php">
 		<operation error="skip">
-			<search index="0"><![CDATA[function info(]]></search>
-			<add position="after"><![CDATA[			if ($this->config->get('bus_editor_manufacturer_href_status')) {
-				$this->user = new Cart\User($this->registry);
-				if ($this->user->isLogged()) {
-					$data['button_bus_editor_href'] = $this->language->get('button_edit');
-					$id = explode('_', (string)$this->request->get['manufacturer_id']);
-					$id = (int)array_pop($id);
-					$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'manufacturer=' . $id);
-				}
-			}]]></add>
+			<search index="0">
+			<![CDATA[function info(]]>
+			</search>
+			<add position="after">
+			<![CDATA[		if ($this->config->get('bus_editor_manufacturer_href_status')) {
+			$this->user = new Cart\User($this->registry);
+			if ($this->user->isLogged()) {
+				$data['button_bus_editor_href'] = $this->language->get('button_edit');
+				$id = explode('_', (string)$this->request->get['manufacturer_id']);
+				$id = (int)array_pop($id);
+				$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'manufacturer=' . $id);
+			}
+		}]]>
+			</add>
 		</operation>
 	</file>
 	<file path="catalog/controller/product/product.php">
 		<operation error="skip">
-			<search index="0"><![CDATA[function index(]]></search>
-			<add position="after"><![CDATA[			if ($this->config->get('bus_editor_product_href_status')) {
-				$this->user = new Cart\User($this->registry);
-				if ($this->user->isLogged()) {
-					$data['button_bus_editor_href'] = $this->language->get('button_edit');
-					$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'product=' . $this->request->get['product_id']);
-				}
-			}]]></add>
+			<search index="0">
+			<![CDATA[function index(]]>
+			</search>
+			<add position="after">
+			<![CDATA[		if ($this->config->get('bus_editor_product_href_status')) {
+			$this->user = new Cart\User($this->registry);
+			if ($this->user->isLogged()) {
+				$data['button_bus_editor_href'] = $this->language->get('button_edit');
+				$data['bus_editor_href'] = $this->url->link('extension/module/bus_editor', 'product=' . $this->request->get['product_id']);
+			}
+		}]]>
+			</add>
 		</operation>
 	</file>
 	<!-- ↑ САЙТ КОНТРОЛЛЕРЫ ↑ -->
