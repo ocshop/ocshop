@@ -405,11 +405,6 @@ XML;
 	public function install() {
 		$this->load->language('extension/module/bus_editor');
 
-		// даём права администратору
-		$this->load->model('user/user_group');
-		$this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/module/bus_editor');
-		$this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/module/bus_editor');
-
 		// посылыаем на йух
 		if (!$this->user->hasPermission('modify', 'extension/module/bus_editor')) {
 			$this->error['error'] = $this->language->get('error_permission');
