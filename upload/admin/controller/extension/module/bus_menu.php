@@ -2544,9 +2544,34 @@ HTML;
 		if (!$this->error) {
 			// удаляем права администратора
 			$this->load->model('user/user_group');
+
 			foreach ($this->model_user_user_group->getUserGroups() as $result) {
-				$this->model_user_user_group->removePermission($result['user_group_id'], 'access', 'extension/module/bus_menu');
-				$this->model_user_user_group->removePermission($result['user_group_id'], 'modify', 'extension/module/bus_menu');
+				if (version_compare(VERSION, '4.0.0', '>=')) {
+					$this->model_user_user_group->removePermission($result['user_group_id'], 'access', 'extension/module/bus_menu');
+					$this->model_user_user_group->removePermission($result['user_group_id'], 'modify', 'extension/module/bus_menu');
+				} else {
+					$users = array();
+					$users[0]['user_group_id'] = $result['user_group_id'];
+					$users[0]['type'] = 'access';
+					$users[0]['route'] = 'extension/module/bus_menu';
+					$users[1]['user_group_id'] = $result['user_group_id'];
+					$users[1]['type'] = 'modify';
+					$users[1]['route'] = 'extension/module/bus_menu';
+
+					foreach ($users as $user) {
+						$user_group_query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "user_group WHERE user_group_id = '" . (int)$user['user_group_id'] . "'");
+
+						if ($user_group_query->num_rows) {
+							$data = json_decode($user_group_query->row['permission'], true);
+
+							if (isset($data[$user['type']])) {
+								$data[$user['type']] = array_diff($data[$user['type']], array($user['route']));
+							}
+
+							$this->db->query("UPDATE " . DB_PREFIX . "user_group SET permission = '" . $this->db->escape(json_encode($data)) . "' WHERE user_group_id = '" . (int)$user['user_group_id'] . "'");
+						}
+					}
+				}
 			}
 
 			// удаляем таблицу модуля
