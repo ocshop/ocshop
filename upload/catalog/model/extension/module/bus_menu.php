@@ -54,13 +54,13 @@ class ModelExtensionModuleBusMenu extends Model {
 		if (!isset($cache_data[(int)$id])) {
 			if ($table == 'blog_category') {
 				$request = " c.image, c.status,";
-				$where = " WHERE c.parent_id = '" . (int)$id . "' AND c.status = '1'";
+				$where = " WHERE c." . $table . "_id = '" . (int)$id . "' AND c.status = '1'";
 			} elseif ($table == 'article') {
 				$request = " c.image, c.status,";
 				$where = " WHERE c." . $table . "_id = '" . (int)$id . "' AND c.status = '1'";
 			} elseif ($table == 'category') {
 				$request = " c.image, c.top, c.column, c.status,";
-				$where = " WHERE c.parent_id = '" . (int)$id . "' AND c.status = '1'";
+				$where = " WHERE c." . $table . "_id = '" . (int)$id . "' AND c.status = '1'";
 			} elseif ($table == 'information') {
 				$request = " '' AS image, c.bottom, cd.title AS name,";
 				$where = " WHERE c." . $table . "_id = '" . (int)$id . "'";
