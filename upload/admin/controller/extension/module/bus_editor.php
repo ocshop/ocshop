@@ -406,8 +406,8 @@ XML;
 		$this->load->language('extension/module/bus_editor');
 
 		// посылыаем на йух
-		if (!$this->user->hasPermission('modify', 'extension/module/bus_editor')) {
-			$this->error['error'] = $this->language->get('error_permission');
+		if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
+			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		if (!$this->error) {
@@ -566,8 +566,8 @@ HTML;
 		$this->load->language('extension/module/bus_editor');
 
 		// посылыаем на йух
-		if (!$this->user->hasPermission('modify', 'extension/module/bus_editor')) {
-			$this->error['error'] = $this->language->get('error_permission');
+		if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
+			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		if (!$this->error) {
@@ -755,8 +755,8 @@ HTML;
 		$this->load->language('extension/module/bus_editor');
 
 		// посылыаем на йух
-		if (!$this->user->hasPermission('modify', 'extension/module/bus_editor')) {
-			$this->error['error'] = $this->language->get('error_permission');
+		if (!$this->user->hasPermission('modify', 'extension/extension/module') || !$this->user->hasPermission('modify', 'extension/module/bus_editor')) {
+			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		if (!$this->error) {
