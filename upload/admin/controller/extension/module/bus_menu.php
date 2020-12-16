@@ -14,6 +14,8 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 	// подмена $this->config->get()
 	private function configGet($module_id = 0) {
+		$data = null;
+
 		if (!is_numeric($module_id)) {
 			$name = $module_id;
 			$module_id = 0;
@@ -34,19 +36,23 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 		$setting = $this->model_extension_module_bus_menu->getModule($module_id);
 
-		$data = $setting['setting'];
-		$data['cats_horizontal'] = $setting['cats']['cats_horizontal'];
-		$data['cats_vertical'] = $setting['cats']['cats_vertical'];
-		$data['cats_vertical_position'] = $this->config->get('bus_menu_cats_vertical')['position'];
-		$data['cats_vertical_route'] = $this->config->get('bus_menu_cats_vertical')['route'];
-		$data['cats_cell'] = $setting['cats']['cats_cell'];
-		$data['bus_menu'] = $this->config->get('bus_menu');
-		if (isset($data['type']) && isset($data['design'])) {
-			$data['style'] = $this->getFile($data['type'] .  '_' . ($data['design'] == 'own' ? 'own_' . (int)$data['design_id'] : (int)$data['design']) . '_replace', 'css');
-			$data['script'] = $this->getFile($data['type'] .  '_' . ($data['design'] == 'own' ? 'own_' . (int)$data['design_id'] : (int)$data['design']) . '_replace', 'js');
-		}
-		if (isset($name)) {
-			$data = (isset($data[$name]) ? $data[$name] : false);
+		if ($setting) {
+			$data = $setting['setting'];
+			$data['cats_horizontal'] = $setting['cats']['cats_horizontal'];
+			$data['cats_vertical'] = $setting['cats']['cats_vertical'];
+			if ($this->config->get('bus_menu_cats_vertical')) {
+				$data['cats_vertical_position'] = $this->config->get('bus_menu_cats_vertical')['position'];
+				$data['cats_vertical_route'] = $this->config->get('bus_menu_cats_vertical')['route'];
+			}
+			$data['cats_cell'] = $setting['cats']['cats_cell'];
+			$data['bus_menu'] = $this->config->get('bus_menu');
+			if (isset($data['type']) && isset($data['design'])) {
+				$data['style'] = $this->getFile($data['type'] .  '_' . ($data['design'] == 'own' ? 'own_' . (int)$data['design_id'] : (int)$data['design']) . '_replace', 'css');
+				$data['script'] = $this->getFile($data['type'] .  '_' . ($data['design'] == 'own' ? 'own_' . (int)$data['design_id'] : (int)$data['design']) . '_replace', 'js');
+			}
+			if (isset($name)) {
+				$data = (isset($data[$name]) ? $data[$name] : false);
+			}
 		}
 
 		return $data;
