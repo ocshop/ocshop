@@ -3,5 +3,5 @@
   <div class="tile-body"><i class="fa fa-users"></i>
     <h2 class="pull-right"><?php echo $total; ?></h2>
   </div>
-  <div class="tile-footer"><a href="<?php echo $online; ?>"><?php echo $text_view; ?></a></div>
+  <div class="tile-footer"><a href="<?php echo $online; ?>" rel="noreferrer" target="_blank"><?php echo $text_view; ?></a></div>
 </div>
