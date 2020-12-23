@@ -430,7 +430,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			// кто-то пытается найти дыру
 			} else {
 				$this->load->controller('error/not_found');
-				//exit();
+				exit();
 			}
 		}
 
