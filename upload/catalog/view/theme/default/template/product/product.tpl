@@ -38,9 +38,9 @@
             <?php if ($attribute_groups) { ?>
             <li><a href="#tab-specification" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
             <?php } ?>
-			<?php foreach($product_tabs as $key => $tab){ ?>
-			<li><a href="#tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>" data-toggle="tab"><?php echo $tab['title']; ?></a></li>
-			<?php } ?>
+            <?php foreach($product_tabs as $key => $tab){ ?>
+            <li><a href="#tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>" data-toggle="tab"><?php echo $tab['title']; ?></a></li>
+            <?php } ?>
             <?php if ($review_status) { ?>
             <li><a href="#tab-review" data-toggle="tab"><?php echo $tab_review; ?></a></li>
             <?php } ?>
@@ -68,9 +68,9 @@
               </table>
             </div>
             <?php } ?>
-			<?php foreach($product_tabs as $key => $tab){ ?>
-			<div class="tab-pane" id="tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>"><?php echo $tab['description']; ?></div>
-			<?php } ?>
+            <?php foreach($product_tabs as $key => $tab){ ?>
+            <div class="tab-pane" id="tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>"><?php echo $tab['description']; ?></div>
+            <?php } ?>
             <?php if ($review_status) { ?>
             <div class="tab-pane" id="tab-review">
               <form class="form-horizontal" id="form-review">
@@ -305,45 +305,42 @@
             <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $text_minimum; ?></div>
             <?php } ?>
           </div>
-		  
-		  <?php if ($benefits) { ?>
-		<div class="present">
-			<?php foreach ($benefits as $benefit) { ?>	
-				<?php if ($benefit['type'] == 0) { ?>
-					<div>
-						<?php if (!$benefit['link']) { ?>
-						   <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-						<?php } else { ?> 
-						   <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-						<?php } ?>
-					</div>
-				<?php } ?> 
-			<?php } ?>
-		</div>
-		<?php } ?>
-		
-		<?php if ($benefits) { ?>
-		<div class="benefits col-sm-12">
-		<div class="col-sm-4"><?php echo $text_benefits; ?></div>
-		<ul class="benefit">
-		<?php foreach ($benefits as $benefit) { ?>	
-			<?php if ($benefit['type'] == 1) { ?>
-				<li class="col-sm-2">
-					<?php if (!$benefit['link']) { ?>
-					   <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-					<?php } else { ?> 
-					   <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-					<?php } ?>
-					<?php if ($benefit['description']) { ?>
-						<div class="benefit_description"><?php echo $benefit['description']; ?></div>
-					<?php } ?>
-				</li>
-			<?php } ?> 
-		<?php } ?>
-		</ul>
-		</div>
-		<?php } ?>
-		  
+          <?php if ($benefits) { ?>
+          <div class="present">
+            <?php foreach ($benefits as $benefit) { ?>    
+                <?php if ($benefit['type'] == 0) { ?>
+                    <div>
+                        <?php if (!$benefit['link']) { ?>
+                           <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
+                        <?php } else { ?> 
+                           <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
+                        <?php } ?>
+                    </div>
+                <?php } ?> 
+            <?php } ?>
+          </div>
+          <?php } ?>
+          <?php if ($benefits) { ?>
+          <div class="benefits col-sm-12">
+          <div class="col-sm-4"><?php echo $text_benefits; ?></div>
+          <ul class="benefit">
+          <?php foreach ($benefits as $benefit) { ?>    
+            <?php if ($benefit['type'] == 1) { ?>
+                <li class="col-sm-2">
+                    <?php if (!$benefit['link']) { ?>
+                       <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
+                    <?php } else { ?> 
+                       <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
+                    <?php } ?>
+                    <?php if ($benefit['description']) { ?>
+                        <div class="benefit_description"><?php echo $benefit['description']; ?></div>
+                    <?php } ?>
+                </li>
+            <?php } ?> 
+          <?php } ?>
+          </ul>
+          </div>
+          <?php } ?>
           <?php if ($review_status) { ?>
           <div class="rating">
             <p>
