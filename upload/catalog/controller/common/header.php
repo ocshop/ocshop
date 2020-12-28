@@ -5,7 +5,7 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerCommonHeader extends Controller {
-	public function index($setting = array()) {
+	public function index($setting) {
 		// Analytics
 		$this->load->model('extension/extension');
 
