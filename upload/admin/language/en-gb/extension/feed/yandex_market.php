@@ -1,6 +1,6 @@
 <?php
 // *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -88,7 +88,7 @@ $_['help_in_stock']          = 'In the presence of goods in stock.';
 $_['help_out_of_stock']      = 'With stock balance 0.';
 $_['help_preorder']          = 'When you can’t buy without pre-order.';
 $_['help_quantity_status']   = 'If yes, then products with zero quantity will be unloaded in the YML file.';
-$_['help_yandex_market']     = 'Topic on the <a target="_blank" href="//forum.opencart.pro/topic/1059-yandexmarket-20/">Forum</a> Documentation for <a target="_blank" href="//yandex.ru/support/partnermarket/export/yml.html">Yandex</a>';
+$_['help_yandex_market']     = 'Topic on the <a target="_blank" href="//forum.opencart.pro/topic/1059-yandexmarket-20/" rel="noreferrer noopener" target="_blank">Forum</a> Documentation for <a target="_blank" href="//yandex.ru/support/partnermarket/export/yml.html" rel="noreferrer noopener" target="_blank">Yandex</a>';
 
 // Error
 $_['error_image_width']      = 'Specify the width!';
