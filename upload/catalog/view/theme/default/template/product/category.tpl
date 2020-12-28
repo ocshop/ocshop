@@ -77,7 +77,6 @@
               <div class="caption">
                 <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
                 <p><?php echo $product['description']; ?></p>
-
                 <?php if ($product['benefits']) { ?>
                 <div class="benefits col-sm-12 hidden-sm hidden-xs">
                   <div class="benefit-text"><?php echo $text_benefits; ?></div>
@@ -88,7 +87,7 @@
                       <?php if (!$benefit['link']) { ?>
                       <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
                       <?php } else { ?> 
-                      <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
+                      <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
                       <?php } ?>
                       <?php if ($benefit['description']) { ?>
                       <div class="benefit_description"><?php echo $benefit['description']; ?></div>
@@ -105,14 +104,13 @@
                     <?php if (!$benefit['link']) { ?>
                     <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
                     <?php } else { ?> 
-                    <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
+                    <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
                     <?php } ?>
                   </div>
                   <?php } ?> 
                   <?php } ?>
                 </div>
                 <?php } ?>
-
                 <?php if ($product['price']) { ?>
                 <p class="price">
                   <?php if (!$product['special']) { ?>
