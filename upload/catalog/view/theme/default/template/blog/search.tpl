@@ -115,8 +115,7 @@
               <div class="caption">
                 <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
                 <p><?php echo $article['description']; ?></p>
-                <?php if (1 == 0) { ?>
-                <?php if ($article['benefits']) { ?>
+                <?php if (1 == 0 && $article['benefits']) { ?>
                 <div class="benefits col-sm-12 hidden-sm hidden-xs">
                   <div class="benefit-text"><?php echo $text_benefits; ?></div>
                   <ul class="benefit">
@@ -126,7 +125,7 @@
                       <?php if (!$benefit['link']) { ?>
                       <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
                       <?php } else { ?> 
-                      <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
+                      <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
                       <?php } ?>
                       <?php if ($benefit['description']) { ?>
                       <div class="benefit_description"><?php echo $benefit['description']; ?></div>
@@ -143,13 +142,12 @@
                     <?php if (!$benefit['link']) { ?>
                     <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
                     <?php } else { ?> 
-                    <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
+                    <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
                     <?php } ?>
-                   </div>
-                   <?php } ?> 
-                   <?php } ?>
+                  </div>
+                  <?php } ?> 
+                  <?php } ?>
                 </div>
-                <?php } ?>
                 <?php } ?>
                 <?php if ($article['rating']) { ?>
                 <div class="rating">
@@ -165,8 +163,8 @@
               </div>
               <div class="button-group">
                 <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
+                <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"]; ?>"><i class="fa fa-clock-o"></i></button>
+                <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"]; ?>"><i class="fa fa-eye"></i></button>
               </div>
             </div>
           </div>
@@ -229,5 +227,5 @@ $('select[name=\'blog_category_id\']').on('change', function() {
 });
 
 $('select[name=\'blog_category_id\']').trigger('change');
---></script>
+//--></script>
 <?php echo $footer; ?>
