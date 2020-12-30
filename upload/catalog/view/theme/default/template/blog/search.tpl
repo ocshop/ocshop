@@ -15,6 +15,12 @@
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
       <h1><?php echo $heading_title; ?></h1>
+      <?php if (!empty($description)) { ?>
+      <div class="row">
+        <div class="col-sm-12"><?php echo $description; ?></div>
+      </div>
+      <hr>
+      <?php } ?>
       <label class="control-label" for="input-search"><?php echo $entry_search; ?></label>
       <div class="row">
         <div class="col-sm-4">
@@ -59,10 +65,10 @@
       </div>
       <p>
         <label class="checkbox-inline">
-          <?php if ($description) { ?>
-          <input type="checkbox" name="description" value="1" id="description" checked="checked" />
+          <?php if ($filter_description) { ?>
+          <input type="checkbox" name="filter_description" value="1" checked="checked" />
           <?php } else { ?>
-          <input type="checkbox" name="description" value="1" id="description" />
+          <input type="checkbox" name="filter_description" value="1" />
           <?php } ?>
           <?php echo $entry_description; ?>
 	</label>
@@ -167,10 +173,10 @@ $('#button-search').bind('click', function() {
 		url += '&sub_category=true';
 	}
 
-	var filter_description = $('#content input[name=\'description\']:checked').prop('value');
+	var filter_description = $('#content input[name=\'filter_description\']:checked').prop('value');
 
 	if (filter_description) {
-		url += '&description=true';
+		url += '&filter_description=true';
 	}
 
 	location = url;
