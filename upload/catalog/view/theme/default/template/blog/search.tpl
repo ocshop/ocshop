@@ -107,65 +107,29 @@
         </div>
       </div>
       <div class="row">
-        <?php foreach ($articles as $article) { ?>
+        <?php foreach ($articles as $article) { ?>     
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
-            <div class="image"><?php if (1 == 0) { ?><?php echo $article['sticker']; ?><?php } ?><a href="<?php echo $article['href']; ?>"><img src="<?php echo $article['thumb']; ?>" alt="<?php echo $article['name']; ?>" title="<?php echo $article['name']; ?>" class="img-responsive" /></a></div>
-            <div>
-              <div class="caption">
-                <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
-                <p><?php echo $article['description']; ?></p>
-                <?php if (1 == 0 && $article['benefits']) { ?>
-                <div class="benefits col-sm-12 hidden-sm hidden-xs">
-                  <div class="benefit-text"><?php echo $text_benefits; ?></div>
-                  <ul class="benefit">
-                    <?php foreach ($article['benefits'] as $benefit) { ?>	
-                    <?php if ($benefit['type'] == 1) { ?>
-                    <li class="col-sm-1">
-                      <?php if (!$benefit['link']) { ?>
-                      <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-                      <?php } else { ?> 
-                      <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
-                      <?php } ?>
-                      <?php if ($benefit['description']) { ?>
-                      <div class="benefit_description"><?php echo $benefit['description']; ?></div>
-                      <?php } ?>
-                    </li>
-                    <?php } ?> 
-                    <?php } ?>
-                  </ul>
-                </div>
-                <div class="present hidden-sm hidden-xs">
-                  <?php foreach ($article['benefits'] as $benefit) { ?>	
-                  <?php if ($benefit['type'] == 0) { ?>
-                  <div>
-                    <?php if (!$benefit['link']) { ?>
-                    <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-                    <?php } else { ?> 
-                    <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
-                    <?php } ?>
-                  </div>
-                  <?php } ?> 
-                  <?php } ?>
-                </div>
+            <div class="image"><a href="<?php echo $article['href']; ?>"><img src="<?php echo $article['thumb']; ?>" alt="<?php echo $article['name']; ?>" title="<?php echo $article['name']; ?>" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
+              <p class="description"><?php echo $article['description']; ?></p>
+              <?php if ($article['rating']) { ?>
+              <div class="rating">
+                <?php for ($i = 1; $i <= 5; $i++) { ?>
+                <?php if ($article['rating'] < $i) { ?>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                <?php } else { ?>
+                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <?php } ?>
-                <?php if ($article['rating']) { ?>
-                <div class="rating">
-                  <?php for ($i = 1; $i <= 5; $i++) { ?>
-                  <?php if ($article['rating'] < $i) { ?>
-                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-                  <?php } else { ?>
-                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-                  <?php } ?>
-                  <?php } ?>
-                </div>
                 <?php } ?>
               </div>
-              <div class="button-group">
-                <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"]; ?>"><i class="fa fa-clock-o"></i></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"]; ?>"><i class="fa fa-eye"></i></button>
-              </div>
+            <?php } ?>
+            </div>
+            <div class="button-group"> 
+              <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"]; ?>"><i class="fa fa-clock-o"></i></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"]; ?>"><i class="fa fa-eye"></i></button>
             </div>
           </div>
         </div>
