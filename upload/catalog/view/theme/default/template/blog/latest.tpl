@@ -15,13 +15,12 @@
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
       <h1><?php echo $heading_title; ?></h1>
-      <?php $thumb = ''; $description = ''; ?>
-      <?php if ($thumb || $description) { ?>
+      <?php if (!empty($thumb) || !empty($description)) { ?>
       <div class="row">
-        <?php if ($thumb) { ?>
+        <?php if (!empty($thumb)) { ?>
         <div class="col-sm-2"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" class="img-thumbnail" /></div>
         <?php } ?>
-        <?php if ($description) { ?>
+        <?php if (!empty($description)) { ?>
         <div class="col-sm-10"><?php echo $description; ?></div>
         <?php } ?>
       </div>
@@ -87,9 +86,8 @@
             </div>
             <div class="button-group"> 
               <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
-              <!-- <button type="button""><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><a class="button button-more" href="<?php echo $article['href']; ?>"><?php echo $button_more; ?></a></span></button> -->
-              <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"]; ?>"><i class="fa fa-clock-o"></i></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"]; ?>"><i class="fa fa-eye"></i></button>
             </div>
           </div>
         </div>
