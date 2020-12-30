@@ -116,73 +116,71 @@
         <div class="product-layout product-list col-xs-12">
           <div class="product-thumb">
             <div class="image"><?php echo $product['sticker']; ?><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
-            <div>
-              <div class="caption">
-                <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
-                <p><?php echo $product['description']; ?></p>
-                <?php if ($product['benefits']) { ?>
-                <div class="benefits col-sm-12 hidden-sm hidden-xs">
-                  <div class="benefit-text"><?php echo $text_benefits; ?></div>
-                  <ul class="benefit">
-                    <?php foreach ($product['benefits'] as $benefit) { ?>	
-                    <?php if ($benefit['type'] == 1) { ?>
-                    <li class="col-sm-1">
-                      <?php if (!$benefit['link']) { ?>
-                      <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-                      <?php } else { ?> 
-                      <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
-                      <?php } ?>
-                      <?php if ($benefit['description']) { ?>
-                      <div class="benefit_description"><?php echo $benefit['description']; ?></div>
-                      <?php } ?>
-                    </li>
-                    <?php } ?> 
-                    <?php } ?>
-                  </ul>
-                </div>
-                <div class="present hidden-sm hidden-xs">
+            <div class="caption">
+              <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
+              <p><?php echo $product['description']; ?></p>
+              <?php if ($product['benefits']) { ?>
+              <div class="benefits col-sm-12 hidden-sm hidden-xs">
+                <div class="benefit-text"><?php echo $text_benefits; ?></div>
+                <ul class="benefit">
                   <?php foreach ($product['benefits'] as $benefit) { ?>	
-                  <?php if ($benefit['type'] == 0) { ?>
-                  <div>
+                  <?php if ($benefit['type'] == 1) { ?>
+                  <li class="col-sm-1">
                     <?php if (!$benefit['link']) { ?>
                     <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
                     <?php } else { ?> 
                     <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
                     <?php } ?>
-                  </div>
+                    <?php if ($benefit['description']) { ?>
+                    <div class="benefit_description"><?php echo $benefit['description']; ?></div>
+                    <?php } ?>
+                  </li>
                   <?php } ?> 
                   <?php } ?>
-                </div>
-                <?php } ?>
-                <?php if ($product['price']) { ?>
-                <p class="price">
-                  <?php if (!$product['special']) { ?>
-                  <?php echo $product['price']; ?>
-                  <?php } else { ?>
-                  <span class="price-new"><?php echo $product['special']; ?></span> <span class="price-old"><?php echo $product['price']; ?></span>
-                  <?php } ?>
-                  <?php if ($product['tax']) { ?>
-                  <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
-                  <?php } ?>
-                </p>
-                <?php } ?>
-                <?php if ($product['rating']) { ?>
-                <div class="rating">
-                  <?php for ($i = 1; $i <= 5; $i++) { ?>
-                  <?php if ($product['rating'] < $i) { ?>
-                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-                  <?php } else { ?>
-                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-                  <?php } ?>
+                </ul>
+              </div>
+              <div class="present hidden-sm hidden-xs">
+                <?php foreach ($product['benefits'] as $benefit) { ?>	
+                <?php if ($benefit['type'] == 0) { ?>
+                <div>
+                  <?php if (!$benefit['link']) { ?>
+                  <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
+                  <?php } else { ?> 
+                  <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
                   <?php } ?>
                 </div>
+                <?php } ?> 
                 <?php } ?>
               </div>
-              <div class="button-group">
-                <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span></button>
-                <button type="button" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>"><i class="fa fa-heart"></i></button>
-                <button type="button" onclick="compare.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" title="<?php echo $button_compare; ?>"><i class="fa fa-exchange"></i></button>
+              <?php } ?>
+              <?php if ($product['price']) { ?>
+              <p class="price">
+                <?php if (!$product['special']) { ?>
+                <?php echo $product['price']; ?>
+                <?php } else { ?>
+                <span class="price-new"><?php echo $product['special']; ?></span> <span class="price-old"><?php echo $product['price']; ?></span>
+                <?php } ?>
+                <?php if ($product['tax']) { ?>
+                <span class="price-tax"><?php echo $text_tax; ?> <?php echo $product['tax']; ?></span>
+                <?php } ?>
+              </p>
+              <?php } ?>
+              <?php if ($product['rating']) { ?>
+              <div class="rating">
+                <?php for ($i = 1; $i <= 5; $i++) { ?>
+                <?php if ($product['rating'] < $i) { ?>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                <?php } else { ?>
+                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                <?php } ?>
+                <?php } ?>
               </div>
+              <?php } ?>
+            </div>
+            <div class="button-group">
+              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>
+              <button type="button" data-toggle="tooltip" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-exchange"></i></button>
             </div>
           </div>
         </div>
