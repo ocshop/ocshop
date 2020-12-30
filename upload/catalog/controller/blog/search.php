@@ -103,8 +103,8 @@ class ControllerBlogSearch extends Controller {
 			$url .= '&sub_category=' . $this->request->get['sub_category'];
 		}
 
-		if (isset($this->request->get['description'])) {
-			$url .= '&description=' . $this->request->get['description'];
+		if (isset($this->request->get['filter_description'])) {
+			$url .= '&filter_description=' . $this->request->get['filter_description'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -257,8 +257,8 @@ class ControllerBlogSearch extends Controller {
 				$url .= '&sub_category=' . $this->request->get['sub_category'];
 			}
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
+			if (isset($this->request->get['filter_description'])) {
+				$url .= '&filter_description=' . $this->request->get['filter_description'];
 			}
 
 			if (isset($this->request->get['limit'])) {
@@ -343,8 +343,8 @@ class ControllerBlogSearch extends Controller {
 				$url .= '&sub_category=' . $this->request->get['sub_category'];
 			}
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
+			if (isset($this->request->get['filter_description'])) {
+				$url .= '&filter_description=' . $this->request->get['filter_description'];
 			}
 
 			if (isset($this->request->get['sort'])) {
@@ -387,8 +387,8 @@ class ControllerBlogSearch extends Controller {
 				$url .= '&sub_category=' . $this->request->get['sub_category'];
 			}
 
-			if (isset($this->request->get['description'])) {
-				$url .= '&description=' . $this->request->get['description'];
+			if (isset($this->request->get['filter_description'])) {
+				$url .= '&filter_description=' . $this->request->get['filter_description'];
 			}
 
 			if (isset($this->request->get['sort'])) {
