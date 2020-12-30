@@ -13,7 +13,8 @@
       <?php } else { ?>
       <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
       <?php } ?>
-      <?php } ?></td>
+      <?php } ?>
+    </td>
   </tr>
 </table>
 <?php } ?>
