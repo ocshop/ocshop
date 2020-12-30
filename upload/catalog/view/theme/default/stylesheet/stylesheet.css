@@ -868,15 +868,15 @@ h2.price {
 	margin-top: 10px;
 }
 /* blog search */
-.blog-search {
+body .blog-search {
 	margin-bottom: 10px;
 }
-.blog-search .input-lg {
+body .blog-search .input-lg {
 	height: 40px;
 	line-height: 20px;
 	padding: 0 10px;
 }
-.blog-search .btn-lg {
+body .blog-search .btn-lg {
 	font-size: 15px;
 	line-height: 18px;
 	padding: 10px 35px;
