@@ -60,9 +60,9 @@
       <p>
         <label class="checkbox-inline">
           <?php if ($description) { ?>
-          <input type="checkbox" name="description" value="1" id="description" checked="checked" />
+          <input type="checkbox" name="description" value="1" checked="checked" />
           <?php } else { ?>
-          <input type="checkbox" name="description" value="1" id="description" />
+          <input type="checkbox" name="description" value="1" />
           <?php } ?>
           <?php echo $entry_description; ?>
         </label>
