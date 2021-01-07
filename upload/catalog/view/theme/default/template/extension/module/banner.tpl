@@ -1,3 +1,4 @@
+<?php if ($banners) { ?>
 <div id="banner<?php echo $module; ?>" class="owl-carousel">
   <?php foreach ($banners as $banner) { ?>
   <div class="item">
@@ -19,3 +20,4 @@ $('#banner<?php echo $module; ?>').owlCarousel({
 	transitionStyle: 'fade'
 });
 --></script>
+<?php } ?>
