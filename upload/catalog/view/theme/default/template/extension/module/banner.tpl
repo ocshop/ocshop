@@ -19,5 +19,5 @@ $('#banner<?php echo $module; ?>').owlCarousel({
 	pagination: false,
 	transitionStyle: 'fade'
 });
---></script>
+//--></script>
 <?php } ?>
