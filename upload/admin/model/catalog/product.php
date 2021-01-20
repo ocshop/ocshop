@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -512,7 +512,9 @@ class ModelCatalogProduct extends Model {
 					$implode_data[] = "p2c.category_id = '" . (int)$category['category_id'] . "'";
 				}
 
-				$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+				if ($implode_data) {
+					$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+				}
 			} else {
 				if ((int)$data['filter_category'] > 0) {
 					$sql .= " AND p2c.category_id = '" . (int)$data['filter_category'] . "'";
@@ -869,7 +871,9 @@ class ModelCatalogProduct extends Model {
 					$implode_data[] = "p2c.category_id = '" . (int)$category['category_id'] . "'";
 				}
 
-				$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+				if ($implode_data) {
+					$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+				}
 			} else {
 				if ((int)$data['filter_category'] > 0) {
 					$sql .= " AND p2c.category_id = '" . (int)$data['filter_category'] . "'";
