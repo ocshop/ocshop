@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -30,17 +30,21 @@ class File {
 		$files = glob(DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.*');
 
 		if ($files) {
-			$handle = fopen($files[0], 'r');
+			$size = filesize($files[0]);
 
-			flock($handle, LOCK_SH);
+			if ($size > 0) {
+				$handle = fopen($files[0], 'r');
 
-			$data = fread($handle, filesize($files[0]));
+				flock($handle, LOCK_SH);
 
-			flock($handle, LOCK_UN);
+				$data = fread($handle, $size);
 
-			fclose($handle);
+				flock($handle, LOCK_UN);
 
-			return json_decode($data, true);
+				fclose($handle);
+
+				return json_decode($data, true);
+			}
 		}
 
 		return false;
