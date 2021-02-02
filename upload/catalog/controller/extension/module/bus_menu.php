@@ -608,9 +608,9 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				$setting['cats_status'] = true;
 			} else {
 				if ($setting['path_lvl']) {
-					$cats = $this->model_extension_module_bus_menu->getCatsLevel($id_request, 'category', array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'limit' => $setting['path_limit'], 'top' => true));
+					$cats = $this->model_extension_module_bus_menu->getCatsLevel($id_request, 'category', array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'limit' => $setting['path_limit']));
 				} else {
-					$cats = $this->model_extension_module_bus_menu->getCats($id_request, 'category', array('cache' => $setting['cache'], 'limit' => $setting['path_limit'], 'top' => true));
+					$cats = $this->model_extension_module_bus_menu->getCats($id_request, 'category', array('cache' => $setting['cache'], 'limit' => $setting['path_limit']));
 				}
 			}
 
