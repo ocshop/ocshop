@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -52,7 +52,7 @@ class Session {
 		$this->data = &$_SESSION[$this->session_id];
 
 		if ($key != 'PHPSESSID') {
-			setcookie($key, $this->session_id, ini_get('session.cookie_lifetime'), ini_get('session.cookie_path'), ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
+			setcookie($key, $this->session_id, (ini_get('session.cookie_lifetime') ? (time() + ini_get('session.cookie_lifetime')) : 0), ini_get('session.cookie_path'), ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
 		}
 
 		return $this->session_id;
