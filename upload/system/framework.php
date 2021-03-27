@@ -76,7 +76,7 @@ if ($config->get('db_autostart')) {
 }
 
 // Session
-$session = new Session($config->get('session_engine'));
+$session = new Session($config->get('session_engine'), $registry);
 
 if ($config->get('session_autostart')) {
 	$session->start($config->get('session_name'));
