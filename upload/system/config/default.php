@@ -1,56 +1,57 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Site
-$_['site_base']            = '';
-$_['site_ssl']             = false;
+$_['site_base']             = '';
+$_['site_ssl']              = false;
 
 // Url
-$_['url_autostart']        = true;
+$_['url_autostart']         = true;
 
 // Language
-$_['language_default']     = 'en-gb';
-$_['language_autoload']    = array('en-gb');
+$_['language_default']      = 'en-gb';
+$_['language_autoload']     = array('en-gb');
 
 // Database
-$_['db_autostart']         = false;
-$_['db_type']              = 'mysqli'; // mpdo, mssql, mysql, mysqli or postgre
-$_['db_hostname']          = 'localhost';
-$_['db_username']          = 'root';
-$_['db_password']          = '';
-$_['db_database']          = '';
-$_['db_port']              = 3306;
+$_['db_autostart']          = false;
+$_['db_type']               = 'mysqli'; // mpdo, mssql, mysql, mysqli or postgre
+$_['db_hostname']           = 'localhost';
+$_['db_username']           = 'root';
+$_['db_password']           = '';
+$_['db_database']           = '';
+$_['db_port']               = 3306;
 
 // Mail
-$_['mail_protocol']        = 'mail'; // mail or smtp
-$_['mail_from']            = ''; // Your E-Mail
-$_['mail_sender']          = ''; // Your name or company name
-$_['mail_reply_to']        = ''; // Reply to E-Mail
-$_['mail_smtp_hostname']   = '';
-$_['mail_smtp_username']   = '';
-$_['mail_smtp_password']   = '';
-$_['mail_smtp_port']       = 25;
-$_['mail_smtp_timeout']    = 5;
-$_['mail_verp']            = false;
-$_['mail_parameter']       = '';
+$_['mail_protocol']         = 'mail'; // mail or smtp
+$_['mail_from']             = ''; // Your E-Mail
+$_['mail_sender']           = ''; // Your name or company name
+$_['mail_reply_to']         = ''; // Reply to E-Mail
+$_['mail_smtp_hostname']    = '';
+$_['mail_smtp_username']    = '';
+$_['mail_smtp_password']    = '';
+$_['mail_smtp_port']        = 25;
+$_['mail_smtp_timeout']     = 5;
+$_['mail_verp']             = false;
+$_['mail_parameter']        = '';
 
 // Cache
-$_['cache_type']           = 'file'; // apc, file or mem
-$_['cache_expire']         = 3600;
+$_['cache_type']            = 'file'; // apc, file or mem
+$_['cache_expire']          = 3600;
 
 // Session
-$_['session_autostart']    = true;
-$_['session_name']         = 'PHPSESSID';
+$_['session_engine']        = 'native'; //native, db or file
+$_['session_name']          = 'PHPSESSID';
+$_['session_autostart']     = true;
 
 // Template
-$_['template_type']        = 'php';
+$_['template_type']         = 'php';
 
 // Error
-$_['config_error_display'] = false;
-$_['config_error_log']     = true;
+$_['config_error_display']  = false;
+$_['config_error_log']      = true;
 $_['config_error_filename'] = 'error.log';
 
 // Reponse
