@@ -275,6 +275,7 @@ class ControllerBlogArticle extends Controller {
 					'rating'      => $rating,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($result['product_id']),
+					'benefits'    => $this->getProBenefits($result['product_id']),
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'reviews'     => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id']),
@@ -516,5 +517,43 @@ class ControllerBlogArticle extends Controller {
 		}
 
 		return $this->load->view('product/stickers', $data);
+	}
+
+	private function getProBenefits($product_id, $width = 120, $height = 60) {
+		$benefits = array();
+
+		$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($product_id);
+
+		foreach ($productbenefits as $benefit) {
+			if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
+				if ($benefit['type']) {
+					$bimage = $this->model_tool_image->resize($benefit['image'], 25, 25);
+				} else {
+					$bimage = $this->model_tool_image->resize($benefit['image'], $width, $height);
+				}
+			} else {
+				if ($benefit['type']) {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', 25, 25);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', 25, 25);
+				} else {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', $width, $height);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', $width, $height);
+				}
+			}
+
+			$benefits[] = array(
+				'benefit_id'  => $benefit['benefit_id'],
+				'name'        => $benefit['name'],
+				'description' => strip_tags(html_entity_decode($benefit['description'])),
+				'thumb'       => $bimage,
+				'link'        => $benefit['link'],
+				'type'        => $benefit['type']
+				//'sort_order'  => $benefit['sort_order']
+			);
+		}
+
+		return $benefits;
 	}
 }
