@@ -1,7 +1,7 @@
 <?php
-// *   Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
+// *   Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
 // *   © 2016-2020; BuslikDrev - Усе правы захаваныя.
-// *   Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ )
+// *   Спецыяльна для сайта: "OpenCart.pro" ( https://opencart.pro/ )
 
 class ControllerExtensionModuleBusMenu extends Controller {
 	private function getCats($cats = array(), $setting = array()) {
@@ -441,10 +441,10 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$id_request = 0;
 		}
 
-		$language_id = $this->config->get('config_language_id');
-		$store_id = $this->config->get('config_store_id');
+		$language_id = (int)$this->config->get('config_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
 		$currency = $this->session->data['currency'];
-		$module_id = $setting['module_id'];
+		$module_id = (int)$setting['module_id'];
 
 		$bus_menu_cats_vertical = (!empty($setting['bus_menu']) ? $this->config->get('bus_menu_cats_vertical') : false);
 		$setting_cats['cats_vertical_position'] = (isset($bus_menu_cats_vertical['position']) ? $bus_menu_cats_vertical['position'] : false);
@@ -478,7 +478,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 		$data = false;
 		if ($setting['cache'] == 3) {
-			$data = $this->cache->get('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request) . '.' . $currency . '.' . (int)$language_id . '.' . (int)$store_id);
+			$data = $this->cache->get('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request . $currency . $language_id . $store_id));
 		}
 
 		// условие запуска ajax
@@ -641,7 +641,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 			$cats_cache[0] = false;
 			if ($setting['cache'] == 2) {
-				$cats_cache = $this->cache->get('seo_url.bus_menu.cats.' . $module_id . '.' . $currency . '.' . (int)$language_id . '.' . (int)$store_id);
+				$cats_cache = $this->cache->get('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $currency . $language_id . $store_id));
 				$data['cats'] = $cats_cache[0];
 				$data['cats_vertical'] = $cats_cache[1];
 			}
@@ -675,7 +675,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				}
 
 				if ($setting['cache'] == 2) {
-					$this->cache->set('seo_url.bus_menu.cats.' . $module_id . '.' . $currency . '.' . (int)$language_id . '.' . (int)$store_id, array($data['cats'], $data['cats_vertical']));
+					$this->cache->set('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $currency . $language_id . $store_id), array($data['cats'], $data['cats_vertical']));
 				}
 			}
 
@@ -702,7 +702,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$data['menu_text_color'] = $setting['menu_text_color'];
 
 			if ($setting['cache'] == 3) {
-				$this->cache->set('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request) . '.' . $currency . '.' . (int)$language_id . '.' . (int)$store_id, $data);
+				$this->cache->set('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request . $currency . $language_id . $store_id), $data);
 			}
 		}
 
