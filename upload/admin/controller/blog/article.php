@@ -232,7 +232,7 @@ class ControllerBlogArticle extends Controller {
 
 		$this->load->model('blog/article');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_article->editArticleStatus($article_id, 1);
 			}
@@ -266,7 +266,7 @@ class ControllerBlogArticle extends Controller {
 
 		$this->load->model('blog/article');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_article->editArticleStatus($article_id, 0);
 			}
