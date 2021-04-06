@@ -241,9 +241,9 @@
                 <div class="col-sm-10">
                   <input type="text" name="relatedproduct" value="" placeholder="<?php echo $entry_related_product; ?>" id="input-related-product" class="form-control" />
                   <div id="product-related" class="well well-sm" style="height: 150px; overflow: auto;">
-                    <?php foreach ($product_relateds as $product_related) { ?>
+                    <?php foreach ($article_related_product as $product_related) { ?>
                     <div id="product-related<?php echo $product_related['product_id']; ?>"><i class="fa fa-minus-circle"></i> <?php echo $product_related['name']; ?>
-                      <input type="hidden" name="product_related[]" value="<?php echo $product_related['product_id']; ?>" />
+                      <input type="hidden" name="article_related_product[]" value="<?php echo $product_related['product_id']; ?>" />
                     </div>
                     <?php } ?>
                   </div>
