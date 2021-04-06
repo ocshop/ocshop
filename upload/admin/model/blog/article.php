@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -58,8 +58,8 @@ class ModelBlogArticle extends Model {
 			}
 		}
 
-		if (isset($data['product_related'])) {
-			foreach ($data['product_related'] as $related_id) {
+		if (isset($data['article_related_product'])) {
+			foreach ($data['article_related_product'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "' AND product_id = '" . (int)$related_id . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related_product SET article_id = '" . (int)$article_id . "', product_id = '" . (int)$related_id . "'");
 			}
@@ -148,9 +148,9 @@ class ModelBlogArticle extends Model {
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "'");
-		
-		if (isset($data['product_related'])) {
-			foreach ($data['product_related'] as $related_id) {
+
+		if (isset($data['article_related_product'])) {
+			foreach ($data['article_related_product'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "' AND product_id = '" . (int)$related_id . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related_product SET article_id = '" . (int)$article_id . "', product_id = '" . (int)$related_id . "'");
 			}
@@ -197,7 +197,7 @@ class ModelBlogArticle extends Model {
 			$data['article_description'] = $this->getArticleDescriptions($article_id);
 			$data['article_image'] = $this->getArticleImages($article_id);
 			$data['article_related'] = $this->getArticleRelated($article_id);
-			$data['product_related'] = $this->getProductRelated($article_id);
+			$data['article_related_product'] = $this->getProductRelated($article_id);
 			$data['article_category'] = $this->getArticleCategories($article_id);
 			$data['article_download'] = $this->getArticleDownloads($article_id);
 			$data['article_layout'] = $this->getArticleLayouts($article_id);
@@ -385,7 +385,9 @@ class ModelBlogArticle extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article_related WHERE article_id = '" . (int)$article_id . "'");
 
 		foreach ($query->rows as $result) {
-			$article_related_data[] = $result['related_id'];
+			if ($result['related_id'] != $article_id) {
+				$article_related_data[] = $result['related_id'];
+			}
 		}
 
 		return $article_related_data;
