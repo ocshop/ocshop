@@ -411,7 +411,7 @@ $('input[name=\'relatedproduct\']').autocomplete({
 		
 		$('#product-related' + item['value']).remove();
 		
-		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_related[]" value="' + item['value'] + '" /></div>');	
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_related_product[]" value="' + item['value'] + '" /></div>');	
 	}	
 });
 
@@ -437,4 +437,4 @@ $('.datetime').datetimepicker({
 $('#language a:first').tab('show');
 //--></script>
 </div>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>
