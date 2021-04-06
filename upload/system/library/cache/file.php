@@ -1,5 +1,5 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@copyright	OPENCART.PRO 2011 - 2021.
 // *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
@@ -15,12 +15,12 @@ class File {
 
 		if ($files) {
 			foreach ($files as $file) {
+				$filename = basename($file);
+
 				$time = substr(strrchr($file, '.'), 1);
 
 				if ($time < time()) {
-					if (file_exists($file)) {
-						unlink($file);
-					}
+					$this->delete(substr($filename, 6, strrpos($filename, '.') - 6));
 				}
 			}
 		}
@@ -73,8 +73,8 @@ class File {
 
 		if ($files) {
 			foreach ($files as $file) {
-				if (file_exists($file)) {
-					unlink($file);
+				if (is_file($file) && !@unlink($file)) {
+					clearstatcache(false, $file);
 				}
 			}
 		}
