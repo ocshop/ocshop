@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -41,7 +41,7 @@ $_['entry_category_filter']  = 'Категории';
 $_['entry_sub_category']     = 'включая подкатегории';
 $_['entry_main_category']    = 'Главная категория';
 $_['entry_download']         = 'Загрузки';
-$_['entry_related']          = 'Рекомендуемые статьи';
+$_['entry_related']          = 'Похожие статьи';
 $_['entry_related_product']  = 'Рекомендуемые товары';
 $_['entry_tag']              = 'Теги статьи';
 $_['entry_layout']           = 'Выбрать макет';
@@ -50,7 +50,7 @@ $_['entry_layout']           = 'Выбрать макет';
 $_['help_keyword']           = 'Должен быть уникальным во всей системе, без пробелов и спецсимволов';
 $_['help_category']          = '(Автозаполнение)';
 $_['help_download']          = '(Автозаполнение)';
-$_['help_related']           = '(Автозаполнение)';
+$_['help_related']           = '(Автозаполнение) К добавляемой статье будет привязана текущая.';
 $_['help_related_product']   = '(Автозаполнение)';
 $_['help_tag']               = 'Теги разделяются запятой';
 $_['help_noindex']           = 'Индексация поисковыми системами Google, Yandex, Bing и др.';
