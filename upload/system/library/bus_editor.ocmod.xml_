@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
-© 2016-2020; BuslikDrev - Усе правы захаваныя.
-Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ ) -->
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2021; BuslikDrev - Усе правы захаваныя.
+Спецыяльна для сайта: "OpenCart.pro" ( https://opencart.pro/ ) -->
 
 <modification>
 	<code>01000048</code>
@@ -67,7 +67,7 @@ $(document).ready(function() {
 
 			$('body').append(html);
 			$('#bus-editor .loading').show();
-			$('#bus-editor').modal('show');
+			$('#bus-editor').modal('show').css('padding-right', '0');
 
 			var iframe = $('#bus-editor iframe[name="bus_editor"]');
 
@@ -298,6 +298,6 @@ $_['error_bus_editor_href'] = 'ЖЭСТАЧАЙШЭ ЗАПРЫШЧАЮ!';
 	<!-- ↑ САЙТ ШАБЛОН ↑ -->
 </modification>
 
-<!-- Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
-© 2016-2020; BuslikDrev - Усе правы захаваныя.
-Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ ) -->
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2021; BuslikDrev - Усе правы захаваныя.
+Спецыяльна для сайта: "OpenCart.pro" ( https://opencart.pro/ ) -->
