@@ -27,7 +27,7 @@ a.bus-editor{margin-right:3px}
 #bus-editor .loading svg:hover .gear-one,#bus-editor .loading svg:hover .gear-two{-webkit-animation-play-state:paused;animation-play-state:paused}
 @-webkit-keyframes spin-me-right-round-baby {to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
 @keyframes spin-me-right-round-baby {to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
- </style>
+</style>
 <script type="text/javascript"><!--
 /* bus-editor */
 $(document).ready(function() {
