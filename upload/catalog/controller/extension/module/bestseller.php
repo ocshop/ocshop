@@ -1,12 +1,16 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionModuleBestSeller extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/bestseller');
+
+		$this->load->model('catalog/product');
+
+		$this->load->model('tool/image');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -15,10 +19,6 @@ class ControllerExtensionModuleBestSeller extends Controller {
 		$data['button_cart'] = $this->language->get('button_cart');
 		$data['button_wishlist'] = $this->language->get('button_wishlist');
 		$data['button_compare'] = $this->language->get('button_compare');
-
-		$this->load->model('catalog/product');
-
-		$this->load->model('tool/image');
 
 		$data['products'] = array();
 
@@ -69,6 +69,7 @@ class ControllerExtensionModuleBestSeller extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($result['product_id']),
+					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);

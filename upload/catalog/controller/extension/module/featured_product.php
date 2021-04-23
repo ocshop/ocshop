@@ -1,18 +1,34 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionModuleFeaturedProduct extends Controller {
 	public function index($setting) {
-		if (!$setting['limit']) {
+		$this->load->language('extension/module/featured_product');
+
+		$this->load->model('catalog/cms');
+
+		$this->load->model('catalog/product');
+
+		$this->load->model('tool/image');
+
+		$data['heading_title'] = $this->language->get('heading_title');
+
+		$data['text_tax'] = $this->language->get('text_tax');
+
+		$data['button_cart'] = $this->language->get('button_cart');
+		$data['button_wishlist'] = $this->language->get('button_wishlist');
+		$data['button_compare'] = $this->language->get('button_compare');
+
+		$data['products'] = array();
+
+		if (empty($setting['limit'])) {
 			$setting['limit'] = 4;
 		}
 
 		$results = array();
-
-		$this->load->model('catalog/cms');
 
 		if (isset($this->request->get['manufacturer_id'])) {
 			$filter_data = array(
@@ -36,23 +52,7 @@ class ControllerExtensionModuleFeaturedProduct extends Controller {
 			}
 		}
 
-		$this->load->language('extension/module/featured_product');
-
-		$data['heading_title'] = $this->language->get('heading_title');
-
-		$data['text_tax'] = $this->language->get('text_tax');
-
-		$data['button_cart'] = $this->language->get('button_cart');
-		$data['button_wishlist'] = $this->language->get('button_wishlist');
-		$data['button_compare'] = $this->language->get('button_compare');
-
-		$this->load->model('catalog/product');
-
-		$this->load->model('tool/image');
-
-		$data['products'] = array();
-
-		if (!empty($results)) {
+		if ($results) {
 			foreach ($results as $product) {
 				if ($product) {
 					if ($product['image']) {
@@ -98,14 +98,15 @@ class ControllerExtensionModuleFeaturedProduct extends Controller {
 						'special'     => $special,
 						'tax'         => $tax,
 						'sticker'     => $this->getProStickers($product['product_id']),
+						'minimum'     => $product['minimum'] > 0 ? $product['minimum'] : 1,
 						'rating'      => $rating,
 						'href'        => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 					);
 				}
 			}
-		}
 
-		return $this->load->view('extension/module/featured_product', $data);
+			return $this->load->view('extension/module/featured_product', $data);
+		}
 	}
 
 	private function getProStickers($product_id) {

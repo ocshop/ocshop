@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -10,7 +10,8 @@ class ControllerExtensionModuleProductTab extends Controller {
 		$cache = true;
 
 		if ($cache) {
-			$data = $this->cache->get('product.product_tab.' . (int)$setting['limit'] . '.' . (int)$this->config->get('config_customer_group_id') . '.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'));
+			$cache = 'product.product_tab.' . (int)$setting['limit'] . '.' . (int)$this->config->get('config_customer_group_id') . '.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id');
+			$data = $this->cache->get($cache);
 
 			if ($data) {
 				return  $this->load-> view( 'extension/module/' . 'product_tab' , $data );
@@ -18,6 +19,10 @@ class ControllerExtensionModuleProductTab extends Controller {
 		}
 
 		$this->load->language('extension/module/product_tab');
+
+		$this->load->model('catalog/product');
+
+		$this->load->model('tool/image');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -31,10 +36,6 @@ class ControllerExtensionModuleProductTab extends Controller {
 		$data['button_cart'] = $this->language->get('button_cart');
 		$data['button_wishlist'] = $this->language->get('button_wishlist');
 		$data['button_compare'] = $this->language->get('button_compare');
-
-		$this->load->model('catalog/product');
-
-		$this->load->model('tool/image');
 
 		//Latest Products
 		$data['latest_products'] = array();
@@ -93,6 +94,7 @@ class ControllerExtensionModuleProductTab extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($result['product_id']),
+					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id']),
 				);
@@ -156,6 +158,7 @@ class ControllerExtensionModuleProductTab extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($result['product_id']),
+					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);
@@ -212,6 +215,7 @@ class ControllerExtensionModuleProductTab extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($result['product_id']),
+					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id']),
 				);
@@ -281,6 +285,7 @@ class ControllerExtensionModuleProductTab extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($product_info['product_id']),
+					'minimum'     => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
 				);
@@ -288,7 +293,7 @@ class ControllerExtensionModuleProductTab extends Controller {
 		}
 
 		if ($cache) {
-			$this->cache->set('product.product_tab.' . (int)$setting['limit'] . '.' . (int)$this->config->get('config_customer_group_id') . '.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'), $data);
+			$this->cache->set($cache, $data);
 		}
 
 		return $this->load->view('extension/module/product_tab', $data);

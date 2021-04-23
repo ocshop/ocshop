@@ -1,12 +1,16 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionModuleFeatured extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/featured');
+
+		$this->load->model('catalog/product');
+
+		$this->load->model('tool/image');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -16,17 +20,13 @@ class ControllerExtensionModuleFeatured extends Controller {
 		$data['button_wishlist'] = $this->language->get('button_wishlist');
 		$data['button_compare'] = $this->language->get('button_compare');
 
-		$this->load->model('catalog/product');
-
-		$this->load->model('tool/image');
-
 		$data['products'] = array();
 
-		if (!$setting['limit']) {
+		if (empty($setting['limit'])) {
 			$setting['limit'] = 4;
 		}
 
-		if (!empty($setting['product'])) {
+		if (!empty($setting['product']) && is_array($setting['product'])) {
 			$products = array_slice($setting['product'], 0, (int)$setting['limit']);
 
 			foreach ($products as $product_id) {
@@ -76,6 +76,7 @@ class ControllerExtensionModuleFeatured extends Controller {
 						'special'     => $special,
 						'tax'         => $tax,
 						'sticker'     => $this->getProStickers($product_info['product_id']),
+						'minimum'     => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
 						'rating'      => $rating,
 						'href'        => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
 					);
