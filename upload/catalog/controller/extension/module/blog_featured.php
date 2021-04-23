@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -8,14 +8,14 @@ class ControllerExtensionModuleBlogFeatured extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/blog_featured');
 
+		$this->load->model('blog/article');
+
+		$this->load->model('tool/image');
+
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_views'] = $this->language->get('text_views');
 		$data['button_more'] = $this->language->get('button_more');
-
-		$this->load->model('blog/article');
-
-		$this->load->model('tool/image');
 
 		$data['articles'] = array();
 

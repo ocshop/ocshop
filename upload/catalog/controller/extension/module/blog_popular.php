@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -51,7 +51,7 @@ class ControllerExtensionModuleBlogPopular extends Controller {
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('configblog_article_description_length')) . '..',
 					'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 					'viewed'      => $result['viewed'],
-					'reviews'    => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
+					'reviews'     => sprintf($this->language->get('text_reviews'), (int)$result['reviews']),
 					'rating'      => $rating,
 					'href'        => $this->url->link('blog/article', 'article_id=' . $result['article_id']),
 				);
