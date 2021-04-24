@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -14,6 +14,13 @@ class ControllerBlogCategory extends Controller {
 
 		$this->load->model('tool/image');
 
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 			$this->document->setRobots('noindex,follow');
@@ -23,6 +30,7 @@ class ControllerBlogCategory extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$order = 'DESC';
 		}
@@ -35,18 +43,12 @@ class ControllerBlogCategory extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get('configblog_article_limit') ? 100 : (int)$this->request->get['limit']);
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get('configblog_article_limit') ? 100 : $limit);
 			$this->document->setRobots('noindex,follow');
 		} else {
-			$limit = $this->config->get('configblog_article_limit');
+			$limit = (int)$this->config->get('configblog_article_limit');
 		}
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
 
 		$configblog_name = $this->config->get('configblog_name');
 
@@ -164,9 +166,9 @@ class ControllerBlogCategory extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
-			/* $data['categories'] = array();
+			$data['categories'] = array();
 
-			$results = $this->model_blog_category->getCategories($blog_category_id);
+			/* $results = $this->model_blog_category->getCategories($blog_category_id);
 
 			foreach ($results as $result) {
 				$filter_data = array(

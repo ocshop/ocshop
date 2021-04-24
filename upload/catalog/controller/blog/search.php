@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -13,70 +13,6 @@ class ControllerBlogSearch extends Controller {
 		$this->load->model('blog/article');
 
 		$this->load->model('tool/image');
-
-		if (isset($this->request->get['search'])) {
-			$search = $this->request->get['search'];
-		} else {
-			$search = '';
-		}
-
-		if (isset($this->request->get['tag'])) {
-			$tag = $this->request->get['tag'];
-		} elseif (isset($this->request->get['search'])) {
-			$tag = $this->request->get['search'];
-		} else {
-			$tag = '';
-		}
-
-		if (isset($this->request->get['blog_category_id'])) {
-			$blog_category_id = $this->request->get['blog_category_id'];
-		} else {
-			$blog_category_id = 0;
-		}
-
-		if (isset($this->request->get['sub_category'])) {
-			$sub_category = 1;
-		} else {
-			$sub_category = 0;
-		}
-
-		if (isset($this->request->get['filter_description'])) {
-			$description = 1;
-		} else {
-			$description = 0;
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$sort = $this->request->get['sort'];
-		} else {
-			$sort = 'p.sort_order';
-		}
-
-		if (isset($this->request->get['order'])) {
-			$order = $this->request->get['order'];
-		} else {
-			$order = 'ASC';
-		}
-
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
-
-		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get('configblog_article_limit') ? 100 : (int)$this->request->get['limit']);
-		} else {
-			$limit = (int)$this->config->get('configblog_article_limit');
-		}
-
-		if (isset($this->request->get['search'])) {
-			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->request->get['search']);
-		} elseif (isset($this->request->get['tag'])) {
-			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->language->get('heading_tag') . $this->request->get['tag']);
-		} else {
-			$this->document->setTitle($this->language->get('heading_title'));
-		}
 
 		$data['breadcrumbs'] = array();
 
@@ -129,12 +65,77 @@ class ControllerBlogSearch extends Controller {
 		);
 
 		if (isset($this->request->get['search'])) {
+			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->request->get['search']);
+		} elseif (isset($this->request->get['tag'])) {
+			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->language->get('heading_tag') . $this->request->get['tag']);
+		} else {
+			$this->document->setTitle($this->language->get('heading_title'));
+		}
+
+		$this->document->setRobots('noindex,follow');
+
+		if (isset($this->request->get['search'])) {
+			$search = $this->request->get['search'];
+		} else {
+			$search = '';
+		}
+
+		if (isset($this->request->get['tag'])) {
+			$tag = $this->request->get['tag'];
+		} elseif (isset($this->request->get['search'])) {
+			$tag = $this->request->get['search'];
+		} else {
+			$tag = '';
+		}
+
+		if (isset($this->request->get['blog_category_id'])) {
+			$blog_category_id = $this->request->get['blog_category_id'];
+		} else {
+			$blog_category_id = 0;
+		}
+
+		if (isset($this->request->get['sub_category'])) {
+			$sub_category = 1;
+		} else {
+			$sub_category = 0;
+		}
+
+		if (isset($this->request->get['filter_description'])) {
+			$description = 1;
+		} else {
+			$description = 0;
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+		} else {
+			$sort = 'p.sort_order';
+		}
+
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+		} else {
+			$order = 'ASC';
+		}
+
+		if (isset($this->request->get['page'])) {
+			$page = (int)$this->request->get['page'];
+		} else {
+			$page = 1;
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get('configblog_article_limit') ? 100 : $limit);
+		} else {
+			$limit = (int)$this->config->get('configblog_article_limit');
+		}
+
+		if (isset($this->request->get['search'])) {
 			$data['heading_title'] = $this->language->get('heading_title') .  ' - ' . $this->request->get['search'];
 		} else {
 			$data['heading_title'] = $this->language->get('heading_title');
 		}
-
-		$this->document->setRobots('noindex,follow');
 
 		$data['text_empty'] = $this->language->get('text_empty');
 		$data['text_search'] = $this->language->get('text_search');
@@ -144,7 +145,7 @@ class ControllerBlogSearch extends Controller {
 		$data['text_sort'] = $this->language->get('text_sort');
 		$data['text_limit'] = $this->language->get('text_limit');
 		$data['text_views'] = $this->language->get('text_views');
-		//$data['text_benefits'] = $this->language->get('text_benefits');
+		$data['text_benefits'] = $this->language->get('text_benefits');
 
 		$data['entry_search'] = $this->language->get('entry_search');
 		$data['entry_description'] = $this->language->get('entry_description');
@@ -223,9 +224,9 @@ class ControllerBlogSearch extends Controller {
 					$rating = false;
 				}
 
-				//if ($result['description_mini']) {
-					//$result['description'] = $result['description_mini'];
-				//}
+				/* if ($result['description_mini']) {
+					$result['description'] = $result['description_mini'];
+				} */
 
 				$data['articles'][] = array(
 					'article_id'  => $result['article_id'],
@@ -414,11 +415,11 @@ class ControllerBlogSearch extends Controller {
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($article_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($article_total - $limit)) ? $article_total : ((($page - 1) * $limit) + $limit), $article_total, ceil($article_total / $limit));
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-			if ($page == 1) {
-				$this->document->addLink($this->url->link('blog/search', '', true), 'canonical');
-			} elseif ($page == 2) {
+			$this->document->addLink($this->url->link('blog/search', '', true), 'canonical');
+
+			if ($page == 2) {
 				$this->document->addLink($this->url->link('blog/search', '', true), 'prev');
-			} else {
+			} elseif($page > 2)   {
 				$this->document->addLink($this->url->link('blog/search', $url . '&page='. ($page - 1), true), 'prev');
 			}
 

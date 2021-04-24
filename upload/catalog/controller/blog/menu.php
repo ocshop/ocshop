@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -29,39 +29,41 @@ class ControllerBlogMenu extends Controller {
 
 		$categories = $this->model_blog_category->getCategories(0);
 
-		foreach ($categories as $category) {
-			if ($category['top']) {
-				// Level 2
-				$children_data = array();
+		if ($categories) {
+			foreach ($categories as $category) {
+				if ($category['top']) {
+					// Level 2
+					$children_data = array();
 
-				$children = $this->model_blog_category->getCategories($category['blog_category_id']);
+					$children = $this->model_blog_category->getCategories($category['blog_category_id']);
 
-				foreach ($children as $child) {
+					foreach ($children as $child) {
+						$filter_data = array(
+							'filter_blog_category_id' => $child['blog_category_id'],
+							'filter_sub_category'     => true
+						);
+
+						$children_data[] = array(
+							'name'  => $child['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
+							'href'  => $this->url->link('blog/category', 'blog_category_id=' . $category['blog_category_id'] . '_' . $child['blog_category_id'])
+						);
+					}
+
+					// Level 1
 					$filter_data = array(
-						'filter_blog_category_id' => $child['blog_category_id'],
-						'filter_sub_category'     => true
+						'filter_blog_category_id' => $category['blog_category_id']
 					);
 
-					$children_data[] = array(
-						'name'  => $child['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
-						'href'  => $this->url->link('blog/category', 'blog_category_id=' . $category['blog_category_id'] . '_' . $child['blog_category_id'])
+					$data['categories'][] = array(
+						'name'     => $category['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
+						'children' => $children_data,
+						'column'   => $category['column'] ? $category['column'] : 1,
+						'href'     => $this->url->link('blog/category', 'blog_category_id=' . $category['blog_category_id'])
 					);
 				}
-
-				// Level 1
-				$filter_data = array(
-					'filter_blog_category_id' => $category['blog_category_id']
-				);
-
-				$data['categories'][] = array(
-					'name'     => $category['name'] . ($this->config->get('configblog_article_count') ? ' (' . $this->model_blog_article->getTotalArticles($filter_data) . ')' : ''),
-					'children' => $children_data,
-					'column'   => $category['column'] ? $category['column'] : 1,
-					'href'     => $this->url->link('blog/category', 'blog_category_id=' . $category['blog_category_id'])
-				);
 			}
-		}
 
-		return $this->load->view('blog/menu', $data);
+			return $this->load->view('blog/menu', $data);
+		}
 	}
 }
