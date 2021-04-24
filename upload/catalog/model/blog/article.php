@@ -39,7 +39,7 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getArticles($data = array()) {
-		$article_data = false;
+		$article_data = array();
 		$cache = $this->config->get('configblog_cache_status');
 
 		if ($cache) {
@@ -49,8 +49,6 @@ class ModelBlogArticle extends Model {
 		}
 
 		if (!$article_data) {
-			$article_data = array();
-
 			$sql = "SELECT p.article_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review_article r1 WHERE r1.article_id = p.article_id AND r1.status = '1' GROUP BY r1.article_id) AS rating FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id)";
 
 			if (!empty($data['filter_blog_category_id'])) {
@@ -149,11 +147,11 @@ class ModelBlogArticle extends Model {
 			}
 
 			if (isset($data['start']) || isset($data['limit'])) {
-				if ($data['start'] < 0) {
+				if (!isset($data['start']) || $data['start'] < 0) {
 					$data['start'] = 0;
 				}
 
-				if ($data['limit'] < 1) {
+				if (!isset($data['limit']) || $data['limit'] < 1) {
 					$data['limit'] = 20;
 				}
 
@@ -175,7 +173,7 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getLatestArticles($limit) {
-		$article_data = false;
+		$article_data = array();
 		$cache = $this->config->get('configblog_cache_status');
 
 		if ($cache) {
@@ -185,8 +183,6 @@ class ModelBlogArticle extends Model {
 		}
 
 		if (!$article_data) {
-			$article_data = array();
-
 			$query = $this->db->query("SELECT p.article_id FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.date_added DESC LIMIT " . (int)$limit);
 
 			foreach ($query->rows as $result) {
