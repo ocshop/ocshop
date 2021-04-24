@@ -36,7 +36,7 @@
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="form-group">
-            <a href="<?php echo $compare; ?>" id="compare-total" class="btn btn-link"><?php echo $text_compare; ?></a>
+            <a href="<?php echo $compare; ?>" id="compare-total" class="btn btn-primary btn-block"><?php echo $text_compare; ?></a>
           </div>
         </div>
         <div class="col-md-4 col-xs-6">
