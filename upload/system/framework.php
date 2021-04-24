@@ -76,13 +76,11 @@ if ($config->get('db_autostart')) {
 }
 
 // Session
-$session = new Session($config->get('session_engine'), $registry);
-
 if ($config->get('session_autostart')) {
+	$session = new Session($config->get('session_engine'), $registry);
+	$registry->set('session', $session);
 	$session->start($config->get('session_name'));
 }
-
-$registry->set('session', $session);
 
 // Cache 
 $registry->set('cache', new Cache($config->get('cache_type'), $config->get('cache_expire')));
