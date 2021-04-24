@@ -20,6 +20,7 @@ $_['db_port']               = DB_PORT;
 // Session
 $_['session_engine']        = 'native'; //native, db or file
 $_['session_name']          = 'PHPSESSID';
+//$_['session_name']          = 'ADMINSESSID';
 $_['session_autostart']     = true;
 
 // Actions
