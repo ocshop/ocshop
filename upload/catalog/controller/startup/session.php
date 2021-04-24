@@ -6,6 +6,15 @@
 
 class ControllerStartupSession extends Controller {
 	public function index() {
+		if ($this->config->get('config_session_engine')) {
+			$this->config->set('session_engine', $this->config->get('config_session_engine'));
+		}
+		if ($this->config->get('config_session_name')) {
+			$this->config->set('session_name', $this->config->get('config_session_name'));
+		}
+		$session = new Session($this->config->get('session_engine'), $this->registry);
+		$this->registry->set('session', $session);
+
 		if (isset($this->request->get['token']) && isset($this->request->get['route']) && substr($this->request->get['route'], 0, 4) == 'api/') {
 			$this->db->query("DELETE FROM `" . DB_PREFIX . "api_session` WHERE TIMESTAMPADD(HOUR, 1, date_modified) < NOW()");
 		
