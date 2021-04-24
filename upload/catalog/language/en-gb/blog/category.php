@@ -8,9 +8,9 @@
 $_['text_blog']        = 'Blog';
 $_['text_refine']      = 'Refine Search';
 $_['text_product']     = 'Articles';
+$_['text_display']     = 'Display:';
 $_['text_error']       = 'Category not found!';
 $_['text_empty']       = 'There are no articles to list in this category.';
-$_['text_display']     = 'Display:';
 $_['text_sort']        = 'Sort By:';
 $_['text_limit']       = 'Show:';
 $_['text_sort_date']   = 'date';
