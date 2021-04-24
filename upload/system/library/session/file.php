@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -23,7 +23,7 @@ class File {
     }
 
 	public function read(string $session_id): array {
-		$file = DIR_SESSION . 'sess_' . basename($session_id);
+		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
 
 		if (is_file($file)) {
 			$size = filesize($file);
@@ -49,7 +49,7 @@ class File {
 	}
 
 	public function write($session_id, $data = array()) {
-		$file = DIR_SESSION . 'sess_' . basename($session_id);
+		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
 
 		$handle = fopen($file, 'c');
 
@@ -67,7 +67,7 @@ class File {
 	}
 
 	public function destroy($session_id) {
-		$file = DIR_SESSION . 'sess_' . basename($session_id);
+		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
 
 		if (is_file($file)) {
 			unlink($file);
@@ -76,7 +76,7 @@ class File {
 
 	public function gc($maxlifetime = 0) {
 		if (round(rand(1, $this->config->get('session_divisor') / $this->config->get('session_probability'))) == 1) {
-			$files = glob(DIR_SESSION . 'sess_*');
+			$files = glob(DIR_SESSION . $this->config->get('session_prefix') . '*');
 
 			foreach ($files as $file) {
 				if (is_file($file) && filemtime($file) < (time() + $maxlifetime)) {
