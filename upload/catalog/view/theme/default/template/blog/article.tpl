@@ -97,9 +97,9 @@
               <?php } ?>
             </div>
             <div class="button-group">
-              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');"><span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span> <i class="fa fa-shopping-cart"></i></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-exchange"></i></button>
+              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_cart; ?>" title="<?php echo $button_cart; ?>"><span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span> <i class="fa fa-shopping-cart"></i></button>
+              <button type="button" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_wishlist; ?>" title="<?php echo $button_wishlist; ?>"><i class="fa fa-heart"></i></button>
+              <button type="button" onclick="compare.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_compare; ?>" title="<?php echo $button_compare; ?>"><i class="fa fa-exchange"></i></button>
             </div>
           </div>
         </div>
@@ -138,9 +138,9 @@
               <?php } ?>
             </div>
             <div class="button-group">
-              <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>"><i class="fa fa-clock-o"></i></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>"><i class="fa fa-eye"></i></button>
+              <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_more; ?>" title="<?php echo $button_more; ?>"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
+              <button type="button" data-toggle="tooltip" aria-label="<?php echo $article["date_added"];?>" title="<?php echo $article["date_added"];?>"><i class="fa fa-clock-o"></i></button>
+              <button type="button" data-toggle="tooltip" aria-label="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>"><i class="fa fa-eye"></i></button>
             </div>
           </div>
         </div>
@@ -188,7 +188,7 @@
             &nbsp;
             <input type="radio" name="rating" value="5" />
             &nbsp;<?php echo $entry_good; ?>
-		  </div>
+          </div>
         </div>
         <?php echo $captcha; ?>
         <div class="buttons clearfix">
