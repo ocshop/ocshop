@@ -42,9 +42,10 @@ $_['cache_type']            = 'file'; // apc, file or mem
 $_['cache_expire']          = 3600;
 
 // Session
+$_['session_autostart']     = false;
 $_['session_engine']        = 'native'; // native, db or file
 $_['session_name']          = 'PHPSESSID';
-$_['session_autostart']     = false;
+$_['session_prefix']        = 'sess_';
 $_['session_lifetime']      = (60 * 60 * 24 * 1); // sec
 $_['session_path']          = '/';//!empty($_SERVER['PHP_SELF']) ? dirname($_SERVER['PHP_SELF']) : '/' . basename(HTTPS_SERVER);
 $_['session_domain']        = '';
