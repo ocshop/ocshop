@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -15,7 +15,7 @@ class ControllerAccountForgotten extends Controller {
 		$this->load->language('account/forgotten');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		$this->document->setRobots('noindex,follow');
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 
 		$this->load->model('account/customer');
 
@@ -88,7 +88,6 @@ class ControllerAccountForgotten extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		$this->document->setRobots('noindex,follow');
 
 		$data['text_your_email'] = $this->language->get('text_your_email');
 		$data['text_email'] = $this->language->get('text_email');
@@ -129,12 +128,12 @@ class ControllerAccountForgotten extends Controller {
 			$this->error['warning'] = $this->language->get('error_email');
 		} elseif (!$this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
 			$this->error['warning'] = $this->language->get('error_email');
-		}
+		} else {
+			$customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
 
-		$customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
-
-		if ($customer_info && !$customer_info['approved']) {
-			$this->error['warning'] = $this->language->get('error_approved');
+			if ($customer_info && !$customer_info['approved']) {
+				$this->error['warning'] = $this->language->get('error_approved');
+			}
 		}
 
 		return !$this->error;
