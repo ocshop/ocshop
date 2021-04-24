@@ -8,6 +8,10 @@ class ControllerExtensionModuleManufacturer extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/manufacturer');
 
+		$this->load->model('catalog/manufacturer');
+
+		$this->load->model('catalog/product');
+
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		if (isset($this->request->get['manufacturer_id'])) {
@@ -15,10 +19,6 @@ class ControllerExtensionModuleManufacturer extends Controller {
 		} else {
 			$data['manufacturer_id'] = array();
 		}
-
-		$this->load->model('catalog/manufacturer');
-
-		$this->load->model('catalog/product');
 
 		$data['manufacturers'] = array();
 
