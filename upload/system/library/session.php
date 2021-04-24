@@ -34,7 +34,9 @@ class Session {
 			$this->adaptor = new $class($registry);
 
 			if ($this->adaptor) {
-				session_set_save_handler($this->adaptor);
+				if ($engine == 'native') {
+					session_set_save_handler($this->adaptor);
+				}
 
 				register_shutdown_function([&$this, 'close']);
 				register_shutdown_function([&$this, 'gc']);
@@ -78,7 +80,14 @@ class Session {
 
 					session_start();
 				} else {
-					setcookie($this->config->get('session_name'), $this->session->getId(), ini_get('session.cookie_lifetime'), ini_get('session.cookie_path'), ini_get('session.cookie_domain'));
+					$this->set($this->config->get('session_name'), $this->session_id, array(
+						'lifetime' => $this->config->get('session_lifetime'),
+						'path' => $this->config->get('session_path'),
+						'domain' => $this->config->get('session_domain'),
+						'secure' => $this->config->get('session_secure'),
+						'httponly' => $this->config->get('session_httponly'),
+						'samesite' => $this->config->get('session_samesite')
+					));
 				}
 			}
 		} else {
@@ -111,7 +120,14 @@ class Session {
 
 			//echo json_encode($this->data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
 			if ($key != 'PHPSESSID') {
-				$this->set($key, $this->session_id, ini_get('session.cookie_lifetime'), ini_get('session.cookie_path'), ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
+				$this->set($this->config->get('session_name'), $this->session_id, array(
+					'lifetime' => $this->config->get('session_lifetime'),
+					'path' => $this->config->get('session_path'),
+					'domain' => $this->config->get('session_domain'),
+					'secure' => $this->config->get('session_secure'),
+					'httponly' => $this->config->get('session_httponly'),
+					'samesite' => $this->config->get('session_samesite')
+				));
 			}
 		} else {
 			throw new \Exception('Error: Invalid session ID!');
