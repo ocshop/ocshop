@@ -29,4 +29,5 @@ $_['text_name_asc']    = 'Name (A - Z)';
 $_['text_name_desc']   = 'Name (Z - A)';
 $_['text_default']     = 'Default';
 
+// Button
 $_['button_more']      = 'more';
