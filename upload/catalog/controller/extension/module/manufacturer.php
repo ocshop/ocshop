@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -24,14 +24,16 @@ class ControllerExtensionModuleManufacturer extends Controller {
 
 		$manufacturers = $this->model_catalog_manufacturer->getManufacturers();
 
-		foreach ($manufacturers as $manufacturer) {
-			$data['manufacturers'][] = array(
-				'manufacturer_id' => $manufacturer['manufacturer_id'],
-				'name'            => $manufacturer['name'],
-				'href'            => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer['manufacturer_id'])
-			);
-		}
+		if ($manufacturers) {
+			foreach ($manufacturers as $manufacturer) {
+				$data['manufacturers'][] = array(
+					'manufacturer_id' => $manufacturer['manufacturer_id'],
+					'name'            => $manufacturer['name'],
+					'href'            => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer['manufacturer_id'])
+				);
+			}
 
-		return $this->load->view('extension/module/manufacturer', $data);
+			return $this->load->view('extension/module/manufacturer', $data);
+		}
 	}
 }
