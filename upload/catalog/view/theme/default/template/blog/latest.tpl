@@ -20,21 +20,23 @@
         <?php if (!empty($thumb)) { ?>
         <div class="col-sm-2"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" class="img-thumbnail" /></div>
         <?php } ?>
-        <?php if (!empty($description)) { ?>
+        <?php if (!empty($thumb) && !empty($description)) { ?>
         <div class="col-sm-10"><?php echo $description; ?></div>
+        <?php } elseif (empty($thumb) && !empty($description)) { ?>
+        <div class="col-sm-12"><?php echo $description; ?></div>
         <?php } ?>
       </div>
       <hr>
       <?php } ?>
       <?php if ($articles) { ?>
       <div class="row">
-        <div class="col-md-5 col-sm-6 hidden-xs">
-          <div class="btn-group btn-group-sm">
-            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $text_list; ?>"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $text_grid; ?>"><i class="fa fa-th"></i></button>
+        <div class="col-md-6 col-sm-12 hidden-xs">
+          <div class="form-group btn-group btn-group-sm">
+            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_list; ?>"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_grid; ?>"><i class="fa fa-th"></i></button>
           </div>
         </div>
-        <div class="col-md-4 col-xs-6">
+        <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="form-group input-group input-group-sm">
             <label class="input-group-addon" for="input-sort"><?php echo $text_sort; ?></label>
             <select id="input-sort" class="form-control" onchange="location = this.value;">
@@ -48,7 +50,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-3 col-xs-6">
+        <div class="col-md-3 col-sm-6 col-xs-12" style="clear:right">
           <div class="form-group input-group input-group-sm">
             <label class="input-group-addon" for="input-limit"><?php echo $text_limit; ?></label>
             <select id="input-limit" class="form-control" onchange="location = this.value;">
@@ -63,11 +65,10 @@
           </div>
         </div>
       </div>
-      <br />
-      <div class="row">  
-        <?php foreach ($articles as $article) { ?>     
+      <div class="row">
+        <?php foreach ($articles as $article) { ?>
         <div class="product-layout product-list col-xs-12">
-          <div class="product-thumb">
+          <div class="product-thumb transition">
             <div class="image"><a href="<?php echo $article['href']; ?>"><img src="<?php echo $article['thumb']; ?>" alt="<?php echo $article['name']; ?>" title="<?php echo $article['name']; ?>" class="img-responsive" /></a></div>
             <div class="caption">
               <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
@@ -84,7 +85,7 @@
               </div>
               <?php } ?>
             </div>
-            <div class="button-group"> 
+            <div class="button-group">
               <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
               <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"]; ?>"><i class="fa fa-clock-o"></i></button>
               <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"]; ?>"><i class="fa fa-eye"></i></button>
