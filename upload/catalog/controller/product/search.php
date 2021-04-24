@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -13,6 +13,66 @@ class ControllerProductSearch extends Controller {
 		$this->load->model('catalog/product');
 
 		$this->load->model('tool/image');
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
+
+		$url = '';
+
+		if (isset($this->request->get['search'])) {
+			$url .= '&search=' . urlencode(html_entity_decode($this->request->get['search'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['tag'])) {
+			$url .= '&tag=' . urlencode(html_entity_decode($this->request->get['tag'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['category_id'])) {
+			$url .= '&category_id=' . $this->request->get['category_id'];
+		}
+
+		if (isset($this->request->get['sub_category'])) {
+			$url .= '&sub_category=' . $this->request->get['sub_category'];
+		}
+
+		if (isset($this->request->get['description'])) {
+			$url .= '&description=' . $this->request->get['description'];
+		}
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$url .= '&limit=' . $this->request->get['limit'];
+		}
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('product/search', $url)
+		);
+
+		if (isset($this->request->get['search'])) {
+			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->request->get['search']);
+		} elseif (isset($this->request->get['tag'])) {
+			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->language->get('heading_tag') . $this->request->get['tag']);
+		} else {
+			$this->document->setTitle($this->language->get('heading_title'));
+		}
+
+		$this->document->setRobots('noindex,follow');
 
 		if (isset($this->request->get['search'])) {
 			$search = $this->request->get['search'];
@@ -65,76 +125,17 @@ class ControllerProductSearch extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : (int)$this->request->get['limit']);
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : $limit);
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
 		}
-
-		if (isset($this->request->get['search'])) {
-			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->request->get['search']);
-		} elseif (isset($this->request->get['tag'])) {
-			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->language->get('heading_tag') . $this->request->get['tag']);
-		} else {
-			$this->document->setTitle($this->language->get('heading_title'));
-		}
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$url = '';
-
-		if (isset($this->request->get['search'])) {
-			$url .= '&search=' . urlencode(html_entity_decode($this->request->get['search'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['tag'])) {
-			$url .= '&tag=' . urlencode(html_entity_decode($this->request->get['tag'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['description'])) {
-			$url .= '&description=' . $this->request->get['description'];
-		}
-
-		if (isset($this->request->get['category_id'])) {
-			$url .= '&category_id=' . $this->request->get['category_id'];
-		}
-
-		if (isset($this->request->get['sub_category'])) {
-			$url .= '&sub_category=' . $this->request->get['sub_category'];
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		if (isset($this->request->get['limit'])) {
-			$url .= '&limit=' . $this->request->get['limit'];
-		}
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/search', $url)
-		);
 
 		if (isset($this->request->get['search'])) {
 			$data['heading_title'] = $this->language->get('heading_title') .  ' - ' . $this->request->get['search'];
 		} else {
 			$data['heading_title'] = $this->language->get('heading_title');
 		}
-
-		$this->document->setRobots('noindex,follow');
 
 		$data['text_empty'] = $this->language->get('text_empty');
 		$data['text_search'] = $this->language->get('text_search');
@@ -163,8 +164,6 @@ class ControllerProductSearch extends Controller {
 		$data['button_grid'] = $this->language->get('button_grid');
 
 		$data['compare'] = $this->url->link('product/compare');
-
-		$this->load->model('catalog/category');
 
 		// 3 Level Category Search
 		$data['categories'] = array();
@@ -445,11 +444,11 @@ class ControllerProductSearch extends Controller {
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-			if ($page == 1) {
-			    $this->document->addLink($this->url->link('product/search', '', true), 'canonical');
-			} elseif ($page == 2) {
+			$this->document->addLink($this->url->link('product/search', '', true), 'canonical');
+
+			if ($page == 2) {
 			    $this->document->addLink($this->url->link('product/search', '', true), 'prev');
-			} else {
+			} elseif($page > 2)   {
 			    $this->document->addLink($this->url->link('product/search', $url . '&page='. ($page - 1), true), 'prev');
 			}
 

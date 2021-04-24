@@ -1,20 +1,25 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerProductMostviewed extends Controller {
-	private $max = 100;
-
 	public function index() {
 		$this->load->language('product/mostviewed');
 
-		$this->load->model('catalog/product');
-
 		$this->load->model('catalog/cms');
 
+		$this->load->model('catalog/product');
+
 		$this->load->model('tool/image');
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -25,6 +30,7 @@ class ControllerProductMostviewed extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$order = 'DESC';
 		}
@@ -38,47 +44,15 @@ class ControllerProductMostviewed extends Controller {
 
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : $limit);
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
-			$this->max = $limit;
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['heading_title'] = $this->language->get('heading_title');
-
-		$data['description'] = false;
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$url = '';
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		if (isset($this->request->get['limit'])) {
-			$url .= '&limit=' . $this->request->get['limit'];
-		}
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/mostviewed', $url)
-		);
 
 		$data['text_empty'] = $this->language->get('text_empty');
 		$data['text_quantity'] = $this->language->get('text_quantity');
@@ -99,27 +73,47 @@ class ControllerProductMostviewed extends Controller {
 		$data['button_grid'] = $this->language->get('button_grid');
 		$data['button_continue'] = $this->language->get('button_continue');
 
+		// Set the last category breadcrumb
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('product/mostviewed')
+		);
+
+		$data['description'] = false;
+		$data['description_bottom'] = false;
+
 		$data['compare'] = $this->url->link('product/compare');
 
-		$data['products'] = array();
+		$url = '';
 
-		$m_start=($page - 1) * $limit;
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$url .= '&limit=' . $this->request->get['limit'];
+		}
+
+		$data['products'] = array();
 
 		$filter_data = array(
 			'sort'  => $sort,
 			'order' => $order,
-			'start' => $m_start,
-			'limit' => (($m_start+$limit) > $this->max) ? $this->max-$m_start : $limit,
-			'max'   => $this->max
+			'start' => ($page - 1) * $limit,
+			'limit' => $limit
 		);
-
-		$results = $this->model_catalog_cms->getMostViewed($filter_data);
 
 		$product_total = $this->model_catalog_product->getTotalProducts();
 
-		if ($product_total > $this->max) {
-			$product_total = $this->max;
-		}
+		$results = $this->model_catalog_cms->getMostViewed($filter_data);
 
 		foreach ($results as $result) {
 			if ($result['image']) {
@@ -285,11 +279,11 @@ class ControllerProductMostviewed extends Controller {
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
 		// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-		if ($page == 1) {
-			$this->document->addLink($this->url->link('product/mostviewed', '', true), 'canonical');
-		} elseif ($page == 2) {
+		$this->document->addLink($this->url->link('product/mostviewed', '', true), 'canonical');
+
+		if ($page == 2) {
 			$this->document->addLink($this->url->link('product/mostviewed', '', true), 'prev');
-		} else {
+		} elseif($page > 2)   {
 			$this->document->addLink($this->url->link('product/mostviewed', 'page='. ($page - 1), true), 'prev');
 		}
 

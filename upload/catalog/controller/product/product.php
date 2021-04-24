@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -164,6 +164,67 @@ class ControllerProductProduct extends Controller {
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		if ($product_info) {
+			if ($product_info['meta_title']) {
+				$this->document->setTitle($product_info['meta_title']);
+			} else {
+				$this->document->setTitle($product_info['name']);
+			}
+
+			if ($product_info['noindex'] <= 0) {
+				$this->document->setRobots('noindex,follow');
+			}
+
+			$this->document->setDescription($product_info['meta_description']);
+			$this->document->setKeywords($product_info['meta_keyword']);
+			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
+			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
+			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
+			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
+			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
+			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
+
+			if ($product_info['meta_h1']) {	
+				$data['heading_title'] = $product_info['meta_h1'];
+			} else {
+				$data['heading_title'] = $product_info['name'];
+			}
+
+			$data['text_select'] = $this->language->get('text_select');
+			$data['text_manufacturer'] = $this->language->get('text_manufacturer');
+			$data['text_model'] = $this->language->get('text_model');
+			$data['text_reward'] = $this->language->get('text_reward');
+			$data['text_points'] = $this->language->get('text_points');
+			$data['text_stock'] = $this->language->get('text_stock');
+			$data['text_discount'] = $this->language->get('text_discount');
+			$data['text_tax'] = $this->language->get('text_tax');
+			$data['text_option'] = $this->language->get('text_option');
+			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
+			$data['text_write'] = $this->language->get('text_write');
+			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', '', true), $this->url->link('account/register', '', true));
+			$data['text_note'] = $this->language->get('text_note');
+			$data['text_tags'] = $this->language->get('text_tags');
+			$data['text_related'] = $this->language->get('text_related');
+			$data['text_payment_recurring'] = $this->language->get('text_payment_recurring');
+			$data['text_loading'] = $this->language->get('text_loading');
+			$data['text_benefits'] = $this->language->get('text_benefits');
+
+			$data['entry_qty'] = $this->language->get('entry_qty');
+			$data['entry_name'] = $this->language->get('entry_name');
+			$data['entry_review'] = $this->language->get('entry_review');
+			$data['entry_rating'] = $this->language->get('entry_rating');
+			$data['entry_good'] = $this->language->get('entry_good');
+			$data['entry_bad'] = $this->language->get('entry_bad');
+
+			$data['button_cart'] = $this->language->get('button_cart');
+			$data['button_wishlist'] = $this->language->get('button_wishlist');
+			$data['button_compare'] = $this->language->get('button_compare');
+			$data['button_upload'] = $this->language->get('button_upload');
+			$data['button_continue'] = $this->language->get('button_continue');
+
+			$data['tab_description'] = $this->language->get('tab_description');
+			$data['tab_attribute'] = $this->language->get('tab_attribute');
+			$data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
+
 			$url = '';
 
 			if (isset($this->request->get['path'])) {
@@ -214,73 +275,11 @@ class ControllerProductProduct extends Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
+			// Set the last category breadcrumb
 			$data['breadcrumbs'][] = array(
 				'text' => $product_info['name'],
-				'href' => $this->url->link('product/product', $url . '&product_id=' . $this->request->get['product_id'])
+				'href' => $this->url->link('product/product', $url . '&product_id=' . $product_id)
 			);
-
-			if ($product_info['meta_title']) {
-				$this->document->setTitle($product_info['meta_title']);
-			} else {
-				$this->document->setTitle($product_info['name']);
-			}
-
-			if ($product_info['noindex'] <= 0) {
-				$this->document->setRobots('noindex,follow');
-			}
-
-			if ($product_info['meta_h1']) {	
-				$data['heading_title'] = $product_info['meta_h1'];
-			} else {
-				$data['heading_title'] = $product_info['name'];
-			}
-
-			$this->document->setDescription($product_info['meta_description']);
-			$this->document->setKeywords($product_info['meta_keyword']);
-			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
-			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
-			$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
-			$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
-
-			$data['text_select'] = $this->language->get('text_select');
-			$data['text_manufacturer'] = $this->language->get('text_manufacturer');
-			$data['text_model'] = $this->language->get('text_model');
-			$data['text_reward'] = $this->language->get('text_reward');
-			$data['text_points'] = $this->language->get('text_points');
-			$data['text_stock'] = $this->language->get('text_stock');
-			$data['text_discount'] = $this->language->get('text_discount');
-			$data['text_tax'] = $this->language->get('text_tax');
-			$data['text_option'] = $this->language->get('text_option');
-			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
-			$data['text_write'] = $this->language->get('text_write');
-			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', '', true), $this->url->link('account/register', '', true));
-			$data['text_note'] = $this->language->get('text_note');
-			$data['text_tags'] = $this->language->get('text_tags');
-			$data['text_related'] = $this->language->get('text_related');
-			$data['text_payment_recurring'] = $this->language->get('text_payment_recurring');
-			$data['text_loading'] = $this->language->get('text_loading');
-			$data['text_benefits'] = $this->language->get('text_benefits');
-
-			$data['entry_qty'] = $this->language->get('entry_qty');
-			$data['entry_name'] = $this->language->get('entry_name');
-			$data['entry_review'] = $this->language->get('entry_review');
-			$data['entry_rating'] = $this->language->get('entry_rating');
-			$data['entry_good'] = $this->language->get('entry_good');
-			$data['entry_bad'] = $this->language->get('entry_bad');
-
-			$data['button_cart'] = $this->language->get('button_cart');
-			$data['button_wishlist'] = $this->language->get('button_wishlist');
-			$data['button_compare'] = $this->language->get('button_compare');
-			$data['button_upload'] = $this->language->get('button_upload');
-			$data['button_continue'] = $this->language->get('button_continue');
-
-			$this->load->model('catalog/review');
-
-			$data['tab_description'] = $this->language->get('tab_description');
-			$data['tab_attribute'] = $this->language->get('tab_attribute');
-			$data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
 
 			$data['product_id'] = (int)$this->request->get['product_id'];
 			$data['manufacturer'] = $product_info['manufacturer'];
@@ -410,6 +409,18 @@ class ControllerProductProduct extends Controller {
 			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']);
 			$data['rating'] = (int)$product_info['rating'];
 
+			$data['product_tabs'] = array();
+
+			$tabresults = $this->model_catalog_product->getproducttab($this->request->get['product_id']);
+
+			foreach($tabresults as $result){
+				$data['product_tabs'][]=array(
+					'product_tab_id' => $result['product_tab_id'],
+					'title'          => $result['heading'],
+					'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+				);
+			}
+
 			// Captcha
 			if ($this->config->get($this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
 				$data['captcha'] = $this->load->controller('extension/captcha/' . $this->config->get('config_captcha'));
@@ -422,7 +433,6 @@ class ControllerProductProduct extends Controller {
 			$data['attribute_groups'] = $this->model_catalog_product->getProductAttributes($this->request->get['product_id']);
 
 			$data['sticker'] = $this->getProStickers($product_info['product_id']);
-
 			$data['benefits'] = $this->getProBenefits($product_info['product_id'], 350, 140);
 
 			$data['products'] = array();
@@ -473,7 +483,6 @@ class ControllerProductProduct extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'sticker'     => $this->getProStickers($result['product_id']),
-					'benefits'    => $this->getProBenefits($result['product_id']),
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
@@ -504,20 +513,16 @@ class ControllerProductProduct extends Controller {
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 
-			$data['product_tabs'] = array();
-
-			$tabresults = $this->model_catalog_product->getproducttab($this->request->get['product_id']);
-
-			foreach($tabresults as $result){
-				$data['product_tabs'][]=array(
-					'product_tab_id' => $result['product_tab_id'],
-					'title'          => $result['heading'],
-					'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
-				);
-			}
-
 			$this->response->setOutput($this->load->view('product/product', $data));
 		} else {
+			$this->document->setTitle($this->language->get('text_error'));
+
+			$data['heading_title'] = $this->language->get('text_error');
+
+			$data['text_error'] = $this->language->get('text_error');
+
+			$data['button_continue'] = $this->language->get('button_continue');
+
 			$url = '';
 
 			if (isset($this->request->get['path'])) {
@@ -572,14 +577,6 @@ class ControllerProductProduct extends Controller {
 				'text' => $this->language->get('text_error'),
 				'href' => $this->url->link('product/product', $url . '&product_id=' . $product_id)
 			);
-
-			$this->document->setTitle($this->language->get('text_error'));
-
-			$data['heading_title'] = $this->language->get('text_error');
-
-			$data['text_error'] = $this->language->get('text_error');
-
-			$data['button_continue'] = $this->language->get('button_continue');
 
 			$data['continue'] = $this->url->link('common/home');
 
@@ -643,11 +640,11 @@ class ControllerProductProduct extends Controller {
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
+			if (empty($this->request->post['name']) || (utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
 				$json['error'] = $this->language->get('error_name');
 			}
 
-			if ((utf8_strlen($this->request->post['text']) < 25) || (utf8_strlen($this->request->post['text']) > 1000)) {
+			if (empty($this->request->post['text']) || (utf8_strlen($this->request->post['text']) < 25) || (utf8_strlen($this->request->post['text']) > 1000)) {
 				$json['error'] = $this->language->get('error_text');
 			}
 

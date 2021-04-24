@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -76,11 +76,17 @@ class ControllerProductManufacturer extends Controller {
 
 		$this->load->model('tool/image');
 
-		if (isset($this->request->get['manufacturer_id'])) {
-			$manufacturer_id = (int)$this->request->get['manufacturer_id'];
-		} else {
-			$manufacturer_id = 0;
-		}
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_brand'),
+			'href' => $this->url->link('product/manufacturer')
+		);
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -91,6 +97,7 @@ class ControllerProductManufacturer extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$order = 'ASC';
 		}
@@ -103,23 +110,18 @@ class ControllerProductManufacturer extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : (int)$this->request->get['limit']);
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : $limit);
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = (int)$this->config->get($this->config->get('config_theme') . '_product_limit');
 		}
 
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_brand'),
-			'href' => $this->url->link('product/manufacturer')
-		);
+		if (isset($this->request->get['manufacturer_id'])) {
+			$manufacturer_id = (int)$this->request->get['manufacturer_id'];
+		} else {
+			$manufacturer_id = 0;
+		}
 
 		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
 
@@ -134,46 +136,14 @@ class ControllerProductManufacturer extends Controller {
 				$this->document->setRobots('noindex,follow');
 			}
 
+			$this->document->setDescription($manufacturer_info['meta_description']);
+			$this->document->setKeywords($manufacturer_info['meta_keyword']);
+
 			if ($manufacturer_info['meta_h1']) {
 				$data['heading_title'] = $manufacturer_info['meta_h1'];
 			} else {
 				$data['heading_title'] = $manufacturer_info['name'];
 			}
-
-			$this->document->setDescription($manufacturer_info['meta_description']);
-			$this->document->setKeywords($manufacturer_info['meta_keyword']);
-
-			$data['description'] = html_entity_decode($manufacturer_info['description'], ENT_QUOTES, 'UTF-8');
-			$data['description_bottom'] = html_entity_decode($manufacturer_info['description_bottom'], ENT_QUOTES, 'UTF-8');
-
-			if ($manufacturer_info['image']) {
-				$data['thumb'] = $this->model_tool_image->resize($manufacturer_info['image'], $this->config->get($this->config->get('config_theme') . '_image_category_width'), $this->config->get($this->config->get('config_theme') . '_image_category_height'));
-			} else {
-				$data['thumb'] = '';
-			}
-
-			$url = '';
-
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}
-
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
-			}
-
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
-			}
-
-			if (isset($this->request->get['limit'])) {
-				$url .= '&limit=' . $this->request->get['limit'];
-			}
-
-			$data['breadcrumbs'][] = array(
-				'text' => $manufacturer_info['name'],
-				'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
-			);
 
 			$data['text_empty'] = $this->language->get('text_empty');
 			$data['text_quantity'] = $this->language->get('text_quantity');
@@ -194,7 +164,40 @@ class ControllerProductManufacturer extends Controller {
 			$data['button_list'] = $this->language->get('button_list');
 			$data['button_grid'] = $this->language->get('button_grid');
 
+			// Set the last category breadcrumb
+			$data['breadcrumbs'][] = array(
+				'text' => $manufacturer_info['name'],
+				'href' => $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_id)
+			);
+
+			if ($manufacturer_info['image']) {
+				$data['thumb'] = $this->model_tool_image->resize($manufacturer_info['image'], $this->config->get($this->config->get('config_theme') . '_image_category_width'), $this->config->get($this->config->get('config_theme') . '_image_category_height'));
+			} else {
+				$data['thumb'] = '';
+			}
+
+			$data['description'] = html_entity_decode($manufacturer_info['description'], ENT_QUOTES, 'UTF-8');
+			$data['description_bottom'] = html_entity_decode($manufacturer_info['description_bottom'], ENT_QUOTES, 'UTF-8');
+
 			$data['compare'] = $this->url->link('product/compare');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			if (isset($this->request->get['limit'])) {
+				$url .= '&limit=' . $this->request->get['limit'];
+			}
 
 			$data['products'] = array();
 
@@ -401,6 +404,14 @@ class ControllerProductManufacturer extends Controller {
 
 			$this->response->setOutput($this->load->view('product/manufacturer_info', $data));
 		} else {
+			$this->document->setTitle($this->language->get('text_error'));
+
+			$data['heading_title'] = $this->language->get('text_error');
+
+			$data['text_error'] = $this->language->get('text_error');
+
+			$data['button_continue'] = $this->language->get('button_continue');
+
 			$url = '';
 
 			if (isset($this->request->get['manufacturer_id'])) {
@@ -427,14 +438,6 @@ class ControllerProductManufacturer extends Controller {
 				'text' => $this->language->get('text_error'),
 				'href' => $this->url->link('product/manufacturer/info', $url)
 			);
-
-			$this->document->setTitle($this->language->get('text_error'));
-
-			$data['heading_title'] = $this->language->get('text_error');
-
-			$data['text_error'] = $this->language->get('text_error');
-
-			$data['button_continue'] = $this->language->get('button_continue');
 
 			$data['continue'] = $this->url->link('common/home');
 

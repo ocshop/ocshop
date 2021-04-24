@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -13,6 +13,13 @@ class ControllerProductCategory extends Controller {
 		$this->load->model('catalog/product');
 
 		$this->load->model('tool/image');
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
 
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
@@ -30,6 +37,7 @@ class ControllerProductCategory extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$order = 'ASC';
 		}
@@ -42,18 +50,12 @@ class ControllerProductCategory extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : (int)$this->request->get['limit']);
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : $limit);
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
 		}
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
 
 		if (isset($this->request->get['path'])) {
 			$url = '';
@@ -109,14 +111,14 @@ class ControllerProductCategory extends Controller {
 				$this->document->setRobots('noindex,follow');
 			}
 
+			$this->document->setDescription($category_info['meta_description']);
+			$this->document->setKeywords($category_info['meta_keyword']);
+
 			if ($category_info['meta_h1']) {
 				$data['heading_title'] = $category_info['meta_h1'];
 			} else {
 				$data['heading_title'] = $category_info['name'];
 			}
-
-			$this->document->setDescription($category_info['meta_description']);
-			$this->document->setKeywords($category_info['meta_keyword']);
 
 			$data['text_refine'] = $this->language->get('text_refine');
 			$data['text_empty'] = $this->language->get('text_empty');
@@ -141,7 +143,7 @@ class ControllerProductCategory extends Controller {
 			// Set the last category breadcrumb
 			$data['breadcrumbs'][] = array(
 				'text' => $category_info['name'],
-				'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'])
+				'href' => $this->url->link('product/category', 'path=' . $category_id)
 			);
 
 			if ($category_info['image']) {
@@ -406,6 +408,14 @@ class ControllerProductCategory extends Controller {
 
 			$this->response->setOutput($this->load->view('product/category', $data));
 		} else {
+			$this->document->setTitle($this->language->get('text_error'));
+
+			$data['heading_title'] = $this->language->get('text_error');
+
+			$data['text_error'] = $this->language->get('text_error');
+
+			$data['button_continue'] = $this->language->get('button_continue');
+
 			$url = '';
 
 			if (isset($this->request->get['path'])) {
@@ -436,14 +446,6 @@ class ControllerProductCategory extends Controller {
 				'text' => $this->language->get('text_error'),
 				'href' => $this->url->link('product/category', $url)
 			);
-
-			$this->document->setTitle($this->language->get('text_error'));
-
-			$data['heading_title'] = $this->language->get('text_error');
-
-			$data['text_error'] = $this->language->get('text_error');
-
-			$data['button_continue'] = $this->language->get('button_continue');
 
 			$data['continue'] = $this->url->link('common/home');
 

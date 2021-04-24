@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -12,6 +12,13 @@ class ControllerProductSpecial extends Controller {
 
 		$this->load->model('tool/image');
 
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
+
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 			$this->document->setRobots('noindex,follow');
@@ -21,6 +28,7 @@ class ControllerProductSpecial extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$order = 'ASC';
 		}
@@ -33,7 +41,8 @@ class ControllerProductSpecial extends Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : (int)$this->request->get['limit']);
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : $limit);
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
@@ -42,38 +51,6 @@ class ControllerProductSpecial extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['heading_title'] = $this->language->get('heading_title');
-
-		$data['description'] = false;
-
-		$data['breadcrumbs'] = array();
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$url = '';
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		if (isset($this->request->get['limit'])) {
-			$url .= '&limit=' . $this->request->get['limit'];
-		}
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/special', $url)
-		);
 
 		$data['text_empty'] = $this->language->get('text_empty');
 		$data['text_quantity'] = $this->language->get('text_quantity');
@@ -94,7 +71,34 @@ class ControllerProductSpecial extends Controller {
 		$data['button_grid'] = $this->language->get('button_grid');
 		$data['button_continue'] = $this->language->get('button_continue');
 
+		// Set the last category breadcrumb
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('product/special')
+		);
+
+		$data['description'] = false;
+		$data['description_bottom'] = false;
+
 		$data['compare'] = $this->url->link('product/compare');
+
+		$url = '';
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$url .= '&limit=' . $this->request->get['limit'];
+		}
 
 		$data['products'] = array();
 
@@ -273,11 +277,11 @@ class ControllerProductSpecial extends Controller {
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
 		// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-		if ($page == 1) {
-		    $this->document->addLink($this->url->link('product/special', '', true), 'canonical');
-		} elseif ($page == 2) {
+		$this->document->addLink($this->url->link('product/special', '', true), 'canonical');
+
+		if ($page == 2) {
 		    $this->document->addLink($this->url->link('product/special', '', true), 'prev');
-		} else {
+		} elseif($page > 2)   {
 		    $this->document->addLink($this->url->link('product/special', 'page='. ($page - 1), true), 'prev');
 		}
 
