@@ -1,3 +1,4 @@
+<?php if ($categories) { ?>
 <h3 class="module-title"><span><?php echo $heading_title; ?></span></h3>
 <div class="row imgcategory">
     <?php foreach ($categories as $category) { ?>
@@ -9,3 +10,4 @@
         </div>
     <?php } ?>
 </div>
+<?php } ?>
