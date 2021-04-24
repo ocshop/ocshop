@@ -192,11 +192,11 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
+			if (!isset($data['start']) || $data['start'] < 0) {
 				$data['start'] = 0;
 			}
 
-			if ($data['limit'] < 1) {
+			if (!isset($data['limit']) || $data['limit'] < 1) {
 				$data['limit'] = 20;
 			}
 
