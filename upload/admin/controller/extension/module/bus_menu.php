@@ -8,7 +8,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 	private $name_arhive = 'blMenu';
 	private $code = '01000046';
 	private $mame = 'ЫМеню - "blMenu"';
-	private $version = '1.0.23';
+	private $version = '1.0.23.1';
 	private $author = 'BuslikDrev.by';
 	private $link = 'https://liveopencart.ru/buslikdrev';
 
