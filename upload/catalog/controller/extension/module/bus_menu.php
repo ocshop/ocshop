@@ -639,7 +639,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			}
 			$data['cats_vertical_ico_position'] = $setting['cats_vertical_ico_position'];
 
-			$cats_cache[0] = false;
+			$cats_cache = array(false);
 			if ($setting['cache'] == 2) {
 				$cats_cache = $this->cache->get('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $currency . $language_id . $store_id));
 				if (!empty($cats_cache[0])) {
