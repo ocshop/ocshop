@@ -639,6 +639,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			}
 			$data['cats_vertical_ico_position'] = $setting['cats_vertical_ico_position'];
 
+			$cats_cache[0] = false;
 			if ($setting['cache'] == 2) {
 				$cats_cache = $this->cache->get('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $currency . $language_id . $store_id));
 				if (!empty($cats_cache[0])) {
@@ -649,7 +650,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				}
 			}
 
-			if (!$data['cats'] && json_encode($data['cats']) != '[]') {
+			if (!$data['cats'] &&  isset($cats_cache[0]) && json_encode($cats_cache[0]) != '[]') {
 				if	($cats_vertical_status) {
 					if ($setting['cats_vertical_reverse']) {
 						if (!empty($setting_cats['cats_vertical'])) {
