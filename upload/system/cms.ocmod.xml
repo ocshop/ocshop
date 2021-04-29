@@ -4,7 +4,7 @@
     <code>OT_1.0</code>
     <version>1.0.1</version>
     <author>opencart.pro</author>
-    <link>http://opencart.pro</link>
+    <link>https://opencart.pro</link>
     <file path="catalog/view/theme/*/template/common/header.tpl">
         <operation error="skip">
             <search>
