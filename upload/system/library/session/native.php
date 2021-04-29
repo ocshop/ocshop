@@ -26,22 +26,12 @@ class Native extends \SessionHandler {
 		return parent::close();
 	}
 
-	public function read($session_id, $get = false) {
-		if ($get) {
-			if (!isset($_SESSION[$session_id])) {
-				$_SESSION[$session_id] = array();
-			}
-			return $_SESSION[$session_id];
-		} else {
-			return parent::read($session_id);
-		}
+	public function read($session_id) {
+		return parent::read($session_id);
 	}
 
-	public function write($session_id, $data = '') {
-		//parent::write($session_id, session_encode());
-		parent::write($session_id, serialize($data));
-
-		return true;
+	public function write($session_id, $data = array()) {
+		return parent::write($session_id, $data);
 	}
 
 	public function destroy($session_id) {
@@ -49,6 +39,8 @@ class Native extends \SessionHandler {
 	}
 
 	public function gc($maxlifetime = 0) {
-		return parent::gc(time() + $maxlifetime);
+		$total = parent::gc(time() + $maxlifetime);
+		//var_dump($total);
+		return $total;
 	}	
 }

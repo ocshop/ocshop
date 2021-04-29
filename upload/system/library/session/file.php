@@ -10,7 +10,7 @@ class File {
 		$this->config = $registry->get('config');
 	}
 
-    public function create_sid() {
+    /* public function create_sid() {
         return parent::create_sid();
     }
 
@@ -20,9 +20,9 @@ class File {
 
     public function close() {
         return true;
-    }
+    } */
 
-	public function read(string $session_id): array {
+	public function read($session_id = '') {
 		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
 
 		if (is_file($file)) {
@@ -48,7 +48,7 @@ class File {
 		return array();
 	}
 
-	public function write($session_id, $data = array()) {
+	public function write($session_id = '', $data = array()) {
 		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
 
 		$handle = fopen($file, 'c');
@@ -66,7 +66,7 @@ class File {
 		return true;
 	}
 
-	public function destroy($session_id) {
+	public function destroy($session_id = '') {
 		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
 
 		if (is_file($file)) {
@@ -75,14 +75,20 @@ class File {
 	}
 
 	public function gc($maxlifetime = 0) {
+		$total = 0;
+
 		if (round(rand(1, $this->config->get('session_divisor') / $this->config->get('session_probability'))) == 1) {
 			$files = glob(DIR_SESSION . $this->config->get('session_prefix') . '*');
 
 			foreach ($files as $file) {
-				if (is_file($file) && filemtime($file) < (time() + $maxlifetime)) {
+				if (is_file($file) && filemtime($file) < (time() - $maxlifetime)) {
 					unlink($file);
+					$total++;
 				}
 			}
+			//var_dump($total);
 		}
+
+		return $total;
 	}
 }
