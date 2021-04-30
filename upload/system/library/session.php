@@ -77,27 +77,6 @@ class Session {
 							session_id($this->request->cookie[$this->config->get('session_name')]);
 						} */
 
-						/* if (version_compare(phpversion(), '7.3.0', '>=')) {
-							session_set_cookie_params(array(
-								'lifetime'  => $this->config->get('session_lifetime'),
-								'path'      => $this->config->get('session_path'),
-								'domain'    => $this->config->get('session_domain'),
-								'secure'    => $this->config->get('session_secure'),
-								'httponly'  => $this->config->get('session_httponly'),
-								'samesite'  => $this->config->get('session_samesite'),
-								'sameparty' => $this->config->get('session_sameparty'),
-							));
-						} else {
-							session_set_cookie_params(
-								$this->config->get('session_lifetime'),
-								$this->config->get('session_path'),
-								$this->config->get('session_domain'),
-								$this->config->get('session_secure'),
-								$this->config->get('session_httponly')
-							);
-						} */
-
-						//var_dump(ini_get('session.gc_divisor'));
 						$session_setting = array(
 							'cookie_lifetime'  => $this->config->get('session_lifetime'),
 							'cookie_path'      => $this->config->get('session_path'),
@@ -128,7 +107,6 @@ class Session {
 					} else {
 						if (isset($this->request->cookie[$this->config->get('session_name')]) && !preg_match('/^[a-zA-Z0-9,\-]{' . $this->config->get('session_length') . '}$/', $this->request->cookie[$this->config->get('session_name')])) {
 							$this->destroy($this->config->get('session_name'));
-							//register_shutdown_function(array($this, 'destroy'));
 							exit('Error: Invalid session ID!');
 						}
 					}
@@ -167,8 +145,7 @@ class Session {
 			} else {
 				$this->data = $this->adaptor->read($session_id);
 			}
-			//var_dump($this->data);
-			//echo json_encode($this->data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
+
 			if ($this->engine != 'native' || $name != $this->config->get('session_name')) {
 				$this->set($name, $this->session_id, array(
 					'expires'   => ($this->config->get('session_lifetime') ? time() + $this->config->get('session_lifetime') : 0),
@@ -186,10 +163,6 @@ class Session {
 		}
 
 		return $session_id;
-	}
-
-	public function __destruct() {
-
 	}
 
 	public function get() {
@@ -307,8 +280,6 @@ class Session {
 			//https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 			//setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
 			$this->response->addHeader($string);
-			//header($string);
-			//var_dump($this->response);
 		}
 	}
 
@@ -341,19 +312,21 @@ class Session {
 	}
 
 	public function destroy($name = 'PHPSESSID') {
-		header('Clear-Site-Data: "cookies", "*"');
+		$this->response->addHeader('Clear-Site-Data: "cookies", "*"');
 
 		$this->data = array();
+
 		if (isset($_SESSION[$this->session_id])) {
 			unset($_SESSION[$this->session_id]);
 		}
+
 		if (isset($_COOKIE[$name])) {
 			unset($_COOKIE[$name]);
 		}
 
 		if (isset($this->request->cookie[$name])) {
 			$this->set($name, $this->request->cookie[$name], array(
-				'expires'   => -time(),
+				'expires'   => -(time() + $this->config->get('session_lifetime')),
 				'path'      => $this->config->get('session_path'),
 				'domain'    => $this->config->get('session_domain'),
 				'secure'    => $this->config->get('session_secure'),

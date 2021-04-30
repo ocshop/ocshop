@@ -20,6 +20,7 @@ final class DB {
 	}
 
 	public function read($session_id = '') {
+		$session_id = substr_replace($session_id, $this->config->get('session_prefix'), (int)($this->config->get('session_length')/100*20), 0);
 		$query = $this->db->query("SELECT `data` FROM `" . DB_PREFIX . "session` WHERE `session_id` = '" . $this->db->escape($session_id) . "' AND `expire` > '" . $this->db->escape(date('Y-m-d H:i:s'))  . "'");
 
 		if ($query->num_rows) {
@@ -31,6 +32,7 @@ final class DB {
 
 	public function write($session_id = '', $data = array()) {
 		if ($session_id) {
+			$session_id = substr_replace($session_id, $this->config->get('session_prefix'), (int)($this->config->get('session_length')/100*20), 0);
 			$this->db->query("REPLACE INTO `" . DB_PREFIX . "session` SET `session_id` = '" . $this->db->escape($session_id) . "', `data` = '" . $this->db->escape($data ? json_encode($data) : '') . "', `expire` = '" . $this->db->escape(date('Y-m-d H:i:s', time() + $this->config->get('session_maxlifetime'))) . "'");
 
 			return true;
@@ -40,6 +42,7 @@ final class DB {
 	}
 
 	public function destroy($session_id = '') {
+		$session_id = substr_replace($session_id, $this->config->get('session_prefix'), (int)($this->config->get('session_length')/100*20), 0);
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE `session_id` = '" . $this->db->escape($session_id) . "'");
 
 		return true;
@@ -58,7 +61,6 @@ final class DB {
 					$total = $query->row['total'];
 				}
 			}
-			//var_dump($total);
 		}
 
 		return $total;

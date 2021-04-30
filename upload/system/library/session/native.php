@@ -39,8 +39,6 @@ class Native extends \SessionHandler {
 	}
 
 	public function gc($maxlifetime = 0) {
-		$total = parent::gc(time() + $maxlifetime);
-		//var_dump($total);
-		return $total;
-	}	
+		return parent::gc(time() + $maxlifetime);
+	}
 }

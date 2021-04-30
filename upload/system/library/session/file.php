@@ -86,7 +86,6 @@ class File {
 					$total++;
 				}
 			}
-			//var_dump($total);
 		}
 
 		return $total;
