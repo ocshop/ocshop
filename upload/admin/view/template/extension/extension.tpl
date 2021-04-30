@@ -40,11 +40,13 @@
 <?php if ($categories) { ?>
 <script type="text/javascript"><!--
 if (window.sessionStorage.getItem('extension')) {
-	$('select[name="type"]').val(window.sessionStorage.getItem('extension'));
+	$('select[name="type"]').val(window.sessionStorage.getItem('extension').replace('token=', 'token=' + getURLVar('token')));
 }
 
 $('select[name="type"]').on('change', function() {
-	window.sessionStorage.setItem('extension', $('select[name="type"]').val());
+	if ($('select[name="type"]').val()) {
+		window.sessionStorage.setItem('extension', $('select[name="type"]').val().replace(getURLVar('token'), ''));
+	}
 	$.ajax({
 		url: $('select[name="type"]').val(),
 		dataType: 'html',
