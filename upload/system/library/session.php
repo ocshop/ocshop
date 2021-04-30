@@ -83,8 +83,6 @@ class Session {
 							'cookie_domain'    => $this->config->get('session_domain'),
 							'cookie_secure'    => $this->config->get('session_secure'),
 							'cookie_httponly'  => $this->config->get('session_httponly'),
-							'cookie_samesite'  => $this->config->get('session_samesite'),
-							'cookie_sameparty' => $this->config->get('session_sameparty'),
 							'gc_probability'   => $this->config->get('session_probability'),
 							'gc_divisor'       => $this->config->get('session_divisor'),
 							'gc_maxlifetime'   => $this->config->get('session_maxlifetime'),
@@ -95,6 +93,10 @@ class Session {
 							'use_trans_sid'    => false,
 							//'read_and_close'   => true,
 						);
+						if (version_compare(phpversion(), '7.3.0', '>=')) {
+							$session_setting['cookie_samesite'] = $this->config->get('session_samesite');
+							//$session_setting['cookie_sameparty'] = $this->config->get('session_sameparty');
+						}
 						if (version_compare(phpversion(), '7.1.0', '>=')) {
 							$session_setting['sid_length'] = $this->config->get('session_length');
 							$session_setting['sid_bits_per_character'] = $this->config->get('session_bits_per_char');
