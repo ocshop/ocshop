@@ -107,6 +107,7 @@ class Session {
 					} else {
 						if (isset($this->request->cookie[$this->config->get('session_name')]) && !preg_match('/^[a-zA-Z0-9,\-]{' . $this->config->get('session_length') . '}$/', $this->request->cookie[$this->config->get('session_name')])) {
 							$this->destroy($this->config->get('session_name'));
+							header('Refresh: 1; URL=' . ($this->config->get('session_secure') ? HTTPS_SERVER : HTTP_SERVER));
 							exit('Error: Invalid session ID!');
 						}
 					}
@@ -159,6 +160,7 @@ class Session {
 			}
 		} else {
 			$this->destroy($name);
+			header('Refresh: 1; URL=' . ($this->config->get('session_secure') ? HTTPS_SERVER : HTTP_SERVER));
 			exit('Error: Invalid session ID!');
 		}
 
@@ -314,7 +316,6 @@ class Session {
 
 	public function destroy($name = 'PHPSESSID') {
 		header('Clear-Site-Data: "cookies", "*"');
-		header('Refresh: 1; URL=' . ($this->config->get('session_secure') ? HTTPS_SERVER : HTTP_SERVER));
 		//$this->response->addHeader('Clear-Site-Data: "cookies", "*"');
 
 		$this->data = array();
