@@ -56,6 +56,7 @@ class Session {
 					ini_set('session.use_strict_mode', true);
 					ini_set('session.use_only_cookies', true);
 					ini_set('session.use_cookies', true);
+					// $this->config->get('config_shared');
 					ini_set('session.use_trans_sid', false);
 					//ini_set('session.auto_start', 'On');
 

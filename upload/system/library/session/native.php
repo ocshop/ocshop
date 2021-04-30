@@ -15,9 +15,6 @@ class Native extends \SessionHandler {
 	}
 
 	public function validate_sid($session_id) {
-		if ($this->config->get('session_prefix')) {
-			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
-		}
 		return parent::validate_sid($session_id);
 	}
 
