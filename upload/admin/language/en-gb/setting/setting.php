@@ -124,6 +124,7 @@ $_['entry_mail_alert']               = 'Alert Mail';
 $_['entry_mail_alert_email']         = 'Additional Alert Mail';
 $_['entry_secure']                   = 'Use SSL';
 $_['entry_shared']                   = 'Use Shared Sessions';
+$_['entry_session_count']            = 'Total number of sessions';
 $_['entry_session_engine']           = 'Session Type';
 $_['entry_session_name']             = 'Session cookie name';
 $_['entry_session_prefix']           = 'Session filename prefix';
