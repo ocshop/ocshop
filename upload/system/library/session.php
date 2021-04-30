@@ -158,7 +158,7 @@ class Session {
 				));
 			}
 		} else {
-			$this->destroy($this->config->get('session_name'));
+			$this->destroy($name);
 			exit('Error: Invalid session ID!');
 		}
 
@@ -279,7 +279,8 @@ class Session {
 
 			//https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 			//setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
-			$this->response->addHeader($string);
+			//$this->response->addHeader($string);
+			header($string);
 		}
 	}
 
@@ -312,7 +313,8 @@ class Session {
 	}
 
 	public function destroy($name = 'PHPSESSID') {
-		$this->response->addHeader('Clear-Site-Data: "cookies", "*"');
+		header('Clear-Site-Data: "cookies", "*"');
+		//$this->response->addHeader('Clear-Site-Data: "cookies", "*"');
 
 		$this->data = array();
 
@@ -326,7 +328,7 @@ class Session {
 
 		if (isset($this->request->cookie[$name])) {
 			$this->set($name, $this->request->cookie[$name], array(
-				'expires'   => -(time() + $this->config->get('session_lifetime')),
+				'expires'   => - time() - $this->config->get('session_lifetime'),
 				'path'      => $this->config->get('session_path'),
 				'domain'    => $this->config->get('session_domain'),
 				'secure'    => $this->config->get('session_secure'),
