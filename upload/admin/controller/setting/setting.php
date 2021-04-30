@@ -17,7 +17,7 @@ class ControllerSettingSetting extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			if (isset($this->request->post['config_session_engine'])) {
 				if ($this->request->post['config_session_engine'] == 'db') {
-					$this->db->query("CREATE TABLE IF NOT EXISTS `oc_session` (`session_id` varchar(255) NOT NULL, `data` text NOT NULL, `expire` datetime NOT NULL, PRIMARY KEY (`session_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci");
+					$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "session` (`session_id` varchar(255) NOT NULL, `data` text NOT NULL, `expire` datetime NOT NULL, PRIMARY KEY (`session_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci");
 				}
 			}
 			if (isset($this->request->post['config_debug_pro'])) {
@@ -170,6 +170,7 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_secure'] = $this->language->get('entry_secure');
 		$data['entry_shared'] = $this->language->get('entry_shared');
 		$data['entry_session_engine'] = $this->language->get('entry_session_engine');
+		$data['entry_session_count'] = $this->language->get('entry_session_count');
 		$data['entry_session_name'] = $this->language->get('entry_session_name');
 		$data['entry_session_prefix'] = $this->language->get('entry_session_prefix');
 		$data['entry_session_bits_per_char'] = $this->language->get('entry_session_bits_per_char');
@@ -1195,6 +1196,16 @@ class ControllerSettingSetting extends Controller {
 			$data['config_session_engine'] = $this->config->get('config_session_engine');
 		} else {
 			$data['config_session_engine'] = 'native';
+		}
+
+		$data['config_session_engine'] = strtolower($data['config_session_engine']);
+
+		if ($data['config_session_engine'] == 'native' || $data['config_session_engine'] == 'native') {
+			$data['config_session_count'] = (is_dir(DIR_SESSION) ? count(glob(DIR_SESSION . '*')) : 0);
+		} elseif ($data['config_session_engine'] == 'db') {
+			$data['config_session_count'] = $this->db->query("SELECT COUNT(session_id) AS total FROM `" . DB_PREFIX . "session`")->row['total'];
+		} else {
+			$data['config_session_count'] = 0;
 		}
 
 		if (isset($this->request->post['config_session_name'])) {
