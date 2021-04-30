@@ -1451,6 +1451,12 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-length"><?php echo $entry_session_count; ?></label>
+                  <div class="col-sm-10">
+                    <?php echo $config_session_count; ?>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-session-name"><span data-toggle="tooltip" title="<?php echo $help_session_name; ?>"><?php echo $entry_session_name; ?></span></label>
                   <div class="col-sm-10">
                     <input type="text" name="config_session_name" value="<?php echo $config_session_name; ?>" placeholder="<?php echo $entry_session_name; ?>" id="input-session-name" class="form-control" />
