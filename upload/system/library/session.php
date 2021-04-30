@@ -41,6 +41,7 @@ class Session {
 
 			if ($this->adaptor) {
 				if ($engine == 'native') {
+					ini_set('session.name', $this->config->get('session_name'));
 					ini_set('session.cookie_lifetime', $this->config->get('session_lifetime'));
 					ini_set('session.cookie_path', $this->config->get('session_path'));
 					ini_set('session.cookie_domain', $this->config->get('session_domain'));
@@ -68,7 +69,6 @@ class Session {
 					}
 
 					session_set_save_handler($this->adaptor);
-					session_name($this->config->get('session_name'));
 
 					if (!session_id()) {
 						//https://overcoder.net/q/246853/php-%D0%BA%D0%B0%D0%BA-%D1%8F-%D0%BC%D0%BE%D0%B3%D1%83-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%BD%D0%B5%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE-%D1%81%D0%B5%D1%81%D1%81%D0%B8%D0%B9
@@ -78,6 +78,7 @@ class Session {
 						} */
 
 						$session_setting = array(
+							'name'             => $this->config->get('session_name'),
 							'cookie_lifetime'  => $this->config->get('session_lifetime'),
 							'cookie_path'      => $this->config->get('session_path'),
 							'cookie_domain'    => $this->config->get('session_domain'),

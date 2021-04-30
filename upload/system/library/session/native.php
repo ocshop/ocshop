@@ -6,20 +6,27 @@
 
 namespace Session;
 class Native extends \SessionHandler {
+	public function __construct($registry) {
+		$this->config = $registry->get('config');
+	}
+
 	public function create_sid() {
 		return parent::create_sid();
 	}
 
-	public function validate_sid($key) {
-		return parent::validate_sid($key);
+	public function validate_sid($session_id) {
+		if ($this->config->get('session_prefix')) {
+			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
+		}
+		return parent::validate_sid($session_id);
 	}
 
-	public function update_timestamp($key, $value = '') {
-		return parent::update_timestamp($key, $value);
+	public function update_timestamp($session_id, $data = array()) {
+		return parent::update_timestamp($session_id, $data);
 	}
 
-	public function open($path, $name) {
-		return parent::open($path, $name);
+	public function open($path, $session_id) {
+		return parent::open($path, $session_id);
 	}
 
 	public function close() {
@@ -27,14 +34,23 @@ class Native extends \SessionHandler {
 	}
 
 	public function read($session_id) {
+		if ($this->config->get('session_prefix')) {
+			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
+		}
 		return parent::read($session_id);
 	}
 
 	public function write($session_id, $data = array()) {
+		if ($this->config->get('session_prefix')) {
+			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
+		}
 		return parent::write($session_id, $data);
 	}
 
 	public function destroy($session_id) {
+		if ($this->config->get('session_prefix')) {
+			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
+		}
 		return parent::destroy($session_id);
 	}
 
