@@ -41,7 +41,7 @@ class ControllerStartupStartup extends Controller {
 				}
 			}
 
-			if (!$detect) { 
+			if (!$detect) {
 				// Try using language folder to detect the language
 				foreach ($browser_languages as $browser_language) {
 					if (array_key_exists(strtolower($browser_language), $languages)) {
@@ -74,7 +74,7 @@ class ControllerStartupStartup extends Controller {
 		$this->registry->set('language', $language);
 
 		// Set the config language_id
-		$this->config->set('config_language_id', $languages[$code]['language_id']);	
+		$this->config->set('config_language_id', $languages[$code]['language_id']);
 
 		// Customer
 		$customer = new Cart\Customer($this->registry);
@@ -159,6 +159,6 @@ class ControllerStartupStartup extends Controller {
 		$this->registry->set('encryption', new Encryption($this->config->get('config_encryption')));
 
 		// OpenBay Pro
-		$this->registry->set('openbay', new Openbay($this->registry));					
+		$this->registry->set('openbay', new Openbay($this->registry));
 	}
 }
