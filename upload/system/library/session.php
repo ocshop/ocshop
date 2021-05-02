@@ -18,7 +18,6 @@ class Session {
 		$this->engine = $engine;
 		$this->config = $registry->get('config');
 		$this->request = $registry->get('request');
-		$this->response = $registry->get('response');
 		$class = 'Session\\' . $engine;
 
 		if (class_exists($class) && $registry) {
@@ -48,7 +47,7 @@ class Session {
 					ini_set('session.cookie_secure', $this->config->get('session_secure'));
 					ini_set('session.cookie_httponly', $this->config->get('session_httponly'));
 					ini_set('session.cookie_samesite', $this->config->get('session_samesite'));
-					ini_set('session.cookie_sameparty', $this->config->get('session_sameparty'));
+					//ini_set('session.cookie_sameparty', $this->config->get('session_sameparty'));
 					ini_set('session.gc_probability', $this->config->get('session_probability'));
 					ini_set('session.gc_divisor', $this->config->get('session_divisor'));
 					ini_set('session.gc_maxlifetime', $this->config->get('session_maxlifetime'));
@@ -72,12 +71,6 @@ class Session {
 					session_set_save_handler($this->adaptor);
 
 					if (!session_id()) {
-						//https://overcoder.net/q/246853/php-%D0%BA%D0%B0%D0%BA-%D1%8F-%D0%BC%D0%BE%D0%B3%D1%83-%D1%81%D0%BE%D0%B7%D0%B4%D0%B0%D1%82%D1%8C-%D0%BD%D0%B5%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE-%D1%81%D0%B5%D1%81%D1%81%D0%B8%D0%B9
-						//https://www.php.net/manual/ru/function.session-id.php
-						/* if (isset($this->request->cookie[$this->config->get('session_name')])) {
-							session_id($this->request->cookie[$this->config->get('session_name')]);
-						} */
-
 						$session_setting = array(
 							'name'             => $this->config->get('session_name'),
 							'cookie_lifetime'  => $this->config->get('session_lifetime'),
@@ -151,8 +144,8 @@ class Session {
 				$this->data = $this->adaptor->read($session_id);
 			}
 
-			if ($this->engine != 'native' || $name != $this->config->get('session_name')) {
-				$this->set($name, $this->session_id, array(
+			if ($this->engine != 'native' || $this->engine == 'native' && version_compare(phpversion(), '7.3.0', '<')) {
+				$this->setcookie($name, $this->session_id, array(
 					'expires'   => ($this->config->get('session_lifetime') ? time() + $this->config->get('session_lifetime') : 0),
 					'path'      => $this->config->get('session_path'),
 					'domain'    => $this->config->get('session_domain'),
@@ -171,12 +164,8 @@ class Session {
 		return $session_id;
 	}
 
-	public function get() {
-		return $this->session_id;
-	}
-
 	// универсальное добавление куков
-	public function set($name = null, $value = null, $expires = null, $path = null, $domain = null, $secure = null, $httponly = null, $samesite = null, $sameparty = null) {
+	public function setcookie($name = null, $value = null, $expires = null, $path = null, $domain = null, $secure = null, $httponly = null, $samesite = null, $sameparty = null) {
 		if (isset($expires) && is_array($expires)) {
 			if (isset($expires['path'])) {
 				$path = $expires['path'];
@@ -208,20 +197,19 @@ class Session {
 			$value = '';
 		}
 		if (!isset($expires)) {
-			$expires = $this->config->get('session_other_lifetime');
+			$expires = ($this->config->get('session_other_lifetime') ? time() + $this->config->get('session_other_lifetime') : 0);
 		}
 		if (!isset($path)) {
 			$path = $this->config->get('session_path');
 		}
 		if (!isset($domain)) {
-			$domain = $this->config->get('session_domain');
+			$domain = $this->config->get('session_other_domain');
 		}
 		if (!isset($secure)) {
 			$secure = $this->config->get('session_secure');
 		}
 		if (!isset($httponly)) {
-			//$httponly = $this->config->get('session_other_httponly');
-			$httponly = false;
+			$httponly = $this->config->get('session_other_httponly');
 		}
 		if (!isset($samesite)) {
 			$samesite = $this->config->get('session_other_samesite');
@@ -280,13 +268,12 @@ class Session {
 			//https://www.chromestatus.com/feature/5280634094223360
 			if ($sameparty) {
 				$string .= '; SameParty';
-				//$this->response->addHeader('Sec-First-Party-Set: owner="buslikdrev.by", minVersion=1');
+				//header('Sec-First-Party-Set: owner="site.by", minVersion=1');
 			}
 
 			//https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
+			header($string, false);
 			//setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
-			//$this->response->addHeader($string);
-			header($string);
 		}
 	}
 
@@ -296,9 +283,6 @@ class Session {
 
 	public function createId() {
 		if ($this->engine == 'native' && version_compare(phpversion(), '7.6.0', '>=')) {
-			/* if (session_status() != PHP_SESSION_ACTIVE) {
-				session_start();
-			} */
 			//https://bugs.php.net/bug.php?id=79413
 			return session_create_id();
 		} elseif ($this->engine == 'native' && version_compare(phpversion(), '5.5.4', '>=')) {
@@ -320,7 +304,6 @@ class Session {
 
 	public function destroy($name = 'PHPSESSID') {
 		header('Clear-Site-Data: "cookies", "*"');
-		//$this->response->addHeader('Clear-Site-Data: "cookies", "*"');
 
 		$this->data = array();
 
@@ -333,7 +316,7 @@ class Session {
 		}
 
 		if (isset($this->request->cookie[$name])) {
-			$this->set($name, $this->request->cookie[$name], array(
+			$this->setcookie($name, $this->request->cookie[$name], array(
 				'expires'   => - time() - $this->config->get('session_lifetime'),
 				'path'      => $this->config->get('session_path'),
 				'domain'    => $this->config->get('session_domain'),
