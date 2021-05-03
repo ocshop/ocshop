@@ -83,7 +83,7 @@ if (!class_exists('Controller')) {
 		$_SERVER['HTTPS'] = false;
 	}
 	header('Refresh: 1; URL=' . ($_SERVER['HTTPS'] ? HTTPS_SERVER : HTTP_SERVER));
-    exit('ЗАПРЫШЧАЮ!');
+	exit('ЗАПРЫШЧАЮ!');
 }
 
 if (version_compare(VERSION, '2.2.0', '<')) {
