@@ -50,7 +50,7 @@ class File {
 		return false;
 	}
 
-	public function set($key, $value) {
+	public function set($key, $value, $expire = 0) {
 		$this->delete($key);
 
 		$file = DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.' . (time() + $this->expire);

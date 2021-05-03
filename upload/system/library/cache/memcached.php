@@ -5,27 +5,27 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 namespace Cache;
-class Mem {
+class Memcached {
 	private $expire;
-	private $memcache;
+	private $memcached;
 
 	const CACHEDUMP_LIMIT = 9999;
 
 	public function __construct($expire = 3600) {
 		$this->expire = $expire;
-		$this->memcache = new \Memcache();
-		$this->memcache->pconnect(CACHE_HOSTNAME, CACHE_PORT);
+		$this->memcached = new \Memcached();
+		$this->memcached->addServer(CACHE_HOSTNAME, CACHE_PORT);
 	}
 
 	public function get($key) {
-		return $this->memcache->get(CACHE_PREFIX . $key);
+		return $this->memcached->get(CACHE_PREFIX . $key);
 	}
 
 	public function set($key, $value, $expire = 0) {
-		return $this->memcache->set(CACHE_PREFIX . $key, $value, MEMCACHE_COMPRESSED, $this->expire);
+		return $this->memcached->set(CACHE_PREFIX . $key, $value, $this->expire);
 	}
 
 	public function delete($key) {
-		$this->memcache->delete(CACHE_PREFIX . $key);
+		$this->memcached->delete(CACHE_PREFIX . $key);
 	}
 }

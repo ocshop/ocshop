@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,7 +9,7 @@ class APC {
 	private $expire;
 	private $active = false;
 
-	public function __construct($expire) {
+	public function __construct($expire = 3600) {
 		$this->expire = $expire;
 		$this->active = function_exists('apc_cache_info') && ini_get('apc.enabled');
 	}
@@ -18,7 +18,7 @@ class APC {
 		return $this->active ? apc_fetch(CACHE_PREFIX . $key) : false;
 	}
 
-	public function set($key, $value) {
+	public function set($key, $value, $expire = 0) {
 		return $this->active ? apc_store(CACHE_PREFIX . $key, $value, $this->expire) : false;
 	}
 
@@ -26,7 +26,7 @@ class APC {
 		if (!$this->active) {
 			return false;
 		}
-		
+
 		$cache_info = apc_cache_info('user');
 		$cache_list = $cache_info['cache_list'];
 		foreach ($cache_list as $entry) {
