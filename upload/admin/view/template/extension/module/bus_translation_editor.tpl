@@ -1,3 +1,28 @@
+<?php if (!empty($list_lang)) { ?>
+<?php $key = 0; ?>
+<?php foreach ($list_lang as $result) { ?>
+<tr id="<?php echo $tab; ?>-lang-<?php echo $key; ?>">
+  <td class="text-left" style="vertical-align: top;">
+    <input type="text" name="name" value="<?php echo $result['name']; ?>" placeholder="<?php echo $column_name; ?>" class="form-control" />
+    <span><?php echo $text_path; ?>: <?php echo $result['path']; ?></span>
+    <input type="hidden" name="path" value="<?php echo $result['path']; ?>" placeholder="" class="form-control" />
+  </td>
+  <td class="text-left">
+<?php foreach ($languages as $language) { ?>
+      <div class="input-group">
+        <span class="input-group-addon"><img src="<?php echo version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png'; ?>" title="<?php echo $language['name']; ?>" /></span>
+        <textarea name="value[<?php echo $language['code']; ?>]" rows="2" placeholder="<?php echo $column_value; ?>" class="form-control"><?php echo $result['value'][$language['code']]; ?></textarea>
+      </div>
+<?php } ?>
+  </td>
+  <td class="text-right" style="vertical-align: top;">
+    <span title="<?php echo $button_save; ?>" data-toggle="tooltip"><a class="btn btn-primary" onClick="bus_translation_editor.saveLang('<?php echo $tab; ?>', <?php echo $key; ?>);"><?php echo $button_save; ?></a></span>
+    <span title="<?php echo $button_delete; ?>" data-toggle="tooltip"><a class="btn btn-danger" onClick="bus_translation_editor.deleteLang('<?php echo $tab; ?>', <?php echo $key; ?>);"><?php echo $button_delete; ?></a></span>
+  </td>
+</tr>
+<?php $key++; ?>
+<?php } ?>
+<?php } else { ?>
 <?php echo $header; ?>
 <style type="text/css">
 [class*="col-"].input-group {
@@ -206,17 +231,18 @@ input[type="text"].input-lg {
 var bus_translation_editor = {
 	// добавление языковой переменной
 	'addLang':function(tab, data) {
-		if (typeof data == 'undefined') {
-			data = {
-				'path':'',
-				'name':'',
-				'value':{}
-			};
-		}
 		var lang_row = $('#tab-' + tab + ' .bus-editor tbody tr:not(.no-result)').length;
 
 		if (lang_row == 0) {
 			$('#tab-' + tab + ' .bus-editor tbody tr.no-result').remove();
+		}
+
+		if (typeof data == 'undefined') {
+			data = {
+				'path': (lang_row ? $('#' + tab + '-lang-' + (lang_row-1) + ' input[name="path"]').val() : ''),
+				'name':'',
+				'value':{}
+			};
 		}
 
 		html = '<tr id="' + tab + '-lang-' + lang_row + '">';
@@ -226,12 +252,12 @@ var bus_translation_editor = {
 		html += '    <input type="hidden" name="path" value="' + data['path'] + '" placeholder="" class="form-control" />';
 		html += '  </td>';
 		html += '  <td class="text-left">';
-	<?php foreach ($languages as $language) { ?>
+<?php foreach ($languages as $language) { ?>
 		html += '      <div class="input-group">';
 		html += '        <span class="input-group-addon"><img src="<?php echo version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png'; ?>" title="<?php echo $language['name']; ?>" /></span>';
 		html += '        <textarea name="value[<?php echo $language['code']; ?>]" rows="2" placeholder="<?php echo $column_value; ?>" class="form-control">' + (typeof data['value']['<?php echo $language['code']; ?>'] != 'undefined' ? data['value']['<?php echo $language['code']; ?>'] : '') + '</textarea>';
 		html += '      </div>';
-	<?php } ?>
+<?php } ?>
 		html += '  </td>';
 		html += '  <td class="text-right" style="vertical-align: top;">';
 		html += '    <span title="<?php echo $button_save; ?>" data-toggle="tooltip"><a class="btn btn-primary" onClick="bus_translation_editor.saveLang(\'' + tab + '\', ' + lang_row + ');"><?php echo $button_save; ?></a></span>';
@@ -430,8 +456,11 @@ var bus_translation_editor = {
 			},
 			success: function(json) {
 				if (json['success']) {
+					$('#tab-' + tab + ' .bus-search-result').hide();
 					$('#tab-' + tab + ' .bus-editor').show(1);
-					$('#tab-' + tab + ' .bus-editor tbody tr').remove();
+					$('#tab-' + tab + ' .bus-editor tbody').remove();
+					$('#tab-' + tab + ' .bus-editor thead').after('<tbody></tbody>');
+					$('#tab-' + tab + ' .bus-editor tfoot tr').show(1);
 					for (var i in json['success']) {
 						bus_translation_editor.addLang(tab, json['success'][i]);
 					}
@@ -443,6 +472,7 @@ var bus_translation_editor = {
 		});
 	},
 	'search':function(tab) {
+		var start = new Date().getTime();
 		$.ajax({
 			url: 'index.php?route=<?php echo $module_path; ?>/search&<?php echo $token; ?>&tab=' + tab + '&store_id=' + $('select[name="store_id"]').val() + '&search=' + $('#tab-' + tab + ' input[name="search"]').val(),
 			dataType: 'json',
@@ -461,19 +491,26 @@ var bus_translation_editor = {
 
 				if (json['success']) {
 					$('#tab-' + tab + ' .bus-editor').show(1);
-					$('#tab-' + tab + ' .bus-editor tbody tr').remove();
+					$('#tab-' + tab + ' .bus-editor tbody').remove();
+					$('#tab-' + tab + ' .bus-editor thead').after('<tbody></tbody>');
 					$('#tab-' + tab + ' .bus-editor tfoot tr').hide();
-					for (var i in json['success']) {
-						bus_translation_editor.addLang(tab, json['success'][i]);
+
+					if (json['type']) {
+						$('#tab-' + tab + ' .bus-editor tbody').append(json['success']);
+					} else {
+						for (var i in json['success']) {
+							bus_translation_editor.addLang(tab, json['success'][i]);
+						}
 					}
 				}
 
 				if (json['results']) {
-					html = json['results']['time'] + '<br />';
+					html = json['results']['time_php'] + '<br />';
+					html += json['results']['time_js'].replace('{time}', (new Date().getTime() - start)/1000) + '<br />';
 					html += json['results']['total'] + '<br />';
 					html += json['results']['count'] + '<br />';
 					html += json['results']['count_result'] + '<br />';
-					$('#tab-' + tab + ' .bus-search-result').html(html);
+					$('#tab-' + tab + ' .bus-search-result').show(1).html(html);
 				}
 
 				$('#tab-' + tab + ' .bus-search button').button('reset');
@@ -594,3 +631,4 @@ $('#tab-admin .bus-search').on('click', 'button', function(e) {
      // *   © 2016-2021; BuslikDrev - Усе правы захаваныя.
      // *   Спецыяльна для сайта: "OpenCart.pro" ( https://opencart.pro/ ) -->
 <?php echo $footer; ?>
+<?php } ?>
