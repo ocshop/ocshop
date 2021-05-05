@@ -1015,6 +1015,9 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 
 		if (!$this->error) {
 			// бэкапим данные
+			if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/')) {
+				mkdir(DIR_SYSTEM . 'library/bus_translation_editor/', 0755);
+			}
 			if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/dump/')) {
 				mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/', 0755);
 			}
