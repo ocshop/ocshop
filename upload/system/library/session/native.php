@@ -31,23 +31,14 @@ class Native extends \SessionHandler {
 	}
 
 	public function read($session_id) {
-		if ($this->config->get('session_prefix')) {
-			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
-		}
 		return parent::read($session_id);
 	}
 
 	public function write($session_id, $data = array()) {
-		if ($this->config->get('session_prefix')) {
-			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
-		}
 		return parent::write($session_id, $data);
 	}
 
 	public function destroy($session_id) {
-		if ($this->config->get('session_prefix')) {
-			$session_id = str_replace('sess_', $this->config->get('session_prefix'), $session_id);
-		}
 		return parent::destroy($session_id);
 	}
 
