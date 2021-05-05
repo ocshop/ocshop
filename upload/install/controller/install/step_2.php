@@ -96,10 +96,11 @@ class ControllerInstallStep2 extends Controller {
 		$data['image_cache'] = DIR_OPENCART . 'image/cache';
 		$data['image_catalog'] = DIR_OPENCART . 'image/catalog';
 		$data['cache'] = DIR_SYSTEM . 'storage/cache';
-		$data['logs'] = DIR_SYSTEM . 'storage/logs';
 		$data['download'] = DIR_SYSTEM . 'storage/download';
-		$data['upload'] = DIR_SYSTEM . 'storage/upload';
+		$data['logs'] = DIR_SYSTEM . 'storage/logs';
 		$data['modification'] = DIR_SYSTEM . 'storage/modification';
+		$data['session'] = DIR_SYSTEM . 'storage/session';
+		$data['upload'] = DIR_SYSTEM . 'storage/upload';
 
 		$data['back'] = $this->url->link('install/step_1');
 
@@ -188,20 +189,24 @@ class ControllerInstallStep2 extends Controller {
 			$this->error['warning'] = $this->language->get('error_cache');
 		}
 
-		if (!is_writable(DIR_SYSTEM . 'storage/logs')) {
-			$this->error['warning'] = $this->language->get('error_log');
-		}
-
 		if (!is_writable(DIR_SYSTEM . 'storage/download')) {
 			$this->error['warning'] = $this->language->get('error_download');
 		}
 
-		if (!is_writable(DIR_SYSTEM . 'storage/upload')) {
-			$this->error['warning'] = $this->language->get('error_upload');
+		if (!is_writable(DIR_SYSTEM . 'storage/logs')) {
+			$this->error['warning'] = $this->language->get('error_log');
 		}
 
 		if (!is_writable(DIR_SYSTEM . 'storage/modification')) {
 			$this->error['warning'] = $this->language->get('error_modification');
+		}
+
+		if (!is_writable(DIR_SYSTEM . 'storage/session')) {
+			$this->error['warning'] = $this->language->get('error_session');
+		}
+
+		if (!is_writable(DIR_SYSTEM . 'storage/upload')) {
+			$this->error['warning'] = $this->language->get('error_upload');
 		}
 
 		return !$this->error;
