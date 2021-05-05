@@ -104,7 +104,7 @@ class Session {
 					} else {
 						if (isset($this->request->cookie[$this->config->get('session_name')]) && !preg_match('/^[a-zA-Z0-9,\-]{' . $this->config->get('session_length') . '}$/', $this->request->cookie[$this->config->get('session_name')])) {
 							$this->destroy($this->config->get('session_name'));
-							header('Refresh: 1; URL=' . ($this->config->get('session_secure') ? HTTPS_SERVER : HTTP_SERVER));
+							header('Refresh: 1; URL=/');
 							exit('Error: Invalid session ID!');
 						}
 					}
@@ -157,7 +157,7 @@ class Session {
 			}
 		} else {
 			$this->destroy($name);
-			header('Refresh: 1; URL=' . ($this->config->get('session_secure') ? HTTPS_SERVER : HTTP_SERVER));
+			header('Refresh: 1; URL=/');
 			exit('Error: Invalid session ID!');
 		}
 
