@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -16,13 +16,13 @@ class Cache {
 			throw new \Exception('Error: Could not load cache adaptor ' . $adaptor . ' cache!');
 		}
 	}
-	
+
 	public function get($key) {
 		return $this->adaptor->get($key);
 	}
 
-	public function set($key, $value) {
-		return $this->adaptor->set($key, $value);
+	public function set($key, $value = '', $expire = 0) {
+		return $this->adaptor->set($key, $value, $expire);
 	}
 
 	public function delete($key) {

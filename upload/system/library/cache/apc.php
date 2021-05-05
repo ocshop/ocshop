@@ -10,8 +10,11 @@ class APC {
 	private $active = false;
 
 	public function __construct($expire = 3600) {
+		if (!defined('CACHE_PREFIX')) {
+			define('CACHE_PREFIX', 'cache_');
+		}
 		$this->expire = $expire;
-		$this->active = function_exists('apc_cache_info') && ini_get('apc.enabled');
+		$this->active = ini_get('apc.enabled') && function_exists('apc_cache_info');
 	}
 
 	public function get($key) {
