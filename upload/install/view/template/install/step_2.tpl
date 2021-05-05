@@ -309,14 +309,6 @@
                   <?php } ?></td>
               </tr>
               <tr>
-                <td><?php echo $logs . '/'; ?></td>
-                <td><?php if (is_writable($logs)) { ?>
-                  <span class="text-success"><?php echo $text_writable; ?></span>
-                  <?php } else { ?>
-                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
-                  <?php } ?></td>
-              </tr>
-              <tr>
                 <td><?php echo $download . '/'; ?></td>
                 <td><?php if (is_writable($download)) { ?>
                   <span class="text-success"><?php echo $text_writable; ?></span>
@@ -325,8 +317,8 @@
                   <?php } ?></td>
               </tr>
               <tr>
-                <td><?php echo $upload . '/'; ?></td>
-                <td><?php if (is_writable($upload)) { ?>
+                <td><?php echo $logs . '/'; ?></td>
+                <td><?php if (is_writable($logs)) { ?>
                   <span class="text-success"><?php echo $text_writable; ?></span>
                   <?php } else { ?>
                   <span class="text-danger"><?php echo $text_unwritable; ?></span>
@@ -335,6 +327,22 @@
               <tr>
                 <td><?php echo $modification . '/'; ?></td>
                 <td><?php if (is_writable($modification)) { ?>
+                  <span class="text-success"><?php echo $text_writable; ?></span>
+                  <?php } else { ?>
+                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
+                  <?php } ?></td>
+              </tr>
+              <tr>
+                <td><?php echo $session . '/'; ?></td>
+                <td><?php if (is_writable($session)) { ?>
+                  <span class="text-success"><?php echo $text_writable; ?></span>
+                  <?php } else { ?>
+                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
+                  <?php } ?></td>
+              </tr>
+              <tr>
+                <td><?php echo $upload . '/'; ?></td>
+                <td><?php if (is_writable($upload)) { ?>
                   <span class="text-success"><?php echo $text_writable; ?></span>
                   <?php } else { ?>
                   <span class="text-danger"><?php echo $text_unwritable; ?></span>
