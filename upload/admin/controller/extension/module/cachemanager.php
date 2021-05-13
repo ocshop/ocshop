@@ -142,7 +142,10 @@ class ControllerExtensionModuleCachemanager extends Controller {
 				closedir($dir);
 				rmdir($dirname);
 			} else {
-				@unlink($dirname);
+				$filename = basename($dirname);
+				if ($filename != "index.html" && $filename != ".htaccess") {
+					@unlink($dirname);
+				}
 			}
 		}
 	}
