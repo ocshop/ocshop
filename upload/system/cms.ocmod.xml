@@ -14,6 +14,14 @@
             <![CDATA[<?php if ($robots) { ?><meta name="robots" content="<?php echo $robots; ?>" /><?php } ?>]]>
             </add>
         </operation>
+        <operation error="skip">
+            <search>
+            <![CDATA[catalog/view/javascript/font-awesome/css/font-awesome.min.css]]>
+            </search>
+            <add position="replace">
+            <![CDATA[catalog/view/javascript/font-awesome/4.7.0/css/all.min.css]]>
+            </add>
+        </operation>
     </file>
     <file path="catalog/view/theme/*/template/common/footer.tpl">
         <operation error="skip">
