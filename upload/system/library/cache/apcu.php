@@ -5,7 +5,7 @@
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 namespace Cache;
-class APC {
+class APCu {
 	private $expire;
 	private $active = false;
 
@@ -14,15 +14,15 @@ class APC {
 			define('CACHE_PREFIX', 'cache_');
 		}
 		$this->expire = $expire;
-		$this->active = ini_get('apc.enabled') && function_exists('apc_cache_info');
+		$this->active = ini_get('apc.enabled') && function_exists('apcu_cache_info');
 	}
 
 	public function get($key) {
-		return $this->active ? apc_fetch(CACHE_PREFIX . $key) : false;
+		return $this->active ? apcu_fetch(CACHE_PREFIX . $key) : false;
 	}
 
 	public function set($key, $value, $expire = 0) {
-		return $this->active ? apc_store(CACHE_PREFIX . $key, $value, $this->expire) : false;
+		return $this->active ? apcu_store(CACHE_PREFIX . $key, $value, $this->expire) : false;
 	}
 
 	public function delete($key) {
@@ -30,11 +30,11 @@ class APC {
 			return false;
 		}
 
-		$cache_info = apc_cache_info('user');
+		$cache_info = apcu_cache_info('user');
 		$cache_list = $cache_info['cache_list'];
 		foreach ($cache_list as $entry) {
 			if (strpos($entry['info'], CACHE_PREFIX . $key) === 0) {
-				apc_delete($entry['info']);
+				apcu_delete($entry['info']);
 			}
 		}
 	}
