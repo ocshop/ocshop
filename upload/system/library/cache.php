@@ -28,4 +28,9 @@ class Cache {
 	public function delete($key) {
 		return $this->adaptor->delete($key);
 	}
+
+	// чистка всего кэша
+	public function flush($timer) {
+		return $this->adaptor->flush($timer);
+	}
 }
