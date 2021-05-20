@@ -7,7 +7,7 @@
 namespace Cache;
 class Redis {
 	private $expire;
-	private $cache;
+	private $redis;
 
 	public function __construct($expire = 3600) {
 		if (!defined('CACHEDUMP_LIMIT')) {
@@ -23,14 +23,14 @@ class Redis {
 			define('CACHE_PREFIX', 'cache_');
 		}
 		$this->expire = $expire;
-		$this->cache = new \Redis();
-		$this->cache->pconnect(CACHE_HOSTNAME, CACHE_PORT);
-		//$this->cache->auth(CACHE_PASSWORD);
+		$this->redis = new \Redis();
+		$this->redis->pconnect(CACHE_HOSTNAME, CACHE_PORT);
+		//$this->redis->auth(CACHE_PASSWORD);
 	}
 
 	public function get($key) {
-		if ($this->cache->exists(CACHE_PREFIX . $key)) {
-			$data = $this->cache->get(CACHE_PREFIX . $key);
+		if ($this->redis->exists(CACHE_PREFIX . $key)) {
+			$data = $this->redis->get(CACHE_PREFIX . $key);
 
 			return json_decode($data, true);
 		}
@@ -39,17 +39,17 @@ class Redis {
 	}
 
 	public function set($key, $value, $expire = 0) {
-		$status = $this->cache->set(CACHE_PREFIX . $key, json_encode($value));
+		$status = $this->redis->set(CACHE_PREFIX . $key, json_encode($value));
 
 		if ($status) {
-			$this->cache->setTimeout(CACHE_PREFIX . $key, $this->expire);
+			$this->redis->setTimeout(CACHE_PREFIX . $key, $this->expire);
 		}
 
 		return $status;
 	}
 
 	public function delete($key) {
-		$this->cache->delete(CACHE_PREFIX . $key);
+		$this->redis->delete(CACHE_PREFIX . $key);
 	}
 
 	// чистка всего кэша
