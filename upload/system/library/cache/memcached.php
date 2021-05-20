@@ -40,4 +40,19 @@ class Memcached {
 	public function delete($key) {
 		$this->memcached->delete(CACHE_PREFIX . $key);
 	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		if (method_exists($this->memcached, 'flush')) {
+			$this->memcached->flush($timer);
+			$status = true;
+		}
+		if (method_exists($this->memcached, 'quit')) {
+			$this->memcached->quit();
+		}
+
+		return $status;
+	}
 }

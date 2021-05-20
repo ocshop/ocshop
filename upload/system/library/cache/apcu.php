@@ -38,4 +38,16 @@ class APCu {
 			}
 		}
 	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		if (function_exists('apcu_clear_cache')) {
+			apcu_clear_cache();
+			$status = true;
+		}
+
+		return $status;
+	}
 }

@@ -39,4 +39,19 @@ class Mem {
 	public function delete($key) {
 		$this->memcache->delete(CACHE_PREFIX . $key);
 	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		if (method_exists($this->memcache, 'flush')) {
+			$this->memcache->flush();
+			$status = true;
+		}
+		if (method_exists($this->memcache, 'close')) {
+			$this->memcache->close();
+		}
+
+		return $status;
+	}
 }

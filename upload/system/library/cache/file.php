@@ -79,4 +79,11 @@ class File {
 			}
 		}
 	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		return $status;
+	}
 }

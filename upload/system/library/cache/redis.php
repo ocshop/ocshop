@@ -51,4 +51,16 @@ class Redis {
 	public function delete($key) {
 		$this->cache->delete(CACHE_PREFIX . $key);
 	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		if (method_exists($this->redis, 'flushDb')) {
+			$redis->flushDb();
+			$status = true;
+		}
+
+		return $status;
+	}
 }

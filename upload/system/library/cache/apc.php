@@ -38,4 +38,16 @@ class APC {
 			}
 		}
 	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		if (function_exists('apc_clear_cache')) {
+			apc_clear_cache('user');
+			$status = true;
+		}
+
+		return $status;
+	}
 }
