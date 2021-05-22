@@ -7,8 +7,8 @@
 class Session {
 	protected $adaptor;
 	protected $session_id = '';
-	public $data = array();
 	private $engine = 'native';
+	public $data = array();
 
 	public function __construct($engine = 'native', $registry = '') {
 		$engine = strtolower($engine);
@@ -40,6 +40,13 @@ class Session {
 
 			if ($this->adaptor) {
 				if ($engine == 'native') {
+					// обработчик, например, 'files', 'sqlite', 'memcache' или 'memcached',
+					/* $this->config->set('session_save_handler', 'files');
+					if ($this->config->get('session_save_handler') == 'Memcache') {
+						//ini_set('memcache.session_save_path', 'tcp://localhost: 11211');
+						//ini_set('memcached.session_save_path', 'localhost: 11211');
+					} */
+					//ini_set('session.save_handler', $this->config->get('session_save_handler'));
 					ini_set('session.name', $this->config->get('session_name'));
 					ini_set('session.cookie_lifetime', $this->config->get('session_lifetime'));
 					ini_set('session.cookie_path', $this->config->get('session_path'));
@@ -55,7 +62,7 @@ class Session {
 					ini_set('session.use_strict_mode', true);
 					ini_set('session.use_only_cookies', true);
 					ini_set('session.use_cookies', true);
-					// $this->config->get('config_shared');
+					//$this->config->get('config_shared');
 					ini_set('session.use_trans_sid', false);
 					//ini_set('session.auto_start', 'On');
 
@@ -72,6 +79,7 @@ class Session {
 
 					if (!session_id()) {
 						$session_setting = array(
+							//'save_handler'     => $this->config->get('session_save_handler'),
 							'name'             => $this->config->get('session_name'),
 							'cookie_lifetime'  => $this->config->get('session_lifetime'),
 							'cookie_path'      => $this->config->get('session_path'),
