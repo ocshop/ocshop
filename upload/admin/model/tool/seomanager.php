@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -39,11 +39,13 @@ class ModelToolSeoManager extends Model {
 			$singl = " AND ";
 
 			if (!empty($data['filter_query'])) {
-				$implode[] = "ua.query = '" . $this->db->escape($data['filter_query']) . "'";
+				//$implode[] = "ua.query = '" . $this->db->escape($data['filter_query']) . "'";
+				$implode[] = "ua.query LIKE '" . $this->db->escape($data['filter_query']) . "%'";
 			}
 
 			if (!empty($data['filter_keyword'])) {
-				$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+				//$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+				$implode[] = "ua.keyword LIKE '" . $this->db->escape($data['filter_keyword']) . "%'";
 			}
 
 			if (isset($data['filter_additional']) && $data['filter_additional'] >= 0) {
@@ -115,11 +117,13 @@ class ModelToolSeoManager extends Model {
 		$singl = " AND ";
 
 		if (!empty($data['filter_query'])) {
-			$implode[] = "ua.query = '" . $this->db->escape($data['filter_query']) . "'";
+			//$implode[] = "ua.query = '" . $this->db->escape($data['filter_query']) . "'";
+			$implode[] = "ua.query LIKE '" . $this->db->escape($data['filter_query']) . "%'";
 		}
 
 		if (!empty($data['filter_keyword'])) {
-			$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+			//$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+			$implode[] = "ua.keyword LIKE '" . $this->db->escape($data['filter_keyword']) . "%'";
 		}
 
 		if (isset($data['filter_additional']) && $data['filter_additional'] >= 0) {
@@ -247,12 +251,14 @@ class ModelToolSeoManager extends Model {
 		}
 
 		if (!empty($data['filter_query'])) {
-			$implode[] = "st.query = '" . $this->db->escape($data['filter_query']) . "'";
+			//$implode[] = "st.query = '" . $this->db->escape($data['filter_query']) . "'";
+			$implode[] = "st.query LIKE '" . $this->db->escape($data['filter_query']) . "%'";
 		}
 
 		if (!empty($data['filter_keyword'])) {
 			$sql .= " LEFT JOIN (SELECT DISTINCT keyword, query FROM `" . DB_PREFIX . "url_alias`) ua ON (ua.query = st.query)";
-			$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+			//$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+			$implode[] = "ua.keyword LIKE '" . $this->db->escape($data['filter_query']) . "%'";
 		}
 
 		if ($implode) {
@@ -306,12 +312,14 @@ class ModelToolSeoManager extends Model {
 		}
 
 		if (!empty($data['filter_query'])) {
-			$implode[] = "st.query = '" . $this->db->escape($data['filter_query']) . "'";
+			//$implode[] = "st.query = '" . $this->db->escape($data['filter_query']) . "'";
+			$implode[] = "st.query LIKE '" . $this->db->escape($data['filter_query']) . "%'";
 		}
 
 		if (!empty($data['filter_keyword'])) {
 			$sql .= " LEFT JOIN (SELECT DISTINCT keyword, query FROM `" . DB_PREFIX . "url_alias`) ua ON (ua.query = st.query)";
-			$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+			//$implode[] = "ua.keyword = '" . $this->db->escape($data['filter_keyword']) . "'";
+			$implode[] = "ua.keyword LIKE '" . $this->db->escape($data['filter_query']) . "%'";
 		}
 
 		if ($implode) {
