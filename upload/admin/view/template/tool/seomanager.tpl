@@ -587,8 +587,11 @@ $(document).ready(function() {
 		if (!confirm('Удаление невозможно отменить! Вы уверены, что хотите это сделать?')) {
 			return false;
 		} else {
-			$('#form-url-delete').submit();
-		    $('#form-tag-delete').submit();
+			if ($('#form-url-delete input[name="selected_url[]"]:checked').length) {
+				$('#form-url-delete').submit();
+			} else {
+				$('#form-tag-delete').submit();
+			}
 		}
 	});
 
