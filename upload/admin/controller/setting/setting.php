@@ -15,12 +15,6 @@ class ControllerSettingSetting extends Controller {
 		$this->load->model('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			if (isset($this->request->post['config_session_engine'])) {
-				if ($this->request->post['config_session_engine'] == 'db') {
-					$this->db->query("CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "session` (`session_id` varchar(255) NOT NULL, `data` text NOT NULL, `expire` datetime NOT NULL, PRIMARY KEY (`session_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci");
-					$this->db->query("ALTER TABLE `" . DB_PREFIX . "session` MODIFY `session_id` VARCHAR(255)");
-				}
-			}
 			if (isset($this->request->post['config_debug_pro'])) {
 				$this->load->model('extension/event'); 
 
