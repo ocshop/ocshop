@@ -1,5 +1,4 @@
-.jqvmap-label
-{
+.jqvmap-label {
 	position: absolute;
 	display: none;
 	-webkit-border-radius: 3px;
@@ -15,36 +14,29 @@
 .jqvmap-pin {
   pointer-events:none;
 }
-.jqvmap-zoomin, .jqvmap-zoomout
-{
+.jqvmap-zoomin, .jqvmap-zoomout {
 	position: absolute;
-	left: 10px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	background: #000000;
-	padding: 3px;
-	color: white;
-	width: 10px;
-	height: 10px;
-	cursor: pointer;
-	line-height: 10px;
-	text-align: center;
+    left: 10px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #000000;
+    padding: 0px 7px;
+    color: white;
+    cursor: pointer;
+    line-height: 20px;
+    text-align: center;
 }
-.jqvmap-zoomin
-{
+.jqvmap-zoomin {
 	top: 10px;
 }
-.jqvmap-zoomout
-{
-	top: 30px;
+.jqvmap-zoomout {
+	top: 40px;
 }
-.jqvmap-region
-{
+.jqvmap-region {
   cursor: pointer;
 }
-.jqvmap-ajax_response
-{
+.jqvmap-ajax_response {
   width: 100%;
   height: 500px;
 }
