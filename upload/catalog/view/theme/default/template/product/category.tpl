@@ -154,7 +154,7 @@
       </div>
       <?php } ?>
         <?php if ($description_bottom) { ?>
-        <div class="row"><div class="col-sm-10"><?php echo $description_bottom; ?></div></div>
+        <div class="row"><div class="col-sm-12"><?php echo $description_bottom; ?></div></div>
         <?php } ?>
       <?php echo $content_bottom; ?></div>
     <?php echo $column_right; ?></div>
