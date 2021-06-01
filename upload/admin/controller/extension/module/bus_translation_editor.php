@@ -348,7 +348,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
@@ -426,7 +426,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
@@ -493,14 +493,14 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
 
 		$path = '';
 
-		if (isset($this->request->get['search']) && iconv_strlen($this->request->get['search']) > 2) {
+		if (isset($this->request->get['search']) && iconv_strlen($this->request->get['search'])) {
 			$search = $this->request->get['search'];
 		} else {
 			$json['error'] = $this->language->get('error_install');
@@ -626,7 +626,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
@@ -679,7 +679,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 						foreach (explode('/', $path) as $path) {
 							$path_new .= '/' . $path;
 							if ($path == $basename) {
-								file_put_contents($dir . $language['code'] . $path_new . '.php');
+								file_put_contents($dir . $language['code'] . $path_new . '.php', '<?php');
 							} else {
 								if (!is_dir($dir . $language['code'] . $path_new)) {
 									mkdir($dir . $language['code'] . $path_new, 0755, true);
@@ -726,7 +726,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
@@ -809,7 +809,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
