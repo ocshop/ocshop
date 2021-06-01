@@ -632,7 +632,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->post['path'])) {
-			$path = preg_replace('/[^a-zA-Z0-9_\/-]/i', '', $this->request->post['path']);
+			$path = preg_replace('/[^a-zA-Z0-9_\/-]/i', '', $this->request->post['path']) . '.php';
 		} else {
 			$json['error'] = $this->language->get('error_warning');
 		}
@@ -661,25 +661,25 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 			$languages = $this->model_localisation_language->getLanguages();
 
 			foreach ($languages as $language) {
-				if ($language['code'] == $path) {
+				if ($language['code'] . '.php' == $path) {
 					$main = true;
 				}
 			}
 
 			foreach ($languages as $language) {
 				if ($main) {
-					$path = $language['code'];
+					$path = $language['code'] . '.php';
 				}
 
 				if (isset($value[$language['code']]) && substr(str_replace('\\', '/', realpath($dir . $language['code'] . '/' . $path)), 0, strlen($dir)) == $dir) {
-					if (!is_file($dir . $language['code'] . '/' . $path . '.php')) {
+					if (!is_file($dir . $language['code'] . '/' . $path)) {
 						$path_new = '';
 						$basename = basename($path);
 
 						foreach (explode('/', $path) as $path) {
 							$path_new .= '/' . $path;
 							if ($path == $basename) {
-								file_put_contents($dir . $language['code'] . $path_new . '.php', '<?php');
+								file_put_contents($dir . $language['code'] . $path_new, '<?php');
 							} else {
 								if (!is_dir($dir . $language['code'] . $path_new)) {
 									mkdir($dir . $language['code'] . $path_new, 0755, true);
@@ -688,7 +688,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 						}
 					}
 
-					$data = file_get_contents($dir . $language['code'] . '/' . $path . '.php');
+					$data = file_get_contents($dir . $language['code'] . '/' . $path);
 
 					$value[$language['code']] = str_replace(array("\r", "\n"), '', html_entity_decode($value[$language['code']], ENT_QUOTES));
 					if (stristr($data, '$_[' . $name . ']') !== false) {
@@ -697,7 +697,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 						$data = str_replace('<?php', '<?php' . "\r\n" . '$_[' . $name . '] = ' . $value[$language['code']] . ';', $data);
 					}
 
-					file_put_contents($dir . $language['code'] . '/' . $path . '.php', $data);
+					file_put_contents($dir . $language['code'] . '/' . $path, $data);
 				} else {
 					$json['error'] = $this->language->get('error_warning');
 				}
@@ -732,7 +732,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		}
 
 		if (isset($this->request->post['path'])) {
-			$path = preg_replace('/[^a-zA-Z0-9_\/-]/i', '', $this->request->post['path']);
+			$path = preg_replace('/[^a-zA-Z0-9_\/-]/i', '', $this->request->post['path']) . '.php';
 		} else {
 			$json['error'] = $this->language->get('error_warning');
 		}
@@ -761,24 +761,24 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 			$languages = $this->model_localisation_language->getLanguages();
 
 			foreach ($languages as $language) {
-				if ($language['code'] == $path) {
+				if ($language['code'] . '.php' == $path) {
 					$main = true;
 				}
 			}
 
 			foreach ($languages as $language) {
 				if ($main) {
-					$path = $language['code'];
+					$path = $language['code'] . '.php';
 				}
 
-				if (isset($value[$language['code']]) && substr(str_replace('\\', '/', realpath($dir . $language['code'] . '/' . $path)), 0, strlen($dir)) == $dir && is_file($dir . $language['code'] . '/' . $path . '.php')) {
-					$data = file_get_contents($dir . $language['code'] . '/' . $path . '.php');
+				if (isset($value[$language['code']]) && substr(str_replace('\\', '/', realpath($dir . $language['code'] . '/' . $path)), 0, strlen($dir)) == $dir && is_file($dir . $language['code'] . '/' . $path)) {
+					$data = file_get_contents($dir . $language['code'] . '/' . $path);
 
 					if (stristr($data, '$_[' . $name . ']') !== false) {
 						$data = preg_replace('/\$_\[' . preg_quote($name, '/') . '\](.[\s\=]*)(.*?);/S', '', $data);
 					}
 
-					file_put_contents($dir . $language['code'] . '/' . $path . '.php', $data);
+					file_put_contents($dir . $language['code'] . '/' . $path, $data);
 				} else {
 					$json['error'] = $this->language->get('error_warning');
 				}
