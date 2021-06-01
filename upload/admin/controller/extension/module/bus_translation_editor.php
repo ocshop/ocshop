@@ -75,14 +75,7 @@
 
 // забараняем прамы доступ
 if (!class_exists('Controller')) {
-	if ((isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'))) || $_SERVER['SERVER_PORT'] == 443) {
-		$_SERVER['HTTPS'] = true;
-	} elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
-		$_SERVER['HTTPS'] = true;
-	} else {
-		$_SERVER['HTTPS'] = false;
-	}
-	header('Refresh: 1; URL=' . ($_SERVER['HTTPS'] ? HTTPS_SERVER : HTTP_SERVER));
+	header('Refresh: 1; URL=/');
 	exit('ЗАПРЫШЧАЮ!');
 }
 
@@ -95,7 +88,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 	private $name_arhive = 'Translation editor';
 	private $code = '01000061';
 	private $mame = 'Редактор перевода - "Translation editor"';
-	private $version = '0.8.0';
+	private $version = '1.0';
 	private $author = 'BuslikDrev.by';
 	private $link = 'https://liveopencart.ru/buslikdrev';
 	private $version_oc = 2.2;
@@ -344,12 +337,6 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 	}
 
 	public function path() {
-		if (!$this->user->hasPermission('access', $this->paths['controller']['bus_translation_editor'])) {
-			$json = array();
-			$this->response->addHeader('Content-Type: application/json');
-			$this->response->setOutput(json_encode($json));
-		}
-
 		$json = array();
 
 		$dir = DIR_LANGUAGE;
@@ -372,49 +359,55 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 			$path = '';
 		}
 
-		$this->load->model('localisation/language');
-
-		$lang_codes = array();
-
-		$languages = $this->model_localisation_language->getLanguages();
-
-		foreach ($languages as $language) {
-			$lang_codes[] = $language['code'];
+		if (!$this->validate()) {
+			$json['error'] = $this->language->get('error_permission');
 		}
 
-		if ($lang_codes && substr(str_replace('\\', '/', realpath($dir . $this->config->get('config_language') . '/' . $path)), 0, strlen($dir)) == $dir) {
-			$path_data = array();
+		if (!$json) {
+			$this->load->model('localisation/language');
 
-			$files = glob(rtrim($dir . '{' . implode(',', $lang_codes) . '}/' . $path, '/') . '/*', GLOB_NOSORT|GLOB_BRACE);
+			$lang_codes = array();
 
-			if ($files) {
-				foreach($files as $file) {
-					$basename = basename($file);
-					$extension = pathinfo($basename, PATHINFO_EXTENSION);
-					if (!in_array($basename, $path_data) && ($extension == 'php' || !$extension))  {
-						if (is_dir($file)) {
-							$json['directory'][] = array(
-								'name' => $basename,
-								'path' => trim($path . '/' . $basename, '/')
-							);
-						} elseif (is_file($file)) {
-							$json['file'][] = array(
-								'name' => $basename,
-								'path' => trim($path . '/' . str_replace('.php', '', $basename), '/')
-							);
+			$languages = $this->model_localisation_language->getLanguages();
+
+			foreach ($languages as $language) {
+				$lang_codes[] = $language['code'];
+			}
+
+			if ($lang_codes && substr(str_replace('\\', '/', realpath($dir . $this->config->get('config_language') . '/' . $path)), 0, strlen($dir)) == $dir) {
+				$path_data = array();
+
+				$files = glob(rtrim($dir . '{' . implode(',', $lang_codes) . '}/' . $path, '/') . '/*', GLOB_NOSORT|GLOB_BRACE);
+
+				if ($files) {
+					foreach($files as $file) {
+						$basename = basename($file);
+						$extension = pathinfo($basename, PATHINFO_EXTENSION);
+						if (!in_array($basename, $path_data) && ($extension == 'php' || !$extension))  {
+							if (is_dir($file)) {
+								$json['directory'][] = array(
+									'name' => $basename,
+									'path' => trim($path . '/' . $basename, '/')
+								);
+							} elseif (is_file($file)) {
+								$json['file'][] = array(
+									'name' => $basename,
+									'path' => trim($path . '/' . str_replace('.php', '', $basename), '/')
+								);
+							}
+
+							$path_data[] = $basename;
 						}
-
-						$path_data[] = $basename;
 					}
 				}
 			}
-		}
 
-		if ($path) {
-			$json['back'] = array(
-				'name' => 'Back',
-				'path' => urlencode(substr($path, 0, strrpos($path, '/'))),
-			);
+			if ($path) {
+				$json['back'] = array(
+					'name' => 'Back',
+					'path' => urlencode(substr($path, 0, strrpos($path, '/'))),
+				);
+			}
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -422,12 +415,6 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 	}
 
 	public function langfile() {
-		if (!$this->user->hasPermission('access', $this->paths['controller']['bus_translation_editor'])) {
-			$json = array();
-			$this->response->addHeader('Content-Type: application/json');
-			$this->response->setOutput(json_encode($json));
-		}
-
 		$json = array();
 
 		$dir = DIR_LANGUAGE;
@@ -450,7 +437,11 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 			$path = '';
 		}
 
-		if ($path) {
+		if (!$this->validate()) {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		if (!$json) {
 			$this->load->model('localisation/language');
 
 			$main = false;
@@ -471,10 +462,11 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 				}
 
 				if (substr(str_replace('\\', '/', realpath($dir . $language['code'] . '/' . $path)), 0, strlen($dir)) == $dir) {
-					foreach ($this->loadLanguage($path, $language['code'], $dir) as $key => $lang) {
-						$json['success'][$key]['path'] = str_replace('.php', '', $path);
-						$json['success'][$key]['name'] = $key;
-						$json['success'][$key]['value'][$language['code']] = htmlspecialchars($lang, ENT_COMPAT);
+					foreach ($this->loadLanguage($path, $language['code'], $dir) as $lang) {
+						$md5 = md5($lang['name']);
+						$json['success'][$md5]['path'] = str_replace('.php', '', $path);
+						$json['success'][$md5]['name'] = $lang['name'];
+						$json['success'][$md5]['value'][$language['code']] = htmlentities($lang['value'], ENT_QUOTES);
 					}
 				}
 			}
@@ -486,15 +478,9 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 
 	public function search() {
 		$start = microtime(true);
-		if (!$this->user->hasPermission('access', $this->paths['controller']['bus_translation_editor'])) {
-			$json = array();
-			$this->response->addHeader('Content-Type: application/json');
-			$this->response->setOutput(json_encode($json));
-		}
+		$json = array();
 
 		$this->load->language($this->paths['language']['bus_translation_editor']);
-
-		$json = array();
 
 		$dir = DIR_LANGUAGE;
 		$tab = 'admin';
@@ -514,13 +500,17 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 
 		$path = '';
 
-		if (isset($this->request->get['search'])) {
+		if (isset($this->request->get['search']) && iconv_strlen($this->request->get['search']) > 2) {
 			$search = $this->request->get['search'];
 		} else {
-			$search = false;
+			$json['error'] = $this->language->get('error_install');
 		}
 
-		if (iconv_strlen($search) > 2) {
+		if (!$this->validate()) {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		if (!$json) {
 			$this->load->model('localisation/language');
 
 			$lang_codes = array();
@@ -578,13 +568,13 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 					$path = str_replace($dir, '', $file);
 					$path = ltrim(str_replace(dirname($path, substr_count($path, '/')), '', $path), '/');
 					foreach ($languages as $language) {
-						foreach ($this->loadLanguage($path, $language['code'], $dir) as $key => $lang) {
-							$md5 = md5($key . $path);
-							if (stristr($key, $search) !== false || stristr($lang, $search) !== false || isset($data['list_lang'][$md5])) {
+						foreach ($this->loadLanguage($path, $language['code'], $dir) as $lang) {
+							$md5 = md5($lang['name']);
+							if (stristr($lang['name'], $search) !== false || stristr($lang['value'], $search) !== false) {
 								$files['count_result']++;
 								$data['list_lang'][$md5]['path'] = str_replace('.php', '', $path);
-								$data['list_lang'][$md5]['name'] = $key;
-								$data['list_lang'][$md5]['value'][$language['code']] = htmlspecialchars($lang, ENT_COMPAT);
+								$data['list_lang'][$md5]['name'] = $lang['name'];
+								$data['list_lang'][$md5]['value'][$language['code']] = htmlentities($lang['value'], ENT_QUOTES);
 							}
 						}
 					}
@@ -616,8 +606,6 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 				'count'        => $this->language->get('text_count') . ' ' . $files['count'],
 				'count_result' => $this->language->get('text_count_result') . ' ' . $files['count_result']
 			);
-		} else {
-			$json['error'] = $this->language->get('error_install');
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -625,9 +613,9 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 	}
 
 	public function save() {
-		$this->load->language($this->paths['language']['bus_translation_editor']);
-
 		$json = array();
+
+		$this->load->language($this->paths['language']['bus_translation_editor']);
 
 		$dir = DIR_LANGUAGE;
 
@@ -694,24 +682,21 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 								file_put_contents($dir . $language['code'] . $path_new . '.php');
 							} else {
 								if (!is_dir($dir . $language['code'] . $path_new)) {
-									mkdir($dir . $language['code'] . $path_new, 0755);
+									mkdir($dir . $language['code'] . $path_new, 0755, true);
 								}
 							}
 						}
 					}
 
 					$data = file_get_contents($dir . $language['code'] . '/' . $path . '.php');
-					if (1 == 1) {
-						$value[$language['code']] = str_replace(array('\\\'', '\'', "\n"), array('\\\\\'', '\\\'', ''), htmlspecialchars_decode($value[$language['code']], ENT_COMPAT));
-						if (stristr($data, '$_[\'' . $name . '\']') !== false) {
-							$data = preg_replace('/\$_\[\'' . preg_quote($name) . '\'\](.[^\'\$"][\=\s\b\(]*)(\'|\$|"){0,1}(.*?)(\'|\$|"){0,1}(\)){0,1};/im', '\$_[\'' . preg_quote($name) . '\']$1${2}' . preg_quote($value[$language['code']]) . '$4;', $data);
-							//$data = preg_replace('/\$_\[\'' . preg_quote($name) . '\'\](.[^\'\$"][\=\s\b\(]*)(\'|\$|"){0,1}{([\s\S]+?)}(\'|\$|"){0,1}(\)){0,1};/im', '\$_[\'' . preg_quote($name) . '\']$1${2}' . preg_quote($value[$language['code']]) . '$4;', $data);
-						} else {
-							$data = str_replace('<?php', '<?php' . "\n" . '$_[\'' . $name . '\'] = \'' . $value[$language['code']] . '\';', $data);
-						}
-					} else {
 
+					$value[$language['code']] = str_replace(array("\r", "\n"), '', html_entity_decode($value[$language['code']], ENT_QUOTES));
+					if (stristr($data, '$_[' . $name . ']') !== false) {
+						$data = preg_replace('/\$_\[' . preg_quote($name, '/') . '\](.[\s\=]*)(.*?);/S', '$_[' . $name . ']$1' . $value[$language['code']] . ';', $data);
+					} else {
+						$data = str_replace('<?php', '<?php' . "\r\n" . '$_[' . $name . '] = ' . $value[$language['code']] . ';', $data);
 					}
+
 					file_put_contents($dir . $language['code'] . '/' . $path . '.php', $data);
 				} else {
 					$json['error'] = $this->language->get('error_warning');
@@ -728,9 +713,9 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 	}
 
 	public function delete() {
-		$this->load->language($this->paths['language']['bus_translation_editor']);
-
 		$json = array();
+
+		$this->load->language($this->paths['language']['bus_translation_editor']);
 
 		$dir = DIR_LANGUAGE;
 
@@ -788,14 +773,11 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 
 				if (isset($value[$language['code']]) && substr(str_replace('\\', '/', realpath($dir . $language['code'] . '/' . $path)), 0, strlen($dir)) == $dir && is_file($dir . $language['code'] . '/' . $path . '.php')) {
 					$data = file_get_contents($dir . $language['code'] . '/' . $path . '.php');
-					if (1 == 1) {
-						$value[$language['code']] = str_replace(array('\\\'', '\'', "\n"), array('\\\\\'', '\\\'', ''), htmlspecialchars_decode($value[$language['code']], ENT_COMPAT));
-						if (stristr($data, '$_[\'' . $name . '\']') !== false) {
-							$data = preg_replace('/\$_\[\'' . preg_quote($name) . '\'\](.[^\'\$"][\=\s\b\(]*)(\'|\$|"){0,1}(.*?)(\'|\$|"){0,1}(\)){0,1};\r\n/im', '', $data);
-						}
-					} else {
 
+					if (stristr($data, '$_[' . $name . ']') !== false) {
+						$data = preg_replace('/\$_\[' . preg_quote($name, '/') . '\](.[\s\=]*)(.*?);/S', '', $data);
 					}
+
 					file_put_contents($dir . $language['code'] . '/' . $path . '.php', $data);
 				} else {
 					$json['error'] = $this->language->get('error_warning');
@@ -811,24 +793,73 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	private function loadLanguage7($filename, $code = '', $dir = '') {
-		$_ = array();
+	public function restore() {
+		$json = array();
 
-		if (!$code) {
-			$code = $this->config->get('config_language');
+		$this->load->language($this->paths['language']['bus_translation_editor']);
+
+		$dir = DIR_LANGUAGE;
+		$dir_dump = DIR_SYSTEM . 'library/bus_translation_editor/dump/admin/';
+
+		if (isset($this->request->get['tab'])) {
+			if ($this->request->get['tab'] == 'catalog') {
+				$dir = DIR_CATALOG . 'language/';
+				$dir_dump = DIR_SYSTEM . 'library/bus_translation_editor/dump/catalog/';
+			}
 		}
 
-		if (!$dir) {
-			$dir = DIR_LANGUAGE;
+		if (isset($this->request->get['store_id'])) {
+			$store_id = $this->request->get['store_id'];
+		} else {
+			$store_id = 0;
 		}
 
-		$file = $dir . $code . '/' . $filename . '.php';
-
-		if (is_file($file)) {
-			require($file);
+		if (isset($this->request->get['path'])) {
+			$path = preg_replace('/[^a-zA-Z0-9_\/-]/i', '', $this->request->get['path']) . '.php';
+		} else {
+			$json['error'] = $this->language->get('error_warning');
 		}
 
-		return $_;
+		if (!$this->validate()) {
+			$json['error'] = $this->language->get('error_permission');
+		}
+
+		if (!$json) {
+			/* if (!is_file($dir_dump . $path)) {
+				$json['error'] = $this->language->get('error_restore');
+			} */
+
+			$this->load->model('localisation/language');
+
+			$languages = $this->model_localisation_language->getLanguages();
+
+			$main = true;
+
+			foreach ($languages as $language) {
+				if (is_file($dir_dump . $language['code'] . '/' . $path)) {
+					$main = false;
+					copy($dir_dump . $language['code'] . '/' . $path, $dir . $language['code'] . '/' . $path);
+				}
+			}
+
+			if ($main) {
+				$json['error'] = 'Няма чаго аднаўляць!';
+			}
+
+			if (!$json) {
+				//copy($dir_dump . $path, $dir . $path);
+				$json['success'] = $this->language->get('success_setting_save');
+			}
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function loadLanguageDebug() {
+		if (isset($_GET['file'])) {
+			var_dump($this->loadLanguage($_GET['file']));
+		}
 	}
 
 	private function loadLanguage($filename, $code = '', $dir = '') {
@@ -842,16 +873,25 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 			$dir = DIR_LANGUAGE;
 		}
 
-		$file = $dir . 'en-gb/' . $filename;
-
-		if (is_file($file)) {
-			require($file);
-		}
-
 		$file = $dir . $code . '/' . $filename;
 
+		if (!is_file($file)) {
+			$file = $dir . 'en-gb/' . $filename;
+		}
+
 		if (is_file($file)) {
-			require($file);
+			$data = file_get_contents($file);
+
+			if (preg_match_all('/\$_\[(.[^\]]*?)](.[\s\=]*)(.*?);/S', $data, $matches)) {
+				if (isset($matches[1]) && isset($matches[3])) {
+					foreach ($matches[1] as $key => $result) {
+						$_[] = array(
+							'name'  => $result,
+							'value' => $matches[3][$key],
+						);
+					}
+				}
+			}
 		}
 
 		return $_;
@@ -1015,19 +1055,6 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 
 		if (!$this->error) {
 			// бэкапим данные
-			if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/')) {
-				mkdir(DIR_SYSTEM . 'library/bus_translation_editor/', 0755);
-			}
-			if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/dump/')) {
-				mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/', 0755);
-			}
-			if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/dump/admin/')) {
-				mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/admin/', 0755);
-			}
-			if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/dump/catalog/')) {
-				mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/catalog/', 0755);
-			}
-
 			$this->load->model('localisation/language');
 
 			$lang_codes = array();
@@ -1037,22 +1064,23 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 			foreach ($languages as $language) {
 				$lang_codes[] = $language['code'];
 				if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/dump/admin/' . $language['code'] . '/')) {
-					mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/admin/' . $language['code'] . '/', 0755);
+					mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/admin/' . $language['code'] . '/', 0755, true);
 				}
 				if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/dump/catalog/' . $language['code'] . '/')) {
-					mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/catalog/' . $language['code'] . '/', 0755);
+					mkdir(DIR_SYSTEM . 'library/bus_translation_editor/dump/catalog/' . $language['code'] . '/', 0755, true);
 				}
 			}
 
 			function dump($path) {
 				foreach (glob(rtrim($path, '/') . '/*', GLOB_NOSORT|GLOB_BRACE) as $file) {
+					$file_dump = DIR_SYSTEM . 'library/bus_translation_editor/' . str_replace(array(DIR_APPLICATION . 'language/', DIR_CATALOG . 'language/'), array('dump/admin/', 'dump/catalog/'), $file);
 					if (is_dir($file)) {
-						if (!is_dir(DIR_SYSTEM . 'library/bus_translation_editor/' . str_replace(array(DIR_APPLICATION . 'language/', DIR_CATALOG . 'language/'), array('dump/admin/', 'dump/catalog/'), $file))) {
-							mkdir(DIR_SYSTEM . 'library/bus_translation_editor/' . str_replace(array(DIR_APPLICATION . 'language/', DIR_CATALOG . 'language/'), array('dump/admin/', 'dump/catalog/'), $file), 0755);
+						if (!is_dir($file_dump)) {
+							mkdir($file_dump, 0755);
 						}
 						dump($file);
-					} elseif (is_file($file)) {
-						copy($file, DIR_SYSTEM . 'library/bus_translation_editor/' . str_replace(array(DIR_APPLICATION . 'language/', DIR_CATALOG . 'language/'), array('dump/admin/', 'dump/catalog/'), $file));
+					} elseif (is_file($file) && !is_file($file_dump)) {
+						copy($file, $file_dump);
 					}
 				}
 			}
@@ -1595,7 +1623,7 @@ HTML;
 
 			flock($handle, LOCK_EX);
 
-			fwrite($handle, strip_tags($text));
+			fwrite($handle, strip_tags(str_replace(array(DIR_APPLICATION, DIR_CATALOG, DIR_IMAGE, DIR_SYSTEM), array(basename(DIR_APPLICATION) . '/', basename(DIR_CATALOG) . '/', basename(DIR_IMAGE) . '/', basename(DIR_SYSTEM) . '/'), $text)));
 
 			fflush($handle);
 

@@ -64,7 +64,7 @@ $_['text_path']                                  = 'Path';
 $_['text_no_results']                            = 'No results';
 $_['text_confirm']                               = 'Are you sure?';
 $_['text_back']                                  = 'Back';
-$_['text_author']                                = 'Author: <a href="https://buslikdrev.by/" title="Handicraft products" rel="noreferrer noopener" target="_blank">BuslickDrev</a>. Those. Support: <a href="https://liveopencart.ru/buslikdrev" title="Technical help on solving problems associated with the module "rel="noreferrer noopener" target="_blank">HERE</a>. Theme of support: <a href="https://forum.opencart.pro/topic/7366-приложение-для-сайта-app-for-website/" title="Technical help on solving the problems associated with the module" rel="noreferrer noopener" target="_blank">HERE</a>.';
+$_['text_author']                                = 'Author: <a href="https://buslikdrev.by/" title="Handicraft products" rel="noreferrer noopener" target="_blank">BuslickDrev</a>. Those. Support: <a href="https://liveopencart.ru/buslikdrev" title="Technical help on solving problems associated with the module "rel="noreferrer noopener" target="_blank">HERE</a>. Theme of support: <a href="https://forum.opencart.pro/topic/7936-редактор-перевода-translation-editor/" title="Technical help on solving the problems associated with the module" rel="noreferrer noopener" target="_blank">HERE</a>.';
 $_['text_corp']                                  = '2016-' . date('d.m.Y') . '; <a href="https://buslikdrev.by/" title="BuslikDrev" rel="noreferrer noopener" target="_blank">BuslikDrev</a> - All rights reserved.';
 
 // Entry
@@ -78,7 +78,7 @@ $_['help_store']                                 = 'Store';
 $_['help_language_files']                        = 'The language files of all languages are displayed. When filling in the translation, if the file does not exist, it will be automatically created.';
 $_['help_search']                                = 'Searches language files by variables and values.';
 $_['help_editor']                                = 'Editor';
-$_['help_value']                                 = 'Single quotes are automatically escaped. Therefore, you do not need to screen them.';
+$_['help_value']                                 = 'Observe the integrity of the quotes and escape them if you need to output in translation.';
 $_['help_status']                                = 'If disabled, then all functionality below will be disabled.';
 
 //Button
@@ -97,6 +97,7 @@ $_['button_pause']                               = 'Pause download';
 $_['button_restart']                             = 'Restart download - start over';
 $_['button_search']                              = 'Search';
 $_['button_edit']                                = 'Edit';
+$_['button_restore']                             = 'Restore';
 
 // Error
 $_['error_permission']                           = 'You do not have permission to make changes!';

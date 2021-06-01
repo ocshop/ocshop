@@ -3,16 +3,17 @@
 <?php foreach ($list_lang as $result) { ?>
 <tr id="<?php echo $tab; ?>-lang-<?php echo $key; ?>">
   <td class="text-left" style="vertical-align: top;">
-    <input type="text" name="name" value="<?php echo $result['name']; ?>" placeholder="<?php echo $column_name; ?>" class="form-control" />
-    <span><?php echo $text_path; ?>: <?php echo $result['path']; ?></span>
+    <span style="font-size:20px">$_[<?php echo $result['name']; ?>] = </span>
+    <br /><span><?php echo $text_path; ?>: <?php echo $result['path']; ?>.php</span>
+    <input type="hidden" name="name" value="<?php echo $result['name']; ?>" placeholder="<?php echo $column_name; ?>" class="form-control" />
     <input type="hidden" name="path" value="<?php echo $result['path']; ?>" placeholder="" class="form-control" />
   </td>
   <td class="text-left">
 <?php foreach ($languages as $language) { ?>
-      <div class="input-group">
-        <span class="input-group-addon"><img src="<?php echo version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png'; ?>" title="<?php echo $language['name']; ?>" /></span>
-        <textarea name="value[<?php echo $language['code']; ?>]" rows="2" placeholder="<?php echo $column_value; ?>" class="form-control"><?php echo $result['value'][$language['code']]; ?></textarea>
-      </div>
+    <div class="input-group">
+      <span class="input-group-addon"><img src="<?php echo version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png'; ?>" title="<?php echo $language['name']; ?>" /></span>
+      <textarea name="value[<?php echo $language['code']; ?>]" rows="2" placeholder="<?php echo $column_value; ?>" class="form-control" style="display:initial;width:95%" ><?php echo (isset($result['value'][$language['code']]) ? $result['value'][$language['code']] : '\'\''); ?></textarea><span style="font-size:20px"> ;</span>
+    </div>
 <?php } ?>
   </td>
   <td class="text-right" style="vertical-align: top;">
@@ -25,6 +26,7 @@
 <?php } else { ?>
 <?php echo $header; ?>
 <style type="text/css">
+tbody form-control
 [class*="col-"].input-group {
     float: none;
     padding-left: 15px;
@@ -247,15 +249,20 @@ var bus_translation_editor = {
 
 		html = '<tr id="' + tab + '-lang-' + lang_row + '">';
 		html += '  <td class="text-left" style="vertical-align: top;">';
-		html += '    <input type="text" name="name" value="' + data['name'] + '" placeholder="<?php echo $column_name; ?>" class="form-control" />';
-		html += '    <span><?php echo $text_path; ?>: ' + data['path'] + '</span>';
+		if (!data['name']) {
+			html += '    <span style="font-size:20px">$_[</span><input type="text" name="name" value="\'' + data['name'] + '\'" placeholder="<?php echo $column_name; ?>" class="form-control" style="display:initial;width:75%" /><span style="font-size:20px">] = </span>';
+		} else {
+			html += '    <span style="font-size:20px">$_[' + data['name'] + '] = </span>';
+			html += '    <input type="hidden" name="name" value="' + data['name'] + '" placeholder="<?php echo $column_name; ?>" class="form-control" />';
+		}
+		html += '    <br /><span><?php echo $text_path; ?>: ' + data['path'] + '.php</span>';
 		html += '    <input type="hidden" name="path" value="' + data['path'] + '" placeholder="" class="form-control" />';
 		html += '  </td>';
 		html += '  <td class="text-left">';
 <?php foreach ($languages as $language) { ?>
 		html += '      <div class="input-group">';
 		html += '        <span class="input-group-addon"><img src="<?php echo version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png'; ?>" title="<?php echo $language['name']; ?>" /></span>';
-		html += '        <textarea name="value[<?php echo $language['code']; ?>]" rows="2" placeholder="<?php echo $column_value; ?>" class="form-control">' + (typeof data['value']['<?php echo $language['code']; ?>'] != 'undefined' ? data['value']['<?php echo $language['code']; ?>'] : '') + '</textarea>';
+		html += '        <textarea name="value[<?php echo $language['code']; ?>]" rows="2" placeholder="<?php echo $column_value; ?>" class="form-control" style="display:initial;width:95%" >' + (typeof data['value']['<?php echo $language['code']; ?>'] != 'undefined' ? data['value']['<?php echo $language['code']; ?>'] : '\'\'') + '</textarea><span style="font-size:20px"> ;</span>';
 		html += '      </div>';
 <?php } ?>
 		html += '  </td>';
@@ -280,7 +287,7 @@ var bus_translation_editor = {
 			var node = $('#' + tab + '-lang-' + lang_row + ' .btn-danger');
 
 			$.ajax({
-				url: 'index.php?route=<?php echo $module_path; ?>/delete&<?php echo $token; ?>&tab=' + tab + '&store_id=' + $('.tab-content .active input[name="store_id"]').val(),
+				url: 'index.php?route=<?php echo $module_path; ?>/delete&<?php echo $token; ?>&tab=' + tab + '&store_id=' + $('.tab-content .active select[name="store_id"]').val(),
 				type: 'POST',
 				dataType: 'json',
 				cache : false,
@@ -295,7 +302,7 @@ var bus_translation_editor = {
 				},
 				success: function(json) {
 					$('.alert-dismissible').remove();
-					
+
 					if (json['error']) {
 						var button = $(node).html();
 						$(node).removeClass('btn-danger').addClass('btn-danger').html('<?php echo $error_install; ?>');
@@ -332,7 +339,7 @@ var bus_translation_editor = {
 		var node = $('#' + tab + '-lang-' + lang_row + ' .btn-primary');
 
 		$.ajax({
-			url: 'index.php?route=<?php echo $module_path; ?>/save&<?php echo $token; ?>&tab=' + tab + '&store_id=' + $('.tab-content .active input[name="store_id"]').val(),
+			url: 'index.php?route=<?php echo $module_path; ?>/save&<?php echo $token; ?>&tab=' + tab + '&store_id=' + $('.tab-content .active select[name="store_id"]').val(),
 			type: 'POST',
 			dataType: 'json',
 			cache : false,
@@ -347,7 +354,7 @@ var bus_translation_editor = {
 			},
 			success: function(json) {
 				$('.alert-dismissible').remove();
-				
+
 				if (json['error']) {
 					var button = $(node).html();
 					$(node).removeClass('btn-primary').addClass('btn-danger').html('<?php echo $error_install; ?>');
@@ -386,13 +393,13 @@ var bus_translation_editor = {
 
 				if (json['directory']) {
 					for (i = 0; i < json['directory'].length; i++) {
-						html += '<a href="' + json['directory'][i]['path'] + '" class="list-group-item directory">' + json['directory'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a>';
+						html += '<span><a href="' + json['directory'][i]['path'] + '" class="list-group-item directory">' + json['directory'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a></span>';
 					}
 				}
 
 				if (json['file']) {
 					for (i = 0; i < json['file'].length; i++) {
-						html += '<a href="' + json['file'][i]['path'] + '" class="list-group-item file">' + json['file'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a>';
+						html += '<span><a href="' + json['file'][i]['path'] + '" class="list-group-item file" style="width:90%;float:right">' + json['file'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a><button onclick="bus_translation_editor.restoreFile(\'' + tab + '\', this, \'' + json['file'][i]['path'] + '\');" title="<?php echo $button_restore; ?>" class="btn btn-success" style="width:10%;padding:10px 0;"><i class="fa fa-magic"></i></button></span>';
 					}
 				}
 
@@ -421,13 +428,13 @@ var bus_translation_editor = {
 
 				if (json['directory']) {
 					for (i = 0; i < json['directory'].length; i++) {
-						html += '<a href="' + json['directory'][i]['path'] + '" class="list-group-item directory">' + json['directory'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a>';
+						html += '<span><a href="' + json['directory'][i]['path'] + '" class="list-group-item directory">' + json['directory'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a></span>';
 					}
 				}
 
 				if (json['file']) {
 					for (i = 0; i < json['file'].length; i++) {
-						html += '<a href="' + json['file'][i]['path'] + '" class="list-group-item file">' + json['file'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a>';
+						html += '<span><a href="' + json['file'][i]['path'] + '" class="list-group-item file" style="width:90%;float:right">' + json['file'][i]['name'] + ' <i class="fa fa-arrow-right fa-fw pull-right"></i></a><button onclick="bus_translation_editor.restoreFile(\'' + tab + '\', this, \'' + json['file'][i]['path'] + '\');" title="<?php echo $button_restore; ?>" class="btn btn-success" style="width:10%;padding:10px 0;"><i class="fa fa-magic"></i></button></span>';
 					}
 				}
 
@@ -464,6 +471,34 @@ var bus_translation_editor = {
 					for (var i in json['success']) {
 						bus_translation_editor.addLang(tab, json['success'][i]);
 					}
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	},
+	'restoreFile':function(tab, node, path) {
+		$.ajax({
+			url: 'index.php?route=<?php echo $module_path; ?>/restore&<?php echo $token; ?>&tab=' + tab + '&store_id=' + $('select[name="store_id"]').val() + '&path=' + path,
+			dataType: 'json',
+			beforeSend: function() {
+				$(node).find('i').removeClass('fa-magic');
+				$(node).find('i').addClass('fa-circle-o-notch fa-spin');
+			},
+			complete: function() {
+				$(node).find('i').removeClass('fa-circle-o-notch fa-spin');
+				$(node).find('i').addClass('fa-magic');
+			},
+			success: function(json) {
+				$('.alert-dismissible').remove();
+
+				if (json['error']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '  <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['success']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['success'] + '  <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 				}
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
