@@ -566,7 +566,7 @@ class ControllerExtensionModuleBusTranslationEditor extends Controller {
 				$basename = basename($file);
 				if (pathinfo($basename, PATHINFO_EXTENSION) == 'php') {
 					$path = str_replace($dir, '', $file);
-					$path = ltrim(str_replace(dirname($path, substr_count($path, '/')), '', $path), '/');
+					$path = str_replace(strstr($path, '/', true) . '/', '', $path);
 					foreach ($languages as $language) {
 						foreach ($this->loadLanguage($path, $language['code'], $dir) as $lang) {
 							$md5 = md5($lang['name']);
