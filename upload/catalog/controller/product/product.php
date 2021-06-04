@@ -416,8 +416,8 @@ class ControllerProductProduct extends Controller {
 			foreach($tabresults as $result){
 				$data['product_tabs'][]=array(
 					'product_tab_id' => $result['product_tab_id'],
-					'title'          => $result['heading'],
-					'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+					'title'          => html_entity_decode($result['heading'], ENT_QUOTES, 'UTF-8'),
+					'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')
 				);
 			}
 
