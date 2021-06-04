@@ -158,6 +158,7 @@ class ControllerCommonFileManager extends Controller {
 
 		// Parent
 		$url = '';
+		$url .= '&parent=1';
 
 		if (isset($this->request->get['directory'])) {
 			$pos = strrpos($this->request->get['directory'], '/');
