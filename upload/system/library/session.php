@@ -239,14 +239,9 @@ class Session {
 		} else {
 			$string = 'Set-Cookie: ' . rawurlencode($name) . '=' . rawurlencode($value);
 
-			if (!is_null($expires)) {
-				$string .= '; expires=' . $expires;
-			} else {
-				$string .= '; expires=0';
-			}
-
-			if ($expires) {
-				$string .= '; Max-Age=' . $expires;
+			if ($expires > time()) {
+				$string .= '; expires=' . gmdate('D, d M Y H:i:s \G\M\T', $expires);
+				$string .= '; Max-Age=' . ($expires - time());
 			}
 
 			if ($path) {
