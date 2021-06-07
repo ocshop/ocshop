@@ -111,9 +111,9 @@ class ControllerProductLatest extends Controller {
 			'limit' => $limit
 		);
 
-		$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
-
 		$results = $this->model_catalog_cms->getLatest($filter_data);
+
+		$product_total = count($results);
 
 		foreach ($results as $result) {
 			if ($result['image']) {
