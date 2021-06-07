@@ -1,9 +1,82 @@
 <?php
-// *   Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
-// *   © 2016-2020; BuslikDrev - Усе правы захаваныя.
-// *   Спецыяльна для сайта: "OpenCart.pro" ( https://opencart.pro/ )
+// *   Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
+// *   © 2016-2021; BuslikDrev - Усе правы захаваныя.
+// *   Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ )
+
+if (version_compare(VERSION, '4.0.0', '>=')) {
+	//class ControllerModuleBusMenu extends ControllerExtensionModuleBusMenu {}
+}
+
+if (version_compare(VERSION, '2.2.0', '<')) {
+	class ControllerModuleBusMenu extends ControllerExtensionModuleBusMenu {}
+}
 
 class ControllerExtensionModuleBusMenu extends Controller {
+	private $version_oc = 2.2;
+	private $paths = array();
+
+	public function __construct($foo) {
+		parent::__construct($foo);
+		if (version_compare(VERSION, '3.0.0', '>=')) {
+			$this->version_oc = 3;
+			$this->paths = array(
+				'controller' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'language' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'model' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+					'bus_menu_path' => 'model_extension_module_bus_menu',
+				),
+				'view' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				)
+			);
+		} elseif (version_compare(VERSION, '2.2.0', '>=')) {
+			$this->version_oc = 2.2;
+			$this->paths = array(
+				'controller' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'language' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'model' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+					'bus_menu_path' => 'model_extension_module_bus_menu',
+				),
+				'view' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				)
+			);
+		} else {
+			$this->version_oc = 2;
+			$this->paths = array(
+				'controller' => array(
+					'bus_menu' => 'module/bus_menu',
+				),
+				'language' => array(
+					'bus_menu' => 'module/bus_menu',
+				),
+				'model' => array(
+					'bus_menu' => 'module/bus_menu',
+					'bus_menu_path' => 'model_module_bus_menu',
+				),
+				'view' => array(
+					'bus_menu' => 'module/bus_menu',
+				)
+			);
+		}
+	}
+
+    /* public function event(&$route, &$data, &$output) {
+		if ($route != $this->paths['model']['bus_menu'] . '/ajax' && preg_match_all('/(bus-gmaps[^"]{0,15})/i', $output, $maps)) {
+			$output = str_replace('</body>', $this->index($maps, $route) . "\r\n" . '</body>', $output);
+		}
+    } */
+
 	private function getCats($cats = array(), $setting = array()) {
 		if (!isset($setting['level'])) {
 			$setting['level'] = 1;
@@ -107,7 +180,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 							$cat_info = $cat;
 							unset($cat['title'], $cat['desc'], $cat['name'], $cat['link']);
 						} else {
-							$cat_info = ($setting['seo_then'] ? $this->model_extension_module_bus_menu->getCat($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status)) : false);
+							$cat_info = ($setting['seo_then'] ? $this->{$this->paths['model']['bus_menu_path']}->getCat($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status)) : false);
 						}
 
 						$image_status = (!empty($cat['image_status']) ? $cat['image_status'] : ($setting['group_status'] ? $setting['group_image_status'] : false));
@@ -120,11 +193,11 @@ class ControllerExtensionModuleBusMenu extends Controller {
 						if ($setting['path_status'] && $level_limit < $setting['path_lvl_limit']) {
 							if (!empty($cat['group_status']) || $setting['group_status']) {
 								if ($setting['path_lvl']) {
-									//$children = $this->model_extension_module_bus_menu->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
-									$children = $this->model_extension_module_bus_menu->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => 0, 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
-									$path_new = false;
+									//$children = $this->{$this->paths['model']['bus_menu_path']}->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
+									$children = $this->{$this->paths['model']['bus_menu_path']}->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => 0, 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
+									$path_new = (!empty($cat['path']) ? $cat['path'] . '_' . $cat['category_id'] : $cat['category_id']);
 								} else {
-									$children = $this->model_extension_module_bus_menu->getCats($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
+									$children = $this->{$this->paths['model']['bus_menu_path']}->getCats($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
 									$path_new = (!empty($path) ? $path . '_' . $cat['category_id'] : $cat['category_id']);
 								}
 								$setting['group_status'] = $table;
@@ -141,7 +214,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 							$cover = (!empty($cat['cover']) ? $cat['cover'] : $setting['cover']);
 							$cover_position = (!empty($cat['cover_position']) ? $cat['cover_position'] : $setting['cover_position']);
 							//$column = (!empty($cat['column']) ? $cat['column'] : (!empty($cat_info['column']) ? $cat_info['column'] : 1));
-							if ($setting['type'] >= 2 && $setting['type'] <= 4) {
+							if ($setting['type'] == 2) {
 								$column_lg = (!empty($cat['column_lg']) ? $cat['column_lg'] : 1);
 								$column_md = (!empty($cat['column_md']) ? $cat['column_md'] : 1);
 								$column_sm = (!empty($cat['column_sm']) ? $cat['column_sm'] : 1);
@@ -178,7 +251,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 							$cover = (!empty($cat['cover']) ? $cat['cover'] : $setting['cover']);
 							$cover_position = (!empty($cat['cover_position']) ? $cat['cover_position'] : $setting['cover_position']);
 							//$column = (!empty($cat['column']) ? $cat['column'] : 1);
-							if ($setting['type'] >= 2 && $setting['type'] <= 4) {
+							if ($setting['type'] == 2) {
 								$column_lg = (!empty($cat['column_lg']) ? $cat['column_lg'] : 1);
 								$column_md = (!empty($cat['column_md']) ? $cat['column_md'] : 1);
 								$column_sm = (!empty($cat['column_sm']) ? $cat['column_sm'] : 1);
@@ -218,11 +291,11 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					$description = $cat['description'];
 					if ($setting['path_status'] && $level_limit < $setting['path_lvl_limit'] && $sql_table == 'category') {
 						if ($setting['path_lvl']) {
-							//$children = $this->model_extension_module_bus_menu->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
-							$children = $this->model_extension_module_bus_menu->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => 0, 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
-							$path_new = false;
+							//$children = $this->{$this->paths['model']['bus_menu_path']}->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
+							$children = $this->{$this->paths['model']['bus_menu_path']}->getCatsLevel($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'level' => 0, 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit']));
+							$path_new = (!empty($cat['path']) ? $cat['path'] . '_' . $cat['category_id'] : $cat['category_id']);
 						} else {
-							$children = $this->model_extension_module_bus_menu->getCats($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit'], 'top' => true));
+							$children = $this->{$this->paths['model']['bus_menu_path']}->getCats($cat['category_id'], $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status, 'limit' => $setting['path_limit'], 'top' => true));
 							$path_new = (!empty($path) ? $path . '_' . $cat['category_id'] : $cat['category_id']);
 						}
 					} else {
@@ -233,7 +306,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 						$cover = $setting['cover'];
 						$cover_position = $setting['cover_position'];
 						//$column = (!empty($cat['column']) ? $cat['column'] : 1);
-						if ($setting['type'] >= 2 && $setting['type'] <= 4) {
+						if ($setting['type'] == 2) {
 							$column_lg = (!empty($cat['column_lg']) ? $cat['column_lg'] : 1);
 							$column_md = (!empty($cat['column_md']) ? $cat['column_md'] : 1);
 							$column_sm = (!empty($cat['column_sm']) ? $cat['column_sm'] : 1);
@@ -247,7 +320,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					}
 					$cat_id = $cat['category_id'];
 					$name = $cat['name'];
-					$link = $this->url->link($route, $parameter . '=' . (!empty($cat['path']) ? $cat['path'] . '_' . $cat['category_id'] : $cat['category_id']));
+					$link = $this->url->link($route, $parameter . '=' . (!empty($path) ? $path . '_' : (!empty($cat['path']) ? $cat['path'] . '_' : false)) .  $cat['category_id']);
 				}
 
 				if ($setting['image_status'] && $image_status && $image && is_file(DIR_IMAGE . $image)) {
@@ -278,7 +351,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				if ($setting['rating_count'] && $set_rating_count && ($sql_table == 'blog_category' || $sql_table == 'category' || $sql_table == 'manufacturer')) {
 					$text_rating_count = false;
 					$text_rating_count_total = false;
-					$rating_count = $this->model_extension_module_bus_menu->getRatingCount($cat_id, $sql_table, array('cache' => $setting['cache'], 'rating_count_check' => $setting['rating_count_check']));
+					$rating_count = $this->{$this->paths['model']['bus_menu_path']}->getRatingCount($cat_id, $sql_table, array('cache' => $setting['cache'], 'rating_count_check' => $setting['rating_count_check']));
 					if (is_array($setting['rating_count_check'])) {
 						if (in_array(1, $setting['rating_count_check'])) {
 							$text_rating_count .= "\n" . $this->language->get('text_rating_count_reviews') . ' ' . $rating_count['reviews'];
@@ -299,7 +372,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 						$text_rating_count .= '.';
 					}
 					if ($setting['product_count'] && ($sql_table == 'blog_category' || $sql_table == 'category' || $sql_table == 'manufacturer')) {
-						$text_rating_count_total .= "\n" . ($sql_table == 'blog_category' ? $this->language->get('text_rating_count_article_total') : $this->language->get('text_rating_count_product_total')) . ' ' . $this->model_extension_module_bus_menu->getCount(array('filter_cat_id'  => $cat_id, 'filter_sub_cat' => ($setting['product_count'] == 2 ? false : true)), $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status));
+						$text_rating_count_total .= "\n" . ($sql_table == 'blog_category' ? $this->language->get('text_rating_count_article_total') : $this->language->get('text_rating_count_product_total')) . ' ' . $this->{$this->paths['model']['bus_menu_path']}->getCount(array('filter_cat_id'  => $cat_id, 'filter_sub_cat' => ($setting['product_count'] == 2 ? false : true)), $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status));
 					}
 					$rating_count['text_rating_count'] = html_entity_decode($this->language->get('text_rating_count') . $text_rating_count . "\n" . $text_rating_count_total, ENT_QUOTES, 'UTF-8');
 				} else {
@@ -309,7 +382,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 				if ($setting['price_count'] && $set_price_count && ($sql_table == 'category' || $sql_table == 'manufacturer') && ($this->customer->isLogged() || !$customer_price)) {
 					$price_count = false;
-					$price = $this->model_extension_module_bus_menu->getPriceCount($cat_id, $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status));
+					$price = $this->{$this->paths['model']['bus_menu_path']}->getPriceCount($cat_id, $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status));
 
 					if ($price['min_price'] > 0) {
 						$price_count = ' ' . $this->currency->format($this->tax->calculate($price['min_price'], $tax), $currency);
@@ -321,8 +394,8 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					$price_count = false;
 				}
 
-				$cat_count = ($setting['cat_count'] && ($sql_table == 'blog_category' || $sql_table == 'category' || ($submanufacturers_status ? $sql_table == 'manufacturer' : false)) ? ' (' . $this->model_extension_module_bus_menu->getCatCount($cat_id, $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status)) . ')' : false);
-				$product_count = ($setting['product_count'] && ($sql_table == 'blog_category' || $sql_table == 'category' || $sql_table == 'manufacturer') ? ' (' . $this->model_extension_module_bus_menu->getCount(array('filter_cat_id'  => $cat_id, 'filter_sub_cat' => ($setting['product_count'] == 2 ? false : true)), $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status)) . ')' : false);
+				$cat_count = ($setting['cat_count'] && ($sql_table == 'blog_category' || $sql_table == 'category' || ($submanufacturers_status ? $sql_table == 'manufacturer' : false)) ? ' (' . $this->{$this->paths['model']['bus_menu_path']}->getCatCount($cat_id, $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status)) . ')' : false);
+				$product_count = ($setting['product_count'] && ($sql_table == 'blog_category' || $sql_table == 'category' || $sql_table == 'manufacturer') ? ' (' . $this->{$this->paths['model']['bus_menu_path']}->getCount(array('filter_cat_id'  => $cat_id, 'filter_sub_cat' => ($setting['product_count'] == 2 ? false : true)), $sql_table, array('cache' => $setting['cache'], 'submanufacturers_status' => $submanufacturers_status)) . ')' : false);
 
 				$data_cats = array(
 					'image'            => $image,
@@ -338,6 +411,10 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					'href' 			   => $link
 				);
 
+				if ($setting['type'] == 3) {
+					$data_cats['table'] = $table;
+				}
+
 				if ($level == 1) {
 					if ($setting['cover_status'] && $cover && is_file(DIR_IMAGE . $cover)) {
 						$cover = $this->model_tool_image->resize($cover, $setting['cover_width'], $setting['cover_height']);
@@ -350,7 +427,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 					$data_cats['cover'] = $cover;
 					$data_cats['cover_position'] = $cover_position;
-					$data_cats['description'] = ($setting['desc_status'] && $setting['type'] != 1 ? utf8_substr(strip_tags(html_entity_decode($description, ENT_QUOTES, 'UTF-8')), 0, $setting['desc_limit']) : false);
+					$data_cats['description'] = ($setting['desc_status'] && $setting['type'] != 1 && $setting['type'] != 3 ? utf8_substr(strip_tags(html_entity_decode($description, ENT_QUOTES, 'UTF-8')), 0, $setting['desc_limit']) : false);
 					//$data_cats['column'] = $column;
 					$data_cats['column_lg'] = ($column_lg == 5 ? $column_lg * 4.8 : 12 / $column_lg);
 					$data_cats['column_md'] = ($column_md == 5 ? $column_md * 4.8 : 12 / $column_md);
@@ -373,6 +450,11 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			} else {
 				$cats_vertical_route = null;
 			}
+			if (isset($this->request->post['id_request'])) {
+				$id_request = (int)$this->request->post['id_request'];
+			} else {
+				$id_request = 0;
+			}
 			if (isset($this->request->post['nohost_url'])) {
 				$nohost_url = str_replace('&amp;', '&', preg_replace('/[^A-Z0-9-_:;.\/&?=]/i', '', $this->request->post['nohost_url']));
 			} else {
@@ -383,7 +465,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			} else {
 				$host_url = null;
 			}
-			$this->index(array('get_module_id' => $get_module_id, 'cats_vertical_route' => $cats_vertical_route, 'nohost_url' => $nohost_url, 'host_url' => $host_url));
+			$this->index(array('get_module_id' => $get_module_id, 'cats_vertical_route' => $cats_vertical_route, 'id_request' => $id_request, 'nohost_url' => $nohost_url, 'host_url' => $host_url));
 		} else {
 			$this->load->controller('error/not_found');
 			//exit();
@@ -394,6 +476,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		if (isset($setting['get_module_id'])) {
 			$module_id = $setting['get_module_id'];
 			$cats_vertical_route = $setting['cats_vertical_route'];
+			$id_request = $setting['id_request'];
 			$nohost_url = $setting['nohost_url'];
 			$host_url = $setting['host_url'];
 			$get_module_id = $module_id;
@@ -404,9 +487,9 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			return false;
 		}
 
-		$this->load->model('extension/module/bus_menu');
+		$this->load->model($this->paths['model']['bus_menu']);
 
-		$setting = $this->model_extension_module_bus_menu->getModule($module_id);
+		$setting = $this->{$this->paths['model']['bus_menu_path']}->getModule($module_id);
 
 		$setting_cats['cats_horizontal'] = $setting['cats']['cats_horizontal'];
 		$setting_cats['cats_vertical'] = $setting['cats']['cats_vertical'];
@@ -416,6 +499,18 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 		if (empty($setting['status'])) {
 			return false;
+		}
+
+		if ($setting['debug']) {
+			if ($this->version_oc == 2) {
+				$this->user = new User($this->registry);
+			} else {
+				$this->user = new Cart\User($this->registry);
+			}
+
+			if (!$this->user->isLogged()) {
+				$setting['debug'] = false;
+			}
 		}
 
 		if ($setting['debug']) {
@@ -434,11 +529,19 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			}
 		}
 
-		if ($setting['filter_status'] && $setting['type'] == 2 && isset($this->request->get['path'])) {
-			$id_request = explode('_', (string)$this->request->get['path']);
-			$id_request = array_pop($id_request);
+		if (!isset($id_request)) {
+			if ($setting['filter_status'] && $setting['type'] == 2 && isset($this->request->get['path'])) {
+				$id_request = explode('_', (string)$this->request->get['path']);
+				$id_request = array_pop($id_request);
+			} else {
+				$id_request = 0;
+			}
+		}
+
+		if (isset($this->request->server['HTTP_ACCEPT']) && stripos($this->request->server['HTTP_ACCEPT'], 'image/webp') !== false) {
+		    $webp = true;
 		} else {
-			$id_request = 0;
+		    $webp = false;
 		}
 
 		$language_id = (int)$this->config->get('config_language_id');
@@ -478,7 +581,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 		$data = false;
 		if ($setting['cache'] == 3) {
-			$data = $this->cache->get('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request . $currency . $language_id . $store_id));
+			$data = $this->cache->get('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request . $webp . $currency . $language_id . $store_id));
 		}
 
 		// условие запуска ajax
@@ -558,13 +661,13 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			//$setting['design'] = ($setting['design'] == 'own' ? 'own_' . (int)$setting['design_id'] : (int)$setting['design']);
 			$setting['designoptimiz'] = (isset($setting['designoptimiz']) ? $setting['designoptimiz'] : false);
 			$setting['lg'] = (isset($setting['lg']) ? $setting['lg'] : false);
-			$setting['lg_status'] = (isset($setting['lg_status']) ? $setting['lg_status'] : false);
+			$setting['lg_status'] = (isset($setting['lg_status']) ? $setting['lg_status'] : true);
 			$setting['md'] = (isset($setting['md']) ? $setting['md'] : false);
-			$setting['md_status'] = (isset($setting['md_status']) ? $setting['md_status'] : false);
+			$setting['md_status'] = (isset($setting['md_status']) ? $setting['md_status'] : true);
 			$setting['sm'] = (isset($setting['sm']) ? $setting['sm'] : false);
-			$setting['sm_status'] = (isset($setting['sm_status']) ? $setting['sm_status'] : false);
+			$setting['sm_status'] = (isset($setting['sm_status']) ? $setting['sm_status'] : true);
 			$setting['xs'] = (isset($setting['xs']) ? $setting['xs'] : false);
-			$setting['xs_status'] = (isset($setting['xs_status']) ? $setting['xs_status'] : false);
+			$setting['xs_status'] = (isset($setting['xs_status']) ? $setting['xs_status'] : true);
 			$setting['menu_color'] = (isset($setting['menu_color']) ? $setting['menu_color'] : false);
 			$setting['menu_text_color'] = (isset($setting['menu_text_color']) ? $setting['menu_text_color'] : false);
 			//$setting['cache'] = (isset($setting['cache']) ? $setting['cache'] : false);
@@ -577,7 +680,9 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			//$setting['cat_count'] = (isset($setting['cat_count']) ? $setting['cat_count'] : false);
 			//$setting['product_count'] = $setting['product_count'];
 
-			$this->load->language('extension/module/bus_menu');
+			foreach ($this->load->language($this->paths['language']['bus_menu']) as $key => $lang) {
+				$data[$key] = $lang;
+			}
 
 			if ($setting['site_ico'] == strip_tags(html_entity_decode($setting['site_ico'], ENT_QUOTES, 'UTF-8')) || $setting['cats_vertical_ico'] == strip_tags(html_entity_decode($setting['cats_vertical_ico'], ENT_QUOTES, 'UTF-8')) || $setting['image_status'] || $setting['cover_status']) {
 				$this->load->model('tool/image');
@@ -591,15 +696,22 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				$data['heading_ico'] = html_entity_decode($setting['site_ico'], ENT_QUOTES, 'UTF-8');
 			}
 			$data['heading_ico_position'] = $setting['site_ico_position'];
-			$data['text_show_more'] = $this->language->get('text_show_more');
-			$data['text_hide_more'] = $this->language->get('text_hide_more');
-			$data['text_all'] = $this->language->get('text_all');
 			$data['desc_status'] = $setting['desc_status'];
 
+			$filter_data = array();
+			if (isset($submanufacturers)) {
+				$filter_data['submanufacturers_status'] = true;
+			}
+			$filter_data['cache'] = $setting['cache'];
+			$filter_data['limit'] = 0;
+			if (!$setting['type']) {
+				$filter_data['top'] = true;
+			}
+
 			if ($cats_status && ($setting['type'] ? (!empty($setting_cats['cats_horizontal']) || !empty($setting_cats['cats_vertical']) || !empty($setting_cats['cats_cell'])) : !empty($setting_cats['cats_horizontal']))) {
-				if ($setting['type'] == 1) {
+				if ($setting['type'] == 1 || $setting['type'] == 3) {
 					$cats = $setting_cats['cats_vertical'];
-				} elseif ($setting['type'] >= 2 && $setting['type'] <= 4) {
+				} elseif ($setting['type'] == 2) {
 					$cats = $setting_cats['cats_cell'];
 				} else {
 					$cats = $setting_cats['cats_horizontal'];
@@ -608,9 +720,10 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				$setting['cats_status'] = true;
 			} else {
 				if ($setting['path_lvl']) {
-					$cats = $this->model_extension_module_bus_menu->getCatsLevel($id_request, 'category', array('cache' => $setting['cache'], 'level' => $setting['path_lvl'], 'limit' => $setting['path_limit']));
+					$filter_data['level'] = $setting['path_lvl'];
+					$cats = $this->{$this->paths['model']['bus_menu_path']}->getCatsLevel($id_request, 'category', $filter_data);
 				} else {
-					$cats = $this->model_extension_module_bus_menu->getCats($id_request, 'category', array('cache' => $setting['cache'], 'limit' => $setting['path_limit']));
+					$cats = $this->{$this->paths['model']['bus_menu_path']}->getCats($id_request, 'category', $filter_data);
 				}
 			}
 
@@ -618,7 +731,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				if (!empty($setting_cats['cats_vertical'])) {
 					$cats_vertical = $setting_cats['cats_vertical'];
 				} else {
-					$cats_vertical = $this->model_extension_module_bus_menu->getCats(0, 'information', array('cache' => $setting['cache'], 'top' => true));
+					$cats_vertical = $this->{$this->paths['model']['bus_menu_path']}->getCats(0, 'information', $filter_data);
 				}
 
 				if ($setting['cats_vertical_reverse']) {
@@ -641,7 +754,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 			$cats_cache = array(false);
 			if ($setting['cache'] == 2) {
-				$cats_cache = $this->cache->get('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $currency . $language_id . $store_id));
+				$cats_cache = $this->cache->get('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $webp . $currency . $language_id . $store_id));
 				if (!empty($cats_cache[0])) {
 					$data['cats'] = $cats_cache[0];
 				}
@@ -679,7 +792,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				}
 
 				if ($setting['cache'] == 2) {
-					$this->cache->set('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $currency . $language_id . $store_id), array($data['cats'], $data['cats_vertical']));
+					$this->cache->set('seo_url.bus_menu.cats.' . $module_id . '.' . md5($id_request . $webp . $currency . $language_id . $store_id), array($data['cats'], $data['cats_vertical']));
 				}
 			}
 
@@ -706,11 +819,12 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$data['menu_text_color'] = $setting['menu_text_color'];
 
 			if ($setting['cache'] == 3) {
-				$this->cache->set('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request . $currency . $language_id . $store_id), $data);
+				$this->cache->set('seo_url.bus_menu.module.' . $module_id . '.' . md5($setting_cats['cats_vertical_route'] . $id_request . $webp . $currency . $language_id . $store_id), $data);
 			}
 		}
 
 		$data['module_id'] = $module_id;
+		$data['id_request'] = $id_request;
 		$data['type'] = $setting['type'];
 		$setting['design'] = ($setting['design'] == 'own' ? 'own_' . (int)$setting['design_id'] : (int)$setting['design']);
 		$data['design'] = $setting['design'];
@@ -728,12 +842,20 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		}
 
 		if (!isset($get_module_id)) {
-			$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory'));
+			$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : ($this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') ? $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') : $this->config->get('config_theme')));
+
+			if ($setting['type'] != 1) {
+				if (file_exists(DIR_TEMPLATE . $theme . '/stylesheet/bus_menu/bus_menu.css')) {
+					$this->document->addStyle('catalog/view/theme/' . $theme . '/stylesheet/bus_menu/bus_menu.css' . (isset($setting['version']) ? '?v=' . $setting['version'] : false));
+				} elseif (file_exists(DIR_TEMPLATE . 'default/stylesheet/bus_menu/bus_menu.css')) {
+					$this->document->addStyle('catalog/view/theme/default/stylesheet/bus_menu/bus_menu.css' . (isset($setting['version']) ? '?v=' . $setting['version'] : false));
+				}
+			}
 
 			if (file_exists(DIR_TEMPLATE . $theme . '/stylesheet/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'] . '.css')) {
-				$this->document->addStyle('catalog/view/theme/' . $theme . '/stylesheet/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'] . '.css' . (isset($setting['version']) ? '?v=' . $setting['version'] : false) . (isset($setting['time_save']) ? '&time=' . $setting['time_save'] : false));
+				$this->document->addStyle('catalog/view/theme/' . $theme . '/stylesheet/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'] . '.css' . (isset($setting['version']) ? '?v=' . $setting['version'] : false));
 			} elseif (file_exists(DIR_TEMPLATE . 'default/stylesheet/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'] . '.css')) {
-				$this->document->addStyle('catalog/view/theme/default/stylesheet/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'] . '.css' . (isset($setting['version']) ? '?v=' . $setting['version'] : false) . (isset($setting['time_save']) ? '&time=' . $setting['time_save'] : false));
+				$this->document->addStyle('catalog/view/theme/default/stylesheet/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'] . '.css' . (isset($setting['version']) ? '?v=' . $setting['version'] : false));
 			}
 
 			if ($setting['style']) {
@@ -762,7 +884,9 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				$data['debug_ajax'] = null;
 			}
 
-			$template = $this->view('extension/module/bus_menu/ajax', $data);
+			$data['module_path'] = $this->paths['controller']['bus_menu'];
+
+			$template = $this->view($this->paths['view']['bus_menu'] . '/ajax', $data);
 
 			if ($setting['ajax'] == 1 || $setting['ajax'] == 3) {
 				return $template;
@@ -783,7 +907,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$data['debug'] = null;
 		}
 
-		$template = $this->view('extension/module/bus_menu/bus_menu_' . $setting['type'] .  '_' . $setting['design'], $data);
+		$template = $this->view($this->paths['view']['bus_menu'] . '/bus_menu_' . $setting['type'] .  '_' . $setting['design'], $data);
 
 		if (isset($get_module_id)) {
 			$this->response->setOutput($template);
@@ -797,7 +921,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			return false;
 		}
 
-		if (version_compare(VERSION, '3.0.0', '>=')) {
+		if ($this->version_oc >= 3) {
 			$template_engine = $this->registry->get('config')->get('template_engine');
 			$template_directory = $this->registry->get('config')->get('template_directory');
 			$this->registry->get('config')->set('template_engine', 'template');
@@ -806,7 +930,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			}
 		}
 
-		if (version_compare(VERSION, '2.2.0', '>=')) {
+		if ($this->version_oc >= 2.2) {
 			$template = $this->load->view($route, $data);
 		} else {
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/' . $route . '.tpl')) {
@@ -816,7 +940,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			}
 		}
 
-		if (version_compare(VERSION, '3.0.0', '>=')) {
+		if ($this->version_oc >= 3) {
 			$this->registry->get('config')->set('template_engine', $template_engine);
 			$this->registry->get('config')->set('template_directory', $template_directory);
 		}

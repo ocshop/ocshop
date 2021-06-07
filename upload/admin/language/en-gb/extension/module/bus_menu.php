@@ -4,7 +4,7 @@
 // *   Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ )
 
 // Heading
-$_['heading_title']                         = '<b>blMenu <span style="color:limegreen">Full</span></b> v1.0';
+$_['heading_title']                         = '<b>blMenu <span style="color:blue">Pro</span></b> v' . (isset($this->data['bus_menu_version']) ? $this->data['bus_menu_version'] : '1.0');
 
 // Tab
 $_['tab_setting']                           = 'Settings';
@@ -37,6 +37,7 @@ $_['text_cache_clear']                      = 'Clearing the cache...';
 $_['text_horizontal']                       = 'Horizontal (Menu)';
 $_['text_vertical']                         = 'Vertically (List)';
 $_['text_cell']                             = 'Cell (Showcase)';
+$_['text_filter']                           = 'Filter';
 $_['text_site_name']                        = 'blMenu';
 $_['text_ico']                              = 'Icon';
 $_['text_image']                            = 'Image';
@@ -59,17 +60,18 @@ $_['text_manufacturer']                     = 'Manufacturer';
 $_['text_product']                          = 'Product page';
 $_['text_other']                            = 'Own link';
 $_['text_cats']                             = 'List of links';
-$_['text_design_st']                        = 'Standard (Module Design - Bootstrap 3)';
-$_['text_design_fc']                        = 'NG Features Categories (Избранные категории) 1.1.0';
-$_['text_design_cw']                        = 'Витрина Категорий / Стена категорий v_2.X';
-$_['text_design_sl']                        = 'Сима-ленд';
-$_['text_design_ae']                        = 'AliExpress';
-$_['text_design_yum']                       = 'YUMenu';
-$_['text_design_gifts']                     = 'Gifts';
-$_['text_design_220_volt']                  = '220-volt';
-$_['text_design_onlinetrade']               = 'OnlineTrade';
+$_['text_design_1']                         = 'Standard (Module Design - Bootstrap 3)';
+$_['text_design_2']                         = 'NG Features Categories (Избранные категории) 1.1.0';
+$_['text_design_3']                         = 'Витрина Категорий / Стена категорий v_2.X';
+$_['text_design_4']                         = 'Сима-ленд';
+$_['text_design_5']                         = 'AliExpress';
+$_['text_design_6']                         = 'YUMenu';
+$_['text_design_7']                         = 'Gifts';
+$_['text_design_8']                         = '220-volt';
+$_['text_design_9']                         = 'OnlineTrade';
+$_['text_design_10']                        = 'Disco';
 $_['text_design_own']                       = 'Own design';
-$_['text_design_own_help']                  = 'Create your template based on ready-made with the same name along this path: catalog/view/theme/default/template/module/bus_menu/<b>bus_menu_0_own_1</b>.tpl<br>Create your own style file (if necessary) based on the finished ones with the same name along this path: catalog/view/theme/default/stylesheet/bus_menu/<b>bus_menu_0_own_1</b>.css<br>- where:<br>0 - setting the number of module type: 0 (horizontal), 1 (vertical), 2 (cell);<br>own_1 - id of your design.';
+$_['text_design_own_help']                  = 'Create your template based on ready-made with the same name along this path: catalog/view/theme/default/template/module/bus_menu/<b>bus_menu_0_own_1</b>.tpl<br>Create your own style file (if necessary) based on the finished ones with the same name along this path: catalog/view/theme/default/stylesheet/bus_menu/<b>bus_menu_0_own_1</b>.css<br>- where:<br>0 - setting the number of module type: 0 (horizontal), 1 (vertical), 2 (cell), 3 (filter);<br>own_1 - id of your design.';
 $_['text_design_not']                       = 'Without design';
 $_['text_cache_1']                          = 'SQL-REQUESTS';
 $_['text_cache_2']                          = 'PHP-Arrays';
@@ -82,8 +84,8 @@ $_['text_rating_count_check_1']             = ' Ratings from reviews';
 $_['text_rating_count_check_2']             = ' Number of views';
 $_['text_rating_count_check_3']             = ' Number of Sales';
 $_['text_product_count']                    = 'Current categories only';
-$_['text_author']                           = '';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" target="_blank">BuslikDrev</a> - All rights reserved.';
+$_['text_author']                           = 'Author: <a href="http://buslikdrev.by/" title="Handicraft Products" target="_blank">BuslikDrev</a>. Support: <a href="https://liveopencart.ru/buslikdrev" title="Technical help to solve problems associated with the module" target="_blank">HERE</a>. Support topic: <a href="https://forum.opencart.pro/topic/5750-ыменю-blmenu-максимальная-скорость/" title="Technical help to solve problems associated with the module" target="_blank">HERE</a>.';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" target="_blank">BuslikDrev</a> - All rights reserved.';
 
 // Entry
 $_['entry_type']                            = 'Module type';
@@ -232,11 +234,16 @@ $_['help_product_count']                    = 'Unless the current categories are
 $_['help_debug']                            = 'Debugging the speed of the module is displayed on the frondend. Template loading data may be inaccurate.';
 
 //Button
+$_['button_save']                           = 'Save';
+$_['button_apply']                          = 'Apply';
+$_['button_apply_piecemeal']                = 'Apply in parts';
 $_['button_export']                         = 'Export';
 $_['button_import']                         = 'Import';
 $_['button_files_clear']                    = 'Also delete the module files? - if not, just refresh the page from sin. Report on deletion of files in the logs of modifiers.';
-$_['button_link_add_group']                 = 'Click the button to enable the possibility of group adding categories, that is, adding the selected category with subcategories, if any.';
-$_['button_link_add_group_status']          = 'Click the button to automatically display all subcategories on the frontend, if any. When enabled, manually added categories will not work. Enabling this feature may increase page load time.';
+$_['button_link_add_group']                 = 'Click the button to add the subcategory group, if any.';
+$_['button_link_add_group_status']          = 'Click the button to automatically display all subcategories on the frontend, if any. When the status is enabled, manually added categories will not work. Enabling this function may increase the page load time.';
+$_['button_link_add_groups']                = 'Click the button to add all categories.';
+$_['button_link_level_groups']              = 'Nesting level.';
 
 // Error
 $_['error_permission']                      = 'You do not have permission to make changes!';
@@ -247,8 +254,10 @@ $_['error_uninstall_pro']                   = '<b>Warning!</b> The module is par
 $_['error_name']                            = 'The name must contain from 3 to 64 characters!';
 $_['error_width']                           = 'Specify the Width!';
 $_['error_height']                          = 'Specify Height!';
-$_['error_max_input_vars']                  = '<b>Warning! The %s parameter limit will be exceeded</b>, if exceeded, the data may not be saved. Increase the value on the server or contact the hoster with this request to increase the limit.<br>Server limit: %s <br>Module limit: %s - cutoff %s to avoid data loss<br>Current value: ';
+$_['error_max_input_vars']                  = '<b>Warning! The %s parameter limit will be exceeded</b>, if exceeded, the data may not be saved. Increase the value on the server or contact the hoster with this request to increase the limit. Or use the apply parts button.<br>Server limit: %s <br>Module limit: %s - cutoff %s to avoid data loss<br>Current value: ';
 $_['error_setting_import']                  = 'The file does not contain the module settings, import is denied!';
+$_['error_setting_import_format']           = 'The module does not know about this format, import is denied! - the module sent you softly.';
+$_['error_not_required']                    = 'Not required!';
 
 // Success
 $_['success_install']                       = ' - successfully installed!';

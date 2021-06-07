@@ -3,17 +3,188 @@
 // *   © 2016-2020; BuslikDrev - Усе правы захаваныя.
 // *   Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ )
 
+/*
+                                                             ░░░░░                                                      
+                                                            ▒░    ▒░                                                    
+                                 ▒▒░░                       ▒  ▒▒  ▓                                                    
+                                  ▓████▓▒░▒░░               ▒  ░▒░░▒                                                    
+                                    ▒██████████▒░           ░    ▓▓░                                                    
+                                    ░▒▒▓████▒▒▒▒▓██▒░       ░     █▓                                                    
+                                     ░▓█████▓░     ▒▓█▒     ▒      █                                                    
+                                       ░▒██████▓▒     ▒▓░   ▒       ░                                                   
+                                       ▒██████████▒     ░▓  ▒                                                           
+                                         ▒█████████       ░░ ▒                                                          
+                                           ░▒▓█████         ░▒                                                          
+                                          ▒▓███████▓         ░▒                                                         
+                                              ░▓█▓▒▒▒░░░      ░                                                         
+                                               ░░              ░                                                        
+                                            ░▒                 ░                                                        
+                                           ▓▒▒▒░░░░░░     ░    ░                                                        
+                                           ▒█▒░▓▓▒░  ▒     ░░░                                                          
+                                                     ░░   ▓                                                             
+                                                      ▒  ▓                                                              
+                                                      ▓ ▒░                                                              
+                                                      ▓ ▓                                                               
+                                                      ▓ ▒                                                               
+                                                      ▒░░                                                               
+                                                      ▒▒░                                                               
+                                                      ▒▒░                                                               
+                                                      ▓░░                                                               
+                                                      ▓░▒                                                               
+                                               ████▓ ░▒ ▒           ░▓███                                               
+                                               ▒██████  ▓         ░██████                                               
+                                                 ▒█████▓▓       ░██████░                                                
+                                                   ▒█████▓    ░██████░                                                  
+                                                     ▒█████▒░██████░                                                    
+                                                       ▒█████████░                                                      
+                                                        ▒██▒░███                                                        
+                                                      ░██████████▒                                                      
+                                                    ░██████░ ▓█████▒                                                    
+                                                  ░██████░     ▓█████▒                                                  
+                                                ░██████░         ▓█████▒                                                
+                                              ░██████░             ▓█████▒                                              
+                                            ▒██████░                 ▓█████▒                                            
+                                          ░█████▓░                     ▓█████▒                                          
+                                        ░▓████▓░                         ▓█████▒                                        
+        ▒▒▒▒▒▒░                    ░▒▒▒▓███▓█▓▒       ▒▒▒▒▒▒░              ▓███▓▓░             ▒▒▒                      
+        ████▓███░                  ▓███▓███░███░      ████████░              ▒▒▒▒▒▒           ░███                      
+        ████ ███▓▒██▓ ▓██▒ ▒▓███▓▒ ▓███▒██▓░███░░███░ ███▓ ███▓░███▓██▓░ ▒▓███▓▓░▓██▒ ░███    ░███▓██▓░▒██▓  ▓██▒       
+        ████ ███▒▒███ ███▓▒███░███▒▓██▓▒███░███░███▒  ███▓ ███▓▒███░███▓▒███░███▒▒███ ▒███    ░███░▓██▓ ███░ ███        
+        ███████▒ ▒███ ███▓▒███ ███▒▓██▓▒███░██████▓   ███▓ ███▓▒███ ▓██▓▓███ ███▒ ███ ▓██▒    ░███ ▓██▓ ▓██▒▒██▓        
+        ████ ███▒▒███ ███▓ ▓████▒░ ▓██▓▒███░██████░   ███▓ ███▓▒███     ▓███▓███▒ ███▒███     ░███ ▓██▓ ░███▓██▒        
+        ████ ███▓▒███ ███▓░▒▒▓▓███▒▓██▓▒███░███████   ███▓ ███▓▒███     ▓███░▓▓▓▒ ▒█████▓     ░███ ▓██▓  ▓█████         
+        ████ ███▓▒███ ███▓▓███ ███▒▓██▓▒███░███▒████  ███▓ ███▓▒███     ▓███ ███▒  █████▒     ░███ ▓██▓  ░████▓         
+        ████████░▒███▓███▓░███▓███░▓██▓▒███░███░░███▓ ████████░▒███     ░███▓███░  ▓████  ░███░███▓███▓   ▓███░         
+        ░░░░░░    ░░░░░░░░  ░░░░░  ░▒▒▒▒▒▒▒ ░░░  ░░░░ ░░░░░░    ░░░       ░░░░▒░░░░▒▒░░░   ░░░ ░░ ░░░     ▓███          
+                                      ▒▓▓▓▓▒░                               ░▒▒▓▓▓▒                     ▒▓▓▓▓           
+                                       ░▓████▓░                           ░▓████▓░                                      
+                                         ░▓█████░                       ▒█████▓░                                        
+                                           ░██████░                   ▒█████▓░                                          
+                                             ░██████░               ▒█████▓░                                            
+                                               ░██████░           ▒█████▓░                                              
+                                                 ░██████░       ▒█████▓░                                                
+                                                   ░█████▓░   ▒█████▓░                                                  
+                                                     ░█████▓▒█████▓░                                                    
+                                                       ░████▓███▓░                                                      
+                                                        ▒██▓▒███░                                                       
+                                                      ▒██████████▓░                                                     
+                                                    ▒█████▓░ ▒█████▓░                                                   
+                                                  ▒█████▓░     ▒█████▓░                                                 
+                                                ▒█████▓░         ▒█████▓░                                               
+*/
+
+if (version_compare(VERSION, '4.0.0', '>=')) {
+	//class ControllerModuleBusMenu extends ControllerExtensionModuleBusMenu {}
+}
+
+if (version_compare(VERSION, '2.2.0', '<')) {
+	class ControllerModuleBusMenu extends ControllerExtensionModuleBusMenu {}
+}
+
 class ControllerExtensionModuleBusMenu extends Controller {
 	private $error = array();
 	private $name_arhive = 'blMenu';
 	private $code = '01000046';
 	private $mame = 'ЫМеню - "blMenu"';
-	private $version = '1.0.23.1';
+	private $version = '1.0.29';
 	private $author = 'BuslikDrev.by';
 	private $link = 'https://liveopencart.ru/buslikdrev';
+	private $version_oc = 2.2;
+	private $paths = array();
+
+	public function __construct($foo) {
+		parent::__construct($foo);
+		if (version_compare(VERSION, '3.0.0', '>=')) {
+			$this->language->set('bus_menu_version', $this->version);
+			$this->version_oc = 3;
+			$this->paths = array(
+				'controller' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+					'extension' => 'marketplace/extension',
+					'modification' => 'marketplace/modification',
+				),
+				'language' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'model' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+					'bus_menu_path' => 'model_extension_module_bus_menu',
+					'module' => 'setting/module',
+					'module_path' => 'model_setting_module',
+					'extension' => 'setting/extension',
+					'extension_path' => 'model_setting_extension',
+					'modification' => 'setting/modification',
+					'modification_path' => 'model_setting_modification',
+					'event' => 'setting/event',
+					'event_path' => 'model_setting_event',
+				),
+				'view' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'token' => 'user_token=' . $this->session->data['user_token']
+			);
+		} elseif (version_compare(VERSION, '2.2.0', '>=')) {
+			$this->language->set('bus_menu_version', $this->version);
+			$this->version_oc = 2.2;
+			$this->paths = array(
+				'controller' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+					'extension' => 'extension/extension',
+					'modification' => 'extension/modification',
+				),
+				'language' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'model' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+					'bus_menu_path' => 'model_extension_module_bus_menu',
+					'module' => 'extension/module',
+					'module_path' => 'model_extension_module',
+					'extension' => 'extension/extension',
+					'extension_path' => 'model_extension_extension',
+					'modification' => 'extension/modification',
+					'modification_path' => 'model_extension_modification',
+					'event' => 'extension/event',
+					'event_path' => 'model_extension_event',
+				),
+				'view' => array(
+					'bus_menu' => 'extension/module/bus_menu',
+				),
+				'token' => 'token=' . $this->session->data['token']
+			);
+		} else {
+			$this->version_oc = 2;
+			$this->paths = array(
+				'controller' => array(
+					'bus_menu' => 'module/bus_menu',
+					'extension' => 'extension/module',
+					'modification' => 'extension/modification',
+				),
+				'language' => array(
+					'bus_menu' => 'module/bus_menu',
+				),
+				'model' => array(
+					'bus_menu' => 'module/bus_menu',
+					'bus_menu_path' => 'model_module_bus_menu',
+					'module' => 'extension/module',
+					'module_path' => 'model_extension_module',
+					'extension' => 'extension/extension',
+					'extension_path' => 'model_extension_extension',
+					'modification' => 'extension/modification',
+					'modification_path' => 'model_extension_modification',
+					'event' => 'extension/event',
+					'event_path' => 'model_extension_event',
+				),
+				'view' => array(
+					'bus_menu' => 'module/bus_menu.tpl',
+				),
+				'token' => 'token=' . $this->session->data['token']
+			);
+		}
+	}
 
 	// подмена $this->config->get()
-	private function configGet($module_id = 0) {
+	private function configGet($module_id = 0, $import = true) {
 		$data = null;
 
 		if (!is_numeric($module_id)) {
@@ -22,7 +193,9 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		} else {
 			if (isset($this->session->data['import'])) {
 				$data = $this->session->data['import'];
-				unset($this->session->data['import']);
+				if ($import) {
+					unset($this->session->data['import']);
+				}
 
 				$data['module_id'] = $module_id;
 
@@ -34,7 +207,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$module_id = (int)$this->request->get['module_id'];
 		}
 
-		$setting = $this->model_extension_module_bus_menu->getModule($module_id);
+		$setting = $this->{$this->paths['model']['bus_menu_path']}->getModule($module_id);
 
 		if ($setting) {
 			$data = $setting['setting'];
@@ -116,61 +289,13 @@ class ControllerExtensionModuleBusMenu extends Controller {
 	// устанавливаем шаблон с учётом иерархии
 	private function children_view($data, $setting = array(), $level = 0) {
 		if (empty($data)) {
-			return array();
+			return '<ol class="catAdd dd-list"></ol>';
 		}
 
-		$text_edit = $setting['text_edit'];
-		$text_enabled = $setting['text_enabled'];
-		$text_disabled = $setting['text_disabled'];
-		$text_left = $setting['text_left'];
-		$text_right = $setting['text_right'];
-		$text_top = $setting['text_top'];
-		$text_bottom = $setting['text_bottom'];
-		$text_left_top = $setting['text_left_top'];
-		$text_right_top = $setting['text_right_top'];
-		$text_left_bottom = $setting['text_left_bottom'];
-		$text_right_bottom = $setting['text_right_bottom'];
-
-		$entry_cats_name = $setting['entry_cats_name'];
-		$entry_cats_link = $setting['entry_cats_link'];
-		$entry_cats_title = $setting['entry_cats_title'];
-		$entry_cats_desc = $setting['entry_cats_desc'];
-		$entry_cats_column = $setting['entry_cats_column'];
-		$entry_lg = $setting['entry_lg'];
-		$entry_md = $setting['entry_md'];
-		$entry_sm = $setting['entry_sm'];
-		$entry_status = $setting['entry_status'];
-
-		$help_cats_image = $setting['help_cats_image'];
-		$help_cats_image_position = $setting['help_cats_image_position'];
-		$help_cats_image_status = $setting['help_cats_image_status'];
-		$help_cats_sticker = $setting['help_cats_sticker'];
-		$help_cats_sticker_position = $setting['help_cats_sticker_position'];
-		$help_cats_sticker_status = $setting['help_cats_sticker_status'];
-		$help_cover = $setting['help_cover'];
-		$help_cover_position = $setting['help_cover_position'];
-		$help_cats_name = $setting['help_cats_name'];
-		$help_cats_link = $setting['help_cats_link'];
-		$help_cats_title = $setting['help_cats_title'];
-		$help_cats_desc = $setting['help_cats_desc'];
-		$help_cats_column = $setting['help_cats_column'];
-		$help_lg = $setting['help_lg'];
-		$help_md = $setting['help_md'];
-		$help_sm = $setting['help_sm'];
-
-		$button_delete = $setting['button_delete'];
-		$button_link_add = $setting['button_link_add'];
-		$button_link_add_group = $setting['button_link_add_group'];
-		$button_link_add_group_status = $setting['button_link_add_group_status'];
-
-		$languages = $setting['languages'];
-		$language_id = $setting['language_id'];
-		$placeholder = $setting['placeholder'];
-
 		if (!$level) {
-			$html = '	  <ol class="catAdd dd-list">';
+			$html = '    <ol class="catAdd dd-list">';
 		} else {
-			$html = '	  <ol class="dd-list">';
+			$html = '    <ol class="dd-list">';
 		}
 
 		$level++;
@@ -192,41 +317,49 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				$cat['image_status'] = false;
 			}
 
-			if (empty($cat['image'])) {
+			if (!$setting['image_status'] || empty($cat['image'])) {
 				$cat['image'] = false;
+			}
+
+			if (empty($cat['image_position'])) {
 				$cat['image_position'] = 1;
-				//$cat['image_status'] = false;
 			}
 
 			if (empty($cat['sticker'])) {
 				$cat['sticker'] = false;
+			}
+
+			if (empty($cat['sticker_position'])) {
 				$cat['sticker_position'] = 6;
 			}
 
 			if (empty($cat['cover'])) {
 				$cat['cover'] = false;
+			}
+
+			if (empty($cat['cover_position'])) {
 				$cat['cover_position'] = 8;
 			}
 
 			if ($cat['image'] && is_file(DIR_IMAGE . $cat['image'])) {
 				$cat['thumb'] = $this->model_tool_image->resize($cat['image'], 100, 100);
 			} else {
-				$cat['thumb'] = $placeholder;
+				$cat['thumb'] = $setting['placeholder'];
 			}
 
 			if ($cat['sticker'] && is_file(DIR_IMAGE . $cat['sticker'])) {
 				$cat['thumb_sticker'] = $this->model_tool_image->resize($cat['sticker'], 100, 100);
 			} else {
-				$cat['thumb_sticker'] = $placeholder;
+				$cat['thumb_sticker'] = $setting['placeholder'];
 			}
 
 			if ($cat['cover'] && is_file(DIR_IMAGE . $cat['cover'])) {
 				$cat['thumb_cover'] = $this->model_tool_image->resize($cat['cover'], 100, 100);
 			} else {
-				$cat['thumb_cover'] = $placeholder;
+				$cat['thumb_cover'] = $setting['placeholder'];
 			}
 
-			foreach ($languages as $language) {
+			foreach ($setting['languages'] as $language) {
 				if (empty($cat['name'][$language['language_id']])) {
 					$cat['name'][$language['language_id']] = false;
 				}
@@ -260,113 +393,122 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				$cat['column_sm'] = false;
 			}
 
+			if (empty($cat['column_xs'])) {
+				$cat['column_xs'] = false;
+			}
+
 			if (empty($cat['children'])) {
 				$cat['children'] = false;
 			}
 
 			$row = $cat['row'];
 
-			$html .= '		<li id="cats-' . $row . '" class="dd-item dd3-item" data-id="' . $row . '">';
-			$html .= '		  <div class="dd-handle dd3-handle"></div>';
-			$html .= '		  <div class="dd3-content">';
-			$html .= '			<div class="input-group">';
-			$html .= '			  <input type="text" id="name-stock-' . $row . '" value="' . (isset($cat['name'][$language_id]) ? $cat['name'][$language_id] : '')  . '" placeholder="' . $button_link_add  . '" class="form-control" />';
-			$html .= '			  <input type="hidden" name="cats[' . $row . '][query]" value="' . $cat['query']  . '" placeholder="' . $button_link_add  . '" class="form-control" />';
-			$html .= '			  <input type="hidden" name="cats[' . $row . '][group_status]" value="' . $cat['group_status'] . '" placeholder="' . $entry_status  . '" class="form-control" />';
-			$html .= '			  <input type="hidden" name="cats[' . $row . '][status]" value="' . $cat['status'] . '" placeholder="' . $entry_status  . '" class="form-control" />';
-			$html .= '			  <input type="hidden" name="cats[' . $row . '][image_status]" value="' . $cat['image_status']  . '" placeholder="' . $entry_status  . '" class="form-control" />';
-			$html .= '			  <div class="input-group-btn">';
-			$html .= '				<button type="button" onclick="catDelete(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $button_delete  . '" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
-			//$html .= '				<button type="button" onclick="catAddGroup(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $button_link_add_group  . ' ' . $entry_status  . ' ' . $text_disabled  . '" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>';
+			$html .= '      <li id="cats-' . $row . '" class="dd-item dd3-item" data-id="' . $row . '">';
+			if ($cat['children']) {
+				$html .= '        <button type="button" class="btn btn-default" data-action="collapse">Collapse</button>';
+				$html .= '        <button type="button" class="btn btn-default" data-action="expand" style="display: none;">Expand</button>';
+			}
+			$html .= '        <div class="dd-handle dd3-handle"></div>';
+			$html .= '        <div class="dd3-content">';
+			$html .= '          <div class="input-group">';
+			$html .= '            <input type="text" id="name-stock-' . $row . '" value="' . (isset($cat['name'][$setting['language_id']]) ? $cat['name'][$setting['language_id']] : false)  . '" placeholder="' . $setting['button_link_add']  . '" class="form-control" />';
+			$html .= '            <input type="hidden" name="cats[' . $row . '][query]" value="' . $cat['query']  . '" placeholder="' . $setting['button_link_add']  . '" class="form-control" />';
+			$html .= '            <input type="hidden" name="cats[' . $row . '][group_status]" value="' . $cat['group_status'] . '" placeholder="' . $setting['entry_status']  . '" class="form-control" />';
+			$html .= '            <input type="hidden" name="cats[' . $row . '][status]" value="' . $cat['status'] . '" placeholder="' . $setting['entry_status']  . '" class="form-control" />';
+			$html .= '            <input type="hidden" name="cats[' . $row . '][image_status]" value="' . $cat['image_status']  . '" placeholder="' . $setting['entry_status']  . '" class="form-control" />';
+			$html .= '            <div class="input-group-btn">';
+			$html .= '              <button type="button" onclick="catDelete(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['button_delete']  . '" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>';
+			$html .= '              <button type="button" onclick="catAddGroup(' . $row . ', \'' . $cat['query'] . '\');" title="" data-toggle="tooltip" data-original-title="' . $setting['button_link_add_group']  . '" class="btn btn-primary"><i class="fa fa-sitemap"></i></button>';
 			if ($cat['group_status']) {
-				$html .= '				<button type="button" onclick="catGroupStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $button_link_add_group_status  . ' ' . $entry_status  . ' ' . $text_enabled  . '" class="btn btn-success"><i class="fa fa-sitemap"></i></button>';
+				$html .= '              <button type="button" onclick="catGroupStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['button_link_add_group_status']  . ' ' . $setting['entry_status']  . ' ' . $setting['text_enabled']  . '" class="btn btn-success"><i class="fa fa-sitemap"></i></button>';
 			} else {
-				$html .= '				<button type="button" onclick="catGroupStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $button_link_add_group_status  . ' ' . $entry_status  . ' ' . $text_disabled  . '" class="btn btn-danger"><i class="fa fa-sitemap"></i></button>';
+				$html .= '              <button type="button" onclick="catGroupStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['button_link_add_group_status']  . ' ' . $setting['entry_status']  . ' ' . $setting['text_disabled']  . '" class="btn btn-danger"><i class="fa fa-sitemap"></i></button>';
 			}
 			if ($cat['status']) {
-				$html .= '				<button type="button" onclick="catStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $entry_status  . ' ' . $text_enabled  . '" class="btn btn-default"><i class="fa fa-pause"></i></button>';
+				$html .= '              <button type="button" onclick="catStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['entry_status']  . ' ' . $setting['text_enabled']  . '" class="btn btn-default"><i class="fa fa-pause"></i></button>';
 			} else {
-				$html .= '				<button type="button" onclick="catStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $entry_status  . ' ' . $text_disabled  . '" class="btn btn-default"><i class="fa fa-play"></i></button>';
+				$html .= '              <button type="button" onclick="catStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['entry_status']  . ' ' . $setting['text_disabled']  . '" class="btn btn-default"><i class="fa fa-play"></i></button>';
 			}
 			if ($cat['image_status']) {
-				$html .= '				<button type="button" onclick="catImageStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $help_cats_image_status  . ' ' . $text_enabled  . '" class="btn btn-success"><i class="fa fa-image"></i></button>';
+				$html .= '              <button type="button" onclick="catImageStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['help_cats_image_status']  . ' ' . $setting['text_enabled']  . '" class="btn btn-success"><i class="fa fa-image"></i></button>';
 			} else {
-				$html .= '				<button type="button" onclick="catImageStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $help_cats_image_status  . ' ' . $text_disabled  . '" class="btn btn-danger"><i class="fa fa-image"></i></button>';
+				$html .= '              <button type="button" onclick="catImageStatus(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['help_cats_image_status']  . ' ' . $setting['text_disabled']  . '" class="btn btn-danger"><i class="fa fa-image"></i></button>';
 			}
-			$html .= '				<button type="button" onclick="catEdit(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $text_edit  . '" class="btn btn-success"><i class="fa fa-cogs"></i></button>';
-			$html .= '				<div id="image-' . $row . '" title="' . $help_cats_image  . '" data-toggle="tooltip" style="display:inline-block;">';
-			$html .= '				<a href="" id="thumb-image-' . $row . '" data-toggle="image" class="img-thumbnail text-center">';
-			$html .= '				  <img src="' . $cat['thumb']  . '" alt="" title="" data-placeholder="' . $placeholder  . '" style="height:26px;">';
-			$html .= '				</a>';
-			$html .= '				<input type="hidden" name="cats[' . $row . '][image]" value="' . $cat['image']  . '" data-placeholder="' . $placeholder  . '" id="input-image-' . $row . '">';
-			$html .= '				</div>';
-			$html .= '				<select name="cats[' . $row . '][image_position]" class="form-control" title="' . $help_cats_image_position  . '" data-toggle="tooltip" style="display:none;">';
-			$html .= '        		  <option value="1"' . ($cat['image_position'] == '1' ? ' selected="selected"' : false) . '>' . $text_left . '</option>';
-			$html .= '		  		  <option value="2"' . ($cat['image_position'] == '2' ? ' selected="selected"' : false) . '>' . $text_right . '</option>';
-			$html .= '				</select>';
-			$html .= '				<div id="sticker-' . $row . '" title="' . $help_cats_sticker  . '" data-toggle="tooltip" style="display:inline-block;">';
-			$html .= '				<a href="" id="thumb-sticker-' . $row . '" data-toggle="image" class="img-thumbnail text-center">';
-			$html .= '				  <img src="' . $cat['thumb_sticker']  . '" alt="" title="" data-placeholder="' . $placeholder  . '" style="height:26px;">';
-			$html .= '				</a>';
-			$html .= '				<input type="hidden" name="cats[' . $row . '][sticker]" value="' . $cat['sticker']  . '" data-placeholder="' . $placeholder  . '" id="input-sticker-' . $row . '">';
-			$html .= '				</div>';
-			$html .= '				<select name="cats[' . $row . '][sticker_position]" class="form-control" title="' . $help_cats_sticker_position  . '" data-toggle="tooltip" style="display:none;">';
-			$html .= '        		  <option value="1"' . ($cat['sticker_position'] == '1' ? ' selected="selected"' : false) . '>' . $text_left . '</option>';
-			$html .= '		  		  <option value="2"' . ($cat['sticker_position'] == '2' ? ' selected="selected"' : false) . '>' . $text_right . '</option>';
-			$html .= '	      		  <option value="3"' . ($cat['sticker_position'] == '3' ? ' selected="selected"' : false) . '>' . $text_top . '</option>';
-			$html .= '		  		  <option value="4"' . ($cat['sticker_position'] == '4' ? ' selected="selected"' : false) . '>' . $text_bottom . '</option>';
-			$html .= '		  		  <option value="5"' . ($cat['sticker_position'] == '5' ? ' selected="selected"' : false) . '>' . $text_left_top . '</option>';
-			$html .= '		  		  <option value="6"' . ($cat['sticker_position'] == '6' ? ' selected="selected"' : false) . '>' . $text_right_top . '</option>';
-			$html .= '		  		  <option value="7"' . ($cat['sticker_position'] == '7' ? ' selected="selected"' : false) . '>' . $text_left_bottom . '</option>';
-			$html .= '		  		  <option value="8"' . ($cat['sticker_position'] == '8' ? ' selected="selected"' : false) . '>' . $text_right_bottom . '</option>';
-			$html .= '				</select>';
-			$html .= '				<div id="cover-' . $row . '" title="' . $help_cover  . '" data-toggle="tooltip" class="cover" style="display:none;">';
-			$html .= '				<a href="" id="thumb-cover-' . $row . '" data-toggle="image" class="img-thumbnail text-center">';
-			$html .= '				  <img src="' . $cat['thumb_cover']  . '" alt="" title="" data-placeholder="' . $placeholder  . '" style="height:100px;">';
-			$html .= '				</a>';
-			$html .= '				<input type="hidden" name="cats[' . $row . '][cover]" value="' . $cat['cover']  . '" data-placeholder="' . $placeholder  . '" id="input-cover-' . $row . '" disabled="disabled">';
-			$html .= '				</div>';
-			$html .= '				<select name="cats[' . $row . '][cover_position]" class="form-control cover" title="' . $help_cover_position  . '" data-toggle="tooltip" style="display:none;" disabled="disabled">';
-			$html .= '        		  <option value="1"' . ($cat['cover_position'] == '1' ? ' selected="selected"' : false) . '>' . $text_left . '</option>';
-			$html .= '		  		  <option value="2"' . ($cat['cover_position'] == '2' ? ' selected="selected"' : false) . '>' . $text_right . '</option>';
-			$html .= '	      		  <option value="3"' . ($cat['cover_position'] == '3' ? ' selected="selected"' : false) . '>' . $text_top . '</option>';
-			$html .= '		  		  <option value="4"' . ($cat['cover_position'] == '4' ? ' selected="selected"' : false) . '>' . $text_bottom . '</option>';
-			$html .= '		  		  <option value="5"' . ($cat['cover_position'] == '5' ? ' selected="selected"' : false) . '>' . $text_left_top . '</option>';
-			$html .= '		  		  <option value="6"' . ($cat['cover_position'] == '6' ? ' selected="selected"' : false) . '>' . $text_right_top . '</option>';
-			$html .= '		  		  <option value="7"' . ($cat['cover_position'] == '7' ? ' selected="selected"' : false) . '>' . $text_left_bottom . '</option>';
-			$html .= '		  		  <option value="8"' . ($cat['cover_position'] == '8' ? ' selected="selected"' : false) . '>' . $text_right_bottom . '</option>';
-			$html .= '				</select>';
-			$html .= '			  </div>';
-			$html .= '			</div>';
-			$html .= '			<div id="cats-desc-' . $row . '" class="collapse">';
-			$html .= '			  <ul class="nav nav-tabs language" id="language-' . $row . '">';
-			foreach ($languages as $language) {
-				$html .= '				<li><a href="#language-' . $language['language_id']  . '-' . $row . '" data-toggle="tab"><img src="' . (version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png')  . '" title="' . $language['name']  . '" /> ' . $language['name']  . '</a></li>';
+			$html .= '              <button type="button" onclick="catEdit(' . $row . ');" title="" data-toggle="tooltip" data-original-title="' . $setting['text_edit']  . '" class="btn btn-success"><i class="fa fa-cogs"></i></button>';
+			$html .= '              <div id="image-' . $row . '" title="' . $setting['help_cats_image']  . '" data-toggle="tooltip" style="display:inline-block;">';
+			$html .= '                <a href="" id="thumb-image-' . $row . '" data-toggle="image" class="img-thumbnail text-center">';
+			$html .= '                  <img src="' . $cat['thumb']  . '" alt="" title="" data-placeholder="' . $setting['placeholder']  . '" style="height:26px;">';
+			$html .= '                </a>';
+			$html .= '                <input type="hidden" name="cats[' . $row . '][image]" value="' . $cat['image']  . '" data-placeholder="' . $setting['placeholder']  . '" id="input-image-' . $row . '">';
+			$html .= '                <select name="cats[' . $row . '][image_position]" class="form-control" title="' . $setting['help_cats_image_position']  . '" data-toggle="tooltip" style="display:none;">';
+			$html .= '                  <option value="1"' . ($cat['image_position'] == '1' ? ' selected="selected"' : false) . '>' . $setting['text_left'] . '</option>';
+			$html .= '                  <option value="2"' . ($cat['image_position'] == '2' ? ' selected="selected"' : false) . '>' . $setting['text_right'] . '</option>';
+			$html .= '                </select>';
+			$html .= '              </div>';
+			$html .= '              <div id="sticker-' . $row . '" title="' . $setting['help_cats_sticker']  . '" data-toggle="tooltip" style="display:inline-block;">';
+			$html .= '                <a href="" id="thumb-sticker-' . $row . '" data-toggle="image" class="img-thumbnail text-center">';
+			$html .= '                  <img src="' . $cat['thumb_sticker']  . '" alt="" title="" data-placeholder="' . $setting['placeholder']  . '" style="height:26px;">';
+			$html .= '                </a>';
+			$html .= '                <input type="hidden" name="cats[' . $row . '][sticker]" value="' . $cat['sticker']  . '" data-placeholder="' . $setting['placeholder']  . '" id="input-sticker-' . $row . '">';
+			$html .= '                <select name="cats[' . $row . '][sticker_position]" class="form-control" title="' . $setting['help_cats_sticker_position']  . '" data-toggle="tooltip" style="display:none;">';
+			$html .= '                  <option value="1"' . ($cat['sticker_position'] == '1' ? ' selected="selected"' : false) . '>' . $setting['text_left'] . '</option>';
+			$html .= '                  <option value="2"' . ($cat['sticker_position'] == '2' ? ' selected="selected"' : false) . '>' . $setting['text_right'] . '</option>';
+			$html .= '                  <option value="3"' . ($cat['sticker_position'] == '3' ? ' selected="selected"' : false) . '>' . $setting['text_top'] . '</option>';
+			$html .= '                  <option value="4"' . ($cat['sticker_position'] == '4' ? ' selected="selected"' : false) . '>' . $setting['text_bottom'] . '</option>';
+			$html .= '                  <option value="5"' . ($cat['sticker_position'] == '5' ? ' selected="selected"' : false) . '>' . $setting['text_left_top'] . '</option>';
+			$html .= '                  <option value="6"' . ($cat['sticker_position'] == '6' ? ' selected="selected"' : false) . '>' . $setting['text_right_top'] . '</option>';
+			$html .= '                  <option value="7"' . ($cat['sticker_position'] == '7' ? ' selected="selected"' : false) . '>' . $setting['text_left_bottom'] . '</option>';
+			$html .= '                  <option value="8"' . ($cat['sticker_position'] == '8' ? ' selected="selected"' : false) . '>' . $setting['text_right_bottom'] . '</option>';
+			$html .= '                </select>';
+			$html .= '              </div>';
+			$html .= '              <div id="cover-' . $row . '" title="' . $setting['help_cover']  . '" data-toggle="tooltip" class="cover" style="display:none;">';
+			$html .= '                <a href="" id="thumb-cover-' . $row . '" data-toggle="image" class="img-thumbnail text-center">';
+			$html .= '                  <img src="' . $cat['thumb_cover']  . '" alt="" title="" data-placeholder="' . $setting['placeholder']  . '" style="height:100px;">';
+			$html .= '                </a>';
+			$html .= '                <input type="hidden" name="cats[' . $row . '][cover]" value="' . $cat['cover']  . '" data-placeholder="' . $setting['placeholder']  . '" id="input-cover-' . $row . '" disabled="disabled">';
+			$html .= '                <select name="cats[' . $row . '][cover_position]" class="form-control cover" title="' . $setting['help_cover_position']  . '" data-toggle="tooltip" style="display:none;" disabled="disabled">';
+			$html .= '                  <option value="1"' . ($cat['cover_position'] == '1' ? ' selected="selected"' : false) . '>' . $setting['text_left'] . '</option>';
+			$html .= '                  <option value="2"' . ($cat['cover_position'] == '2' ? ' selected="selected"' : false) . '>' . $setting['text_right'] . '</option>';
+			$html .= '                  <option value="3"' . ($cat['cover_position'] == '3' ? ' selected="selected"' : false) . '>' . $setting['text_top'] . '</option>';
+			$html .= '                  <option value="4"' . ($cat['cover_position'] == '4' ? ' selected="selected"' : false) . '>' . $setting['text_bottom'] . '</option>';
+			$html .= '                  <option value="5"' . ($cat['cover_position'] == '5' ? ' selected="selected"' : false) . '>' . $setting['text_left_top'] . '</option>';
+			$html .= '                  <option value="6"' . ($cat['cover_position'] == '6' ? ' selected="selected"' : false) . '>' . $setting['text_right_top'] . '</option>';
+			$html .= '                  <option value="7"' . ($cat['cover_position'] == '7' ? ' selected="selected"' : false) . '>' . $setting['text_left_bottom'] . '</option>';
+			$html .= '                  <option value="8"' . ($cat['cover_position'] == '8' ? ' selected="selected"' : false) . '>' . $setting['text_right_bottom'] . '</option>';
+			$html .= '                </select>';
+			$html .= '              </div>';
+			$html .= '            </div>';
+			$html .= '          </div>';
+			$html .= '          <div id="cats-desc-' . $row . '" class="collapse">';
+			$html .= '            <ul class="nav nav-tabs language" id="language-' . $row . '">';
+			foreach ($setting['languages'] as $language) {
+				$html .= '              <li><a href="#language-' . $language['language_id']  . '-' . $row . '" data-toggle="tab"><img src="' . (version_compare(VERSION, '2.2.0.0', '<') ? 'view/image/flags/' . $language['image'] : 'language/' . $language['code'] . '/' . $language['code'] . '.png')  . '" title="' . $language['name']  . '" /> ' . $language['name']  . '</a></li>';
 			}
-			$html .= '			  </ul>';
-			$html .= '			  <div class="tab-content">';
-			foreach ($languages as $language) {
-				$html .= '				<div class="tab-pane" id="language-' . $language['language_id']  . '-' . $row . '">';
-				$html .= '				  <span title="' . $help_cats_name  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][name][' . $language['language_id']  . ']" value="' . $cat['name'][$language['language_id']]  . '" placeholder="' . $entry_cats_name  . '" class="form-control" /></span>';
-				$html .= '				  <span title="' . $help_cats_link  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][link][' . $language['language_id']  . ']" value="' . $cat['link'][$language['language_id']]  . '" placeholder="' . $entry_cats_link  . '" class="form-control" /></span>';
-				$html .= '				  <span title="' . $help_cats_title  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][title][' . $language['language_id']  . ']" value="' . $cat['title'][$language['language_id']]  . '" placeholder="' . $entry_cats_title  . '" class="form-control" /></span>';
-				$html .= '				  <span title="' . $help_cats_desc  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][desc][' . $language['language_id']  . ']" value="' . $cat['desc'][$language['language_id']]  . '" placeholder="' . $entry_cats_desc  . '" class="form-control" /></span>';
-				$html .= '				</div>';
+			$html .= '            </ul>';
+			$html .= '            <div class="tab-content">';
+			foreach ($setting['languages'] as $language) {
+				$html .= '              <div class="tab-pane" id="language-' . $language['language_id']  . '-' . $row . '">';
+				$html .= '                <span title="' . $setting['help_cats_name']  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][name][' . $language['language_id']  . ']" value="' . $cat['name'][$language['language_id']]  . '" placeholder="' . $setting['entry_cats_name']  . '" class="form-control" /></span>';
+				$html .= '                <span title="' . $setting['help_cats_link']  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][link][' . $language['language_id']  . ']" value="' . $cat['link'][$language['language_id']]  . '" placeholder="' . $setting['entry_cats_link']  . '" class="form-control" /></span>';
+				$html .= '                <span title="' . $setting['help_cats_title']  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][title][' . $language['language_id']  . ']" value="' . $cat['title'][$language['language_id']]  . '" placeholder="' . $setting['entry_cats_title']  . '" class="form-control" /></span>';
+				$html .= '                <span title="' . $setting['help_cats_desc']  . '" data-toggle="tooltip"><input type="text" name="cats[' . $row . '][desc][' . $language['language_id']  . ']" value="' . $cat['desc'][$language['language_id']]  . '" placeholder="' . $setting['entry_cats_desc']  . '" class="form-control" /></span>';
+				$html .= '              </div>';
 			}
-			$html .= '				<div class="row">';
-			$html .= '				  <div title="' . $help_lg  . ' ' . $help_cats_column . '" data-toggle="tooltip" class="col-sm-4"><input type="text" name="cats[' . $row . '][column_lg]" value="' . $cat['column_lg']  . '" placeholder="' . $entry_lg  . '" class="form-control" /></div>';
-			$html .= '				  <div title="' . $help_md  . ' ' . $help_cats_column . '" data-toggle="tooltip" class="col-sm-4"><input type="text" name="cats[' . $row . '][column_md]" value="' . $cat['column_md']  . '" placeholder="' . $entry_md  . '" class="form-control" /></div>';
-			$html .= '				  <div title="' . $help_sm  . ' ' . $help_cats_column . '" data-toggle="tooltip" class="col-sm-4"><input type="text" name="cats[' . $row . '][column_sm]" value="' . $cat['column_sm']  . '" placeholder="' . $entry_sm  . '" class="form-control" /></div>';
-			$html .= '				</div>';
-			$html .= '			  </div>';
-			$html .= '			</div>';
-			$html .= '		  </div>';
+			$html .= '              <div class="row">';
+			$html .= '                <div title="' . $setting['help_lg']  . ' ' . $setting['help_cats_column'] . '" data-toggle="tooltip" class="col-sm-3"><input type="text" name="cats[' . $row . '][column_lg]" value="' . $cat['column_lg']  . '" placeholder="' . $setting['entry_lg']  . '" class="form-control" /></div>';
+			$html .= '                <div title="' . $setting['help_md']  . ' ' . $setting['help_cats_column'] . '" data-toggle="tooltip" class="col-sm-3"><input type="text" name="cats[' . $row . '][column_md]" value="' . $cat['column_md']  . '" placeholder="' . $setting['entry_md']  . '" class="form-control" /></div>';
+			$html .= '                <div title="' . $setting['help_sm']  . ' ' . $setting['help_cats_column'] . '" data-toggle="tooltip" class="col-sm-3"><input type="text" name="cats[' . $row . '][column_sm]" value="' . $cat['column_sm']  . '" placeholder="' . $setting['entry_sm']  . '" class="form-control" /></div>';
+			$html .= '                <div title="' . $setting['help_xs']  . ' ' . $setting['help_cats_column'] . '" data-toggle="tooltip" class="col-sm-3"><input type="text" name="cats[' . $row . '][column_xs]" value="' . $cat['column_xs']  . '" placeholder="' . $setting['entry_xs']  . '" class="form-control" /></div>';
+			$html .= '              </div>';
+			$html .= '            </div>';
+			$html .= '          </div>';
+			$html .= '        </div>';
 			if ($cat['children']) {
-				$html .=			$this->children_view($cat['children'], $setting, $level);
+				$html .=        $this->children_view($cat['children'], $setting, $level);
 			}
-			$html .= '		</li>';
+			$html .= '      </li>';
 		}
-		$html .= '	  </ol>';
+		$html .= '    </ol>';
 
 		return $html;
 	}
@@ -476,6 +618,10 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					$cats_data['column_sm'] = $result['column_sm'];
 				}
 
+				if (!empty($result['column_xs'])) {
+					$cats_data['column_xs'] = $result['column_xs'];
+				}
+
 				if (!empty($cat['children'])) {
 					$cats_data['children'] = $this->children($cat['children'], $cats, $seo_now);
 				}
@@ -500,7 +646,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		$this->deleteFile($name, $format);
 
 		if ($value) {
-			$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory'));
+			$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : ($this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') ? $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') : $this->config->get('config_theme')));
 
 			if ($format == 'css') {
 				$path = DIR_CATALOG . 'view/theme/' . $theme . '/stylesheet/bus_menu/bus_menu_';
@@ -519,9 +665,11 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					mkdir(str_replace('/bus_menu_', '', $path), 0755);
 				}
 			} elseif ($format == 'tpl') {
-				$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/extension/module/bus_menu/bus_menu_';
+				$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/' . $this->paths['controller']['bus_menu'] . '/bus_menu_';
 			} elseif ($format == 'twig') {
-				$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/extension/module/bus_menu/bus_menu_';
+				$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/' . $this->paths['controller']['bus_menu'] . '/bus_menu_';
+			} elseif (in_array($format, array('jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'json'))) {
+				$path = DIR_IMAGE . 'catalog/bus_menu/';
 			} else {
 				$path = DIR_SYSTEM . ($name == 'library' ? 'library/' : false) . 'bus_menu.ocmod';
 			}
@@ -543,16 +691,18 @@ class ControllerExtensionModuleBusMenu extends Controller {
 	}
 
 	private function deleteFile($name, $format = 'xml') {
-		$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory'));
+		$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : ($this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') ? $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') : $this->config->get('config_theme')));
 
 		if ($format == 'css') {
 			$path = DIR_CATALOG . 'view/theme/' . $theme . '/stylesheet/bus_menu/bus_menu_';
 		} elseif ($format == 'js') {
 			$path = DIR_CATALOG . 'view/theme/' . $theme . '/javascript/bus_menu/bus_menu_';
 		} elseif ($format == 'tpl') {
-			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/extension/module/bus_menu/bus_menu_';
+			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/' . $this->paths['controller']['bus_menu'] . '/bus_menu_';
 		} elseif ($format == 'twig') {
-			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/extension/module/bus_menu/bus_menu_';
+			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/' . $this->paths['controller']['bus_menu'] . '/bus_menu_';
+		} elseif (in_array($format, array('jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'json'))) {
+			$path = DIR_IMAGE . 'catalog/bus_menu/';
 		} else {
 			$path = DIR_SYSTEM . ($name == 'library' ? 'library/' : false) . 'bus_menu.ocmod';
 		}
@@ -570,16 +720,18 @@ class ControllerExtensionModuleBusMenu extends Controller {
 	}
 
 	private function getFile($name = false, $format = 'xml') {
-		$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory'));
+		$theme = ($this->config->get('config_template') ? $this->config->get('config_template') : ($this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') ? $this->config->get('theme_' . str_replace('theme_', '', $this->config->get('config_theme')) . '_directory') : $this->config->get('config_theme')));
 
 		if ($format == 'css') {
 			$path = DIR_CATALOG . 'view/theme/' . $theme . '/stylesheet/bus_menu/bus_menu_';
 		} elseif ($format == 'js') {
 			$path = DIR_CATALOG . 'view/theme/' . $theme . '/javascript/bus_menu/bus_menu_';
 		} elseif ($format == 'tpl') {
-			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/extension/module/bus_menu/bus_menu_';
+			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/' . $this->paths['controller']['bus_menu'] . '/bus_menu_';
 		} elseif ($format == 'twig') {
-			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/extension/module/bus_menu/bus_menu_';
+			$path = DIR_CATALOG . 'view/theme/' . $theme . '/template/' . $this->paths['controller']['bus_menu'] . '/bus_menu_';
+		} elseif (in_array($format, array('jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'json'))) {
+			$path = DIR_IMAGE . 'catalog/bus_menu/';
 		} else {
 			$path = DIR_SYSTEM . ($name == 'library' ? 'library/' : false) . 'bus_menu.ocmod';
 		}
@@ -606,10 +758,10 @@ class ControllerExtensionModuleBusMenu extends Controller {
 	}
 
 	public function export() {
-		$this->load->language('extension/module/bus_menu');
+		$this->load->language($this->paths['language']['bus_menu']);
 
 		if ($this->validate()) {
-			$this->load->model('extension/module/bus_menu');
+			$this->load->model($this->paths['model']['bus_menu']);
 
 			$module_id = (isset($this->request->get['module_id']) ? $this->request->get['module_id'] : 0);
 
@@ -627,12 +779,12 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		} else {
 			$this->session->data['warning'] = $this->language->get('error_permission');
 
-			$this->response->redirect($this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true));
+			$this->response->redirect($this->url->link($this->paths['controller']['bus_menu'], $this->paths['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true));
 		}
 	}
 
 	public function import() {
-		$this->load->language('extension/module/bus_menu');
+		$this->load->language($this->paths['language']['bus_menu']);
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			if (is_uploaded_file($this->request->files['import']['tmp_name'])) {
@@ -669,7 +821,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		} else {
 			$this->session->data['warning'] = $this->language->get('error_permission');
 
-			$this->response->redirect($this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true));
+			$this->response->redirect($this->url->link($this->paths['controller']['bus_menu'], $this->paths['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true));
 		}
 	}
 
@@ -730,12 +882,82 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		return $data;
 	}
 
+	/* private function postArray($posts, $posts2) {
+		foreach ($posts2 as $key => $post) {
+			if (is_array($post)) {
+				foreach ($post as $k => $p) {
+					$post_data[$key][$k] = $p;
+				}
+			} else {
+				$post_data[$key] = $post;
+			}
+		}
+	} */
+
 	public function index() {
-		foreach ($this->load->language('extension/module/bus_menu') as $key => $lang) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate() && isset($this->request->post['apply'])) {
+			if ($this->request->post['apply'] == 2 || $this->request->post['apply'] == 3) {
+				$post_data = array();
+
+				$posts = $this->cache->get('bus_menu.apply_piecemeal');
+
+				if ($posts) {
+					foreach ($posts as $key => $post) {
+						if (is_array($post)) {
+							foreach ($post as $k => $p) {
+								if (is_array($p)) {
+									foreach ($p as $k2 => $p2) {
+										$post_data[$key][$k][$k2] = $p2;
+									}
+								} else {
+									$post_data[$key][$k] = $p;
+								}
+							}
+						} else {
+							$post_data[$key] = $post;
+						}
+					}
+
+					foreach ($this->request->post as $key => $post) {
+						if (is_array($post)) {
+							foreach ($post as $k => $p) {
+								if (is_array($p)) {
+									foreach ($p as $k2 => $p2) {
+										$post_data[$key][$k][$k2] = $p2;
+									}
+								} else {
+									$post_data[$key][$k] = $p;
+								}
+							}
+						} else {
+							$post_data[$key] = $post;
+						}
+					}
+				} else {
+					$post_data = $this->request->post;
+				}
+
+				if ($this->request->post['apply'] == 3) {
+					$this->request->post = $post_data;
+					if (isset($this->request->post['module_id']) && $this->request->post['module_id']) {
+						$this->request->get['module_id'] = $this->request->post['module_id'];
+					}
+					$this->cache->delete('bus_menu.apply_piecemeal');
+				} else {
+					$cache = new Cache('file', 60);
+					$cache->set('bus_menu.apply_piecemeal', $post_data);
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode(array(), JSON_HEX_AMP));
+					exit();
+				}
+			}
+		}
+
+		foreach ($this->load->language($this->paths['language']['bus_menu']) as $key => $lang) {
 			$data[$key] = $lang;
 		}
 
-		$this->load->model('extension/module/bus_menu');
+		$this->load->model($this->paths['model']['bus_menu']);
 
 		$this->load->model('design/layout');
 
@@ -755,6 +977,12 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		$data['languages'] = $this->model_localisation_language->getLanguages();
 
 		$language_id = $this->config->get('config_language_id');
+
+		$data['stores'] = $this->model_setting_store->getStores();
+
+		$data['token'] = $this->paths['token'];
+
+		$data['module_path'] = $this->paths['controller']['bus_menu'];
 
 		if (isset($this->request->post['seo_now'])) {
 			$seo_now = $this->request->post['seo_now'];
@@ -789,16 +1017,15 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		}
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-			$this->request->post['version'] = $this->version;
-			$this->request->post['time_save'] = time();
-
-			if (isset($this->request->post['apply'])) {
-				$apply = $this->request->post['apply'];
+			if (isset($this->request->post['apply']) && !empty($this->request->post['apply'])) {
+				$apply = true;
+				unset($this->request->post['apply']);
 			} else {
 				$apply = false;
 			}
 
-			unset($this->request->post['apply']);
+			$this->request->post['version'] = $this->version;
+			$this->request->post['time_save'] = time();
 
 			$cats = array();
 
@@ -865,6 +1092,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 				}
 			}
 
+			//$this->cache->delete('*');
 			$this->cache->delete('blog_category');
 			//$this->cache->delete('blog_article');
 			$this->cache->delete('article');
@@ -877,17 +1105,17 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$this->cache->delete('bus_menu');
 
 			if (!isset($this->request->get['module_id'])) {
-				$this->load->model('extension/module');
+				$this->load->model($this->paths['model']['module']);
 
-				$this->model_extension_module->addModule('bus_menu', array('name' => $this->request->post['name'], 'status' => $this->request->post['status']));
+				$this->{$this->paths['model']['module_path']}->addModule('bus_menu', array('name' => $this->request->post['name'], 'status' => $this->request->post['status']));
 
 				$module_id = $this->db->getLastId();
 
 				$this->request->post['name'] = $this->request->post['name'] . ' module_id: ' . $module_id;
 
-				$this->model_extension_module->editModule($module_id, array('name' => $this->request->post['name'], 'module_id' => $module_id, 'status' => $this->request->post['status']));
+				$this->{$this->paths['model']['module_path']}->editModule($module_id, array('name' => $this->request->post['name'], 'module_id' => $module_id, 'status' => $this->request->post['status']));
 
-				$this->model_extension_module_bus_menu->addModule($module_id, array('setting' => $this->request->post, 'cats' => $cats));
+				$this->{$this->paths['model']['bus_menu_path']}->addModule($module_id, array('setting' => $this->request->post, 'cats' => $cats));
 
 				if (isset($this->request->post['bus_menu']) && !empty($this->request->post['bus_menu'])) {
 					$this->load->model('setting/setting');
@@ -895,11 +1123,11 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					$this->model_setting_setting->editSetting('bus_menu', array('bus_menu' => $module_id, 'bus_menu_cats_vertical' => array('position' => $cats_vertical_position, 'route' => $cats_vertical_route)));
 				}
 			} else {
-				$this->load->model('extension/module');
+				$this->load->model($this->paths['model']['module']);
 
-				$this->model_extension_module->editModule($this->request->get['module_id'], array('name' => $this->request->post['name'], 'module_id' => $this->request->get['module_id'], 'status' => $this->request->post['status']));
+				$this->{$this->paths['model']['module_path']}->editModule($this->request->get['module_id'], array('name' => $this->request->post['name'], 'module_id' => $this->request->get['module_id'], 'status' => $this->request->post['status']));
 
-				$this->model_extension_module_bus_menu->editModule($this->request->get['module_id'], array('setting' => $this->request->post, 'cats' => $cats));
+				$this->{$this->paths['model']['bus_menu_path']}->editModule($this->request->get['module_id'], array('setting' => $this->request->post, 'cats' => $cats));
 
 				if (isset($this->request->post['bus_menu'])) {
 					$this->load->model('setting/setting');
@@ -920,7 +1148,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					$this->session->data['success'] = $this->language->get('success_setting_apply');
 				}
 
-				$this->response->redirect($this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : '&module_id=' . $module_id), true));
+				$this->response->redirect($this->url->link($this->paths['controller']['bus_menu'], $this->paths['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : '&module_id=' . $module_id), true));
 			} else {
 				if (!isset($this->request->get['module_id'])) {
 					$this->session->data['success'] = $this->language->get('success_setting_new');
@@ -928,7 +1156,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 					$this->session->data['success'] = $this->language->get('success_setting_save');
 				}
 
-				$this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=module', true));
+				$this->response->redirect($this->url->link($this->paths['controller']['extension'], $this->paths['token'] . '&type=module', true));
 			}
 		}
 
@@ -1011,40 +1239,31 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true)
+			'href' => $this->url->link('common/dashboard', $this->paths['token'], true)
 		);
 
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'], true)
-		);
+		if ($this->version_oc >= 2.2) {
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('text_extension'),
+				'href' => $this->url->link($this->paths['controller']['extension'], $this->paths['token'], true)
+			);
+		}
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_module'),
-			'href' => $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=module', true)
+			'href' => $this->url->link($this->paths['controller']['extension'], $this->paths['token'] . ($this->version_oc >= 2.2 ? '&type=module' : false), true)
 		);
 
-		if (!isset($this->request->get['module_id'])) {
-			$data['breadcrumbs'][] = array(
-				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'], true)
-			);
-		} else {
-			$data['breadcrumbs'][] = array(
-				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true)
-			);
-		}
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link($this->paths['controller']['bus_menu'], $this->paths['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true)
+		);
 
-		if (!isset($this->request->get['module_id'])) {
-			$data['action'] = $this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'], true);
-		} else {
-			$data['action'] = $this->url->link('extension/module/bus_menu', 'token=' . $this->session->data['token'] . '&module_id=' . $this->request->get['module_id'], true);
-		}
+		$data['action'] = $this->url->link($this->paths['controller']['bus_menu'], $this->paths['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true);
+		$data['cancel'] = $this->url->link($this->paths['controller']['extension'], $this->paths['token'] . '&type=module', true);
+		$data['export'] = $this->url->link($this->paths['controller']['bus_menu'] . '/export', $this->paths['token'] . (isset($this->request->get['module_id']) ? '&module_id=' . $this->request->get['module_id'] : false), true);
 
-		$data['cancel'] = $this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=module', true);
-
-		$module_info = $this->configGet();
+		$module_info = $this->configGet(0, false);
 
 		if (isset($module_id)) {
 			$data['module_id'] = $module_id;
@@ -1053,8 +1272,6 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		} else {
 			$data['module_id'] = 0;
 		}
-
-		$data['export'] = $this->url->link('extension/module/bus_menu/export', 'token=' . $this->session->data['token'] . '&module_id=' . $data['module_id'], true);
 
 		if (isset($this->request->post['type'])) {
 			$data['type'] = $this->request->post['type'];
@@ -1071,8 +1288,6 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		} else {
 			$data['name'] = false;
 		}
-
-		$data['stores'] = $this->model_setting_store->getStores();
 
 		if (isset($this->request->post['store'])) {
 			$data['store'] = $this->request->post['store'];
@@ -1394,6 +1609,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			'entry_lg' => $data['entry_lg'],
 			'entry_md' => $data['entry_md'],
 			'entry_sm' => $data['entry_sm'],
+			'entry_xs' => $data['entry_xs'],
 			'entry_status' => $data['entry_status'],
 			'help_cats_image' => $data['help_cats_image'],
 			'help_cats_image_position' => $data['help_cats_image_position'],
@@ -1411,13 +1627,15 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			'help_lg' => $data['help_lg'],
 			'help_md' => $data['help_md'],
 			'help_sm' => $data['help_sm'],
+			'help_xs' => $data['help_xs'],
 			'button_delete' => $data['button_delete'],
 			'button_link_add' => $data['button_link_add'],
 			'button_link_add_group' => $data['button_link_add_group'],
 			'button_link_add_group_status' => $data['button_link_add_group_status'],
 			'languages' => $data['languages'],
 			'language_id' => $language_id,
-			'placeholder' => $data['placeholder']
+			'placeholder' => $data['placeholder'],
+			'image_status' => $data['image_status'],
 		);
 
 		if (isset($this->request->post['cats_horizontal'])) {
@@ -1428,7 +1646,8 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$cats_horizontal = array();
 		}
 
-		$data['cats_horizontal'] = ($ajax && 1 == 0 ? false : $this->children_view($cats_horizontal, $setting));
+		$setting['row_last'] = 'horizontal';
+		$data['cats_horizontal'] = (1 == 1 ? false : $this->children_view($cats_horizontal, $setting));
 
 		if (isset($this->request->post['cats_vertical'])) {
 			$cats_vertical = $this->request->post['cats_vertical'];
@@ -1438,7 +1657,8 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$cats_vertical = array();
 		}
 
-		$data['cats_vertical'] = ($ajax && 1 == 0 ? false : $this->children_view($cats_vertical, $setting));
+		$setting['row_last'] = 'vertical';
+		$data['cats_vertical'] = (1 == 1 ? false : $this->children_view($cats_vertical, $setting));
 
 		if (isset($this->request->post['cats_cell'])) {
 			$cats_cell = $this->request->post['cats_cell'];
@@ -1448,7 +1668,19 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$cats_cell = array();
 		}
 
-		$data['cats_cell'] = ($ajax && 1 == 0 ? false : $this->children_view($cats_cell, $setting));
+		$setting['row_last'] = 'cell';
+		$data['cats_cell'] = (1 == 1 ? false : $this->children_view($cats_cell, $setting));
+
+		if (isset($this->request->post['cats_filter'])) {
+			$cats_filter = $this->request->post['cats_filter'];
+		} elseif (isset($module_info['cats_filter'])) {
+		    $cats_filter = $module_info['cats_filter'];
+		} else {
+			$cats_filter = array();
+		}
+
+		$setting['row_last'] = 'filter';
+		$data['cats_filter'] = (1 == 0 ? false : $this->children_view($cats_filter, $setting));
 
 		if (isset($this->request->post['seo_now'])) {
 			$data['seo_now'] = $this->request->post['seo_now'];
@@ -1740,8 +1972,6 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$data['debug'] = false;
 		}
 
-		$data['token'] = $this->session->data['token'];
-
 		$data['text_title'] = 'text_title';
 		$data['text_message_header'] = '';
 		$data['entry_server'] = '';
@@ -1769,14 +1999,14 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		if (version_compare(VERSION, '3.0.0', '>=')) {
+		if ($this->version_oc >= 3) {
 			$template_engine = $this->registry->get('config')->get('template_engine');
 			$this->registry->get('config')->set('template_engine', 'template');
 		}
 
-		$template = $this->load->view('extension/module/bus_menu', $data);
+		$template = $this->load->view($this->paths['view']['bus_menu'], $data);
 
-		if (version_compare(VERSION, '3.0.0', '>=')) {
+		if ($this->version_oc >= 3) {
 			$this->registry->get('config')->set('template_engine', $template_engine);
 			$this->response->addHeader('Content-Type: text/html; charset=utf-8');
 		}
@@ -1784,14 +2014,63 @@ class ControllerExtensionModuleBusMenu extends Controller {
 		$this->response->setOutput($template);
 	}
 
-	public function ajax() {
-		$json = array();
+	private function catGroups($data = array(), $level_limit = 0) {
+		$cats = array();
+		$status = false;
 
-		if (isset($this->request->post['module_id'])) {
-			$module_id = (int)$this->request->post['module_id'];
-		} else {
-			$module_id = 0;
+		if (!in_array($data['table'], array('blog_category', 'category')) || isset($data['submanufacturers_status']) && !in_array($data['table'], array('blog_category', 'category', 'manufacturer'))) {
+			$data['level_limit'] = 1;
 		}
+
+		if (isset($data['level_limit']) && $data['level_limit'] > $level_limit) {
+			$status = true;
+		} else {
+			$status = false;
+		}
+
+		if (!isset($data['level_limit'])) {
+			if (in_array($data['table'], array('blog_category', 'category')) || isset($data['submanufacturers_status']) && in_array($data['table'], array('blog_category', 'category', 'manufacturer'))) {
+				$status = true;
+			}
+		}
+
+		if ($status) {
+			$level_limit++;
+			foreach ($this->{$this->paths['model']['bus_menu_path']}->getCats($data) as $result) {
+				$data['id'] = $result[$data['table'] . '_id'];
+				$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($data);
+				$result['name'] = $resultDesc['name'];
+				//$result['title'] = $resultDesc['title'];
+				//$result['description'] = $resultDesc['description'];
+				if ($result['image'] && is_file(DIR_IMAGE . $result['image'])) {
+					$image = $result['image'];
+					$thumb = $result['image'];
+				} else {
+					$image = false;
+					$thumb = 'no_image.png';
+				}
+
+				$cats[] = array(
+					'children'     => $this->catGroups($data, $level_limit),
+					'row'          => $result[$data['table'] . '_id'],
+					'status' 	   => (isset($result['status']) ? $result['status'] : true),
+					'query' 	   => ($data['table'] == 'category' ? 'path' : $data['table'] . '_id') . '=' . $result[$data['table'] . '_id'],
+					'image_status' => true,
+					'image' 	   => $image,
+					'thumb' 	   => $this->model_tool_image->resize($thumb, 100, 100),
+					'name'		   => $result['name'],
+					//'title'		   => $result['title'],
+					//'desc'		   => $result['description'],
+					'href'  	   => $this->url->link($data['route'],  ($data['table'] == 'category' ? 'path' : $data['table'] . '_id') . '=' . $result[$data['table'] . '_id'])
+				);
+			}
+		}
+
+		return $cats;
+	}
+
+	public function ajax() {
+		$json = false;
 
 		if (isset($this->request->post['token'])) {
 			$token = $this->request->post['token'];
@@ -1799,62 +2078,57 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$token = false;
 		}
 
-		if ($token != $this->session->data['token']) {
-			echo 'На йух иди! - hacking attempt';
-			exit();
+		if ($token != $this->paths['token'] && $this->validate()) {
+			exit('На йух иди! - hacking attempt');
 		}
 
-		$this->load->language('extension/module/bus_menu');
+		if (isset($this->request->post['module_id'])) {
+			$module_id = (int)$this->request->post['module_id'];
+		} else {
+			$module_id = 0;
+		}
 
-		$this->load->model('extension/module/bus_menu');
+		if (isset($this->request->post['row'])) {
+			$row = $this->request->post['row'];
+			$id_all = false;
+		} else {
+			$row = 1;
+			$id_all = true;
+		}
+
+		if (isset($this->request->post['query'])) {
+			$query = $this->request->post['query'];
+		} else {
+			$query = 'category_id=0';
+		}
+
+		if (isset($this->request->post['type'])) {
+			$type = $this->request->post['type'];
+		} else {
+			$type = 'horizontal';
+		}
+
+		if (isset($this->request->post['level_limit']) && !empty($this->request->post['level_limit'])) {
+			$level_limit = $this->request->post['level_limit'];
+		} else {
+			$level_limit = null;
+		}
+
+		if (isset($this->request->post['image_status']) && !empty($this->request->post['image_status'])) {
+			$image_status = true;
+		} else {
+			$image_status = false;
+		}
+
+		foreach ($this->load->language($this->paths['language']['bus_menu']) as $key => $lang) {
+			$data[$key] = $lang;
+		}
+
+		$this->load->model($this->paths['model']['bus_menu']);
 
 		$this->load->model('localisation/language');
 
 		$this->load->model('tool/image');
-
-		$data['text_edit'] = $this->language->get('text_edit');
-		$data['text_enabled'] = $this->language->get('text_enabled');
-		$data['text_disabled'] = $this->language->get('text_disabled');
-		$data['text_left'] = $this->language->get('text_left');
-		$data['text_right'] = $this->language->get('text_right');
-		$data['text_top'] = $this->language->get('text_top');
-		$data['text_bottom'] = $this->language->get('text_bottom');
-		$data['text_left_top'] = $this->language->get('text_left_top');
-		$data['text_right_top'] = $this->language->get('text_right_top');
-		$data['text_left_bottom'] = $this->language->get('text_left_bottom');
-		$data['text_right_bottom'] = $this->language->get('text_right_bottom');
-
-		$data['entry_cats_name'] = $this->language->get('entry_cats_name');
-		$data['entry_cats_link'] = $this->language->get('entry_cats_link');
-		$data['entry_cats_title'] = $this->language->get('entry_cats_title');
-		$data['entry_cats_desc'] = $this->language->get('entry_cats_desc');
-		$data['entry_cats_column'] = $this->language->get('entry_cats_column');
-		$data['entry_lg'] = $this->language->get('entry_lg');
-		$data['entry_md'] = $this->language->get('entry_md');
-		$data['entry_sm'] = $this->language->get('entry_sm');
-		$data['entry_status'] = $this->language->get('entry_status');
-
-		$data['help_cats_image'] = $this->language->get('help_cats_image');
-		$data['help_cats_image_position'] = $this->language->get('help_cats_image_position');
-		$data['help_cats_image_status'] = $this->language->get('help_cats_image_status');
-		$data['help_cats_sticker'] = $this->language->get('help_cats_sticker');
-		$data['help_cats_sticker_position'] = $this->language->get('help_cats_sticker_position');
-		$data['help_cats_sticker_status'] = $this->language->get('help_cats_sticker_status');
-		$data['help_cats_name'] = $this->language->get('help_cats_name');
-		$data['help_cats_link'] = $this->language->get('help_cats_link');
-		$data['help_cats_title'] = $this->language->get('help_cats_title');
-		$data['help_cats_desc'] = $this->language->get('help_cats_desc');
-		$data['help_cats_column'] = $this->language->get('help_cats_column');
-		$data['help_lg'] = $this->language->get('help_lg');
-		$data['help_md'] = $this->language->get('help_md');
-		$data['help_sm'] = $this->language->get('help_sm');
-		$data['help_cover'] = $this->language->get('help_cover');
-		$data['help_cover_position'] = $this->language->get('help_cover_position');
-
-		$data['button_delete'] = $this->language->get('button_delete');
-		$data['button_link_add'] = $this->language->get('button_link_add');
-		$data['button_link_add_group'] = $this->language->get('button_link_add_group');
-		$data['button_link_add_group_status'] = $this->language->get('button_link_add_group_status');
 
 		$data['languages'] = $this->model_localisation_language->getLanguages();
 
@@ -1882,6 +2156,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			'entry_lg' => $data['entry_lg'],
 			'entry_md' => $data['entry_md'],
 			'entry_sm' => $data['entry_sm'],
+			'entry_xs' => $data['entry_xs'],
 			'entry_status' => $data['entry_status'],
 			'help_cats_image' => $data['help_cats_image'],
 			'help_cats_image_position' => $data['help_cats_image_position'],
@@ -1899,77 +2174,109 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			'help_lg' => $data['help_lg'],
 			'help_md' => $data['help_md'],
 			'help_sm' => $data['help_sm'],
+			'help_xs' => $data['help_xs'],
 			'button_delete' => $data['button_delete'],
 			'button_link_add' => $data['button_link_add'],
 			'button_link_add_group' => $data['button_link_add_group'],
 			'button_link_add_group_status' => $data['button_link_add_group_status'],
 			'languages' => $data['languages'],
 			'language_id' => $language_id,
-			'placeholder' => $data['placeholder']
+			'placeholder' => $data['placeholder'],
+			'image_status' => $image_status,
 		);
 
-		$module_info = $this->configGet($module_id);
-
-		if (isset($module_info['cats_horizontal'])) {
-		    $cats_horizontal = $module_info['cats_horizontal'];
+		if ($module_id) {
+			$module_info = $this->configGet($module_id);
+			if (isset($module_info['image_status'])) {
+				$setting['image_status'] = $module_info['image_status'];
+			}
 		} else {
-			$cats_horizontal = array();
+			$filter_data = array(
+				'order' => 'ASC',
+			);
+			$queries = explode('=', $query);
+			$filter_data['table'] = str_replace('_id', '', $queries[0]);
+			$filter_data['id'] = (int)$queries[1];
+			if ($filter_data['table'] == 'blog_category') {
+				$filter_data['route'] = 'blog/category';
+			} elseif ($filter_data['table'] == 'article') {
+				$filter_data['route'] = 'blog/article';
+			} elseif ($filter_data['table'] == 'information') {
+				$filter_data['route'] = 'information/information';
+			} elseif ($filter_data['table'] == 'manufacturer') {
+				$filter_data['route'] = 'product/manufacturer/info';
+			} else {
+				$filter_data['table'] = 'category';
+				$filter_data['route'] = 'product/' . $filter_data['table'];
+			}
+			if ($id_all) {
+				$filter_data['id_all'] = $id_all;
+			}
+			$filter_data['level_limit'] = $level_limit;
+			$filter_data['order'] = 'ASC';
+			if ($filter_data['table'] == 'information') {
+				$filter_data['sort'] = 'cd.title';
+			} elseif ($filter_data['table'] == 'manufacturer') {
+				$filter_data['sort'] = 'c.name';
+			} else {
+				$filter_data['sort'] = 'cd.name';
+			}
+
+			$filter_data['row'] = $row;
+
+			$module_info['cats_' . $type] = $this->catGroups($filter_data);
 		}
 
-		$json['cats_horizontal'] = $this->children_view($cats_horizontal, $setting);
-
-		if (isset($module_info['cats_vertical'])) {
-		    $cats_vertical = $module_info['cats_vertical'];
-		} else {
-			$cats_vertical = array();
+		if (!empty($module_info['cats_' . $type])) {
+		    $json = $this->children_view($module_info['cats_' . $type], $setting);
 		}
 
-		$json['cats_vertical'] = $this->children_view($cats_vertical, $setting);
-
-		if (isset($module_info['cats_cell'])) {
-		    $cats_cell = $module_info['cats_cell'];
-		} else {
-			$cats_cell = array();
-		}
-
-		$json['cats_cell'] = $this->children_view($cats_cell, $setting);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json, JSON_HEX_AMP));
+		//$this->response->addHeader('Content-Type: application/json');
+		//$this->response->setOutput(json_encode($json, JSON_HEX_AMP));
+		$this->response->setOutput($json);
 	}
 
 	public function autocomplete() {
 		$json = array();
 
 		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = null;
+		}
+
+		if (isset($filter_name)) {
 			if (isset($this->request->get['seo_now'])) {
 				$url = $this->url($this->request->get['seo_now']);
 			} else {
 				$url = $this->url(0);
 			}
 
-			$this->load->language('extension/module/bus_menu');
+			$this->load->language($this->paths['language']['bus_menu']);
 
 			$this->load->model('tool/image');
 
-			$filter_data = array(
-				'filter_name' => $this->request->get['filter_name'] == $this->language->get('text_other') ? '' : $this->request->get['filter_name'],
-				'sort'        => 'name',
-				'order'       => 'ASC',
-				'start'       => 0,
-				'limit'       => $this->config->get('config_limit_admin')
-			);
+			$this->load->model($this->paths['model']['bus_menu']);
 
 			if ($this->config->get('configblog_article_limit') != null) {
-				$this->load->model('blog/category');
+				$filter_data = array();
+				$filter_data['table'] = 'blog_category';
+				$filter_data['name_stock'] = true;
+				$filter_data['filter_name'] = $filter_name == $this->language->get('text_other') ? '' : $filter_name;
+				$filter_data['sort'] = 'cd.name';
+				$filter_data['order'] = 'ASC';
+				$filter_data['start'] = 0;
+				$filter_data['limit'] = $this->config->get('config_limit_admin');
 
-				$results = $this->model_blog_category->getCategories($filter_data);
+				$results = $this->{$this->paths['model']['bus_menu_path']}->getCats($filter_data);
 
 				foreach ($results as $result) {
-					$result_info = $this->model_blog_category->getCategory($result['blog_category_id']);
-					if ($result_info['image'] && is_file(DIR_IMAGE . $result_info['image'])) {
-						$image = $result_info['image'];
-						$thumb = $result_info['image'];
+					$filter_data['id'] = $result['blog_category_id'];
+					$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($filter_data);
+					$result['name'] = $resultDesc['name'];
+					if ($result['image'] && is_file(DIR_IMAGE . $result['image'])) {
+						$image = $result['image'];
+						$thumb = $result['image'];
 					} else {
 						$image = false;
 						$thumb = 'no_image.png';
@@ -1977,20 +2284,31 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 					$json[] = array(
 						'text'		 => $this->language->get('text_blog_category'),
-						'name_stock' => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+						'name_stock' => strip_tags(html_entity_decode($result['name_stock'], ENT_QUOTES, 'UTF-8')),
+						'status' 	 => (isset($result['status']) ? $result['status'] : true),
 						'query' 	 => 'blog_category_id=' . $result['blog_category_id'],
 						'image' 	 => $image,
 						'thumb' 	 => $this->model_tool_image->resize($thumb, 100, 100),
-						'name'		 => html_entity_decode($result_info['name'], ENT_QUOTES, 'UTF-8'),
+						'name'		 => $result['name'],
 						'href'  	 => $url->link('blog/category',  'blog_category_id=' . $result['blog_category_id'])
 					);
 				}
 
-				$this->load->model('blog/article');
+				$filter_data = array();
+				$filter_data['table'] = 'article';
+				$filter_data['name_stock'] = true;
+				$filter_data['filter_name'] = $filter_name == $this->language->get('text_other') ? '' : $filter_name;
+				$filter_data['sort'] = 'cd.name';
+				$filter_data['order'] = 'ASC';
+				$filter_data['start'] = 0;
+				$filter_data['limit'] = $this->config->get('config_limit_admin');
 
-				$results = $this->model_blog_article->getArticles($filter_data);
+				$results = $this->{$this->paths['model']['bus_menu_path']}->getCats($filter_data);
 
 				foreach ($results as $result) {
+					$filter_data['id'] = $result['article_id'];
+					$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($filter_data);
+					$result['name'] = $resultDesc['name'];
 					if ($result['image'] && is_file(DIR_IMAGE . $result['image'])) {
 						$image = $result['image'];
 						$thumb = $result['image'];
@@ -2001,25 +2319,35 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 					$json[] = array(
 						'text'  	 => $this->language->get('text_article'),
-						'name_stock' => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+						'name_stock' => strip_tags(html_entity_decode($result['name_stock'], ENT_QUOTES, 'UTF-8')),
+						'status' 	 => (isset($result['status']) ? $result['status'] : true),
 						'query' 	 => 'article_id=' . $result['article_id'],
 						'image' 	 => $image,
 						'thumb' 	 => $this->model_tool_image->resize($thumb, 100, 100),
-						'name'		 => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+						'name'		 => $result['name'],
 						'href'  	 => $url->link('blog/article',  'article_id=' . $result['article_id'])
 					);
 				}
 			}
 
-			$this->load->model('catalog/category');
+			$filter_data = array();
+			$filter_data['table'] = 'category';
+			$filter_data['name_stock'] = true;
+			$filter_data['filter_name'] = $filter_name == $this->language->get('text_other') ? '' : $filter_name;
+			$filter_data['sort'] = 'cd.name';
+			$filter_data['order'] = 'ASC';
+			$filter_data['start'] = 0;
+			$filter_data['limit'] = $this->config->get('config_limit_admin');
 
-			$results = $this->model_catalog_category->getCategories($filter_data);
+			$results = $this->{$this->paths['model']['bus_menu_path']}->getCats($filter_data);
 
 			foreach ($results as $result) {
-				$result_info = $this->model_catalog_category->getCategory($result['category_id']);
-				if ($result_info['image'] && is_file(DIR_IMAGE . $result_info['image'])) {
-					$image = $result_info['image'];
-					$thumb = $result_info['image'];
+				$filter_data['id'] = $result['category_id'];
+				$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($filter_data);
+				$result['name'] = $resultDesc['name'];
+				if ($result['image'] && is_file(DIR_IMAGE . $result['image'])) {
+					$image = $result['image'];
+					$thumb = $result['image'];
 				} else {
 					$image = false;
 					$thumb = 'no_image.png';
@@ -2027,43 +2355,64 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 				$json[] = array(
 					'text'  	 => $this->language->get('text_category'),
-					'name_stock' => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+					'name_stock' => strip_tags(html_entity_decode($result['name_stock'], ENT_QUOTES, 'UTF-8')),
+					'status' 	 => (isset($result['status']) ? $result['status'] : true),
 					'query' 	 => 'path=' . $result['category_id'],
 					'image' 	 => $image,
 					'thumb' 	 => $this->model_tool_image->resize($thumb, 100, 100),
-					'name'		 => html_entity_decode($result_info['name'], ENT_QUOTES, 'UTF-8'),
+					'name'		 => $result['name'],
 					'href'  	 => $url->link('product/category',  'path=' . $result['category_id'])
 				);
 			}
 
-			$this->load->model('catalog/information');
+			$filter_data = array();
+			$filter_data['table'] = 'information';
+			$filter_data['name_stock'] = true;
+			$filter_data['filter_name'] = $filter_name == $this->language->get('text_other') ? '' : $filter_name;
+			$filter_data['sort'] = 'cd.title';
+			$filter_data['order'] = 'ASC';
+			$filter_data['start'] = 0;
+			$filter_data['limit'] = $this->config->get('config_limit_admin');
 
-			$results = $this->model_catalog_information->getInformations($filter_data);
+			$results = $this->{$this->paths['model']['bus_menu_path']}->getCats($filter_data);
 
 			foreach ($results as $result) {
+				$filter_data['id'] = $result['information_id'];
+				$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($filter_data);
+				$result['name'] = $resultDesc['name'];
 				$image = false;
 				$thumb = 'no_image.png';
 
 				$json[] = array(
 					'text'   	 => $this->language->get('text_information'),
-					'name_stock' => html_entity_decode($result['title'], ENT_QUOTES, 'UTF-8'),
+					'name_stock' => strip_tags(html_entity_decode($result['name_stock'], ENT_QUOTES, 'UTF-8')),
+					'status' 	 => (isset($result['status']) ? $result['status'] : true),
 					'query' 	 => 'information_id=' . $result['information_id'],
 					'image' 	 => $image,
 					'thumb' 	 => $this->model_tool_image->resize($thumb, 100, 100),
-					'name'		 => html_entity_decode($result['title'], ENT_QUOTES, 'UTF-8'),
+					'name'		 => $result['name'],
 					'href'  	 => $url->link('information/information',  'information_id=' . $result['information_id'])
 				);
 			}
 
-			$this->load->model('catalog/manufacturer');
+			$filter_data = array();
+			$filter_data['table'] = 'manufacturer';
+			$filter_data['name_stock'] = true;
+			$filter_data['filter_name'] = $filter_name == $this->language->get('text_other') ? '' : $filter_name;
+			$filter_data['sort'] = 'c.name';
+			$filter_data['order'] = 'ASC';
+			$filter_data['start'] = 0;
+			$filter_data['limit'] = $this->config->get('config_limit_admin');
 
-			$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
+			$results = $this->{$this->paths['model']['bus_menu_path']}->getCats($filter_data);
 
 			foreach ($results as $result) {
-				$result_info = $this->model_catalog_manufacturer->getManufacturer($result['manufacturer_id']);
-				if ($result_info['image'] && is_file(DIR_IMAGE . $result_info['image'])) {
-					$image = $result_info['image'];
-					$thumb = $result_info['image'];
+				$filter_data['id'] = $result['manufacturer_id'];
+				$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($filter_data);
+				$result['name'] = $resultDesc['name'];
+				if ($result['image'] && is_file(DIR_IMAGE . $result['image'])) {
+					$image = $result['image'];
+					$thumb = $result['image'];
 				} else {
 					$image = false;
 					$thumb = 'no_image.png';
@@ -2071,20 +2420,31 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 				$json[] = array(
 					'text'  	 => $this->language->get('text_manufacturer'),
-					'name_stock' => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+					'name_stock' => strip_tags(html_entity_decode($result['name_stock'], ENT_QUOTES, 'UTF-8')),
+					'status' 	 => (isset($result['status']) ? $result['status'] : true),
 					'query' 	 => 'manufacturer_id=' . $result['manufacturer_id'],
 					'image' 	 => $image,
 					'thumb' 	 => $this->model_tool_image->resize($thumb, 100, 100),
-					'name'		 => html_entity_decode($result_info['name'], ENT_QUOTES, 'UTF-8'),
+					'name'		 => $result['name'],
 					'href'  	 => $url->link('product/manufacturer/info',  'manufacturer_id=' . $result['manufacturer_id'])
 				);
 			}
 
-			$this->load->model('catalog/product');
+			$filter_data = array();
+			$filter_data['table'] = 'product';
+			$filter_data['name_stock'] = true;
+			$filter_data['filter_name'] = $filter_name == $this->language->get('text_other') ? '' : $filter_name;
+			$filter_data['sort'] = 'cd.name';
+			$filter_data['order'] = 'ASC';
+			$filter_data['start'] = 0;
+			$filter_data['limit'] = $this->config->get('config_limit_admin');
 
-			$results = $this->model_catalog_product->getProducts($filter_data);
+			$results = $this->{$this->paths['model']['bus_menu_path']}->getCats($filter_data);
 
 			foreach ($results as $result) {
+				$filter_data['id'] = $result['product_id'];
+				$resultDesc = $this->{$this->paths['model']['bus_menu_path']}->getCatsDesc($filter_data);
+				$result['name'] = $resultDesc['name'];
 				if ($result['image'] && is_file(DIR_IMAGE . $result['image'])) {
 					$image = $result['image'];
 					$thumb = $result['image'];
@@ -2095,11 +2455,12 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 				$json[] = array(
 					'text'  	 => $this->language->get('text_product'),
-					'name_stock' => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+					'name_stock' => strip_tags(html_entity_decode($result['name_stock'], ENT_QUOTES, 'UTF-8')),
+					'status' 	 => (isset($result['status']) ? $result['status'] : true),
 					'query' 	 => 'product_id=' . $result['product_id'],
 					'image' 	 => $image,
 					'thumb' 	 => $this->model_tool_image->resize($thumb, 100, 100),
-					'name'		 => html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'),
+					'name'		 => $result['name'],
 					'href'  	 => $url->link('product/product',  'product_id=' . $result['product_id'])
 				);
 			}
@@ -2110,7 +2471,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 	}
 
 	protected function validate() {
-		if (!$this->user->hasPermission('modify', 'extension/module/bus_menu')) {
+		if (!$this->user->hasPermission('modify', $this->paths['controller']['bus_menu'])) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
@@ -2181,11 +2542,21 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 	// установка
 	public function install() {
-		$this->load->language('extension/module/bus_menu');
+		$this->load->language($this->paths['language']['bus_menu']);
 
 		// посылыаем на йух
 		if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
 			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		if ($this->version_oc >= 2.2) {
+			if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
+		} else {
+			if (!$this->user->hasPermission('modify', 'extension/module')) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		if (!$this->error) {
@@ -2200,12 +2571,12 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			} */
 
 			// включаем модификатор модуля, если заливался в БД
-			$this->load->model('extension/modification');
+			$this->load->model($this->paths['model']['modification']);
 
-			$code = $this->model_extension_modification->getModificationByCode($this->code);
+			$code = $this->{$this->paths['model']['modification_path']}->getModificationByCode($this->code);
 
 			if ($code) {
-				$this->model_extension_modification->enableModification($code['modification_id']);
+				$this->{$this->paths['model']['modification_path']}->enableModification($code['modification_id']);
 			}
 
 			// создаём копию из резерва и переименовываем модификатор, если заливался в system
@@ -2213,7 +2584,19 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 			$this->setFile(false, $file, 'xml');
 
+			// создаём событие
+			//$this->load->model($this->paths['model']['event']); 
+
+			//if ($this->version_oc >= 3) {
+			//	$code = $this->{$this->paths['model']['event_path']}->getEvent($this->name_arhive, 'catalog/view/*/after', $this->paths['controller']['bus_menu'] . '/event');
+
+			//	if (!$code) {
+			//		$this->{$this->paths['model']['event_path']}->addEvent($this->name_arhive, 'catalog/view/*/after', $this->paths['controller']['bus_menu'] . '/event', 1, 1001);
+			//	}
+			//}
+
 			// чистим кэши необходимые для модуля
+			//$this->cache->delete('*');
 			$this->cache->delete('blog_category');
 			//$this->cache->delete('blog_article');
 			$this->cache->delete('article');
@@ -2223,7 +2606,7 @@ class ControllerExtensionModuleBusMenu extends Controller {
 			$this->cache->delete('product');
 			$this->cache->delete('seo_pro');
 			$this->cache->delete('seo_url');
-			if (version_compare(VERSION, '3.0.0', '>=')) {
+			if ($this->version_oc >= 3) {
 				$this->load->controller('common/developer/theme');
 				$this->load->controller('common/developer/sass');
 			}
@@ -2239,11 +2622,11 @@ class ControllerExtensionModuleBusMenu extends Controller {
 
 			$error_install = $this->language->get('error_install');
 
-			$url_ocmod_clear = $this->url->link('extension/modification/clear', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_clear = $this->url->link($this->paths['controller']['modification'] . '/clear', $this->paths['token'], true);
 			$url_ocmod_clear = str_ireplace('&amp;', '&', $url_ocmod_clear);
-			$url_ocmod_clearlog = $this->url->link('extension/modification/clearlog', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_clearlog = $this->url->link($this->paths['controller']['modification'] . '/clearlog', $this->paths['token'], true);
 			$url_ocmod_clearlog = str_ireplace('&amp;', '&', $url_ocmod_clearlog);
-			$url_ocmod_refresh = $this->url->link('extension/modification/refresh', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_refresh = $this->url->link($this->paths['controller']['modification'] . '/refresh', $this->paths['token'], true);
 			$url_ocmod_refresh = str_ireplace('&amp;', '&', $url_ocmod_refresh);
 
 			$text = <<<HTML
@@ -2321,24 +2704,24 @@ function ocmodRefresh() {
 
 function cacheClear() {
 	$('.alert-success').html('<i class="fa fa-check-circle"></i> $text_cache_clear <button type="button" class="close" data-dismiss="alert">×</button>');
-	setTimeout('success()', 2000);
+	setTimeout('successModule()', 2000);
 }
 
-function success() {
+function successModule() {
 	$('.alert-success').html('<i class="fa fa-check-circle"></i> $success_install <button type="button" class="close" data-dismiss="alert">×</button>');
 	$('a, button, select, input').removeAttr('disabled');
 }
 //--></script>
 HTML;
 
-			if (version_compare(VERSION, '2.2.0', '>=')) {
+			if ($this->version_oc >= 2.2) {
 				$this->response->addHeader('Content-Type: text/html; charset=utf-8');
 				$this->response->setOutput($text);
 				echo $this->response->getOutput();
 			} else {
 				$this->session->data['success'] = $text;
 
-				$this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], true));
+				$this->response->redirect($this->url->link($this->paths['controller']['extension'], $this->paths['token'], true));
 			}
 		} else {
 			echo $this->error['warning'];
@@ -2347,11 +2730,19 @@ HTML;
 
 	// удаление
 	public function uninstall() {
-		$this->load->language('extension/module/bus_menu');
+		$this->load->language($this->paths['language']['bus_menu']);
 
 		// посылыаем на йух
-		if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
-			$this->error['warning'] = $this->language->get('error_permission');
+		$this->load->language($this->paths['language']['bus_menu']);
+
+		if ($this->version_oc >= 2.2) {
+			if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
+		} else {
+			if (!$this->user->hasPermission('modify', 'extension/module')) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		if (!$this->error) {
@@ -2361,18 +2752,30 @@ HTML;
 			$this->db->query("DELETE FROM " . DB_PREFIX . "setting WHERE `code` = 'bus_menu'");
 
 			// выключаем модификатор модуля
-			$this->load->model('extension/modification');
+			$this->load->model($this->paths['model']['modification']);
 
-			$code = $this->model_extension_modification->getModificationByCode($this->code);
+			$code = $this->{$this->paths['model']['modification_path']}->getModificationByCode($this->code);
 
 			if ($code) {
-				$this->model_extension_modification->disableModification($code['modification_id']);
+				$this->{$this->paths['model']['modification_path']}->disableModification($code['modification_id']);
 			}
 
 			// удаляем копию модификатора созданную из резерва, если заливался в system
 			$this->deleteFile(false, 'xml');
 
+			// удаляем событие
+			//$this->load->model($this->paths['model']['event']); 
+
+			//if ($this->version_oc >= 3) {
+			//	$code = $this->{$this->paths['model']['event_path']}->getEvent($this->name_arhive, 'catalog/view/*/after', $this->paths['controller']['bus_menu'] . '/event');
+
+			//	if ($code) {
+			//		$this->{$this->paths['model']['event_path']}->deleteEvent($this->name_arhive);
+			//	}
+			//}
+
 			// чистим кэши необходимые для модуля
+			//$this->cache->delete('*');
 			$this->cache->delete('blog_category');
 			//$this->cache->delete('blog_article');
 			$this->cache->delete('article');
@@ -2382,7 +2785,7 @@ HTML;
 			$this->cache->delete('product');
 			$this->cache->delete('seo_pro');
 			$this->cache->delete('seo_url');
-			if (version_compare(VERSION, '3.0.0', '>=')) {
+			if ($this->version_oc >= 3) {
 				$this->load->controller('common/developer/theme');
 				$this->load->controller('common/developer/sass');
 			}
@@ -2400,15 +2803,14 @@ HTML;
 			$success_uninstall = $this->language->get('heading_title') . $this->language->get('success_uninstall');
 
 			$error_uninstall = $this->language->get('error_uninstall');
-			$error_uninstall_pro = $this->language->get('error_uninstall_pro');
 
-			$url_uninstall_files = $this->url->link('extension/module/bus_menu/uninstallFiles', 'token=' . $this->session->data['token'], true);
+			$url_uninstall_files = $this->url->link($this->paths['controller']['bus_menu'] . '/uninstallFiles', $this->paths['token'], true);
 			$url_uninstall_files = str_ireplace('&amp;', '&', $url_uninstall_files);
-			$url_ocmod_clear = $this->url->link('extension/modification/clear', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_clear = $this->url->link($this->paths['controller']['modification'] . '/clear', $this->paths['token'], true);
 			$url_ocmod_clear = str_ireplace('&amp;', '&', $url_ocmod_clear);
-			$url_ocmod_clearlog = $this->url->link('extension/modification/clearlog', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_clearlog = $this->url->link($this->paths['controller']['modification'] . '/clearlog', $this->paths['token'], true);
 			$url_ocmod_clearlog = str_ireplace('&amp;', '&', $url_ocmod_clearlog);
-			$url_ocmod_refresh = $this->url->link('extension/modification/refresh', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_refresh = $this->url->link($this->paths['controller']['modification'] . '/refresh', $this->paths['token'], true);
 			$url_ocmod_refresh = str_ireplace('&amp;', '&', $url_ocmod_refresh);
 
 			$text = <<<HTML
@@ -2485,17 +2887,13 @@ function ocmodRefresh() {
 }
 function cacheClear() {
 	$('.alert-success').html('<i class="fa fa-check-circle"></i> $text_cache_clear <button type="button" class="close" data-dismiss="alert">×</button>');
-	setTimeout('success()', 2000);
+	setTimeout('successModule()', 2000);
 }
 
-function success() {
+function successModule() {
 	$('.alert-success').html('<i class="fa fa-check-circle"></i> $success_uninstall <button type="button" class="close" data-dismiss="alert">×</button>');
 	$('.alert-success').after('<a type="button" onclick="uninstallFiles();" class="btn btn-info alert" style="width:100%;" data-dismiss="alert"><i class="fa fa-trash-o"></i> $button_files_clear</a>');
 	$('a, button, select, input').removeAttr('disabled');
-}
-
-function uninstallFilesPro() {
-	$('.alert-success').addClass('alert-danger').removeClass('alert-success').html('<i class="fa fa-check-circle"></i> $error_uninstall_pro =( <button type="button" class="close" data-dismiss="alert">×</button>');
 }
 
 function uninstallFiles() {
@@ -2524,14 +2922,14 @@ function uninstallFiles() {
 //--></script>
 HTML;
 
-			if (version_compare(VERSION, '2.2.0', '>=')) {
+			if ($this->version_oc >= 2.2) {
 				$this->response->addHeader('Content-Type: text/html; charset=utf-8');
 				$this->response->setOutput($text);
 				echo $this->response->getOutput();
 			} else {
 				$this->session->data['success'] = $text;
 
-				$this->response->redirect($this->url->link('extension/module', 'token=' . $this->session->data['token'], true));
+				$this->response->redirect($this->url->link($this->paths['controller']['extension'], $this->paths['token'], true));
 			}
 		} else {
 			echo $this->error['warning'];
@@ -2540,11 +2938,17 @@ HTML;
 
 	// удаление файлов модуля
 	public function uninstallFiles() {
-		$this->load->language('extension/module/bus_menu');
+		$this->load->language($this->paths['language']['bus_menu']);
 
 		// посылыаем на йух
-		if (!$this->user->hasPermission('modify', 'extension/extension/module') || !$this->user->hasPermission('modify', 'extension/module/bus_menu')) {
-			$this->error['warning'] = $this->language->get('error_permission');
+		if ($this->version_oc >= 2.2) {
+			if (!$this->user->hasPermission('modify', 'extension/extension/module') || !$this->user->hasPermission('modify', $this->paths['controller']['bus_menu'])) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
+		} else {
+			if (!$this->user->hasPermission('modify', 'extension/module') || !$this->user->hasPermission('modify', $this->paths['controller']['bus_menu'])) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		if (!$this->error) {
@@ -2552,17 +2956,17 @@ HTML;
 			$this->load->model('user/user_group');
 
 			foreach ($this->model_user_user_group->getUserGroups() as $result) {
-				if (version_compare(VERSION, '4.0.0', '>=')) {
-					$this->model_user_user_group->removePermission($result['user_group_id'], 'access', 'extension/module/bus_menu');
-					$this->model_user_user_group->removePermission($result['user_group_id'], 'modify', 'extension/module/bus_menu');
+				if ($this->version_oc >= 4) {
+					$this->model_user_user_group->removePermission($result['user_group_id'], 'access', $this->paths['controller']['bus_menu']);
+					$this->model_user_user_group->removePermission($result['user_group_id'], 'modify', $this->paths['controller']['bus_menu']);
 				} else {
 					$users = array();
 					$users[0]['user_group_id'] = $result['user_group_id'];
 					$users[0]['type'] = 'access';
-					$users[0]['route'] = 'extension/module/bus_menu';
+					$users[0]['route'] = $this->paths['controller']['bus_menu'];
 					$users[1]['user_group_id'] = $result['user_group_id'];
 					$users[1]['type'] = 'modify';
-					$users[1]['route'] = 'extension/module/bus_menu';
+					$users[1]['route'] = $this->paths['controller']['bus_menu'];
 
 					foreach ($users as $user) {
 						$user_group_query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "user_group WHERE user_group_id = '" . (int)$user['user_group_id'] . "'");
@@ -2591,31 +2995,42 @@ HTML;
 			} */
 
 			// удаляем модуль из БД списка установленных модулей
-			if (version_compare(VERSION, '3.0.0', '>=')) {
-				$this->load->model('setting/extension');
+			if ($this->version_oc >= 3) {
+				$this->load->model($this->paths['model']['extension']);
 
-				$results = $this->model_setting_extension->getExtensionInstalls(0, 1000);
+				$results = $this->{$this->paths['model']['extension_path']}->getExtensionInstalls(0, 1000);
 
 				foreach ($results as $result) {
 					if (stristr($result['filename'], $this->name_arhive)) {
-						$this->model_setting_extension->deleteExtensionInstall($result['extension_install_id']);
-						$paths = $this->model_setting_extension->getExtensionPathsByExtensionInstallId($result['extension_install_id']);
+						$this->{$this->paths['model']['extension_path']}->deleteExtensionInstall($result['extension_install_id']);
+						$paths = $this->{$this->paths['model']['extension_path']}->getExtensionPathsByExtensionInstallId($result['extension_install_id']);
 
 						foreach ($paths as $path) {
-							$this->model_setting_extension->deleteExtensionPath($path['extension_path_id']);
+							$this->{$this->paths['model']['extension_path']}->deleteExtensionPath($path['extension_path_id']);
 						}
 					}
 				}
 			}
 
 			// удаляем модификатор модуля, если заливался в БД
-			$this->load->model('extension/modification');
+			$this->load->model($this->paths['model']['modification']);
 
-			$code = $this->model_extension_modification->getModificationByCode($this->code);
+			$code = $this->{$this->paths['model']['modification_path']}->getModificationByCode($this->code);
 
 			if ($code) {
-				$this->model_extension_modification->deleteModification($code['modification_id']);
+				$this->{$this->paths['model']['modification_path']}->deleteModification($code['modification_id']);
 			}
+
+			// удаляем событие
+			//$this->load->model($this->paths['model']['event']); 
+
+			//if ($this->version_oc >= 3) {
+			//	$code = $this->{$this->paths['model']['event_path']}->getEvent($this->name_arhive, 'catalog/view/*/after', $this->paths['controller']['bus_menu'] . '/event');
+
+			//	if ($code) {
+			//		$this->{$this->paths['model']['event_path']}->deleteEvent($this->name_arhive);
+			//	}
+			//}
 
 			// готовим данные для php
 			$db_paths = array(
@@ -2666,7 +3081,7 @@ HTML;
 				$module_paths[] = $path . '/template/extension/module/bus_menu[NAGIBATOR]';
 			}
 
-			$text = '------------------- Start: ' . date($this->language->get('datetime_format')) . ' ' . $this->language->get('text_uninstall_files_log') . ' ' . $this->language->get('text_site_name') . ' -------------------';
+			$text = '------------------- Start: ' . date($this->language->get('datetime_format')) . ' ' . $this->language->get('text_uninstall_files_log') . ' ' . strip_tags($this->language->get('heading_title')) . ' -------------------';
 			foreach ($db_paths as $path) {
 				$text .= "\n" . '<br>' . $this->language->get('success_uninstall_data_base') . $path;
 			}
@@ -2676,14 +3091,14 @@ HTML;
 			foreach ($module_paths as $path) {
 				$text .= $this->deleteDir($path);
 			}
-			$text .= "\n" . '<br>------------------- Stop: ' . date($this->language->get('datetime_format')) . ' ' . $this->language->get('text_uninstall_files_log') . ' ' . $this->language->get('text_site_name') . ' -------------------' . "\n";
+			$text .= "\n" . '<br>------------------- Stop: ' . date($this->language->get('datetime_format')) . ' ' . $this->language->get('text_uninstall_files_log') . ' ' . strip_tags($this->language->get('heading_title')) . ' -------------------' . "\n";
 
-			// Log т.к. в 2.3-3.0 oc отчёт не выводится на экран через ajax
+			// Log
 			$handle = fopen(DIR_LOGS . 'ocmod.log', 'w+');
 
 			flock($handle, LOCK_EX);
 
-			fwrite($handle, strip_tags($text));
+			fwrite($handle, strip_tags(str_replace(array(DIR_APPLICATION, DIR_CATALOG, DIR_IMAGE, DIR_SYSTEM), array(basename(DIR_APPLICATION) . '/', basename(DIR_CATALOG) . '/', basename(DIR_IMAGE) . '/', basename(DIR_SYSTEM) . '/'), $text)));
 
 			fflush($handle);
 
@@ -2704,7 +3119,7 @@ HTML;
 	}
 
 	private function deleteDir($dirname, $nagibator = false) {
-		$this->load->language('extension/module/bus_menu');
+		$this->load->language($this->paths['language']['bus_menu']);
 
 		$text = false;
 		$files = glob($dirname . '*');
@@ -2749,45 +3164,48 @@ HTML;
 
 	private function update() {
 		$version = $this->configGet('version');
-
-		if ($this->user->hasPermission('modify', 'extension/module/bus_menu') && version_compare($this->version, $version, '>')) {
+		if ($this->validate() && ($this->request->server['REQUEST_METHOD'] != 'POST') && isset($this->request->get['module_id']) && version_compare($this->version, $version, '>')) {
 			if (version_compare('1.1.1', $version, '>')) {
 				
 			}
 
-			$this->deleteFile(false, 'xml');
-			$this->modification(true);
-
-			//$this->session->data['success'] = $this->language->get('heading_title') . $this->language->get('success_update');
+			$this->session->data['success'] = $this->modification($this->language->get('heading_title') . $this->language->get('success_update'));
 		}
 	}
 
-	private function modification($data = array()) {
+	private function modification($message = false, $data = true) {
 		// посылыаем на йух
-		if (!$this->user->hasPermission('modify', 'extension/module/bus_menu')) {
-			$this->error['warning'] = $this->language->get('error_permission');
+		if ($this->version_oc >= 2.2) {
+			if (!$this->user->hasPermission('modify', 'extension/extension/module')) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
+		} else {
+			if (!$this->user->hasPermission('modify', 'extension/module')) {
+				$this->error['warning'] = $this->language->get('error_permission');
+			}
 		}
 
 		if (!$this->error) {
 			$file = $this->getFile(false, 'xml');
 
 			if ($data && $file) {
-				return;
+				$this->deleteFile(false, 'xml');
+				if ($this->getFile('library', 'xml_')) {
+					$this->setFile(false, $this->getFile('library', 'xml_'), 'xml');
+				}
 			} elseif ($data && !$file) {
-				$file = $this->getFile('library', 'xml_');
-
-				$this->setFile(false, $file, 'xml');
+				$this->setFile(false, $this->getFile('library', 'xml_'), 'xml');
 			} elseif (!$data) {
 				$this->deleteFile(false, 'xml');
 			}
 
 			// удаляем модификатор модуля, если заливался в БД
-			$this->load->model('extension/modification');
+			$this->load->model($this->paths['model']['modification']);
 
-			$code = $this->model_extension_modification->getModificationByCode($this->code);
+			$code = $this->{$this->paths['model']['modification_path']}->getModificationByCode($this->code);
 
 			if ($code) {
-				$this->model_extension_modification->deleteModification($code['modification_id']);
+				$this->{$this->paths['model']['modification_path']}->deleteModification($code['modification_id']);
 			}
 
 			// чистим кэши необходимые для модуля
@@ -2800,7 +3218,7 @@ HTML;
 			$this->cache->delete('product');
 			$this->cache->delete('seo_pro');
 			$this->cache->delete('seo_url');
-			if (version_compare(VERSION, '3.0.0', '>=')) {
+			if ($this->version_oc >= 3) {
 				$this->load->controller('common/developer/theme');
 				//$this->load->controller('common/developer/sass');
 			}
@@ -2811,19 +3229,19 @@ HTML;
 			$text_ocmod_refresh = $this->language->get('text_ocmod_refresh');
 
 			if (isset($this->session->data['apply'])) {
-				$success = $this->language->get('success_setting_apply');
+				$success = $this->language->get('success_setting_apply') . ' ' . $message;
 				unset($this->session->data['apply']);
 			} else {
-				$success = $this->language->get('success_setting_save');
+				$success = $this->language->get('success_setting_save') . ' ' . $message;
 			}
 
 			$error_uninstall = $this->language->get('error_uninstall');
 
-			$url_ocmod_clear = $this->url->link('extension/modification/clear', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_clear = $this->url->link($this->paths['controller']['modification'] . '/clear', $this->paths['token'], true);
 			$url_ocmod_clear = str_ireplace('&amp;', '&', $url_ocmod_clear);
-			$url_ocmod_clearlog = $this->url->link('extension/modification/clearlog', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_clearlog = $this->url->link($this->paths['controller']['modification'] . '/clearlog', $this->paths['token'], true);
 			$url_ocmod_clearlog = str_ireplace('&amp;', '&', $url_ocmod_clearlog);
-			$url_ocmod_refresh = $this->url->link('extension/modification/refresh', 'token=' . $this->session->data['token'], true);
+			$url_ocmod_refresh = $this->url->link($this->paths['controller']['modification'] . '/refresh', $this->paths['token'], true);
 			$url_ocmod_refresh = str_ireplace('&amp;', '&', $url_ocmod_refresh);
 
 			$text = <<<HTML
@@ -2849,7 +3267,7 @@ function ocmodClear() {
 		success: function(html) {
 			if (html) {
 				$('.alert-success').html('<i class="fa fa-check-circle"></i> $text_ocmod_clear <button type="button" class="close" data-dismiss="alert">×</button>');
-				setTimeout('ocmodClearlog()', 2000);
+				setTimeout(ocmodClearlog, 2000);
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -2869,7 +3287,7 @@ function ocmodClearlog() {
 		success: function(html) {
 			if (html) {
 				$('.alert-success').html('<i class="fa fa-check-circle"></i> $text_ocmod_clearlog <button type="button" class="close" data-dismiss="alert">×</button>');
-				setTimeout('ocmodRefresh()', 2000);
+				setTimeout(ocmodRefresh, 2000);
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -2889,7 +3307,7 @@ function ocmodRefresh() {
 		success: function(html) {
 			if (html) {
 				$('.alert-success').html('<i class="fa fa-check-circle"></i> $text_ocmod_refresh <button type="button" class="close" data-dismiss="alert">×</button>');
-				setTimeout('success()', 2000);
+				setTimeout(successModule, 2000);
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -2898,14 +3316,14 @@ function ocmodRefresh() {
 	});
 }
 
-function success() {
+function successModule() {
 	$('.alert-success').html('<i class="fa fa-check-circle"></i> $success <button type="button" class="close" data-dismiss="alert">×</button>');
 	$('a, button, select, input').removeAttr('disabled');
 }
 //--></script>
 HTML;
 
-			$this->session->data['success'] = $text;
+			return $text;
 		}
 	}
 }

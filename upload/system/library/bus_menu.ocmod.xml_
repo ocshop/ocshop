@@ -4,33 +4,33 @@
 Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ ) -->
 
 <modification>
-    <code>01000046</code>
-    <name>ЫМеню - "blMenu"</name>
-    <version>1.0 Full</version>
-    <author>BuslikDrev.by</author>
-    <link>https://liveopencart.ru/buslikdrev</link>
-    <!-- ↓ АДМИНКА МОДЕЛИ (SQL-ЗАПРОСЫ) ↓ -->
-    <file path="admin/model/extension/module.php">
+	<code>01000046</code>
+	<name>ЫМеню - "blMenu"</name>
+	<version>1.0 Full</version>
+	<author>BuslikDrev.by</author>
+	<link>https://liveopencart.ru/buslikdrev</link>
+	<!-- ↓ АДМИНКА МОДЕЛИ (SQL-ЗАПРОСЫ) ↓ -->
+	<file path="admin/model/extension/module.php">
         <operation error="skip">
             <search>
-            <![CDATA[function deleteModule($module_id]]>
+			<![CDATA[function deleteModule($module_id]]>
             </search>
             <add position="after">
-            <![CDATA[		$this->db->query("DELETE FROM `" . DB_PREFIX . "bus_menu` WHERE `module_id` = '" . (int)$module_id . "'");
+			<![CDATA[		$this->db->query("DELETE FROM `" . DB_PREFIX . "bus_menu` WHERE `module_id` = '" . (int)$module_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "bus_menu_to_store` WHERE `module_id` = '" . (int)$module_id . "'");]]>
             </add>
         </operation>
-    </file>
-    <!-- ↑ АДМИНКА МОДЕЛИ (SQL-ЗАПРОСЫ) ↑ -->
+	</file>
+	<!-- ↑ АДМИНКА МОДЕЛИ (SQL-ЗАПРОСЫ) ↑ -->
 
-    <!-- ↓ САЙТ КОНТРОЛЛЕРЫ ↓ -->
-    <file path="catalog/controller/common/column_left.php">
+	<!-- ↓ САЙТ КОНТРОЛЛЕРЫ ↓ -->
+	<file path="catalog/controller/common/column_left.php">
         <operation error="skip">
             <search>
-            <![CDATA[$data['modules'] = array();]]>
+			<![CDATA[$data['modules'] = array();]]>
             </search>
             <add position="after">
-            <![CDATA[
+			<![CDATA[
 		if ($this->config->get('bus_menu')) {
 			if ($this->config->get('bus_menu_cats_vertical')['position'] == 1) {
 				if (isset($this->config->get('bus_menu_cats_vertical')['route'][$this->config->get('config_store_id')]) && is_array($this->config->get('bus_menu_cats_vertical')['route'][$this->config->get('config_store_id')])) {
@@ -46,14 +46,14 @@
 		}]]>
             </add>
         </operation>
-    </file>
-    <file path="catalog/controller/common/column_right.php">
+	</file>
+	<file path="catalog/controller/common/column_right.php">
         <operation error="skip">
             <search>
-            <![CDATA[$data['modules'] = array();]]>
+			<![CDATA[$data['modules'] = array();]]>
             </search>
             <add position="after">
-            <![CDATA[
+			<![CDATA[
 		if ($this->config->get('bus_menu')) {
 			if ($this->config->get('bus_menu_cats_vertical')['position'] == 2) {
 				if (isset($this->config->get('bus_menu_cats_vertical')['route'][$this->config->get('config_store_id')]) && is_array($this->config->get('bus_menu_cats_vertical')['route'][$this->config->get('config_store_id')])) {
@@ -69,14 +69,14 @@
 		}]]>
             </add>
         </operation>
-    </file>
-    <file path="catalog/controller/common/header.php">
+	</file>
+	<file path="catalog/controller/common/header.php">
         <operation error="skip">
             <search>
-            <![CDATA[function index(]]>
+			<![CDATA[function index(]]>
             </search>
             <add position="after">
-            <![CDATA[		$bus_menu_status = $this->config->get('bus_menu');
+			<![CDATA[		$bus_menu_status = $this->config->get('bus_menu');
 		if ($bus_menu_status) {
 			// newstore
 			if ($this->config->get('config_menu_item') != null) {
@@ -93,44 +93,44 @@
 ]]>
             </add>
         </operation>
-        <operation error="skip">
+		<operation error="skip">
             <search>
-            <![CDATA[$this->load->model('catalog/category');]]>
+			<![CDATA[$this->load->model('catalog/category');]]>
             </search>
             <add position="replace">
-            <![CDATA[if (!$bus_menu_status || !$this->config->get('configmenu_menu') || !$this->config->get('configcustommenu_custommenu')) {
+			<![CDATA[if (!$bus_menu_status || !$this->config->get('configmenu_menu') || !$this->config->get('configcustommenu_custommenu')) {
 			$this->load->model('catalog/category');
 		}]]>
             </add>
         </operation>
-        <operation error="skip">
+		<operation error="skip">
             <search>
-            <![CDATA[$this->load->model('catalog/product');]]>
+			<![CDATA[$this->load->model('catalog/product');]]>
             </search>
             <add position="replace">
-            <![CDATA[if (!$bus_menu_status || !$this->config->get('configmenu_menu') || !$this->config->get('configcustommenu_custommenu')) {
+			<![CDATA[if (!$bus_menu_status || !$this->config->get('configmenu_menu') || !$this->config->get('configcustommenu_custommenu')) {
 			$this->load->model('catalog/product');
 		}]]>
             </add>
         </operation>
-        <operation error="skip">
+		<operation error="skip">
             <search>
 			<![CDATA[$categories = $this->model_catalog_category->getCategories(0);]]>
             </search>
             <add position="replace">
-            <![CDATA[if ($bus_menu_status) {
+			<![CDATA[if ($bus_menu_status) {
 			$categories = array();
 		} else {
 			$categories = $this->model_catalog_category->getCategories(0);
 		}]]>
             </add>
         </operation>
-        <operation error="skip">
+		<operation error="skip">
             <search>
-            <![CDATA[$data['menu'] = $this->load->controller('common/menu');]]>
+			<![CDATA[$data['menu'] = $this->load->controller('common/menu');]]>
             </search>
             <add position="replace">
-            <![CDATA[if ($bus_menu_status) {
+			<![CDATA[if ($bus_menu_status) {
 			$data['menu'] = $data['bus_menu'];
 		} else {
 			$data['menu'] = $this->load->controller('common/menu');
@@ -138,106 +138,106 @@
 ]]>
             </add>
         </operation>
-        <!-- OpenCart.pro menu -->
-        <operation error="skip">
+		<!-- OpenCart.pro menu -->
+		<operation error="skip">
             <search>
-            <![CDATA[$this->load->model('design/menu');]]>
+			<![CDATA[$this->load->model('design/menu');]]>
             </search>
             <add position="replace">
-            <![CDATA[if ($this->config->get('configmenu_menu')) {
+			<![CDATA[if ($this->config->get('configmenu_menu')) {
 			$this->load->model('design/menu');
 		}]]>
             </add>
         </operation>
-        <operation error="skip">
+		<operation error="skip">
             <search>
-            <![CDATA[$this->load->model('design/custommenu');]]>
+			<![CDATA[$this->load->model('design/custommenu');]]>
             </search>
             <add position="replace">
-            <![CDATA[if ($this->config->get('configcustommenu_custommenu')) {
+			<![CDATA[if ($this->config->get('configcustommenu_custommenu')) {
 			$this->load->model('design/custommenu');
 		}]]>
             </add>
         </operation>
-        <!-- OpenCart.pro menu -->
-        <!-- NewStore menu -->
-        <!-- <operation error="skip">
+		<!-- OpenCart.pro menu -->
+		<!-- NewStore menu -->
+		<!-- <operation error="skip">
             <search>
-            <![CDATA[$this->load->model('module/nsmenu');]]>
+			<![CDATA[$this->load->model('module/nsmenu');]]>
             </search>
             <add position="replace">
-            <![CDATA[if ($bus_menu_status) {
+			<![CDATA[if ($bus_menu_status) {
 				$this->config->set('config_menu_item', array());
 			} else {
 				$this->load->model('module/nsmenu');
 			}]]>
             </add>
         </operation>
-        <operation error="skip">
+		<operation error="skip">
             <search>
-            <![CDATA[$this->load->model('extension/module/nsmenu');]]>
+			<![CDATA[$this->load->model('extension/module/nsmenu');]]>
             </search>
             <add position="replace">
-            <![CDATA[if ($bus_menu_status) {
+			<![CDATA[if ($bus_menu_status) {
 				$this->config->set('config_menu_item', array());
 			} else {
 				$this->load->model('extension/module/nsmenu');
 			}]]>
             </add>
         </operation> -->
-        <!-- NewStore menu -->
-    </file>
-    <!-- ↑ САЙТ КОНТРОЛЛЕРЫ ↑ -->
+		<!-- NewStore menu -->
+	</file>
+	<!-- ↑ САЙТ КОНТРОЛЛЕРЫ ↑ -->
 
-    <!-- ↓ САЙТ ШАБЛОН ↓ -->
-    <file path="catalog/view/theme/*/template/common/header.tpl">
+	<!-- ↓ САЙТ ШАБЛОН ↓ -->
+	<file path="catalog/view/theme/*/template/common/header.tpl">
         <operation error="skip">
             <search index="0">
-            <![CDATA[<?php if ($categories) { ?>]]>
+			<![CDATA[<?php if ($categories) { ?>]]>
             </search>
             <add position="before">
-            <![CDATA[<?php echo $bus_menu; ?>]]>
+			<![CDATA[<?php echo $bus_menu; ?>]]>
             </add>
         </operation>
-    </file>
-    <!-- Coloring menu -->
-    <file path="catalog/view/theme/coloring/template/common/header.tpl">
+	</file>
+	<!-- Coloring menu -->
+	<file path="catalog/view/theme/coloring/template/common/header.tpl">
         <operation error="skip">
             <search index="0">
-            <![CDATA[<?php if ($categories || $add_category_menu_toggle) { ?>]]>
+			<![CDATA[<?php if ($categories || $add_category_menu_toggle) { ?>]]>
             </search>
             <add position="replace">
-            <![CDATA[<?php echo $bus_menu; ?>
+			<![CDATA[<?php echo $bus_menu; ?>
 				<?php if ($categories) { ?>]]>
             </add>
         </operation>
-    </file>
-    <!-- Coloring menu -->
-    <!-- NewStore menu -->
-    <file path="catalog/view/theme/newstore/template/common/header.tpl">
+	</file>
+	<!-- Coloring menu -->
+	<!-- NewStore menu -->
+	<file path="catalog/view/theme/newstore/template/common/header.tpl">
         <operation error="skip">
             <search index="0">
-            <![CDATA[<?php if ($categories && $configmenu_menu =='1') { ?>]]>
+			<![CDATA[<?php if ($categories && $configmenu_menu =='1') { ?>]]>
             </search>
             <add position="before">
-            <![CDATA[<?php echo $bus_menu; ?>]]>
+			<![CDATA[<?php echo $bus_menu; ?>]]>
             </add>
         </operation>
-    </file>
-    <!-- NewStore menu -->
-    <!-- MoneyMaker 2 menu -->
-    <file path="catalog/view/theme/moneymaker2/template/common/header.tpl">
+	</file>
+	<!-- NewStore menu -->
+	<!-- MoneyMaker 2 menu -->
+	<file path="catalog/view/theme/moneymaker2/template/common/header.tpl">
         <operation error="skip">
             <search index="0">
-            <![CDATA[<?php if ($moneymaker2_header_categories_panel) { ?>]]>
+			<![CDATA[<?php if ($moneymaker2_header_categories_panel) { ?>]]>
             </search>
             <add position="before">
-            <![CDATA[<?php echo $bus_menu; ?>]]>
+			<![CDATA[<?php echo $bus_menu; ?>]]>
             </add>
         </operation>
-    </file>
-    <!-- MoneyMaker 2 menu -->
-    <!-- ↑ САЙТ ШАБЛОН ↑ -->
+	</file>
+	<!-- MoneyMaker 2 menu -->
+	<!-- ↑ САЙТ ШАБЛОН ↑ -->
 </modification>
 
 <!-- Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )

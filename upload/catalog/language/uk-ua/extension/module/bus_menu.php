@@ -7,9 +7,10 @@
 $_['heading_title']                   = 'blМеню';
 
 // Text
-$_['text_show_more'] 				  = 'Показати ще';
-$_['text_hide_more'] 				  = 'Приховати';
-$_['text_all']						  = 'Дивитися всі';
+$_['text_select']                     = '-- Виберіть --';
+$_['text_show_more']                  = 'Показати ще';
+$_['text_hide_more']                  = 'Приховати';
+$_['text_all']                        = 'Дивитися всі';
 $_['text_rating_count']               = 'Рейтинг побудований на основа:';
 $_['text_rating_count_reviews']       = 'відгуків - оцінка';
 $_['text_rating_count_reviews_total'] = 'Кількість відгуків:';
