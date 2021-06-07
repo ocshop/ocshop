@@ -111,9 +111,9 @@ class ControllerProductMostviewed extends Controller {
 			'limit' => $limit
 		);
 
-		$product_total = $this->model_catalog_product->getTotalProducts();
-
 		$results = $this->model_catalog_cms->getMostViewed($filter_data);
+
+		$product_total = count($results);
 
 		foreach ($results as $result) {
 			if ($result['image']) {
