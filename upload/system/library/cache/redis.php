@@ -57,7 +57,7 @@ class Redis {
 		$status = false;
 
 		if (method_exists($this->redis, 'flushDb')) {
-			$redis->flushDb();
+			$this->redis->flushDb();
 			$status = true;
 		}
 
