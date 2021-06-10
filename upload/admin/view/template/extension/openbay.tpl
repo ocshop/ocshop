@@ -75,17 +75,17 @@
                       </a> </div>
                   </div>
                   <div class="col-md-4 text-center">
-                    <div class="well"> <a href="http://www.openbaypro.com/help" target="_BLANK"> <span class="fa-stack fa-2x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-comments-o fa-stack-1x"></i> </span>
+                    <div class="well"> <a href="http://www.openbaypro.com/help" rel="noreferrer noopener" target="_BLANK"> <span class="fa-stack fa-2x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-comments-o fa-stack-1x"></i> </span>
                       <h4><?php echo $text_help; ?></h4>
                       </a> </div>
                   </div>
                   <div class="col-md-4 text-center">
-                    <div class="well"> <a href="http://www.openbaypro.com/tutorials" target="_BLANK"> <span class="fa-stack fa-2x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-youtube-play fa-stack-1x"></i> </span>
+                    <div class="well"> <a href="http://www.openbaypro.com/tutorials" rel="noreferrer noopener" target="_BLANK"> <span class="fa-stack fa-2x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-youtube-play fa-stack-1x"></i> </span>
                       <h4><?php echo $text_tutorials; ?></h4>
                       </a> </div>
                   </div>
                   <div class="col-md-4 text-center">
-                    <div class="well"> <a href="http://www.openbaypro.com/suggestions" target="_BLANK"> <span class="fa-stack fa-2x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-bullhorn fa-stack-1x"></i> </span>
+                    <div class="well"> <a href="http://www.openbaypro.com/suggestions" rel="noreferrer noopener" target="_BLANK"> <span class="fa-stack fa-2x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-bullhorn fa-stack-1x"></i> </span>
                       <h4><?php echo $text_suggestions; ?></h4>
                       </a> </div>
                   </div>
