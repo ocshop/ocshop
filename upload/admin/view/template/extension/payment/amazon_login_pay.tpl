@@ -20,7 +20,7 @@
 		</div>
 	<?php } ?>
 	<div class="alert alert-info">
-	  <form method="POST" target="_blank" action="<?php echo $registration_url; ?>" class="form-horizontal" id="registration-form">
+	  <form method="POST" rel="noreferrer noopener" target="_blank" action="<?php echo $registration_url; ?>" class="form-horizontal" id="registration-form">
 		<input type="hidden" value="<?php echo $locale; ?>" name="locale">
 		<input type="hidden" value="<?php echo $sp_id; ?>" name="spId">
 		<input type="hidden" value="<?php echo $unique_id; ?>" name="uniqueId">
