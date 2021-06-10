@@ -22,7 +22,7 @@
       </div>
       <?php if ($validation == true) { ?>
         <div class="col-md-3 text-center">
-          <div class="well"> <a href="<?php echo $link_account; ?>" target="_blank"> <span class="fa-stack fa-3x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-user fa-stack-1x"></i> </span>
+          <div class="well"> <a href="<?php echo $link_account; ?>" rel="noreferrer noopener" target="_blank"> <span class="fa-stack fa-3x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-user fa-stack-1x"></i> </span>
             <h4><?php echo $text_heading_account; ?></h4>
           </a> </div>
         </div>
@@ -39,7 +39,7 @@
       <?php } else { ?>
       <div class="col-md-3 text-center">
         <div class="well">
-          <a href="https://account.openbaypro.com/fba/apiregister/" target="_BLANK">
+          <a href="https://account.openbaypro.com/fba/apiregister/" rel="noreferrer noopener" target="_BLANK">
             <span class="fa-stack fa-3x"> <i class="fa fa-square-o fa-stack-2x"></i> <i class="fa fa-star fa-stack-1x"></i> </span>
             <h4><?php echo $text_heading_register; ?></h4>
           </a>

@@ -60,8 +60,8 @@
             <?php if (!empty($items)) { ?>
               <?php foreach ($items as $id => $item) { ?>
                 <tr id="row-<?php echo $item['etsy_listing_id']; ?>">
-                  <td class="text-left"><a href="<?php echo $item['link_edit']; ?>" target="_BLANK"><?php echo $item['name']; ?></a></td>
-                  <td class="text-center"><a href="<?php echo $item['link_etsy']; ?>" target="_BLANK"><?php echo $item['etsy_item_id']; ?></a></td>
+                  <td class="text-left"><a href="<?php echo $item['link_edit']; ?>" target="_blank"><?php echo $item['name']; ?></a></td>
+                  <td class="text-center"><a href="<?php echo $item['link_etsy']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $item['etsy_item_id']; ?></a></td>
                   <td class="text-center"><?php echo $item['quantity']; ?></td>
                   <td class="text-center"><?php if ($item['status'] == 1) { ?>
                     <i class="fa fa-check" style="color: green;"></i>

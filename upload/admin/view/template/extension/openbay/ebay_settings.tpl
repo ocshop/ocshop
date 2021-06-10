@@ -79,9 +79,9 @@
             <div class="form-group">
               <label class="col-sm-2 control-label"><?php echo $text_api_other; ?></label>
               <div class="col-sm-10">
-                <p><a href="https://account.openbaypro.com/ebay/apiRegister/" target="_BLANK"><i class="fa fa-link"></i> <?php echo $text_token_register; ?></a></p>
-                <p><a href="https://account.openbaypro.com/ebay/apiRenew/" target="_BLANK"><i class="fa fa-link"></i> <?php echo $text_token_renew; ?></a></p>
-                <p><a href="http://account.openbaypro.com/ebay/apiUpdate/" target="_BLANK"><i class="fa fa-link"></i> <?php echo $text_obp_detail_update; ?></a></p>
+                <p><a href="https://account.openbaypro.com/ebay/apiRegister/" rel="noreferrer noopener" target="_blank"><i class="fa fa-link"></i> <?php echo $text_token_register; ?></a></p>
+                <p><a href="https://account.openbaypro.com/ebay/apiRenew/" rel="noreferrer noopener" target="_blank"><i class="fa fa-link"></i> <?php echo $text_token_renew; ?></a></p>
+                <p><a href="http://account.openbaypro.com/ebay/apiUpdate/" rel="noreferrer noopener" target="_blank"><i class="fa fa-link"></i> <?php echo $text_obp_detail_update; ?></a></p>
               </div>
             </div>
           </div>
