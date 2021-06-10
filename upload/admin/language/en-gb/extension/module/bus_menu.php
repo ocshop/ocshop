@@ -84,8 +84,8 @@ $_['text_rating_count_check_1']             = ' Ratings from reviews';
 $_['text_rating_count_check_2']             = ' Number of views';
 $_['text_rating_count_check_3']             = ' Number of Sales';
 $_['text_product_count']                    = 'Current categories only';
-$_['text_author']                           = 'Author: <a href="http://buslikdrev.by/" title="Handicraft Products" target="_blank">BuslikDrev</a>. Support: <a href="https://liveopencart.ru/buslikdrev" title="Technical help to solve problems associated with the module" target="_blank">HERE</a>. Support topic: <a href="https://forum.opencart.pro/topic/5750-ыменю-blmenu-максимальная-скорость/" title="Technical help to solve problems associated with the module" target="_blank">HERE</a>.';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" target="_blank">BuslikDrev</a> - All rights reserved.';
+$_['text_author']                           = 'Author: <a href="http://buslikdrev.by/" title="Handicraft Products" rel="noreferrer noopener" target="_blank">BuslikDrev</a>. Support: <a href="https://liveopencart.ru/buslikdrev" title="Technical help to solve problems associated with the module" rel="noreferrer noopener" target="_blank">HERE</a>. Support topic: <a href="https://forum.opencart.pro/topic/5750-ыменю-blmenu-максимальная-скорость/" title="Technical help to solve problems associated with the module" rel="noreferrer noopener" target="_blank">HERE</a>.';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" rel="noreferrer noopener" target="_blank">BuslikDrev</a> - All rights reserved.';
 
 // Entry
 $_['entry_type']                            = 'Module type';

@@ -44,7 +44,7 @@ $_['text_right_bottom']                     = 'Right and bottom';
 $_['text_example']                          = '<b>Example:</b> %s';
 $_['text_view']                             = '<b>The template is located along the path:</b> catalog/view/theme/%s/template/';
 $_['text_author']                           = '';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" target="_blank">BuslikDrev</a> - All rights reserved.';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" rel="noreferrer noopener" target="_blank">BuslikDrev</a> - All rights reserved.';
 
 // Entry
 $_['entry_index']                           = 'Skip repeated';
