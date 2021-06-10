@@ -44,7 +44,7 @@ $_['text_right_bottom']                     = 'У правому нижньом�
 $_['text_example']                          = '<b>Наприклад:</b> %s';
 $_['text_view']                             = '<b>Шаблон розташований по шляху:</b> catalog/view/theme/%s/template/';
 $_['text_author']                           = '';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" target="_blank">BuslikDrev</a> - Всі права збережені.';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="https://liveopencart.ru/buslikdrev" title="BuslikDrev" rel="noreferrer noopener" target="_blank">BuslikDrev</a> - Всі права збережені.';
 
 // Entry
 $_['entry_index']                           = 'Пропустити повторні';

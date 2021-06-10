@@ -84,8 +84,8 @@ $_['text_rating_count_check_1']             = ' Ацэнак з водгукаў
 $_['text_rating_count_check_2']             = ' Колькасці праглядаў';
 $_['text_rating_count_check_3']             = ' Колькасці продажаў';
 $_['text_product_count']                    = 'Толькі бягучых катэгорый';
-$_['text_author']                           = 'Аўтар: <a href="http://buslikdrev.by/" title="Тавары рамеснай вытворчасці" target="_blank">БуслікДрэў</a>. Тэх. падтрымка: <a href="https://liveopencart.ru/buslikdrev" title="Тэхнічная дапамога па вырашэнні праблем звязаныя з модулем" target="_blank">ТУТ</a>. Тэма падтрымкі: <a href="https://forum.opencart.pro/topic/5750-ыменю-blmenu-максимальная-скорость/" title="Тэхнічная дапамога па вырашэнні праблем звязаныя з модулем" target="_blank">ТУТ</a>.';
-$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" target="_blank">BuslikDrev</a> - Усе правы захаваны.';
+$_['text_author']                           = 'Аўтар: <a href="http://buslikdrev.by/" title="Тавары рамеснай вытворчасці" rel="noreferrer noopener" target="_blank">БуслікДрэў</a>. Тэх. падтрымка: <a href="https://liveopencart.ru/buslikdrev" title="Тэхнічная дапамога па вырашэнні праблем звязаныя з модулем" rel="noreferrer noopener" target="_blank">ТУТ</a>. Тэма падтрымкі: <a href="https://forum.opencart.pro/topic/5750-ыменю-blmenu-максимальная-скорость/" title="Тэхнічная дапамога па вырашэнні праблем звязаныя з модулем" rel="noreferrer noopener" target="_blank">ТУТ</a>.';
+$_['text_corp']                             = '© 2016-' . date('d.m.Y') . '; <a href="http://buslikdrev.by/" title="BuslikDrev" rel="noreferrer noopener" target="_blank">BuslikDrev</a> - Усе правы захаваны.';
 
 // Entry
 $_['entry_type']                            = 'Тып модуля';
