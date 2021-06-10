@@ -11,7 +11,7 @@ $_['heading_title']          = 'Google Base';
 $_['text_extension']         = 'Extensions';
 $_['text_success']           = 'Success: You have modified Google Base feed!';
 $_['text_edit']              = 'Edit Google Base';
-$_['text_import']            = 'To download the latest Google category list by <a href="https://support.google.com/merchants/answer/160081?hl=en" class="alert-link" rel="noreferrer" target="_blank">clicking here</a> and choose taxonomy with numeric IDs in Plain Text (.txt) file. Upload via the green import button.';
+$_['text_import']            = 'To download the latest Google category list by <a href="https://support.google.com/merchants/answer/160081?hl=en" class="alert-link"  rel="noreferrer noopener" target="_blank">clicking here</a> and choose taxonomy with numeric IDs in Plain Text (.txt) file. Upload via the green import button.';
 
 // Column
 $_['column_google_category'] = 'Google Category';

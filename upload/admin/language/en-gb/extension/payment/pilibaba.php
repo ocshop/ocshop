@@ -15,7 +15,7 @@ $_['tab_settings']          = 'Settings';
 $_['text_extension']        = 'Extensions';
 $_['text_success']          = 'Success: You have modified Pilibaba payment module!';
 $_['text_edit']             = 'Edit Pilibaba';
-$_['text_pilibaba']         = '<a href="http://www.pilibaba.com" target="_blank"><img src="view/image/payment/pilibaba.png" alt="Pilibaba" title="Pilibaba"></a>';
+$_['text_pilibaba']         = '<a href="https://www.pilibaba.com" rel="noreferrer noopener" target="_blank"><img src="view/image/payment/pilibaba.png" alt="Pilibaba" title="Pilibaba"></a>';
 $_['text_live']             = 'Live';
 $_['text_test']             = 'Test';
 $_['text_payment_info']     = 'Payment Info';

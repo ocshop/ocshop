@@ -11,7 +11,7 @@ $_['text_extension']   = 'Extensions';
 $_['text_captcha']     = 'Captcha';
 $_['text_success']     = 'Success: You have modified Google reCAPTCHA!';
 $_['text_edit']        = 'Edit Google reCAPTCHA';
-$_['text_signup']      = 'Go to <a href="https://www.google.com/recaptcha/intro/index.html" class="alert-link" rel="noreferrer" target="_blank">Google reCAPTCHA page</a> and register your website.';
+$_['text_signup']      = 'Go to <a href="https://www.google.com/recaptcha/intro/index.html" class="alert-link" rel="noreferrer noopener" target="_blank">Google reCAPTCHA page</a> and register your website.';
 
 // Entry
 $_['entry_key']        = 'Site key';

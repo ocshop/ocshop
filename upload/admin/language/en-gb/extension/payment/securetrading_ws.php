@@ -9,7 +9,7 @@ $_['heading_title']                              = 'Secure Trading Web Service';
 $_['tab_settings']                               = 'Settings';
 $_['tab_myst']                                   = 'MyST';
 
-$_['text_securetrading_ws']                      = '<a href="http://www.securetradingfs.com/partner/open-cart/" target="_blank"><img src="view/image/payment/secure_trading.png" alt="Secure Trading" title="Secure Trading" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_securetrading_ws']                      = '<a href="https://www.securetradingfs.com/partner/open-cart/" rel="noreferrer noopener" target="_blank"><img src="view/image/payment/secure_trading.png" alt="Secure Trading" title="Secure Trading" style="border: 1px solid #EEEEEE;" /></a>';
 $_['text_extension']                             = 'Extensions';
 $_['text_all_geo_zones']                         = 'All Geo Zones';
 $_['text_process_immediately']                   = 'Process immediately';
