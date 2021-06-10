@@ -12,7 +12,7 @@ $_['text_extension']                          = 'Расширения';
 $_['text_fraud']                              = 'Антифрод';
 $_['text_success']                            = 'Настройки успешно изменены!';
 $_['text_edit']                               = 'Редактирование';
-$_['text_signup']                             = 'MaxMind is a fraud detection service. If you don\'t have a license key you can <a href="http://www.maxmind.com/?rId=opencart" target="_blank"><u>sign up here</u></a>.';
+$_['text_signup']                             = 'MaxMind is a fraud detection service. If you don\'t have a license key you can <a href="https://www.maxmind.com/?rId=opencart" rel="noreferrer noopener" target="_blank"><u>sign up here</u></a>.';
 $_['text_country_match']                      = 'Country Match:';
 $_['text_country_code']                       = 'Country Code:';
 $_['text_high_risk_country']                  = 'High Risk Country:';

@@ -11,7 +11,7 @@ $_['heading_title']					 = 'PayPal Payments Standard';
 $_['text_payment']					 = 'Платеж';
 $_['text_success']					 = 'Success: You have modified PayPal account details!';
 $_['text_edit']                      = 'Редактирование';
-$_['text_pp_standard']				 = '<a target="_BLANK" href="https://www.paypal.com/uk/mrb/pal=V4T754QB63XXL"><img src="view/image/payment/paypal.png" alt="PayPal Website Payment Pro" title="PayPal Website Payment Pro iFrame" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_pp_standard']				 = '<a target="_BLANK" href="https://www.paypal.com/uk/mrb/pal=V4T754QB63XXL" rel="noreferrer noopener"><img src="view/image/payment/paypal.png" alt="PayPal Website Payment Pro" title="PayPal Website Payment Pro iFrame" style="border: 1px solid #EEEEEE;" /></a>';
 $_['text_authorization']			 = 'Authorization';
 $_['text_sale']						 = 'Sale'; 
 

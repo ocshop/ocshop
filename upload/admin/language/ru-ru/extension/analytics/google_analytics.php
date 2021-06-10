@@ -11,7 +11,7 @@ $_['text_extension']   = 'Расширения';
 $_['text_analytics']   = 'Аналитикс';
 $_['text_success']     = 'Настройки успешно изменены!';
 $_['text_edit']        = 'Настройки Google Аналитикс';
-$_['text_signup']      = 'Войдите в Ваш <a href="http://www.google.com/analytics/" class="alert-link" rel="noreferrer" target="_blank">Google Аналитикс</a> и после настройки добавьте сюда выданный код.';
+$_['text_signup']      = 'Войдите в Ваш <a href="https://www.google.com/analytics/" class="alert-link" rel="noreferrer noopener" target="_blank">Google Аналитикс</a> и после настройки добавьте сюда выданный код.';
 
 // Entry
 $_['entry_code']       = 'Код Google Аналитикс';
