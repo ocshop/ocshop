@@ -35,7 +35,7 @@
 <img src="view/image/howto/seopult/proekt-zapusk-scrin-8.png" width="960" height="416" />
 <p>Вот и все вы запустили закупку ссылок для свое магазина, скажите просто ? а SEO студии за это берут не малые деньги.
 Теперь мы подождем несколько дней, дадим системе собрать данные и приступим к анализу и исправлению своих ошибок.</p>
-<p>В том случае если у вас остались вопросы задавайте их на нашем <a href="http://forum.opencart.pro/index.php?/topic/1023-seopultru/" target="_blank"><strong>форуме</strong></a>.</p>
+<p>В том случае если у вас остались вопросы задавайте их на нашем <a href="https://forum.opencart.pro/index.php?/topic/1023-seopultru/" rel="noreferrer noopener" target="_blank"><strong>форуме</strong></a>.</p>
     </div>
   </div>
 </div>
