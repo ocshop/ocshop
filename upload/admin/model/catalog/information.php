@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -26,14 +26,13 @@ class ModelCatalogInformation extends Model {
 			}
 		}
 
-		$this->cache->delete('seo_pro');
-		$this->cache->delete('seo_url');
-
 		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'information_id=" . (int)$information_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		$this->cache->delete('information');
+		$this->cache->delete('seo_pro');
+		$this->cache->delete('seo_url');
 
 		return $information_id;
 	}
@@ -65,22 +64,20 @@ class ModelCatalogInformation extends Model {
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'information_id=" . (int)$information_id . "'");
 
-		$this->cache->delete('seo_pro');
-		$this->cache->delete('seo_url');
-
 		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'information_id=" . (int)$information_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		$this->cache->delete('information');
+		$this->cache->delete('seo_pro');
+		$this->cache->delete('seo_url');
 	}
 
 	public function editInformationStatus($information_id, $status) {
-        $this->db->query("UPDATE " . DB_PREFIX . "information SET status = '" . (int)$status . "'WHERE information_id = '" . (int)$information_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "information SET status = '" . (int)$status . "'WHERE information_id = '" . (int)$information_id . "'");
 
 		$this->cache->delete('information');
-
-    }
+	}
 
 	public function deleteInformation($information_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "information WHERE information_id = '" . (int)$information_id . "'");
@@ -163,7 +160,7 @@ class ModelCatalogInformation extends Model {
 				'title'            => $result['title'],
 				'description'      => $result['description'],
 				'meta_title'       => $result['meta_title'],
-				'meta_h1'	       => $result['meta_h1'],
+				'meta_h1'          => $result['meta_h1'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword']
 			);

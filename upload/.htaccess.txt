@@ -17,6 +17,16 @@ Options -Indexes
 # Deny from all
 </FilesMatch>
 
+# запрещаем скрипты кроме index.php
+<FilesMatch "\.php$">
+  Order deny,allow
+  Deny from all
+</FilesMatch>
+<FilesMatch "(index[0-9]?)\.php$">
+  Order deny,allow
+  Allow from all
+</FilesMatch>
+
 # SEO URL Settings
 RewriteEngine On
 # If your opencart installation does not run on the main web folder make sure you folder it does run in ie. / becomes /shop/

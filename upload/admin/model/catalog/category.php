@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -42,13 +42,13 @@ class ModelCatalogCategory extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "category_to_store SET category_id = '" . (int)$category_id . "', store_id = '" . (int)$store_id . "'");
 			}
 		}
-		
+
 		if (isset($data['product_related'])) {
 			foreach ($data['product_related'] as $related_id) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related_wb SET category_id = '" . (int)$category_id . "', product_id = '" . (int)$related_id . "'");
 			}
 		}
-	
+
 		if (isset($data['article_related'])) {
 			foreach ($data['article_related'] as $related_id) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related_wb SET category_id = '" . (int)$category_id . "', article_id = '" . (int)$related_id . "'");
@@ -61,22 +61,21 @@ class ModelCatalogCategory extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "category_to_layout SET category_id = '" . (int)$category_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
 			}
 		}
-		
-		$this->cache->delete('seo_pro');
-		$this->cache->delete('seo_url');
 
 		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'category_id=" . (int)$category_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		$this->cache->delete('category');
+		$this->cache->delete('seo_pro');
+		$this->cache->delete('seo_url');
 
 		return $category_id;
 	}
 
 	public function editCategory($category_id, $data) {
 		$this->db->query("UPDATE " . DB_PREFIX . "category SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', noindex = '" . (int)$data['noindex'] . "', date_modified = NOW() WHERE category_id = '" . (int)$category_id . "'");
-		
+
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "category SET image = '" . $this->db->escape($data['image']) . "' WHERE category_id = '" . (int)$category_id . "'");
 		}
@@ -153,26 +152,22 @@ class ModelCatalogCategory extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "category_to_store SET category_id = '" . (int)$category_id . "', store_id = '" . (int)$store_id . "'");
 			}
 		}
-		
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_related_wb WHERE category_id = '" . (int)$category_id . "'");
-	
+
 		if (isset($data['product_related'])) {
 			foreach ($data['product_related'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "product_related_wb WHERE category_id = '" . (int)$category_id . "' AND product_id = '" . (int)$related_id . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_related_wb SET category_id = '" . (int)$category_id . "', product_id = '" . (int)$related_id . "'");
-				
-	
 			}
 		}
-		
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_wb WHERE category_id = '" . (int)$category_id . "'");
-	
+
 		if (isset($data['article_related'])) {
 			foreach ($data['article_related'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_wb WHERE category_id = '" . (int)$category_id . "' AND article_id = '" . (int)$related_id . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related_wb SET category_id = '" . (int)$category_id . "', article_id = '" . (int)$related_id . "'");
-				
-	
 			}
 		}
 
@@ -185,23 +180,21 @@ class ModelCatalogCategory extends Model {
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'category_id=" . (int)$category_id . "'");
-		
-		$this->cache->delete('seo_pro');
-		$this->cache->delete('seo_url');
 
 		if (!empty($data['keyword'])) {
 			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'category_id=" . (int)$category_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		$this->cache->delete('category');
+		$this->cache->delete('seo_pro');
+		$this->cache->delete('seo_url');
 	}
-	
+
 	public function editCategoryStatus($category_id, $status) {
-        $this->db->query("UPDATE " . DB_PREFIX . "category SET status = '" . (int)$status . "', date_modified = NOW() WHERE category_id = '" . (int)$category_id . "'");
-        
+		$this->db->query("UPDATE " . DB_PREFIX . "category SET status = '" . (int)$status . "', date_modified = NOW() WHERE category_id = '" . (int)$category_id . "'");
+
 		$this->cache->delete('category');
-		
-    }
+	}
 
 	public function deleteCategory($category_id) {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "category_path WHERE category_id = '" . (int)$category_id . "'");
@@ -309,23 +302,23 @@ class ModelCatalogCategory extends Model {
 			$category_description_data[$result['language_id']] = array(
 				'name'             => $result['name'],
 				'meta_title'       => $result['meta_title'],
-				'meta_h1'      	   => $result['meta_h1'],
+				'meta_h1'          => $result['meta_h1'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword'],
 				'description'      => $result['description'],
-				'description_bottom'      => $result['description_bottom']
+				'description_bottom' => $result['description_bottom']
 			);
 		}
 
 		return $category_description_data;
 	}
-	
+
 	public function getCategoryPath($category_id) {
 		$query = $this->db->query("SELECT category_id, path_id, level FROM " . DB_PREFIX . "category_path WHERE category_id = '" . (int)$category_id . "'");
 
 		return $query->rows;
 	}
-	
+
 	public function getCategoryFilters($category_id) {
 		$category_filter_data = array();
 
@@ -349,28 +342,28 @@ class ModelCatalogCategory extends Model {
 
 		return $category_store_data;
 	}
-	
+
 	public function getCategoryRelated($category_id) {
 		$category_related_data = array();
-		
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_related_wb WHERE product_id = '" . (int)$product_id . "'");
-		
+
 		foreach ($query->rows as $result) {
 			$product_related_data[] = $result['related_id'];
 		}
-		
+
 		return $product_related_data;
 	}
-	
+
 	public function getCategoryRelated_article($category_id) {
 		$category_related_data = array();
-		
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article_related_wb WHERE article_id = '" . (int)$article_id . "'");
-		
+
 		foreach ($query->rows as $result) {
 			$article_related_data[] = $result['related_id'];
 		}
-		
+
 		return $article_related_data;
 	}
 
@@ -391,13 +384,13 @@ class ModelCatalogCategory extends Model {
 
 		return $query->row['total'];
 	}
-	
+
 	public function getTotalCategoriesByLayoutId($layout_id) {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category_to_layout WHERE layout_id = '" . (int)$layout_id . "'");
 
 		return $query->row['total'];
 	}
-	
+
 	public function getCategoriesByParentId($parent_id = 0) {
 		$query = $this->db->query("SELECT *, (SELECT COUNT(parent_id) FROM " . DB_PREFIX . "category WHERE parent_id = c.category_id) AS children FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) WHERE c.parent_id = '" . (int)$parent_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY c.sort_order, cd.name");
 		return $query->rows;
@@ -405,46 +398,49 @@ class ModelCatalogCategory extends Model {
 
 	public function getAllCategories() {
 		$category_data = $this->cache->get('category.all.' . $this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'));
+
 		if (!$category_data || !is_array($category_data)) {
-		
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY c.parent_id, c.sort_order, cd.name");
-		$category_data = array();
-		
-		foreach ($query->rows as $row) {
-			$category_data[$row['parent_id']][$row['category_id']] = $row;
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id) LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY c.parent_id, c.sort_order, cd.name");
+
+			$category_data = array();
+
+			foreach ($query->rows as $row) {
+				$category_data[$row['parent_id']][$row['category_id']] = $row;
+			}
+
+			$this->cache->set('category.all.' . $this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'), $category_data);
 		}
-		$this->cache->set('category.all.' . $this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id'), $category_data);
-		}
-		
+
 		return $category_data;
 	}
-	
+
 	public function getProductRelated($category_id) {
 		$product_related_data = array();
-		
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_related_wb WHERE category_id = '" . (int)$category_id . "'");
-		
+
 		foreach ($query->rows as $result) {
 			$product_related_data[] = $result['product_id'];
 		}
-		
+
 		return $product_related_data;
 	}
-	
+
 	public function getArticleRelated($category_id) {
 		$article_related_data = array();
-		
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article_related_wb WHERE category_id = '" . (int)$category_id . "'");
-		
+
 		foreach ($query->rows as $result) {
 			$article_related_data[] = $result['article_id'];
 		}
-		
+
 		return $article_related_data;
 	}
-	
+
 	public function getCategoriesChildren($parent_id = 0) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category_path WHERE path_id = '" . (int)$parent_id . "'");
+
 		return $query->rows;
 	}
 }

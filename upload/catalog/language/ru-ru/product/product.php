@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -35,7 +35,7 @@ $_['text_week']                = 'Неделя';
 $_['text_semi_month']          = 'Полмесяца';
 $_['text_month']               = 'Месяц';
 $_['text_year']                = 'Год';
-$_['text_benefits']     = 'Преимущества:';
+$_['text_benefits']            = 'Преимущества:';
 
 // Entry
 $_['entry_qty']                = 'Кол-во';

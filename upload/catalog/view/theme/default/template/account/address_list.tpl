@@ -20,7 +20,7 @@
     <?php $class = 'col-sm-12'; ?>
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
-      <h2><?php echo $text_address_book; ?></h2>
+      <h1><?php echo $text_address_book; ?></h1>
       <?php if ($addresses) { ?>
       <div class="table-responsive">
         <table class="table table-bordered table-hover">

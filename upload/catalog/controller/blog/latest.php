@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -11,41 +11,6 @@ class ControllerBlogLatest extends Controller {
 		$this->load->model('blog/article');
 
 		$this->load->model('tool/image');
-
-		if (isset($this->request->get['sort'])) {
-			$sort = $this->request->get['sort'];
-			$this->document->setRobots('noindex,follow');
-		} else {
-			$sort = 'p.date_added';
-		}
-
-		if (isset($this->request->get['order'])) {
-			$order = $this->request->get['order'];
-		} else {
-			$order = 'DESC';
-		}
-
-		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
-			$this->document->setRobots('noindex,follow');
-		} else {
-			$page = 1;
-		}
-
-		if (isset($this->request->get['limit'])) {
-			$limit = ((int)$this->request->get['limit'] > 100 && (int)$this->request->get['limit'] > (int)$this->config->get('configblog_article_limit') ? 100 : (int)$this->request->get['limit']);
-			$this->document->setRobots('noindex,follow');
-		} else {
-			$limit = $this->config->get('configblog_article_limit');
-		}
-
-		$configblog_html_h1 = $this->config->get('configblog_html_h1');
-
-		if (!empty($configblog_html_h1)) {
-			$data['heading_title'] = $configblog_html_h1;
-		} else {
-			$data['heading_title'] = $this->language->get('heading_title');
-		}
 
 		$configblog_meta_title = $this->config->get('configblog_meta_title');
 
@@ -65,6 +30,43 @@ class ControllerBlogLatest extends Controller {
 			'href' => $this->url->link('common/home')
 		);
 
+		if (isset($this->request->get['sort'])) {
+			$sort = $this->request->get['sort'];
+			$this->document->setRobots('noindex,follow');
+		} else {
+			$sort = 'p.date_added';
+		}
+
+		if (isset($this->request->get['order'])) {
+			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
+		} else {
+			$order = 'DESC';
+		}
+
+		if (isset($this->request->get['page'])) {
+			$page = (int)$this->request->get['page'];
+			$this->document->setRobots('noindex,follow');
+		} else {
+			$page = 1;
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get('configblog_article_limit') ? 100 : $limit);
+			$this->document->setRobots('noindex,follow');
+		} else {
+			$limit = (int)$this->config->get('configblog_article_limit');
+		}
+
+		$configblog_html_h1 = $this->config->get('configblog_html_h1');
+
+		if (!empty($configblog_html_h1)) {
+			$data['heading_title'] = $configblog_html_h1;
+		} else {
+			$data['heading_title'] = $this->language->get('heading_title');
+		}
+
 		$configblog_name = $this->config->get('configblog_name');
 
 		if (!empty($configblog_name)) {
@@ -77,8 +79,6 @@ class ControllerBlogLatest extends Controller {
 		$data['text_views'] = $this->language->get('text_views');
 		$data['text_empty'] = $this->language->get('text_empty');			
 		$data['text_display'] = $this->language->get('text_display');
-		$data['text_list'] = $this->language->get('text_list');
-		$data['text_grid'] = $this->language->get('text_grid');
 		$data['text_sort'] = $this->language->get('text_sort');
 		$data['text_limit'] = $this->language->get('text_limit');
 		$data['text_sort_by'] = $this->language->get('text_sort_by');
@@ -87,8 +87,10 @@ class ControllerBlogLatest extends Controller {
 		$data['text_sort_rated'] = $this->language->get('text_sort_rated');
 		$data['text_sort_viewed'] = $this->language->get('text_sort_viewed');
 
-		$data['button_more'] = $this->language->get('button_more');
 		$data['button_continue'] = $this->language->get('button_continue');
+		$data['button_list'] = $this->language->get('button_list');
+		$data['button_grid'] = $this->language->get('button_grid');
+		$data['button_more'] = $this->language->get('button_more');
 
 		$data['breadcrumbs'][] = array(
 			'text' => $name,
@@ -115,9 +117,9 @@ class ControllerBlogLatest extends Controller {
 			$url .= '&limit=' . $this->request->get['limit'];
 		}
 
-		/* $data['categories'] = array();
+		$data['categories'] = array();
 
-		$results = $this->model_blog_category->getCategories(0);
+		/* $results = $this->model_blog_category->getCategories(0);
 
 		foreach ($results as $result) {
 			$filter_data = array(
@@ -148,7 +150,7 @@ class ControllerBlogLatest extends Controller {
 			if ($result['image']) {
 				$image = $this->model_tool_image->resize($result['image'], $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
 			} else {
-				$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('configblog_image_article_width'), $this->config->get('configblog_image_article_height'));
+				$image = false;
 			}
 
 			if ($configblog_review_status) {

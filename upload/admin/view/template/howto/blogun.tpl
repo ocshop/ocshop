@@ -12,11 +12,11 @@
   </div>
   <div class="container-fluid">
     <div class="panel panel-default">
-      <p><a href="https://blogun.ru/unimpairedcedcdhg.html" target="_blank"><strong>Блогун.ру</strong></a> это пожалуй один из старейших но к сожалению уже давно не лучших сервисов по размещению постоянных ссылок, но и для него есть место в нашей задаче, а именно закупка дешевых постоянных ссылок для разбавления качественных ссылок которые мы будем закупать в <b><a href="<?php echo $gogettop; ?>" target="_blank">gogettop</a>.</b>
+      <p><a href="https://blogun.ru/unimpairedcedcdhg.html" rel="noreferrer noopener" target="_blank"><strong>Блогун.ру</strong></a> это пожалуй один из старейших но к сожалению уже давно не лучших сервисов по размещению постоянных ссылок, но и для него есть место в нашей задаче, а именно закупка дешевых постоянных ссылок для разбавления качественных ссылок которые мы будем закупать в <b><a href="<?php echo $gogettop; ?>" rel="noreferrer noopener" target="_blank">gogettop</a>.</b>
 
 Тут мы будем закупать постовые по 15 рублей и краткие обзоры по 30 к сожалению по такой низкой цене не так много предложений как хотелось бы но для наших задач в самый раз.
 
-И так, нам необходимо <b><a href="https://blogun.ru/unimpairedcedcdhg.html" target="_blank">зарегистрироваться</a>,</b> тут мы видим обычную не замысловатую форму заполняем ее и жмем Зарегистрировать.</p><br />
+И так, нам необходимо <b><a href="https://blogun.ru/unimpairedcedcdhg.html" rel="noreferrer noopener" target="_blank">зарегистрироваться</a>,</b> тут мы видим обычную не замысловатую форму заполняем ее и жмем Зарегистрировать.</p><br />
 
 <img src="view/image/howto/blogun/blogun-registration-shag-1.png" width="100%" />
 
@@ -92,7 +92,7 @@
 
 <p>Уверен вы догадались, мы жмем кнопку отказ.
 
-После того как мы удалили предложения от неудавшихся миллионеров мы подтверждаем все подряд так как наша цель купить тут не самые качественные площадки а купить разбавляющие ссылки для нашего сайта, качественные мы купим в <b><a href="<?php echo $gogettop; ?>" target="_blank">gogettop</a>.</b></p>
+После того как мы удалили предложения от неудавшихся миллионеров мы подтверждаем все подряд так как наша цель купить тут не самые качественные площадки а купить разбавляющие ссылки для нашего сайта, качественные мы купим в <b><a href="<?php echo $gogettop; ?>" rel="noreferrer noopener" target="_blank">gogettop</a>.</b></p>
 
 <img src="view/image/howto/blogun/blogun-ploshadki-ok-14.png" width="100%" />
 
@@ -112,7 +112,7 @@
 
 <p>Нажимаем на глазик возле ссылки и если все хорошо подтверждаем и ждем следующих выполненных заданий.</p>
 
-<p>Вот собственно и все, если у вас еще остались вопросы задавайте их на нашем <a href="http://forum.opencart.pro/index.php?/topic/1024-%D0%B1%D0%BB%D0%BE%D0%B3%D1%83%D0%BD%D1%80%D1%83/" target="_blank"><strong>форуме</strong></a>, если вопросов нет тогда <a href="https://blogun.ru/unimpairedcedcdhg.html" target="_blank"><strong>регистрируемся</strong></a> и приступаем к созданию первой компании.</p>
+<p>Вот собственно и все, если у вас еще остались вопросы задавайте их на нашем <a href="http://forum.opencart.pro/index.php?/topic/1024-%D0%B1%D0%BB%D0%BE%D0%B3%D1%83%D0%BD%D1%80%D1%83/" rel="noreferrer noopener" target="_blank"><strong>форуме</strong></a>, если вопросов нет тогда <a href="https://blogun.ru/unimpairedcedcdhg.html" rel="noreferrer noopener" target="_blank"><strong>регистрируемся</strong></a> и приступаем к созданию первой компании.</p>
     </div>
   </div>
 </div>

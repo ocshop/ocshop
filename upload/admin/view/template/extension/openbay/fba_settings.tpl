@@ -24,7 +24,7 @@
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-fba-settings" class="form-horizontal">
-          <a href="https://account.openbaypro.com/fba/apiregister/" target="_blank"><div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $text_register_banner; ?></div></a>
+          <a href="https://account.openbaypro.com/fba/apiregister/" rel="noreferrer noopener" target="_blank"><div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $text_register_banner; ?></div></a>
             <div class="tab-pane active" id="tab-general">
               <div class="well" id="credential-container">
                 <div class="form-group">

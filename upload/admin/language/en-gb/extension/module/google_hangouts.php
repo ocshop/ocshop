@@ -17,7 +17,7 @@ $_['entry_code']       = 'Google Talk Code';
 $_['entry_status']     = 'Status';
 
 // Help
-$_['help_code']        = 'Goto <a href="https://developers.google.com/+/hangouts/button" target="_blank">Create a Google Hangout chatback badge</a> and copy &amp; paste the generated code into the text box.';
+$_['help_code']        = 'Goto <a href="https://developers.google.com/+/hangouts/button" rel="noreferrer noopener" target="_blank">Create a Google Hangout chatback badge</a> and copy &amp; paste the generated code into the text box.';
 
 // Error
 $_['error_permission'] = 'Warning: You do not have permission to modify Google Hangouts module!';

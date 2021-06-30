@@ -170,7 +170,7 @@ class ControllerBlogReview extends Controller {
 
 		$this->load->model('blog/review');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $review_article_id) {
 				$data = array();
 
@@ -230,7 +230,7 @@ class ControllerBlogReview extends Controller {
 
 		$this->load->model('blog/review');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $review_article_id) {
 				$data = array();
 

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,7 +9,7 @@ class ControllerInstallStep3 extends Controller {
 
 	public function index() {
 		$this->language->load('install/step_3');
-		
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$this->load->model('install/install');
 
@@ -33,6 +33,7 @@ class ControllerInstallStep3 extends Controller {
 			$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_OPENCART . 'system/storage/download/\');' . "\n";
 			$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/storage/logs/\');' . "\n";
 			$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_OPENCART . 'system/storage/modification/\');' . "\n";
+			$output .= 'define(\'DIR_SESSION\', \'' . DIR_OPENCART . 'system/storage/session/\');' . "\n";
 			$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_OPENCART . 'system/storage/upload/\');' . "\n\n";
 
 			$output .= '// DB' . "\n";
@@ -70,6 +71,7 @@ class ControllerInstallStep3 extends Controller {
 			$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_OPENCART . 'system/storage/download/\');' . "\n";
 			$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/storage/logs/\');' . "\n";
 			$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_OPENCART . 'system/storage/modification/\');' . "\n";
+			$output .= 'define(\'DIR_SESSION\', \'' . DIR_OPENCART . 'system/storage/session/\');' . "\n";
 			$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_OPENCART . 'system/storage/upload/\');' . "\n";
 			$output .= 'define(\'DIR_CATALOG\', \'' . DIR_OPENCART . 'catalog/\');' . "\n\n";
 
@@ -94,7 +96,7 @@ class ControllerInstallStep3 extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		
+
 		$data['text_step_3'] = $this->language->get('text_step_3');
 		$data['text_db_connection'] = $this->language->get('text_db_connection');
 		$data['text_db_administration'] = $this->language->get('text_db_administration');
@@ -139,13 +141,13 @@ class ControllerInstallStep3 extends Controller {
 		} else {
 			$data['error_db_database'] = '';
 		}
-		
+
 		if (isset($this->error['db_port'])) {
 			$data['error_db_port'] = $this->error['db_port'];
 		} else {
 			$data['error_db_port'] = '';
 		}
-		
+
 		if (isset($this->error['db_prefix'])) {
 			$data['error_db_prefix'] = $this->error['db_prefix'];
 		} else {
@@ -207,7 +209,7 @@ class ControllerInstallStep3 extends Controller {
 		} else {
 			$data['db_port'] = 3306;
 		}
-		
+
 		if (isset($this->request->post['db_prefix'])) {
 			$data['db_prefix'] = $this->request->post['db_prefix'];
 		} else {
@@ -261,7 +263,7 @@ class ControllerInstallStep3 extends Controller {
 
 		if (!$this->request->post['db_port']) {
 			$this->error['db_port'] = $this->language->get('error_db_port');
-		}		
+		}
 
 		if ($this->request->post['db_prefix'] && preg_match('/[^a-z0-9_]/', $this->request->post['db_prefix'])) {
 			$this->error['db_prefix'] = $this->language->get('error_db_prefix');
@@ -281,8 +283,8 @@ class ControllerInstallStep3 extends Controller {
 			} catch(Exception $e) {
 				$this->error['warning'] = $e->getMessage();
 			}
-		}			
-		
+		}
+
 		if (!$this->request->post['username']) {
 			$this->error['username'] = $this->language->get('error_username');
 		}

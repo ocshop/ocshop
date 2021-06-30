@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -12,6 +12,40 @@ $config = new Config();
 $config->load('default');
 $config->load($application_config);
 $registry->set('config', $config);
+
+// Error fix
+set_error_handler(function($code, $message, $file, $line) use($config) {
+	// error suppressed with @
+	if (error_reporting() === 0) {
+		return false;
+	}
+
+	switch ($code) {
+		case E_NOTICE:
+		case E_USER_NOTICE:
+			$error = 'Notice';
+			break;
+		case E_WARNING:
+		case E_USER_WARNING:
+			$error = 'Warning';
+			break;
+		case E_ERROR:
+		case E_USER_ERROR:
+			$error = 'Fatal Error';
+			break;
+		default:
+			$error = 'Unknown';
+			break;
+	}
+
+	if ($config->get('config_error_display')) {
+		echo '<b>' . $error . '</b>: ' . $message . ' in <b>' . $file . '</b> on line <b>' . $line . '</b>';
+	} else {
+		error_reporting(0);
+	}
+
+	return true;
+});
 
 // Event
 $event = new Event($registry);
@@ -42,13 +76,11 @@ if ($config->get('db_autostart')) {
 }
 
 // Session
-$session = new Session();
-
 if ($config->get('session_autostart')) {
-	$session->start();
+	$session = new Session($config->get('session_engine'), $registry);
+	$registry->set('session', $session);
+	$session->start($config->get('session_name'));
 }
-
-$registry->set('session', $session);
 
 // Cache 
 $registry->set('cache', new Cache($config->get('cache_type'), $config->get('cache_expire')));

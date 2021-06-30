@@ -1,11 +1,11 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerCommonFooter extends Controller {
-	public function index() {
+	public function index($setting) {
 		$this->load->language('common/footer');
 
 		$data['scripts'] = $this->document->getScripts('footer');

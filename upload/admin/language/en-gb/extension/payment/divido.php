@@ -8,7 +8,7 @@
 $_['heading_title']                    = 'Divido';
 
 // Text
-$_['text_divido']                      = '<a href="http://divido.com" target="_blank"><img src="view/image/payment/divido.png"></a>';
+$_['text_divido']                      = '<a href="https://divido.com" rel="noreferrer noopener" target="_blank"><img src="view/image/payment/divido.png"></a>';
 $_['text_edit']                        = 'Edit Divido';
 $_['text_extension']                     = 'Extensions';
 $_['text_order_info']                  = 'Divido info';

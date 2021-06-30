@@ -15,6 +15,19 @@
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
       <h1><?php echo $heading_title; ?></h1>
+      <?php if (!empty($thumb) || !empty($description)) { ?>
+      <div class="row">
+        <?php if (!empty($thumb)) { ?>
+        <div class="col-sm-2"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" title="<?php echo $heading_title; ?>" class="img-thumbnail" /></div>
+        <?php } ?>
+        <?php if (!empty($thumb) && !empty($description)) { ?>
+        <div class="col-sm-10"><?php echo $description; ?></div>
+        <?php } elseif (empty($thumb) && !empty($description)) { ?>
+        <div class="col-sm-12"><?php echo $description; ?></div>
+        <?php } ?>
+      </div>
+      <hr>
+      <?php } ?>
       <label class="control-label" for="input-search"><?php echo $entry_search; ?></label>
       <div class="row">
         <div class="col-sm-4">
@@ -54,30 +67,30 @@
             <input type="checkbox" name="sub_category" value="1" />
             <?php } ?>
             <?php echo $text_sub_category; ?>
-	  </label>
+          </label>
         </div>
       </div>
       <p>
         <label class="checkbox-inline">
-          <?php if ($description) { ?>
-          <input type="checkbox" name="description" value="1" id="description" checked="checked" />
+          <?php if ($filter_description) { ?>
+          <input type="checkbox" name="filter_description" value="1" checked="checked" />
           <?php } else { ?>
-          <input type="checkbox" name="description" value="1" id="description" />
+          <input type="checkbox" name="filter_description" value="1" />
           <?php } ?>
           <?php echo $entry_description; ?>
-	</label>
+        </label>
       </p>
       <input type="button" value="<?php echo $button_search; ?>" id="button-search" class="btn btn-primary" />
       <h2><?php echo $text_search; ?></h2>
       <?php if ($articles) { ?>
       <div class="row">
-        <div class="col-md-5 col-sm-12 hidden-xs">
-          <div class="btn-group btn-group-sm">
-            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_list; ?>"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="<?php echo $button_grid; ?>"><i class="fa fa-th"></i></button>
+        <div class="col-md-6 col-sm-12 hidden-xs">
+          <div class="form-group btn-group btn-group-sm">
+            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" aria-label="<?php echo $button_list;?>" title="<?php echo $button_list; ?>"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" aria-label="<?php echo $button_grid;?>" title="<?php echo $button_grid; ?>"><i class="fa fa-th"></i></button>
           </div>
         </div>
-        <div class="col-md-4 col-xs-6">
+        <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="form-group input-group input-group-sm">
             <label class="input-group-addon" for="input-sort"><?php echo $text_sort; ?></label>
             <select id="input-sort" class="form-control" onchange="location = this.value;">
@@ -91,7 +104,7 @@
             </select>
           </div>
         </div>
-        <div class="col-md-3 col-xs-6">
+        <div class="col-md-3 col-sm-6 col-xs-12" style="clear:right">
           <div class="form-group input-group input-group-sm">
             <label class="input-group-addon" for="input-limit"><?php echo $text_limit; ?></label>
             <select id="input-limit" class="form-control" onchange="location = this.value;">
@@ -109,65 +122,27 @@
       <div class="row">
         <?php foreach ($articles as $article) { ?>
         <div class="product-layout product-list col-xs-12">
-          <div class="product-thumb">
-            <div class="image"><?php if (1 == 0) { ?><?php echo $article['sticker']; ?><?php } ?><a href="<?php echo $article['href']; ?>"><img src="<?php echo $article['thumb']; ?>" alt="<?php echo $article['name']; ?>" title="<?php echo $article['name']; ?>" class="img-responsive" /></a></div>
-            <div>
-              <div class="caption">
-                <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
-                <p><?php echo $article['description']; ?></p>
-                <?php if (1 == 0) { ?>
-                <?php if ($article['benefits']) { ?>
-                <div class="benefits col-sm-12 hidden-sm hidden-xs">
-                  <div class="benefit-text"><?php echo $text_benefits; ?></div>
-                  <ul class="benefit">
-                    <?php foreach ($article['benefits'] as $benefit) { ?>	
-                    <?php if ($benefit['type'] == 1) { ?>
-                    <li class="col-sm-1">
-                      <?php if (!$benefit['link']) { ?>
-                      <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-                      <?php } else { ?> 
-                      <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-                      <?php } ?>
-                      <?php if ($benefit['description']) { ?>
-                      <div class="benefit_description"><?php echo $benefit['description']; ?></div>
-                      <?php } ?>
-                    </li>
-                    <?php } ?> 
-                    <?php } ?>
-                  </ul>
-                </div>
-                <div class="present hidden-sm hidden-xs">
-                  <?php foreach ($article['benefits'] as $benefit) { ?>	
-                  <?php if ($benefit['type'] == 0) { ?>
-                  <div>
-                    <?php if (!$benefit['link']) { ?>
-                    <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-                    <?php } else { ?> 
-                    <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-                    <?php } ?>
-                   </div>
-                   <?php } ?> 
-                   <?php } ?>
-                </div>
+          <div class="product-thumb transition">
+            <div class="image"><a href="<?php echo $article['href']; ?>"><img src="<?php echo $article['thumb']; ?>" alt="<?php echo $article['name']; ?>" title="<?php echo $article['name']; ?>" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="<?php echo $article['href']; ?>"><?php echo $article['name']; ?></a></h4>
+              <p class="description"><?php echo $article['description']; ?></p>
+              <?php if ($article['rating']) { ?>
+              <div class="rating">
+                <?php for ($i = 1; $i <= 5; $i++) { ?>
+                <?php if ($article['rating'] < $i) { ?>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                <?php } else { ?>
+                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
                 <?php } ?>
-                <?php } ?>
-                <?php if ($article['rating']) { ?>
-                <div class="rating">
-                  <?php for ($i = 1; $i <= 5; $i++) { ?>
-                  <?php if ($article['rating'] < $i) { ?>
-                  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-                  <?php } else { ?>
-                  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-                  <?php } ?>
-                  <?php } ?>
-                </div>
                 <?php } ?>
               </div>
-              <div class="button-group">
-                <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $article["date_added"];?>" "><i class="fa fa-clock-o"></i></button>
-                <button type="button" data-toggle="tooltip" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" "><i class="fa fa-eye"></i></button>
-              </div>
+              <?php } ?>
+            </div>
+            <div class="button-group">
+              <button type="button" onclick="location.href = ('<?php echo $article['href']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_more; ?>" title="<?php echo $button_more; ?>"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $button_more; ?></span></button>
+              <button type="button" data-toggle="tooltip" aria-label="<?php echo $article["date_added"];?>" title="<?php echo $article["date_added"];?>"><i class="fa fa-clock-o"></i></button>
+              <button type="button" data-toggle="tooltip" aria-label="<?php echo $text_views; ?> <?php echo $article["viewed"];?>" title="<?php echo $text_views; ?> <?php echo $article["viewed"];?>"><i class="fa fa-eye"></i></button>
             </div>
           </div>
         </div>
@@ -205,10 +180,10 @@ $('#button-search').bind('click', function() {
 		url += '&sub_category=true';
 	}
 
-	var filter_description = $('#content input[name=\'description\']:checked').prop('value');
+	var filter_description = $('#content input[name=\'filter_description\']:checked').prop('value');
 
 	if (filter_description) {
-		url += '&description=true';
+		url += '&filter_description=true';
 	}
 
 	location = url;
@@ -229,5 +204,5 @@ $('select[name=\'blog_category_id\']').on('change', function() {
 });
 
 $('select[name=\'blog_category_id\']').trigger('change');
---></script>
+//--></script>
 <?php echo $footer; ?>

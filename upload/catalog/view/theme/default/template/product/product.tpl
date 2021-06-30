@@ -8,10 +8,13 @@
   <div class="row"><?php echo $column_left; ?>
     <?php if ($column_left && $column_right) { ?>
     <?php $class = 'col-sm-6'; ?>
+    <?php $class_product = 'col-lg-6 col-md-6 col-sm-12 col-xs-12'; ?>
     <?php } elseif ($column_left || $column_right) { ?>
     <?php $class = 'col-sm-9'; ?>
+    <?php $class_product = 'col-lg-4 col-md-4 col-sm-6 col-xs-12'; ?>
     <?php } else { ?>
     <?php $class = 'col-sm-12'; ?>
+    <?php $class_product = 'col-lg-3 col-md-3 col-sm-6 col-xs-12'; ?>
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
       <div class="row">
@@ -38,9 +41,9 @@
             <?php if ($attribute_groups) { ?>
             <li><a href="#tab-specification" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
             <?php } ?>
-			<?php foreach($product_tabs as $key => $tab){ ?>
-			<li><a href="#tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>" data-toggle="tab"><?php echo $tab['title']; ?></a></li>
-			<?php } ?>
+            <?php foreach($product_tabs as $key => $tab){ ?>
+            <li><a href="#tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>" data-toggle="tab"><?php echo $tab['title']; ?></a></li>
+            <?php } ?>
             <?php if ($review_status) { ?>
             <li><a href="#tab-review" data-toggle="tab"><?php echo $tab_review; ?></a></li>
             <?php } ?>
@@ -68,9 +71,9 @@
               </table>
             </div>
             <?php } ?>
-			<?php foreach($product_tabs as $key => $tab){ ?>
-			<div class="tab-pane" id="tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>"><?php echo $tab['description']; ?></div>
-			<?php } ?>
+            <?php foreach($product_tabs as $key => $tab){ ?>
+            <div class="tab-pane" id="tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>"><?php echo $tab['description']; ?></div>
+            <?php } ?>
             <?php if ($review_status) { ?>
             <div class="tab-pane" id="tab-review">
               <form class="form-horizontal" id="form-review">
@@ -255,8 +258,9 @@
               <div class="input-group date">
                 <input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
                 <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                </span></div>
+                  <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
             </div>
             <?php } ?>
             <?php if ($option['type'] == 'datetime') { ?>
@@ -265,8 +269,9 @@
               <div class="input-group datetime">
                 <input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
                 <span class="input-group-btn">
-                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                </span></div>
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
             </div>
             <?php } ?>
             <?php if ($option['type'] == 'time') { ?>
@@ -275,8 +280,9 @@
               <div class="input-group time">
                 <input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
                 <span class="input-group-btn">
-                <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                </span></div>
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                </span>
+              </div>
             </div>
             <?php } ?>
             <?php } ?>
@@ -305,45 +311,42 @@
             <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $text_minimum; ?></div>
             <?php } ?>
           </div>
-		  
-		  <?php if ($benefits) { ?>
-		<div class="present">
-			<?php foreach ($benefits as $benefit) { ?>	
-				<?php if ($benefit['type'] == 0) { ?>
-					<div>
-						<?php if (!$benefit['link']) { ?>
-						   <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-						<?php } else { ?> 
-						   <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-						<?php } ?>
-					</div>
-				<?php } ?> 
-			<?php } ?>
-		</div>
-		<?php } ?>
-		
-		<?php if ($benefits) { ?>
-		<div class="benefits col-sm-12">
-		<div class="col-sm-4"><?php echo $text_benefits; ?></div>
-		<ul class="benefit">
-		<?php foreach ($benefits as $benefit) { ?>	
-			<?php if ($benefit['type'] == 1) { ?>
-				<li class="col-sm-2">
-					<?php if (!$benefit['link']) { ?>
-					   <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
-					<?php } else { ?> 
-					   <a href="<?php echo $benefit['link']; ?>" target="_blank" title="<?php echo $benefit['name']; ?>"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span></a>
-					<?php } ?>
-					<?php if ($benefit['description']) { ?>
-						<div class="benefit_description"><?php echo $benefit['description']; ?></div>
-					<?php } ?>
-				</li>
-			<?php } ?> 
-		<?php } ?>
-		</ul>
-		</div>
-		<?php } ?>
-		  
+          <?php if ($benefits) { ?>
+          <div class="present">
+            <?php foreach ($benefits as $benefit) { ?>    
+            <?php if ($benefit['type'] == 0) { ?>
+            <div>
+              <?php if (!$benefit['link']) { ?>
+              <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" class="img-responsive" /></span>
+              <?php } else { ?> 
+              <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" class="img-responsive" /></span></a>
+              <?php } ?>
+            </div>
+            <?php } ?> 
+            <?php } ?>
+          </div>
+          <?php } ?>
+          <?php if ($benefits) { ?>
+          <div class="benefits col-sm-12">
+            <div class="col-sm-4"><?php echo $text_benefits; ?></div>
+            <ul class="benefit">
+              <?php foreach ($benefits as $benefit) { ?>    
+              <?php if ($benefit['type'] == 1) { ?>
+                <li class="col-sm-2">
+                  <?php if (!$benefit['link']) { ?>
+                  <span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" /></span>
+                  <?php } else { ?> 
+                  <a href="<?php echo $benefit['link']; ?>" title="<?php echo $benefit['name']; ?>" rel="noreferrer noopener" target="_blank"><span class="thumb"><img src="<?php echo $benefit['thumb']; ?>" alt="<?php echo $benefit['name']; ?>" title="<?php echo $benefit['name']; ?>" /></span></a>
+                  <?php } ?>
+                  <?php if ($benefit['description']) { ?>
+                  <div class="benefit_description"><?php echo $benefit['description']; ?></div>
+                  <?php } ?>
+                </li>
+              <?php } ?> 
+              <?php } ?>
+            </ul>
+          </div>
+          <?php } ?>
           <?php if ($review_status) { ?>
           <div class="rating">
             <p>
@@ -369,30 +372,12 @@
       <div class="row">
         <?php $i = 0; ?>
         <?php foreach ($products as $product) { ?>
-        <?php if ($column_left && $column_right) { ?>
-        <?php $class = 'col-xs-8 col-sm-6'; ?>
-        <?php } elseif ($column_left || $column_right) { ?>
-        <?php $class = 'col-xs-6 col-md-4'; ?>
-        <?php } else { ?>
-        <?php $class = 'col-xs-6 col-sm-3'; ?>
-        <?php } ?>
-        <div class="<?php echo $class; ?>">
+        <div class="<?php echo $class_product; ?>">
           <div class="product-thumb transition">
-            <div class="image"><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
+            <div class="image"><?php echo $product['sticker']; ?><a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive" /></a></div>
             <div class="caption">
               <h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
-              <p><?php echo $product['description']; ?></p>
-              <?php if ($product['rating']) { ?>
-              <div class="rating">
-                <?php for ($j = 1; $j <= 5; $j++) { ?>
-                <?php if ($product['rating'] < $j) { ?>
-                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
-                <?php } else { ?>
-                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
-                <?php } ?>
-                <?php } ?>
-              </div>
-              <?php } ?>
+              <p class="description"><?php echo $product['description']; ?></p>
               <?php if ($product['price']) { ?>
               <p class="price">
                 <?php if (!$product['special']) { ?>
@@ -405,11 +390,22 @@
                 <?php } ?>
               </p>
               <?php } ?>
+              <?php if ($product['rating']) { ?>
+              <div class="rating">
+                <?php for ($j = 1; $j <= 5; $j++) { ?>
+                <?php if ($product['rating'] < $j) { ?>
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
+                <?php } else { ?>
+                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                <?php } ?>
+                <?php } ?>
+              </div>
+              <?php } ?>
             </div>
             <div class="button-group">
-              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');"><span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span> <i class="fa fa-shopping-cart"></i></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-heart"></i></button>
-              <button type="button" data-toggle="tooltip" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product['product_id']; ?>');"><i class="fa fa-exchange"></i></button>
+              <button type="button" onclick="cart.add('<?php echo $product['product_id']; ?>', '<?php echo $product['minimum']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_cart; ?>" title="<?php echo $button_cart; ?>"><span class="hidden-xs hidden-sm hidden-md"><?php echo $button_cart; ?></span> <i class="fa fa-shopping-cart"></i></button>
+              <button type="button" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_wishlist; ?>" title="<?php echo $button_wishlist; ?>"><i class="fa fa-heart"></i></button>
+              <button type="button" onclick="compare.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" aria-label="<?php echo $button_compare; ?>" title="<?php echo $button_compare; ?>"><i class="fa fa-exchange"></i></button>
             </div>
           </div>
         </div>
@@ -506,9 +502,9 @@ $('#button-cart').on('click', function() {
 				$('#cart > ul').load('index.php?route=common/cart/info ul li');
 			}
 		},
-        error: function(xhr, ajaxOptions, thrownError) {
-            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
 	});
 });
 //--></script>
@@ -536,7 +532,7 @@ $('button[id^=\'button-upload\']').on('click', function() {
 	$('#form-upload input[name=\'file\']').trigger('click');
 
 	if (typeof timer != 'undefined') {
-    	clearInterval(timer);
+		clearInterval(timer);
 	}
 
 	timer = setInterval(function() {
@@ -580,13 +576,13 @@ $('button[id^=\'button-upload\']').on('click', function() {
 //--></script>
 <script type="text/javascript"><!--
 $('#review').delegate('.pagination a', 'click', function(e) {
-    e.preventDefault();
+	e.preventDefault();
 
-    $('#review').fadeOut('slow');
+	$('#review').fadeOut('slow');
 
-    $('#review').load(this.href);
+	$('#review').load(this.href);
 
-    $('#review').fadeIn('slow');
+	$('#review').fadeIn('slow');
 });
 
 $('#review').load('index.php?route=product/product/review&product_id=<?php echo $product_id; ?>');

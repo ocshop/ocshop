@@ -19,10 +19,10 @@
       <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     <?php } ?>
-    <div class="alert alert-info"> <a data-paypal-button="true" target="PPFrame" href="<?php echo $signup; ?>" ><i class="fa fa-info-circle"></i> <?php echo $text_signup; ?></a>
+    <div class="alert alert-info"> <a data-paypal-button="true" rel="noreferrer noopener" target="PPFrame" href="<?php echo $signup; ?>" ><i class="fa fa-info-circle"></i> <?php echo $text_signup; ?></a>
       <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
-    <div class="alert alert-info"> <a data-paypal-button="true" target="PPFrame" href="<?php echo $sandbox; ?>" ><i class="fa fa-info-circle"></i> <?php echo $text_sandbox; ?></a>
+    <div class="alert alert-info"> <a data-paypal-button="true" rel="noreferrer noopener" target="PPFrame" href="<?php echo $sandbox; ?>" ><i class="fa fa-info-circle"></i> <?php echo $text_sandbox; ?></a>
       <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     <div class="panel panel-default">

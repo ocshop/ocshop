@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -15,7 +15,7 @@ class ControllerAffiliateLogin extends Controller {
 		$this->load->language('affiliate/login');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		$this->document->setRobots('noindex,follow');
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 
 		$this->load->model('affiliate/affiliate');
 
@@ -58,7 +58,6 @@ class ControllerAffiliateLogin extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		$this->document->setRobots('noindex,follow');
 
 		$data['text_description'] = sprintf($this->language->get('text_description'), $this->config->get('config_name'), $this->config->get('config_name'), $this->config->get('config_affiliate_commission') . '%');
 		$data['text_new_affiliate'] = $this->language->get('text_new_affiliate');
@@ -125,29 +124,33 @@ class ControllerAffiliateLogin extends Controller {
 
 	protected function validate() {
 		// Check how many login attempts have been made.
-		$login_info = $this->model_affiliate_affiliate->getLoginAttempts($this->request->post['email']);
-				
-		if ($login_info && ($login_info['total'] >= $this->config->get('config_login_attempts')) && strtotime('-1 hour') < strtotime($login_info['date_modified'])) {
-			$this->error['warning'] = $this->language->get('error_attempts');
-		}		
-		
-		// Check if affiliate has been approved.
-		$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
+		if (!isset($this->request->post['email'])) {
+			$this->error['warning'] = $this->language->get('error_login');
+		} else {
+			$login_info = $this->model_affiliate_affiliate->getLoginAttempts($this->request->post['email']);
 
-		if ($affiliate_info && !$affiliate_info['approved']) {
-			$this->error['warning'] = $this->language->get('error_approved');
+			if ($login_info && ($login_info['total'] >= $this->config->get('config_login_attempts')) && strtotime('-1 hour') < strtotime($login_info['date_modified'])) {
+				$this->error['warning'] = $this->language->get('error_attempts');
+			}
+
+			// Check if affiliate has been approved.
+			$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
+
+			if ($affiliate_info && !$affiliate_info['approved']) {
+				$this->error['warning'] = $this->language->get('error_approved');
+			}
 		}
-		
+
 		if (!$this->error) {
 			if (!$this->affiliate->login($this->request->post['email'], $this->request->post['password'])) {
 				$this->error['warning'] = $this->language->get('error_login');
-			
+
 				$this->model_affiliate_affiliate->addLoginAttempt($this->request->post['email']);
 			} else {
 				$this->model_affiliate_affiliate->deleteLoginAttempts($this->request->post['email']);
 			}
 		}
-		
+
 		return !$this->error;
 	}
 }

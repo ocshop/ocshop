@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -29,6 +29,7 @@ if (ini_get('magic_quotes_gpc')) {
 	$_GET = clean($_GET);
 	$_POST = clean($_POST);
 	$_COOKIE = clean($_COOKIE);
+	$_SERVER = clean($_SERVER);
 }
 
 if (!ini_get('date.timezone')) {

@@ -12,8 +12,8 @@
   </div>
   <div class="container-fluid">
     <div class="panel panel-default">
-      <p><a href="http://gogettop.ru/?ref=16605" target="_blank"><strong>GoGetTop.ru</strong></a> на данный момент это лучший сервис по продвижению постоянными ссылками.<br />
-	 Первым делом нам необходимо зарегистрироваться для этого в правом верхнем углу нажимаем регистрация либо переходим по этой <a href="http://gogettop.ru/user/registration/?ref=16605" target="_blank"><strong>ссылке</strong></a>.
+      <p><a href="https://gogettop.ru/?ref=16605" rel="noreferrer noopener" target="_blank"><strong>GoGetTop.ru</strong></a> на данный момент это лучший сервис по продвижению постоянными ссылками.<br />
+	 Первым делом нам необходимо зарегистрироваться для этого в правом верхнем углу нажимаем регистрация либо переходим по этой <a href="http://gogettop.ru/user/registration/?ref=16605" rel="noreferrer noopener" target="_blank"><strong>ссылке</strong></a>.
 	 </p>
 	  <img src="view/image/howto/gogettop/gogettop_1.png" width="100%" />
 	  <p>Как показано ниже заполняем форму регистрации</p>
@@ -36,7 +36,7 @@
 	  <img src="view/image/howto/gogettop/gogettop_6.png" width="100%" />
 	  <p>После чего запускаем проект в разделе <strong>Проекты</strong>, так же тут отслеживаем статистику написания авторами статей в которых будут размещаться наши ссылки.</p>
 	  <img src="view/image/howto/gogettop/gogettop_11.png" width="100%" />
-	  <p>В том случае если у вас остались вопросы задавайте их на нашем <a href="http://forum.opencart.pro/index.php?/topic/1025-gogettopru/" target="_blank"><strong>форуме</strong></a>.</p>
+	  <p>В том случае если у вас остались вопросы задавайте их на нашем <a href="http://forum.opencart.pro/index.php?/topic/1025-gogettopru/" rel="noreferrer noopener" target="_blank"><strong>форуме</strong></a>.</p>
     </div>
   </div>
 </div>

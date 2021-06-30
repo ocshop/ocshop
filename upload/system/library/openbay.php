@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -40,62 +40,72 @@ final class Openbay {
 		}
 	}
 
-	public function encrypt($msg, $k, $base64 = false) {
-		$td = mcrypt_module_open('rijndael-256', '', 'ctr', '');
+	public function encrypt($msg, $key, $base64 = false) {
+		if (version_compare(phpversion(), '7.1.0', '<=') == true) {
+			$td = mcrypt_module_open('rijndael-256', '', 'ctr', '');
 
-		if (!$td) {
-			return false;
-		}
+			if (!$td) {
+				return false;
+			}
 
-		$iv = mcrypt_create_iv(32, MCRYPT_RAND);
+			$iv = mcrypt_create_iv(32, MCRYPT_RAND);
 
-		if (mcrypt_generic_init($td, $k, $iv) !== 0) {
-			return false;
-		}
+			if (mcrypt_generic_init($td, $key, $iv) !== 0) {
+				return false;
+			}
 
-		$msg = mcrypt_generic($td, $msg);
-		$msg = $iv . $msg;
-		$mac = $this->pbkdf2($msg, $k, 1000, 32);
-		$msg .= $mac;
+			$msg = mcrypt_generic($td, $msg);
+			$msg = $iv . $msg;
+			$mac = $this->pbkdf2($msg, $key, 1000, 32);
+			$msg .= $mac;
 
-		mcrypt_generic_deinit($td);
-		mcrypt_module_close($td);
+			mcrypt_generic_deinit($td);
+			mcrypt_module_close($td);
 
-		if ($base64) {
-			$msg = base64_encode($msg);
+			if ($base64) {
+				$msg = base64_encode($msg);
+			}
+		} else {
+			$iv = substr(hash_hmac('sha256', $key, hash('sha256', $key, true)), 0, 32);
+			$msg = strtr(base64_encode(openssl_encrypt($msg, 'aes-128-cbc', hash('sha256', hex2bin($key), true), 0, hex2bin($iv))), '+/=', '-_,');
 		}
 
 		return $msg;
 	}
 
-	public function decrypt($msg, $k, $base64 = false) {
-		if ($base64) {
-			$msg = base64_decode($msg);
+	public function decrypt($msg, $key, $base64 = false) {
+		if (version_compare(phpversion(), '7.1.0', '<=') == true) {
+			if ($base64) {
+				$msg = base64_decode($msg);
+			}
+
+			if (!$td = mcrypt_module_open('rijndael-256', '', 'ctr', '')) {
+				return false;
+			}
+
+			$iv = substr($msg, 0, 32);
+			$mo = strlen($msg) - 32;
+			$em = substr($msg, $mo);
+			$msg = substr($msg, 32, strlen($msg) - 64);
+			$mac = $this->pbkdf2($iv . $msg, $key, 1000, 32);
+
+			if ($em !== $mac) {
+				return false;
+			}
+
+			if (mcrypt_generic_init($td, $key, $iv) !== 0) {
+				return false;
+			}
+
+			$msg = mdecrypt_generic($td, $msg);
+			$msg = unserialize($msg);
+
+			mcrypt_generic_deinit($td);
+			mcrypt_module_close($td);
+		} else {
+			$iv = substr(hash_hmac('sha256', $key, hash('sha256', $key, true)), 0, 32);
+			$msg = trim(openssl_decrypt(base64_decode(strtr($msg, '-_,', '+/=')), 'aes-128-cbc', hash('sha256', hex2bin($key), true), 0, hex2bin($iv)));
 		}
-
-		if (!$td = mcrypt_module_open('rijndael-256', '', 'ctr', '')) {
-			return false;
-		}
-
-		$iv = substr($msg, 0, 32);
-		$mo = strlen($msg) - 32;
-		$em = substr($msg, $mo);
-		$msg = substr($msg, 32, strlen($msg) - 64);
-		$mac = $this->pbkdf2($iv . $msg, $k, 1000, 32);
-
-		if ($em !== $mac) {
-			return false;
-		}
-
-		if (mcrypt_generic_init($td, $k, $iv) !== 0) {
-			return false;
-		}
-
-		$msg = mdecrypt_generic($td, $msg);
-		$msg = unserialize($msg);
-
-		mcrypt_generic_deinit($td);
-		mcrypt_module_close($td);
 
 		return $msg;
 	}

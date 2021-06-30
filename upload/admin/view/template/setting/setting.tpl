@@ -1217,7 +1217,30 @@
                     </label>
                   </div>
                 </div>
-				<div class="form-group">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_cache; ?>"><?php echo $entry_seo_url_cache; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_seo_url_cache) { ?>
+                      <input type="radio" name="config_seo_url_cache" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_seo_url_cache" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_seo_url_cache) { ?>
+                      <input type="radio" name="config_seo_url_cache" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_seo_url_cache" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_include_path; ?>"><?php echo $entry_seo_url_include_path; ?></span></label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
@@ -1240,18 +1263,93 @@
                     </label>
                   </div>
                 </div>
-			   <div class="form-group">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_postfix; ?>"><?php echo $entry_seo_url_postfix; ?></span></label>
-				<div class="col-sm-10">
-					<input class="form-control" type="text" name="config_seo_url_postfix" value="<?php echo $config_seo_url_postfix; ?>" />
-				</div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-file-max-size"><span data-toggle="tooltip" title="<?php echo $help_file_max_size; ?>"><?php echo $entry_file_max_size; ?></span></label>
-                <div class="col-sm-10">
-                  <input type="text" name="config_file_max_size" value="<?php echo $config_file_max_size; ?>" placeholder="<?php echo $entry_file_max_size; ?>" id="input-file-max-size" class="form-control" />
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_blog_full_path; ?>"><?php echo $entry_blog_full_path; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_blog_full_path) { ?>
+                      <input type="radio" name="config_blog_full_path" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_blog_full_path" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_blog_full_path) { ?>
+                      <input type="radio" name="config_blog_full_path" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_blog_full_path" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
                 </div>
-				</div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_manufacturers_full_path; ?>"><?php echo $entry_manufacturers_full_path; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_manufacturers_full_path) { ?>
+                      <input type="radio" name="config_manufacturers_full_path" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_manufacturers_full_path" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_manufacturers_full_path) { ?>
+                      <input type="radio" name="config_manufacturers_full_path" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_manufacturers_full_path" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_seo_url_postfix; ?>"><?php echo $entry_seo_url_postfix; ?></span></label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="text" name="config_seo_url_postfix" value="<?php echo $config_seo_url_postfix; ?>" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_valide_get_params_status; ?>"><?php echo $entry_valide_get_params_status; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_valide_get_params_status) { ?>
+                      <input type="radio" name="config_valide_get_params_status" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_valide_get_params_status" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_valide_get_params_status) { ?>
+                      <input type="radio" name="config_valide_get_params_status" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_valide_get_params_status" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-valide-get-params"><span data-toggle="tooltip" title="<?php echo $help_valide_get_params; ?>"><?php echo $entry_valide_get_params; ?></span></label>
+                  <div class="col-sm-10">
+                    <textarea name="config_valide_get_params" rows="10" placeholder="<?php echo $entry_valide_get_params; ?>" id="input-valide-get-params" class="form-control"><?php echo $config_valide_get_params; ?></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-file-max-size"><span data-toggle="tooltip" title="<?php echo $help_file_max_size; ?>"><?php echo $entry_file_max_size; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_file_max_size" value="<?php echo $config_file_max_size; ?>" placeholder="<?php echo $entry_file_max_size; ?>" id="input-file-max-size" class="form-control" />
+                  </div>
+                </div>
                 <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-robots"><span data-toggle="tooltip" title="<?php echo $help_robots; ?>"><?php echo $entry_robots; ?></span></label>
                   <div class="col-sm-10">
@@ -1314,6 +1412,12 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label class="col-sm-2 control-label"></label>
+                  <div class="col-sm-10">
+                  <?php echo $text_session; ?>
+                  </div>
+                </div>
+                <!-- <div class="form-group">
                   <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_shared; ?>"><?php echo $entry_shared; ?></span></label>
                   <div class="col-sm-10">
                     <label class="radio-inline">
@@ -1335,7 +1439,147 @@
                       <?php } ?>
                     </label>
                   </div>
+                </div> -->
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-mail-session-engine"><span data-toggle="tooltip" title="<?php echo $help_session_engine; ?>"><?php echo $entry_session_engine; ?></span></label>
+                  <div class="col-sm-10">
+                    <select name="config_session_engine" id="input-session-engine" class="form-control">
+                      <option value="db"<?php if ($config_session_engine == 'db') { ?> selected="selected"<?php } ?>>DataBase</option>
+                      <option value="file"<?php if ($config_session_engine == 'file') { ?> selected="selected"<?php } ?>>File</option>
+                      <option value="native"<?php if ($config_session_engine == 'native') { ?> selected="selected"<?php } ?>>Native</option>
+                    </select>
+                  </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-length"><?php echo $entry_session_count; ?></label>
+                  <div class="col-sm-10">
+                    <?php echo $config_session_count; ?>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-name"><span data-toggle="tooltip" title="<?php echo $help_session_name; ?>"><?php echo $entry_session_name; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_session_name" value="<?php echo $config_session_name; ?>" placeholder="<?php echo $entry_session_name; ?>" id="input-session-name" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-prefix"><span data-toggle="tooltip" title="<?php echo $help_session_prefix; ?>"><?php echo $entry_session_prefix; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="text" name="config_session_prefix" value="<?php echo $config_session_prefix; ?>" placeholder="<?php echo $entry_session_prefix; ?>" id="input-session-prefix" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-mail-session-bits-per-char"><span data-toggle="tooltip" title="<?php echo $help_session_bits_per_char; ?>"><?php echo $entry_session_bits_per_char; ?></span></label>
+                  <div class="col-sm-10">
+                    <select name="config_session_bits_per_char" id="input-session-bits-per-char" class="form-control">
+                      <option value="4"<?php if ($config_session_bits_per_char == 4) { ?> selected="selected"<?php } ?>>4 - (0-9, a-f);</option>
+                      <option value="5"<?php if ($config_session_bits_per_char == 5) { ?> selected="selected"<?php } ?>>5 - (0-9, a-v);</option>
+                      <option value="6"<?php if ($config_session_bits_per_char == 6) { ?> selected="selected"<?php } ?>>6 - (0-9, a-z, A-Z, "-", ",")</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-length"><span data-toggle="tooltip" title="<?php echo $help_session_length; ?>"><?php echo $entry_session_length; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="number" name="config_session_length" value="<?php echo $config_session_length; ?>" placeholder="<?php echo $entry_session_length; ?>" id="input-session-length" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-lifetime"><span data-toggle="tooltip" title="<?php echo $help_session_lifetime; ?>"><?php echo $entry_session_lifetime; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="number" name="config_session_lifetime" value="<?php echo $config_session_lifetime; ?>" placeholder="<?php echo $entry_session_lifetime; ?>" id="input-session-lifetime" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-maxlifetime"><span data-toggle="tooltip" title="<?php echo $help_session_maxlifetime; ?>"><?php echo $entry_session_maxlifetime; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="number" name="config_session_maxlifetime" value="<?php echo $config_session_maxlifetime; ?>" placeholder="<?php echo $entry_session_maxlifetime; ?>" id="input-session-maxlifetime" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-other-lifetime"><span data-toggle="tooltip" title="<?php echo $help_session_other_lifetime; ?>"><?php echo $entry_session_other_lifetime; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="number" name="config_session_other_lifetime" value="<?php echo $config_session_other_lifetime; ?>" placeholder="<?php echo $entry_session_other_lifetime; ?>" id="input-session-other-lifetime" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-probability"><span data-toggle="tooltip" title="<?php echo $help_session_probability; ?>"><?php echo $entry_session_probability; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="number" name="config_session_probability" value="<?php echo $config_session_probability; ?>" placeholder="<?php echo $entry_session_probability; ?>" id="input-session-probability" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-session-divisor"><span data-toggle="tooltip" title="<?php echo $help_session_divisor; ?>"><?php echo $entry_session_divisor; ?></span></label>
+                  <div class="col-sm-10">
+                    <input type="number" name="config_session_divisor" value="<?php echo $config_session_divisor; ?>" placeholder="<?php echo $entry_session_divisor; ?>" id="input-session-divisor" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-mail-session-samesite"><span data-toggle="tooltip" title="<?php echo $help_session_samesite; ?>"><?php echo $entry_session_samesite; ?></span></label>
+                  <div class="col-sm-10">
+                    <select name="config_session_samesite" id="input-session-samesite" class="form-control">
+                      <option value="None"<?php if ($config_session_samesite == 'None') { ?> selected="selected"<?php } ?>>None</option>
+                      <option value="Lax"<?php if ($config_session_samesite == 'Lax') { ?> selected="selected"<?php } ?>>Lax</option>
+                      <option value="Strict"<?php if ($config_session_samesite == 'Strict') { ?> selected="selected"<?php } ?>>Strict</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label" for="input-mail-session-other-samesite"><span data-toggle="tooltip" title="<?php echo $help_session_other_samesite; ?>"><?php echo $entry_session_other_samesite; ?></span></label>
+                  <div class="col-sm-10">
+                    <select name="config_session_other_samesite" id="input-session-other-samesite" class="form-control">
+                      <option value="None"<?php if ($config_session_other_samesite == 'None') { ?> selected="selected"<?php } ?>>None</option>
+                      <option value="Lax"<?php if ($config_session_other_samesite == 'Lax') { ?> selected="selected"<?php } ?>>Lax</option>
+                      <option value="Strict"<?php if ($config_session_other_samesite == 'Strict') { ?> selected="selected"<?php } ?>>Strict</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_session_sameparty; ?>"><?php echo $entry_session_sameparty; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_session_sameparty) { ?>
+                      <input type="radio" name="$config_session_sameparty" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="$config_session_sameparty" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_session_sameparty) { ?>
+                      <input type="radio" name="$config_session_sameparty" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="$config_session_sameparty" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_session_other_sameparty; ?>"><?php echo $entry_session_other_sameparty; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_session_other_sameparty) { ?>
+                      <input type="radio" name="config_session_other_sameparty" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_session_other_sameparty" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_session_other_sameparty) { ?>
+                      <input type="radio" name="config_session_other_sameparty" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_session_other_sameparty" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div> -->
                 <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-encryption"><span data-toggle="tooltip" title="<?php echo $help_encryption; ?>"><?php echo $entry_encryption; ?></span></label>
                   <div class="col-sm-10">
@@ -1424,6 +1668,29 @@
                     <?php } ?>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $help_debug_pro; ?>"><?php echo $entry_debug_pro; ?></span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      <?php if ($config_debug_pro) { ?>
+                      <input type="radio" name="config_debug_pro" value="1" checked="checked" />
+                      <?php echo $text_yes; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_debug_pro" value="1" />
+                      <?php echo $text_yes; ?>
+                      <?php } ?>
+                    </label>
+                    <label class="radio-inline">
+                      <?php if (!$config_debug_pro) { ?>
+                      <input type="radio" name="config_debug_pro" value="0" checked="checked" />
+                      <?php echo $text_no; ?>
+                      <?php } else { ?>
+                      <input type="radio" name="config_debug_pro" value="0" />
+                      <?php echo $text_no; ?>
+                      <?php } ?>
+                    </label>
+                  </div>
+                </div>
               </fieldset>
             </div>
           </div>
@@ -1431,7 +1698,7 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('select[name=\'config_theme\']').on('change', function() {
 	$.ajax({
 		url: 'index.php?route=setting/setting/theme&token=<?php echo $token; ?>&theme=' + this.value,
@@ -1453,7 +1720,7 @@ $('select[name=\'config_theme\']').on('change', function() {
 
 $('select[name=\'config_theme\']').trigger('change');
 //--></script> 
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('select[name=\'config_country_id\']').on('change', function() {
 	$.ajax({
 		url: 'index.php?route=localisation/country/country&token=<?php echo $token; ?>&country_id=' + this.value,
@@ -1492,5 +1759,6 @@ $('select[name=\'config_country_id\']').on('change', function() {
 });
 
 $('select[name=\'config_country_id\']').trigger('change');
-//--></script></div>
-<?php echo $footer; ?> 
+//--></script>
+</div>
+<?php echo $footer; ?>

@@ -1,12 +1,16 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 namespace Session;
-class File extends \SessionHandler {
-    public function create_sid() {
+class File {
+	public function __construct($registry) {
+		$this->config = $registry->get('config');
+	}
+
+    /* public function create_sid() {
         return parent::create_sid();
     }
 
@@ -16,55 +20,74 @@ class File extends \SessionHandler {
 
     public function close() {
         return true;
-    }
-	
-    public function read($session_id) {
-		$file = session_save_path() . '/sess_' . $session_id;
-		
+    } */
+
+	public function read($session_id = '') {
+		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
+
 		if (is_file($file)) {
-			$handle = fopen($file, 'r');
-			
-			flock($handle, LOCK_SH);
-			
-			$data = fread($handle, filesize($file));
-			
-			flock($handle, LOCK_UN);
-			
-			fclose($handle);
-			
-			return $data;
+			$size = filesize($file);
+
+			if ($size) {
+				$handle = fopen($file, 'r');
+
+				flock($handle, LOCK_SH);
+
+				$data = fread($handle, $size);
+
+				flock($handle, LOCK_UN);
+
+				fclose($handle);
+
+				return json_decode($data, true);
+			} else {
+				return array();
+			}
 		}
-		
-		return null;
+
+		return array();
 	}
 
-    public function write($session_id, $data) {
-		$file = session_save_path() . '/sess_' . $session_id;
-		
-		$handle = fopen($file, 'w');
-		
+	public function write($session_id = '', $data = array()) {
+		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
+
+		$handle = fopen($file, 'c');
+
 		flock($handle, LOCK_EX);
 
-		fwrite($handle, $data);
-
+		fwrite($handle, json_encode($data));
+		ftruncate($handle, ftell($handle));
 		fflush($handle);
 
 		flock($handle, LOCK_UN);
-		
+
 		fclose($handle);
-		
+
 		return true;
-    }
+	}
 
-    public function destroy($session_id) {
-		$file = session_save_path() . '/sess_' . $session_id;
-		
+	public function destroy($session_id = '') {
+		$file = DIR_SESSION . $this->config->get('session_prefix') . basename($session_id);
+
 		if (is_file($file)) {
-			unset($file);
+			unlink($file);
 		}
-    }
+	}
 
-    public function gc($maxlifetime) {
-        return parent::gc($maxlifetime);
-    }	
+	public function gc($maxlifetime = 0) {
+		$total = 0;
+
+		if (round(rand(1, $this->config->get('session_divisor') / $this->config->get('session_probability'))) == 1) {
+			$files = glob(DIR_SESSION . $this->config->get('session_prefix') . '*');
+
+			foreach ($files as $file) {
+				if (is_file($file) && filemtime($file) < (time() - $maxlifetime)) {
+					unlink($file);
+					$total++;
+				}
+			}
+		}
+
+		return $total;
+	}
 }

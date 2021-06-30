@@ -212,7 +212,7 @@
             html += '  <td class="text-left">' + value.name + '</td>';
             html += '  <td class="text-center">' + value.price + '</td>';
             html += '  <td class="text-center">';
-            html += '    <a target="_blank" href="' + value.link + '" class="btn btn-primary" data-toggle="tooltip" title="<?php echo $button_view_on_amazon; ?>"><i class="fa fa-eye"></i></a>';
+            html += '    <a target="_blank" href="' + value.link + '" rel="noreferrer noopener" class="btn btn-primary" data-toggle="tooltip" title="<?php echo $button_view_on_amazon; ?>"><i class="fa fa-eye"></i></a>';
             html += '    <a onclick="' + functString + '" class="btn btn-primary" data-toggle="tooltip" title="<?php echo $text_list; ?>"><i class="fa fa-check-square"></i></a>';
             html += '  </td>';
             html += '</tr>';

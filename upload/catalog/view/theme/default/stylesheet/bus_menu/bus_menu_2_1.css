@@ -1,0 +1,8 @@
+/*  Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
+	© 2016-2020; BuslikDrev - Усе правы захаваныя.
+	Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ ) */
+
+/* column */
+[class*='bus-menu'] [class*='bus-col']{position:inherit}
+/* style 1 */
+.bus-menu-style-2-1 .list-unstyled {display:grid}

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -15,6 +15,26 @@ class ControllerSettingSetting extends Controller {
 		$this->load->model('setting/setting');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+			if (isset($this->request->post['config_debug_pro'])) {
+				$this->load->model('extension/event'); 
+
+				if ($this->request->post['config_debug_pro']) {
+					$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before');
+
+					if (!$code) {
+						$this->model_extension_event->addEvent('config_debug_pro', 'catalog/controller/*/before', 'event/debug/before', 1, 0);
+					}
+
+					$code = $this->model_extension_event->getEvent('config_debug_pro', 'catalog/controller/*/after', 'event/debug/after');
+
+					if (!$code) {
+						$this->model_extension_event->addEvent('config_debug_pro', 'catalog/controller/*/after', 'event/debug/after', 1, 9999);
+					}
+				} else {
+					$this->model_extension_event->deleteEvent('config_debug_pro');
+				}
+			}
+
 			$this->model_setting_setting->editSetting('config', $this->request->post);
 
 			if ($this->config->get('config_currency_auto')) {
@@ -57,6 +77,7 @@ class ControllerSettingSetting extends Controller {
 		$data['text_mail_affiliate'] = $this->language->get('text_mail_affiliate');
 		$data['text_mail_order']  = $this->language->get('text_mail_order');
 		$data['text_mail_review'] = $this->language->get('text_mail_review');
+		$data['text_session'] = $this->language->get('text_session');
 		$data['text_general'] = $this->language->get('text_general');
 		$data['text_security'] = $this->language->get('text_security');
 		$data['text_upload'] = $this->language->get('text_upload');
@@ -143,6 +164,21 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_alert_email'] = $this->language->get('entry_alert_email');
 		$data['entry_secure'] = $this->language->get('entry_secure');
 		$data['entry_shared'] = $this->language->get('entry_shared');
+		$data['entry_session_engine'] = $this->language->get('entry_session_engine');
+		$data['entry_session_count'] = $this->language->get('entry_session_count');
+		$data['entry_session_name'] = $this->language->get('entry_session_name');
+		$data['entry_session_prefix'] = $this->language->get('entry_session_prefix');
+		$data['entry_session_bits_per_char'] = $this->language->get('entry_session_bits_per_char');
+		$data['entry_session_length'] = $this->language->get('entry_session_length');
+		$data['entry_session_lifetime'] = $this->language->get('entry_session_lifetime');
+		$data['entry_session_maxlifetime'] = $this->language->get('entry_session_maxlifetime');
+		$data['entry_session_other_lifetime'] = $this->language->get('entry_session_other_lifetime');
+		$data['entry_session_probability'] = $this->language->get('entry_session_probability');
+		$data['entry_session_divisor'] = $this->language->get('entry_session_divisor');
+		$data['entry_session_samesite'] = $this->language->get('entry_session_samesite');
+		$data['entry_session_other_samesite'] = $this->language->get('entry_session_other_samesite');
+		$data['entry_session_sameparty'] = $this->language->get('entry_session_sameparty');
+		$data['entry_session_other_sameparty'] = $this->language->get('entry_session_other_sameparty');
 		$data['entry_robots'] = $this->language->get('entry_robots');
 		$data['entry_file_max_size'] = $this->language->get('entry_file_max_size');
 		$data['entry_file_ext_allowed'] = $this->language->get('entry_file_ext_allowed');
@@ -151,12 +187,18 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_password'] = $this->language->get('entry_password');
 		$data['entry_encryption'] = $this->language->get('entry_encryption');
 		$data['entry_seo_url'] = $this->language->get('entry_seo_url');
+		$data['entry_seo_url_cache'] = $this->language->get('entry_seo_url_cache');
 		$data['entry_seo_url_include_path'] = $this->language->get('entry_seo_url_include_path');
+		$data['entry_blog_full_path'] = $this->language->get('entry_blog_full_path');
+		$data['entry_manufacturers_full_path'] = $this->language->get('entry_manufacturers_full_path');
 		$data['entry_seo_url_postfix'] = $this->language->get('entry_seo_url_postfix');
+		$data['entry_valide_get_params_status'] = $this->language->get('entry_valide_get_params_status');
+		$data['entry_valide_get_params'] = $this->language->get('entry_valide_get_params');
 		$data['entry_compression'] = $this->language->get('entry_compression');
 		$data['entry_error_display'] = $this->language->get('entry_error_display');
 		$data['entry_error_log'] = $this->language->get('entry_error_log');
 		$data['entry_error_filename'] = $this->language->get('entry_error_filename');
+		$data['entry_debug_pro'] = $this->language->get('entry_debug_pro');
 		$data['entry_status'] = $this->language->get('entry_status');
 
 		$data['help_geocode'] = $this->language->get('help_geocode');
@@ -210,10 +252,29 @@ class ControllerSettingSetting extends Controller {
 		$data['help_mail_alert_email'] = $this->language->get('help_mail_alert_email');
 		$data['help_secure'] = $this->language->get('help_secure');
 		$data['help_shared'] = $this->language->get('help_shared');
+		$data['help_session_engine'] = $this->language->get('help_session_engine');
+		$data['help_session_name'] = $this->language->get('help_session_name');
+		$data['help_session_prefix'] = $this->language->get('help_session_prefix');
+		$data['help_session_bits_per_char'] = $this->language->get('help_session_bits_per_char');
+		$data['help_session_length'] = $this->language->get('help_session_length');
+		$data['help_session_lifetime'] = $this->language->get('help_session_lifetime');
+		$data['help_session_maxlifetime'] = $this->language->get('help_session_maxlifetime');
+		$data['help_session_other_lifetime'] = $this->language->get('help_session_other_lifetime');
+		$data['help_session_probability'] = $this->language->get('help_session_probability');
+		$data['help_session_divisor'] = $this->language->get('help_session_divisor');
+		$data['help_session_samesite'] = $this->language->get('help_session_samesite');
+		$data['help_session_other_samesite'] = $this->language->get('help_session_other_samesite');
+		$data['help_session_sameparty'] = $this->language->get('help_session_sameparty');
+		$data['help_session_other_sameparty'] = $this->language->get('help_session_other_sameparty');
 		$data['help_robots'] = $this->language->get('help_robots');
 		$data['help_seo_url'] = $this->language->get('help_seo_url');
+		$data['help_seo_url_cache'] = $this->language->get('help_seo_url_cache');
 		$data['help_seo_url_include_path'] = $this->language->get('help_seo_url_include_path');
+		$data['help_blog_full_path'] = $this->language->get('help_blog_full_path');
+		$data['help_manufacturers_full_path'] = $this->language->get('help_manufacturers_full_path');
 		$data['help_seo_url_postfix'] = $this->language->get('help_seo_url_postfix');
+		$data['help_valide_get_params_status'] = $this->language->get('help_valide_get_params_status');
+		$data['help_valide_get_params'] = $this->language->get('help_valide_get_params');
 		$data['help_file_max_size'] = $this->language->get('help_file_max_size');
 		$data['help_file_ext_allowed'] = $this->language->get('help_file_ext_allowed');
 		$data['help_file_mime_allowed'] = $this->language->get('help_file_mime_allowed');
@@ -221,6 +282,7 @@ class ControllerSettingSetting extends Controller {
 		$data['help_password'] = $this->language->get('help_password');
 		$data['help_encryption'] = $this->language->get('help_encryption');
 		$data['help_compression'] = $this->language->get('help_compression');
+		$data['help_debug_pro'] = $this->language->get('help_debug_pro');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -435,13 +497,13 @@ class ControllerSettingSetting extends Controller {
 
 		foreach ($extensions as $code) {
 			$this->load->language('extension/theme/' . $code);
-			
+
 			$data['themes'][] = array(
 				'text'  => $this->language->get('heading_title'),
 				'value' => $code
 			);
 		}
-			
+
 		if (isset($this->request->post['config_layout_id'])) {
 			$data['config_layout_id'] = $this->request->post['config_layout_id'];
 		} else {
@@ -888,12 +950,12 @@ class ControllerSettingSetting extends Controller {
 			'text'  => $this->language->get('text_register'),
 			'value' => 'register'
 		);
-		
+
 		$data['captcha_pages'][] = array(
 			'text'  => $this->language->get('text_guest'),
 			'value' => 'guest'
 		);
-		
+
 		$data['captcha_pages'][] = array(
 			'text'  => $this->language->get('text_review'),
 			'value' => 'review'
@@ -1059,6 +1121,58 @@ class ControllerSettingSetting extends Controller {
 			$data['config_alert_email'] = $this->config->get('config_alert_email');
 		}
 
+		if (isset($this->request->post['config_seo_url'])) {
+			$data['config_seo_url'] = $this->request->post['config_seo_url'];
+		} else {
+			$data['config_seo_url'] = $this->config->get('config_seo_url');
+		}
+
+		if (isset($this->request->post['config_seo_url_cache'])) {
+			$data['config_seo_url_cache'] = $this->request->post['config_seo_url_cache'];
+		} else {
+			$data['config_seo_url_cache'] = $this->config->get('config_seo_url_cache');
+		}
+
+		if (isset($this->request->post['config_seo_url_include_path'])) {
+			$data['config_seo_url_include_path'] = $this->request->post['config_seo_url_include_path'];
+		} else {
+			$data['config_seo_url_include_path'] = $this->config->get('config_seo_url_include_path');
+		}
+
+		if (isset($this->request->post['config_blog_full_path'])) {
+			$data['config_blog_full_path'] = $this->request->post['config_blog_full_path'];
+		} else {
+			$data['config_blog_full_path'] = $this->config->get('config_blog_full_path');
+		}
+
+		if (isset($this->request->post['config_manufacturers_full_path'])) {
+			$data['config_manufacturers_full_path'] = $this->request->post['config_manufacturers_full_path'];
+		} else {
+			$data['config_manufacturers_full_path'] = $this->config->get('config_manufacturers_full_path');
+		}
+
+		if (isset($this->request->post['config_seo_url_postfix'])) {
+			$data['config_seo_url_postfix'] = $this->request->post['config_seo_url_postfix'];
+		} else {
+			$data['config_seo_url_postfix'] = $this->config->get('config_seo_url_postfix');
+		}
+
+		if (isset($this->request->post['config_valide_get_params_status'])) {
+			$data['config_valide_get_params_status'] = $this->request->post['config_valide_get_params_status'];
+		} elseif ($this->config->has('config_valide_get_params_status')) {
+			$data['config_valide_get_params_status'] = $this->config->get('config_valide_get_params_status');
+		} else {
+			$data['config_valide_get_params_status'] = 1;
+		}
+
+		if (isset($this->request->post['config_valide_get_params'])) {
+			$data['config_valide_get_params'] = $this->request->post['config_valide_get_params'];
+		} elseif ($this->config->has('config_valide_get_params')) {
+			$data['config_valide_get_params'] = $this->config->get('config_valide_get_params');
+		} else {
+			$data['config_valide_get_params'] = "tracking\r\nutm_source\r\nutm_campaign\r\nutm_medium\r\ntype\r\nsource\r\nblock\r\nposition\r\nkeyword\r\nyclid\r\ngclid";
+		}
+
 		if (isset($this->request->post['config_secure'])) {
 			$data['config_secure'] = $this->request->post['config_secure'];
 		} else {
@@ -1071,28 +1185,132 @@ class ControllerSettingSetting extends Controller {
 			$data['config_shared'] = $this->config->get('config_shared');
 		}
 
+		if (isset($this->request->post['config_session_engine'])) {
+			$data['config_session_engine'] = $this->request->post['config_session_engine'];
+		} elseif ($this->config->has('config_session_engine')) {
+			$data['config_session_engine'] = $this->config->get('config_session_engine');
+		} else {
+			$data['config_session_engine'] = 'native';
+		}
+
+		$data['config_session_engine'] = strtolower($data['config_session_engine']);
+
+		if ($data['config_session_engine'] == 'native' || $data['config_session_engine'] == 'native') {
+			$data['config_session_count'] = (is_dir(DIR_SESSION) ? count(glob(DIR_SESSION . '*')) : 0);
+		} elseif ($data['config_session_engine'] == 'db') {
+			$data['config_session_count'] = $this->db->query("SELECT COUNT(session_id) AS total FROM `" . DB_PREFIX . "session`")->row['total'];
+		} else {
+			$data['config_session_count'] = 0;
+		}
+
+		if (isset($this->request->post['config_session_name'])) {
+			$data['config_session_name'] = $this->request->post['config_session_name'];
+		} elseif ($this->config->has('config_session_name')) {
+			$data['config_session_name'] = $this->config->get('config_session_name');
+		} else {
+			$data['config_session_name'] = 'PHPSESSID';
+		}
+
+		if (isset($this->request->post['config_session_prefix'])) {
+			$data['config_session_prefix'] = $this->request->post['config_session_prefix'];
+		} elseif ($this->config->has('config_session_prefix')) {
+			$data['config_session_prefix'] = $this->config->get('config_session_prefix');
+		} else {
+			$data['config_session_prefix'] = 'sess_';
+		}
+
+		if (isset($this->request->post['config_session_bits_per_char'])) {
+			$data['config_session_bits_per_char'] = $this->request->post['config_session_bits_per_char'];
+		} elseif ($this->config->has('config_session_bits_per_char')) {
+			$data['config_session_bits_per_char'] = $this->config->get('config_session_bits_per_char');
+		} else {
+			$data['config_session_bits_per_char'] = 4;
+		}
+
+		if (isset($this->request->post['config_session_length'])) {
+			$data['config_session_length'] = $this->request->post['config_session_length'];
+		} elseif ($this->config->has('config_session_length')) {
+			$data['config_session_length'] = $this->config->get('config_session_length');
+		} else {
+			$data['config_session_length'] = 32;
+		}
+
+		if (isset($this->request->post['config_session_lifetime'])) {
+			$data['config_session_lifetime'] = $this->request->post['config_session_lifetime'];
+		} elseif ($this->config->has('config_session_lifetime')) {
+			$data['config_session_lifetime'] = $this->config->get('config_session_lifetime');
+		} else {
+			$data['config_session_lifetime'] = 0;
+		}
+
+		if (isset($this->request->post['config_session_maxlifetime'])) {
+			$data['config_session_maxlifetime'] = $this->request->post['config_session_maxlifetime'];
+		} elseif ($this->config->has('config_session_maxlifetime')) {
+			$data['config_session_maxlifetime'] = $this->config->get('config_session_maxlifetime');
+		} else {
+			$data['config_session_maxlifetime'] = 1440;
+		}
+
+		if (isset($this->request->post['config_session_other_lifetime'])) {
+			$data['config_session_other_lifetime'] = $this->request->post['config_session_other_lifetime'];
+		} elseif ($this->config->has('config_session_other_lifetime')) {
+			$data['config_session_other_lifetime'] = $this->config->get('config_session_other_lifetime');
+		} else {
+			$data['config_session_other_lifetime'] = 2592000;
+		}
+
+		if (isset($this->request->post['config_session_probability'])) {
+			$data['config_session_probability'] = $this->request->post['config_session_probability'];
+		} elseif ($this->config->has('config_session_probability')) {
+			$data['config_session_probability'] = $this->config->get('config_session_probability');
+		} else {
+			$data['config_session_probability'] = 1;
+		}
+
+		if (isset($this->request->post['config_session_divisor'])) {
+			$data['config_session_divisor'] = $this->request->post['config_session_divisor'];
+		} elseif ($this->config->has('config_session_divisor')) {
+			$data['config_session_divisor'] = $this->config->get('config_session_divisor');
+		} else {
+			$data['config_session_divisor'] = 1000;
+		}
+
+		if (isset($this->request->post['config_session_samesite'])) {
+			$data['config_session_samesite'] = $this->request->post['config_session_samesite'];
+		} elseif ($this->config->has('config_session_samesite')) {
+			$data['config_session_samesite'] = $this->config->get('config_session_samesite');
+		} else {
+			$data['config_session_samesite'] = 'Strict';
+		}
+
+		if (isset($this->request->post['config_session_other_samesite'])) {
+			$data['config_session_other_samesite'] = $this->request->post['config_session_other_samesite'];
+		} elseif ($this->config->has('config_session_other_samesite')) {
+			$data['config_session_other_samesite'] = $this->config->get('config_session_other_samesite');
+		} else {
+			$data['config_session_other_samesite'] = 'Lax';
+		}
+
+		if (isset($this->request->post['config_session_sameparty'])) {
+			$data['config_session_sameparty'] = $this->request->post['config_session_sameparty'];
+		} elseif ($this->config->has('config_session_sameparty')) {
+			$data['config_session_sameparty'] = $this->config->get('config_session_sameparty');
+		} else {
+			$data['config_session_sameparty'] = true;
+		}
+
+		if (isset($this->request->post['config_session_other_sameparty'])) {
+			$data['config_session_other_sameparty'] = $this->request->post['config_session_other_sameparty'];
+		} elseif ($this->config->has('config_session_other_sameparty')) {
+			$data['config_session_other_sameparty'] = $this->config->get('config_session_other_sameparty');
+		} else {
+			$data['config_session_other_sameparty'] = true;
+		}
+
 		if (isset($this->request->post['config_robots'])) {
 			$data['config_robots'] = $this->request->post['config_robots'];
 		} else {
 			$data['config_robots'] = $this->config->get('config_robots');
-		}
-
-		if (isset($this->request->post['config_seo_url'])) {
-			$data['config_seo_url'] = $this->request->post['config_seo_url'];
-		} else {
-			$data['config_seo_url'] = $this->config->get('config_seo_url');
-		}
-		
-		if (isset($this->request->post['config_seo_url_include_path'])) {
-			$data['config_seo_url_include_path'] = $this->request->post['config_seo_url_include_path'];
-		} else {
-			$data['config_seo_url_include_path'] = $this->config->get('config_seo_url_include_path');
-		}
-		
-		if (isset($this->request->post['config_seo_url_postfix'])) {
-			$data['config_seo_url_postfix'] = $this->request->post['config_seo_url_postfix'];
-		} else {
-			$data['config_seo_url_postfix'] = $this->config->get('config_seo_url_postfix');
 		}
 
 		if (isset($this->request->post['config_file_max_size'])) {
@@ -1155,6 +1373,12 @@ class ControllerSettingSetting extends Controller {
 			$data['config_error_filename'] = $this->request->post['config_error_filename'];
 		} else {
 			$data['config_error_filename'] = $this->config->get('config_error_filename');
+		}
+
+		if (isset($this->request->post['config_debug_pro'])) {
+			$data['config_debug_pro'] = $this->request->post['config_debug_pro'];
+		} else {
+			$data['config_debug_pro'] = $this->config->get('config_debug_pro');
 		}
 
 		$data['header'] = $this->load->controller('common/header');
@@ -1257,25 +1481,25 @@ class ControllerSettingSetting extends Controller {
 
 		return !$this->error;
 	}
-	
+
 	public function theme() {
 		if ($this->request->server['HTTPS']) {
 			$server = HTTPS_CATALOG;
 		} else {
 			$server = HTTP_CATALOG;
 		}
-		
+
 		// This is only here for compatibility with old themes.
 		if ($this->request->get['theme'] == 'theme_default') {
 			$theme = $this->config->get('theme_default_directory');
 		} else {
 			$theme = basename($this->request->get['theme']);
 		}
-		
+
 		if (is_file(DIR_CATALOG . 'view/theme/' . $theme . '/image/' . $theme . '.png')) {
 			$this->response->setOutput($server . 'catalog/view/theme/' . $theme . '/image/' . $theme . '.png');
 		} else {
 			$this->response->setOutput($server . 'image/no_image.png');
 		}
-	}	
+	}
 }

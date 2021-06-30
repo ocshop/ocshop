@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -64,6 +64,10 @@ class ControllerExtensionModification extends Controller {
 		$this->load->model('extension/modification');
 
 		if ($this->validate()) {
+			$handle = fopen(DIR_LOGS . 'ocmod.log', 'w+');
+
+			fclose($handle);
+
 			// Just before files are deleted, if config settings say maintenance mode is off then turn it on
 			$maintenance = $this->config->get('config_maintenance');
 
@@ -139,10 +143,10 @@ class ControllerExtensionModification extends Controller {
 			$modification = array();
 
 			foreach ($xml as $xml) {
-				if (empty($xml)){
+				if (empty($xml)) {
 					continue;
 				}
-				
+
 				$dom = new DOMDocument('1.0', 'UTF-8');
 				$dom->preserveWhiteSpace = false;
 				$dom->loadXml($xml);
@@ -382,7 +386,7 @@ class ControllerExtensionModification extends Controller {
 											else {
 												// Log
 												$log[] = 'NOT FOUND - OPERATIONS ABORTED!';
-											 	break;
+												break;
 											}
 										}
 									}
@@ -446,7 +450,7 @@ class ControllerExtensionModification extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-		//	$this->response->redirect($this->url->link(!empty($data['redirect']) ? $data['redirect'] : 'extension/modification', 'token=' . $this->session->data['token'] . $url, true));
+			//$this->response->redirect($this->url->link(!empty($data['redirect']) ? $data['redirect'] : 'extension/modification', 'token=' . $this->session->data['token'] . $url, true));
 		}
 
 		$this->getList();

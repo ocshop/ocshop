@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -17,7 +17,7 @@ class ControllerAccountReturn extends Controller {
 		$this->load->language('account/return');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		$this->document->setRobots('noindex,follow');
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 
 		$data['breadcrumbs'] = array();
 
@@ -43,7 +43,6 @@ class ControllerAccountReturn extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		$this->document->setRobots('noindex,follow');
 
 		$data['text_empty'] = $this->language->get('text_empty');
 
@@ -106,6 +105,8 @@ class ControllerAccountReturn extends Controller {
 	public function info() {
 		$this->load->language('account/return');
 
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
+
 		if (isset($this->request->get['return_id'])) {
 			$return_id = $this->request->get['return_id'];
 		} else {
@@ -124,7 +125,6 @@ class ControllerAccountReturn extends Controller {
 
 		if ($return_info) {
 			$this->document->setTitle($this->language->get('text_return'));
-			$this->document->setRobots('noindex,follow');
 
 			$data['breadcrumbs'] = array();
 
@@ -155,7 +155,6 @@ class ControllerAccountReturn extends Controller {
 			);
 
 			$data['heading_title'] = $this->language->get('text_return');
-			$this->document->setRobots('noindex,follow');
 
 			$data['text_return_detail'] = $this->language->get('text_return_detail');
 			$data['text_return_id'] = $this->language->get('text_return_id');
@@ -254,7 +253,6 @@ class ControllerAccountReturn extends Controller {
 			);
 
 			$data['heading_title'] = $this->language->get('text_return');
-			$this->document->setRobots('noindex,follow');
 
 			$data['text_error'] = $this->language->get('text_error');
 
@@ -307,7 +305,7 @@ class ControllerAccountReturn extends Controller {
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		$this->document->setRobots('noindex,follow');
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
 		$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
 		$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
@@ -330,7 +328,6 @@ class ControllerAccountReturn extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		$this->document->setRobots('noindex,follow');
 
 		$data['text_description'] = $this->language->get('text_description');
 		$data['text_order'] = $this->language->get('text_order');
@@ -554,31 +551,31 @@ class ControllerAccountReturn extends Controller {
 	}
 
 	protected function validate() {
-		if (!$this->request->post['order_id']) {
+		if (empty($this->request->post['order_id'])) {
 			$this->error['order_id'] = $this->language->get('error_order_id');
 		}
 
-		if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
+		if (!isset($this->request->post['firstname']) || (utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
 			$this->error['firstname'] = $this->language->get('error_firstname');
 		}
 
-		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
+		if (!isset($this->request->post['lastname']) || (utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
 			$this->error['lastname'] = $this->language->get('error_lastname');
 		}
 
-		if ((utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
+		if (!isset($this->request->post['email']) || (utf8_strlen($this->request->post['email']) > 96) || !filter_var($this->request->post['email'], FILTER_VALIDATE_EMAIL)) {
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
-		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
+		if (!isset($this->request->post['telephone']) || (utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
-		if ((utf8_strlen($this->request->post['product']) < 1) || (utf8_strlen($this->request->post['product']) > 255)) {
+		if (!isset($this->request->post['product']) || (utf8_strlen($this->request->post['product']) < 1) || (utf8_strlen($this->request->post['product']) > 255)) {
 			$this->error['product'] = $this->language->get('error_product');
 		}
 
-		if ((utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 64)) {
+		if (!isset($this->request->post['model']) || (utf8_strlen($this->request->post['model']) < 1) || (utf8_strlen($this->request->post['model']) > 64)) {
 			$this->error['model'] = $this->language->get('error_model');
 		}
 
@@ -625,7 +622,7 @@ class ControllerAccountReturn extends Controller {
 		);
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		$this->document->setRobots('noindex,follow');
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 
 		$data['text_message'] = $this->language->get('text_message');
 

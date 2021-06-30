@@ -1,8 +1,8 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
-// *	@license	GNU General Public License version 3; see LICENSE.txt
+// *	@license	GNU General Public License version 3; see LICENSE.txttxt
 
 // Heading
 $_['heading_title']          = 'Google Base';
@@ -11,7 +11,7 @@ $_['heading_title']          = 'Google Base';
 $_['text_extension']         = 'Extensions';
 $_['text_success']           = 'Success: You have modified Google Base feed!';
 $_['text_edit']              = 'Edit Google Base';
-$_['text_import']            = 'To download the latest Google category list by <a href="https://support.google.com/merchants/answer/160081?hl=en" target="_blank" class="alert-link">clicking here</a> and choose taxonomy with numeric IDs in Plain Text (.txt) file. Upload via the green import button.';
+$_['text_import']            = 'To download the latest Google category list by <a href="https://support.google.com/merchants/answer/160081?hl=en" class="alert-link"  rel="noreferrer noopener" target="_blank">clicking here</a> and choose taxonomy with numeric IDs in Plain Text (.txt) file. Upload via the green import button.';
 
 // Column
 $_['column_google_category'] = 'Google Category';

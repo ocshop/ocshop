@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -15,6 +15,7 @@ class ControllerAffiliateForgotten extends Controller {
 		$this->load->language('affiliate/forgotten');
 
 		$this->document->setTitle($this->language->get('heading_title'));
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 
 		$this->load->model('affiliate/affiliate');
 
@@ -120,12 +121,12 @@ class ControllerAffiliateForgotten extends Controller {
 			$this->error['warning'] = $this->language->get('error_email');
 		} elseif (!$this->model_affiliate_affiliate->getTotalAffiliatesByEmail($this->request->post['email'])) {
 			$this->error['warning'] = $this->language->get('error_email');
-		}
+		} else {
+			$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
 
-		$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
-
-		if ($affiliate_info && !$affiliate_info['approved']) {
-		    $this->error['warning'] = $this->language->get('error_approved');
+			if ($affiliate_info && !$affiliate_info['approved']) {
+				$this->error['warning'] = $this->language->get('error_approved');
+			}
 		}
 
 		return !$this->error;

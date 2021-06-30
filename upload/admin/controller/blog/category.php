@@ -144,7 +144,7 @@ class ControllerBlogCategory extends Controller {
 
 		$this->load->model('blog/category');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_category->editCategoryStatus($article_id, 1);
 			}
@@ -178,7 +178,7 @@ class ControllerBlogCategory extends Controller {
 
 		$this->load->model('blog/category');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_category->editCategoryStatus($article_id, 0);
 			}

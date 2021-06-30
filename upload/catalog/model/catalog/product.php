@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2018.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -20,7 +20,7 @@ class ModelCatalogProduct extends Model {
 				'description_mini' => $query->row['description_mini'],
 				'meta_title'       => $query->row['meta_title'],
 				'noindex'          => $query->row['noindex'],
-				'meta_h1'	       => $query->row['meta_h1'],
+				'meta_h1'          => $query->row['meta_h1'],
 				'meta_description' => $query->row['meta_description'],
 				'meta_keyword'     => $query->row['meta_keyword'],
 				'tag'              => $query->row['tag'],
@@ -62,11 +62,6 @@ class ModelCatalogProduct extends Model {
 		} else {
 			return false;
 		}
-	}
-	
-	public function getproducttab($product_id){
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_tab pt LEFT JOIN ".DB_PREFIX. "product_tab_desc ptd ON(pt.product_tab_id = ptd.product_tab_id) WHERE pt.product_id = '" . (int)$product_id . "' AND ptd.language_id = '" . $this->config->get('config_language_id')."' AND pt.status = 1 ORDER BY sort_order ASC");
-		return $query->rows;
 	}
 
 	public function getProducts($data = array()) {
@@ -197,11 +192,11 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
+			if (!isset($data['start']) || $data['start'] < 0) {
 				$data['start'] = 0;
 			}
 
-			if ($data['limit'] < 1) {
+			if (!isset($data['limit']) || $data['limit'] < 1) {
 				$data['limit'] = 20;
 			}
 
@@ -218,7 +213,13 @@ class ModelCatalogProduct extends Model {
 
 		return $product_data;
 	}
-	
+
+	public function getproducttab($product_id) {
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_tab pt LEFT JOIN " . DB_PREFIX . "product_tab_desc ptd ON (pt.product_tab_id = ptd.product_tab_id) WHERE pt.product_id = '" . (int)$product_id . "' AND ptd.language_id = '" . $this->config->get('config_language_id') . "' AND pt.status = '1' ORDER BY sort_order ASC");
+
+		return $query->rows;
+	}
+
 	public function getProductSticker($product_id) {
 		$product_sticker_data = array();
 
@@ -229,17 +230,15 @@ class ModelCatalogProduct extends Model {
 		}
 
 		return $product_sticker_data;
-	}	
+	}
 
 	public function getProductBenefitsbyProductId($product_id) {
-
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_benefit p2b LEFT JOIN " . DB_PREFIX . "benefit b ON (p2b.benefit_id = b.benefit_id) LEFT JOIN " . DB_PREFIX . "benefit_description bd ON (p2b.benefit_id = bd.benefit_id) WHERE product_id = '" . (int)$product_id . "' AND bd.language_id = '" . (int)$this->config->get('config_language_id')."'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_benefit p2b LEFT JOIN " . DB_PREFIX . "benefit b ON (p2b.benefit_id = b.benefit_id) LEFT JOIN " . DB_PREFIX . "benefit_description bd ON (p2b.benefit_id = bd.benefit_id) WHERE product_id = '" . (int)$product_id . "' AND bd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->rows;
 	}
-	
-	public function getProductStickerbyProductId($product_id) {
 
+	public function getProductStickerbyProductId($product_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_sticker p2s LEFT JOIN " . DB_PREFIX . "sticker ps ON (p2s.sticker_id = ps.sticker_id) WHERE product_id = '" . (int)$product_id . "'");
 
 		return $query->rows;
@@ -313,10 +312,10 @@ class ModelCatalogProduct extends Model {
 
 	public function getPopularProducts($limit) {
 		$product_data = $this->cache->get('product.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . $this->config->get('config_customer_group_id') . '.' . (int)$limit);
-	
+
 		if (!$product_data) {
 			$query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
-	
+
 			foreach ($query->rows as $result) {
 				$product_data[$result['product_id']] = $this->getProduct($result['product_id']);
 			}

@@ -3,10 +3,10 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
-        <button type="submit" form="form-product" formaction="<?php echo $copy; ?>" data-toggle="tooltip" title="<?php echo $button_copy; ?>" class="btn btn-default"><i class="fa fa-copy"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_copy; ?>" class="btn btn-default" onclick="$('#form-product').attr('action', '<?php echo $copy; ?>').submit()"><i class="fa fa-copy"></i></button>
         <button type="button" data-toggle="tooltip" title="<?php echo $button_enable; ?>" class="btn btn-default" onclick="$('#form-product').attr('action', '<?php echo $enabled; ?>').submit()"><i class="fa fa-play"></i></button>
-		<button type="button" data-toggle="tooltip" title="<?php echo $button_disable; ?>" class="btn btn-default" onclick="$('#form-product').attr('action', '<?php echo $disabled; ?>').submit()"><i class="fa fa-pause"></i></button>
-		<button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_disable; ?>" class="btn btn-default" onclick="$('#form-product').attr('action', '<?php echo $disabled; ?>').submit()"><i class="fa fa-pause"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-product').submit() : false;"><i class="fa fa-trash-o"></i></button>
       </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
@@ -44,7 +44,7 @@
                   </div>
                 </div>
               </div>
-             <div class="form-group">
+              <div class="form-group">
                 <label class="control-label" for="input-model"><?php echo $entry_model; ?></label>
                 <div class="input-group">
                   <input type="text" name="filter_model" value="<?php echo $filter_model; ?>" placeholder="<?php echo $entry_model; ?>" id="input-model" class="form-control" />
@@ -53,10 +53,10 @@
                   </div>
                 </div>
               </div>
-			 <div class="form-group">
+              <div class="form-group">
                 <label class="control-label" for="input-category-name"><?php echo $entry_category; ?></label> <label class="control-label pull-right" for="input-sub-category"><?php echo $entry_sub_category; ?> <input type="checkbox" class="checkbox-inline" name="filter_sub_category" id="input-sub-category" class="form-control"<?php echo ($filter_sub_category)?' checked="checked"':''; ?> /></label>
                 <div class="clearfix"></div>
-				<div class="input-group">
+                <div class="input-group">
                   <input type="text" name="filter_category_name" value="<?php echo $filter_category_name; ?>" placeholder="<?php echo $entry_category; ?>" id="input-category-name" class="form-control" />
                   <div class="input-group-btn">
                     <button type="button" id="button-clear-input-category-name" class="btn btn-default"><i class="fa fa-times"></i></button>
@@ -65,7 +65,7 @@
                 <input type="hidden" name="filter_category" value="<?php echo $filter_category; ?>" id="input-category" class="form-control" />
               </div>
             </div>
-           <div class="col-sm-4">
+            <div class="col-sm-4">
               <div class="form-group">
                 <label class="control-label" for="input-price"><?php echo $entry_price; ?></label>
                 <div class="row">
@@ -168,10 +168,10 @@
                   <?php } ?>
                 </select>
               </div>
-			  </div>
-			<div class="col-sm-4 text-right">
+            </div>
+            <div class="col-sm-12 text-right">
               <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-filter"></i> <?php echo $button_filter; ?></button>
-			  <button type="button" id="button-clear-filter" class="btn btn-default"><i class="fa fa-times"></i><span class="hidden-sm"> <?php echo $button_clear; ?></span></button>
+              <button type="button" id="button-clear-filter" class="btn btn-default"><i class="fa fa-times"></i><span class="hidden-sm"> <?php echo $button_clear; ?></span></button>
             </div>
           </div>
         </div>
@@ -187,7 +187,6 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
                     <?php } ?></td>
-					<td class="text-left"><?php echo $column_category; ?></td>
                   <td class="text-left"><?php if ($sort == 'p.model') { ?>
                     <a href="<?php echo $sort_model; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_model; ?></a>
                     <?php } else { ?>
@@ -208,7 +207,7 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
                     <?php } ?></td>
-					<td class="text-left"><?php if ($sort == 'p.noindex') { ?>
+                  <td class="text-left"><?php if ($sort == 'p.noindex') { ?>
                     <a href="<?php echo $sort_noindex; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_noindex; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_noindex; ?>"><?php echo $column_noindex; ?></a>
@@ -231,12 +230,6 @@
                     <span class="img-thumbnail list"><i class="fa fa-camera fa-2x"></i></span>
                     <?php } ?></td>
                   <td class="text-left"><?php echo $product['name']; ?></td>
-				  <td class="text-left">
-                    <?php foreach ($categories as $category) { ?>
-                    <?php if (in_array($category['category_id'], $product['category'])) { ?>
-                    <?php echo $category['name'];?><br>
-                    <?php } ?>
-                    <?php } ?></td>
                   <td class="text-left"><?php echo $product['model']; ?></td>
                   <td class="text-right"><?php if ($product['special']) { ?>
                     <span style="text-decoration: line-through;"><?php echo $product['price']; ?></span><br/>
@@ -252,11 +245,11 @@
                     <span class="label label-success"><?php echo $product['quantity']; ?></span>
                     <?php } ?></td>
                   <td class="text-left"><?php echo $product['status']; ?></td>
-				  <td class="text-left"><?php echo $product['noindex']; ?></td>
+                  <td class="text-left"><?php echo $product['noindex']; ?></td>
                   <td class="text-right">
-				  <a target="_blank" href="<?php echo $product['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
-				  <a href="<?php echo $product['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
-				  </td
+                    <a target="_blank" href="<?php echo $product['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                    <a href="<?php echo $product['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                  </td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>
@@ -275,7 +268,7 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
 	var url = 'index.php?route=catalog/product&token=<?php echo $token; ?>';
 
@@ -353,11 +346,12 @@ $('#button-filter').on('click', function() {
 
 	location = url;
 });
+
 $('#button-clear-filter').on('click', function() {
 	location = 'index.php?route=catalog/product&token=<?php echo $token; ?>';
 });
 //--></script>
-  <script type="text/javascript"><!--
+<script type="text/javascript"><!--
 $('input[name=\'filter_name\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
@@ -377,6 +371,7 @@ $('input[name=\'filter_name\']').autocomplete({
 		$('input[name=\'filter_name\']').val(item['label']);
 	}
 });
+
 $('#button-clear-input-name').on('click',function(){
 	$('input[name=\'filter_name\']').val('');
 	$('#button-filter').trigger('click');
@@ -406,6 +401,7 @@ $('#button-clear-input-model').on('click',function(){
 	$('input[name=\'filter_model\']').val('');
 	$('#button-filter').trigger('click');
 });
+
 $('input[name=\'filter_category_name\']').autocomplete({
 	'source': function(request, response) {
 		if ($('input[name=\'filter_category_name\']').val().length==0) {

@@ -71,7 +71,7 @@
                     <td class="text-center"><input type="checkbox" class="link-checkbox link-checkbox-<?php echo $marketplace['code']; ?>"/></td>
                 <?php } ?>
 
-                  <td class="text-left"><a href="<?php echo $product['href_amazon']; ?>" target="_blank"><?php echo $product['asin']; ?></a></td>
+                  <td class="text-left"><a href="<?php echo $product['href_amazon']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $product['asin']; ?></a></td>
                   <td class="text-left"><?php echo $product['amazon_sku']; ?></td>
                   <td class="text-center"><?php echo $product['amazon_quantity']; ?></td>
                   <td class="text-right"><?php echo $product['amazon_price']; ?></td>

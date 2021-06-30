@@ -15,7 +15,7 @@
     <?php if (!$user_plan) { ?>
     <div class="row">
       <p><?php echo $text_register_invite; ?></p>
-      <p><a href="<?php echo $link_register; ?>" class="btn btn-primary" target="_blank"><?php echo $button_register; ?></a></p>
+      <p><a href="<?php echo $link_register; ?>" class="btn btn-primary" rel="noreferrer noopener" target="_blank"><?php echo $button_register; ?></a></p>
     </div>
     <?php } else { ?>
     <div class="row">

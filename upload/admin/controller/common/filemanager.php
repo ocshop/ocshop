@@ -1,11 +1,26 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerCommonFileManager extends Controller {
 	public function index() {
+		if (isset($this->request->get['directory'])) {
+			$this->session->data['filemanager_directory'] = $this->request->get['directory'];
+			if (isset($this->request->get['page'])) {
+				$this->session->data['filemanager_page'] = $this->request->get['page'];
+			}
+		} else {
+			if (isset($this->request->get['parent'])) {
+				unset($this->session->data['filemanager_directory']);
+				unset($this->session->data['filemanager_page']);
+			} else {
+				$this->request->get['directory'] = (isset($this->session->data['filemanager_directory']) ? $this->session->data['filemanager_directory'] : null);
+				$this->request->get['page'] = (isset($this->session->data['filemanager_page']) ? $this->session->data['filemanager_page'] : null);
+			}
+		}
+
 		$this->load->language('common/filemanager');
 
 		// Find which protocol to use to pass the full image link back
@@ -50,7 +65,7 @@ class ControllerCommonFileManager extends Controller {
 			}
 
 			// Get files
-			$files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
+			$files = glob($directory . '/*' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
 
 			if (!$files) {
 				$files = array();
@@ -143,6 +158,7 @@ class ControllerCommonFileManager extends Controller {
 
 		// Parent
 		$url = '';
+		$url .= '&parent=1';
 
 		if (isset($this->request->get['directory'])) {
 			$pos = strrpos($this->request->get['directory'], '/');
@@ -263,7 +279,7 @@ class ControllerCommonFileManager extends Controller {
 						'gif',
 						'png'
 					);
-	
+
 					if (!in_array(utf8_strtolower(utf8_substr(strrchr($filename, '.'), 1)), $allowed)) {
 						$json['error'] = $this->language->get('error_filetype');
 					}
@@ -276,7 +292,7 @@ class ControllerCommonFileManager extends Controller {
 						'image/x-png',
 						'image/gif'
 					);
-	
+
 					if (!in_array($file['type'], $allowed)) {
 						$json['error'] = $this->language->get('error_filetype');
 					}

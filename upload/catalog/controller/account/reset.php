@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -11,6 +11,8 @@ class ControllerAccountReset extends Controller {
 		if ($this->customer->isLogged()) {
 			$this->response->redirect($this->url->link('account/account', '', true));
 		}
+
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
 
 		if (isset($this->request->get['code'])) {
 			$code = $this->request->get['code'];
@@ -119,12 +121,12 @@ class ControllerAccountReset extends Controller {
 	}
 
 	protected function validate() {
-		if ((utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
+		if (empty($this->request->post['password']) || (utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
 			$this->error['password'] = $this->language->get('error_password');
-		}
 
-		if ($this->request->post['confirm'] != $this->request->post['password']) {
-			$this->error['confirm'] = $this->language->get('error_confirm');
+			if (empty($this->request->post['confirm']) || $this->request->post['confirm'] != $this->request->post['password']) {
+				$this->error['confirm'] = $this->language->get('error_confirm');
+			}
 		}
 
 		return !$this->error;

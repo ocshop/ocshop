@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -232,7 +232,7 @@ class ControllerBlogArticle extends Controller {
 
 		$this->load->model('blog/article');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_article->editArticleStatus($article_id, 1);
 			}
@@ -266,7 +266,7 @@ class ControllerBlogArticle extends Controller {
 
 		$this->load->model('blog/article');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_article->editArticleStatus($article_id, 0);
 			}
@@ -294,7 +294,6 @@ class ControllerBlogArticle extends Controller {
 	}
 
 	protected function getList() {
-
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_list'] = $this->language->get('text_list');
@@ -931,15 +930,15 @@ class ControllerBlogArticle extends Controller {
 			}
 		}
 
-		if (isset($this->request->post['product_related'])) {
-			$products = $this->request->post['product_related'];
+		if (isset($this->request->post['article_related_product'])) {
+			$products = $this->request->post['article_related_product'];
 		} elseif (isset($article_info)) {
 			$products = $this->model_blog_article->getProductRelated($this->request->get['article_id']);
 		} else {
 			$products = array();
 		}
 
-		$data['product_relateds'] = array();
+		$data['article_related_product'] = array();
 
 		$this->load->model('catalog/product');
 
@@ -947,7 +946,7 @@ class ControllerBlogArticle extends Controller {
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 
 			if ($product_info) {
-				$data['product_relateds'][] = array(
+				$data['article_related_product'][] = array(
 					'product_id' => $product_info['product_id'],
 					'name'       => $product_info['name']
 				);

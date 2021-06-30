@@ -747,6 +747,10 @@ h2.price {
     background-image: none;
     background-color: #df5c39;
 }
+/* fix carouse */
+[id*='carouse'] .img-responsive {
+	display: initial;
+}
 /*img category*/
 .imgcategory .product-thumb.transition > h4 {
 	padding-left: 10px;
@@ -864,15 +868,15 @@ h2.price {
 	margin-top: 10px;
 }
 /* blog search */
-#blog-search {
+body .blog-search {
 	margin-bottom: 10px;
 }
-#blog-search .input-lg {
+body .blog-search .input-lg {
 	height: 40px;
 	line-height: 20px;
 	padding: 0 10px;
 }
-#blog-search .btn-lg {
+body .blog-search .btn-lg {
 	font-size: 15px;
 	line-height: 18px;
 	padding: 10px 35px;

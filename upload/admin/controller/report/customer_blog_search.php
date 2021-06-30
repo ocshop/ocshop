@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -211,8 +211,8 @@ class ControllerReportCustomerBlogSearch extends Controller {
 			'filter_keyword'    => $filter_keyword,
 			'filter_customer'   => $filter_customer,
 			'filter_ip'         => $filter_ip,
-			'start'             => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'             => $this->config->get('config_limit_admin')
+			'start'             => ($page - 1) * $this->config->get('configblog_limit_admin'),
+			'limit'             => $this->config->get('configblog_limit_admin')
 		);
 
 		$this->load->model('blog/category');

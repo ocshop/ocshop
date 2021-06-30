@@ -1,0 +1,7 @@
+/*  Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
+	© 2016-2020; BuslikDrev - Усе правы захаваныя.
+	Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ ) */
+
+/* style 1 */
+.bus-menu-style-1-1 .list-group-item.active, .bus-menu-style-1-1 .list-group-item.active:focus {z-index:unset}
+.bus-menu-style-1-1 .list-group-item:hover, .bus-menu-style-1-1 .list-group-item.active:hover {z-index:1}

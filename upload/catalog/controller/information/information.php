@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -31,25 +31,27 @@ class ControllerInformationInformation extends Controller {
 			} else {
 				$this->document->setTitle($information_info['title']);
 			}
-			
+
 			if ($information_info['noindex'] <= 0) {
 				$this->document->setRobots('noindex,follow');
 			}
-			
+
+			$this->document->setDescription($information_info['meta_description']);
+			$this->document->setKeywords($information_info['meta_keyword']);
+
 			if ($information_info['meta_h1']) {
 				$data['heading_title'] = $information_info['meta_h1'];
 			} else {
 				$data['heading_title'] = $information_info['title'];
 			}
-			$this->document->setDescription($information_info['meta_description']);
-			$this->document->setKeywords($information_info['meta_keyword']);
 
+			$data['button_continue'] = $this->language->get('button_continue');
+
+			// Set the last category breadcrumb
 			$data['breadcrumbs'][] = array(
 				'text' => $information_info['title'],
 				'href' => $this->url->link('information/information', 'information_id=' .  $information_id)
 			);
-
-			$data['button_continue'] = $this->language->get('button_continue');
 
 			$data['description'] = html_entity_decode($information_info['description'], ENT_QUOTES, 'UTF-8');
 
@@ -64,11 +66,6 @@ class ControllerInformationInformation extends Controller {
 
 			$this->response->setOutput($this->load->view('information/information', $data));
 		} else {
-			$data['breadcrumbs'][] = array(
-				'text' => $this->language->get('text_error'),
-				'href' => $this->url->link('information/information', 'information_id=' . $information_id)
-			);
-
 			$this->document->setTitle($this->language->get('text_error'));
 
 			$data['heading_title'] = $this->language->get('text_error');
@@ -76,6 +73,11 @@ class ControllerInformationInformation extends Controller {
 			$data['text_error'] = $this->language->get('text_error');
 
 			$data['button_continue'] = $this->language->get('button_continue');
+
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('text_error'),
+				'href' => $this->url->link('information/information', 'information_id=' . $information_id)
+			);
 
 			$data['continue'] = $this->url->link('common/home');
 

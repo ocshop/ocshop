@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -29,14 +29,15 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // DIR
-define('DIR_APPLICATION', str_replace('\\', '/', realpath(dirname(__FILE__))) . '/');
-define('DIR_SYSTEM', str_replace('\\', '/', realpath(dirname(__FILE__) . '/../')) . '/system/');
-define('DIR_OPENCART', str_replace('\\', '/', realpath(DIR_APPLICATION . '../')) . '/');
+define('DIR_OPENCART', str_replace('\\', '/', realpath(dirname(__FILE__) . '/../')) . '/');
+define('DIR_APPLICATION', DIR_OPENCART . 'install/');
+define('DIR_SYSTEM', DIR_OPENCART . '/system/');
 define('DIR_DATABASE', DIR_SYSTEM . 'database/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
-define('DIR_MODIFICATION', DIR_SYSTEM . 'modification/');
+define('DIR_MODIFICATION', DIR_SYSTEM . 'storage/modification/');
+define('DIR_SESSION', DIR_SYSTEM . 'storage/session/');
 
 // Startup
 require_once(DIR_SYSTEM . 'startup.php');
@@ -145,8 +146,8 @@ function install($options) {
 
 function check_requirements() {
 	$error = null;
-	if (phpversion() < '5.0') {
-		$error = 'Warning: You need to use PHP5 or above for OpenCart to work!';
+	if (phpversion() < '5.4.0') {
+		$error = 'Warning: You need to use PHP5.4 or above for OpenCart to work!';
 	}
 
 	if (!ini_get('file_uploads')) {
@@ -169,8 +170,8 @@ function check_requirements() {
 		$error = 'Warning: CURL extension needs to be loaded for OpenCart to work!';
 	}
 
-	if (!function_exists('mcrypt_encrypt')) {
-		$error = 'Warning: mCrypt extension needs to be loaded for OpenCart to work!';
+	if (!function_exists('mcrypt_encrypt') && !function_exists('openssl_encrypt')) {
+		$error = 'Warning: mCrypt for php5.4-7.1 or OpenSSL for php7.2+ extension needs to be loaded for OpenCart to work!';
 	}
 
 	if (!extension_loaded('zlib')) {
@@ -213,7 +214,7 @@ function setup_db($data) {
 
 		$db->query("SET CHARACTER SET utf8");
 
-		$db->query("SET @@session.sql_mode = 'MYSQL40'");
+		$db->query("SET @@session.sql_mode = ''");
 
 		$db->query("DELETE FROM `" . $data['db_prefix'] . "user` WHERE user_id = '1'");
 
@@ -258,6 +259,7 @@ function write_config_files($options) {
 	$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_OPENCART . 'system/storage/download/\');' . "\n";
 	$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_OPENCART . 'system/storage/upload/\');' . "\n";
 	$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_OPENCART . 'system/storage/modification/\');' . "\n";
+	$output .= 'define(\'DIR_SESSION\', \'' . DIR_OPENCART . 'system/storage/session/\');' . "\n";
 	$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/storage/logs/\');' . "\n\n";
 
 	$output .= '// DB' . "\n";
@@ -298,6 +300,7 @@ function write_config_files($options) {
 	$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_OPENCART . 'system/storage/upload/\');' . "\n";
 	$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/storage/logs/\');' . "\n";
 	$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_OPENCART . 'system/storage/modification/\');' . "\n";
+	$output .= 'define(\'DIR_SESSION\', \'' . DIR_OPENCART . 'system/storage/session/\');' . "\n";
 	$output .= 'define(\'DIR_CATALOG\', \'' . DIR_OPENCART . 'catalog/\');' . "\n\n";
 
 	$output .= '// DB' . "\n";

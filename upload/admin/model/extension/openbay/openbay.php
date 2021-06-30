@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -620,8 +620,9 @@ class ModelExtensionOpenBayOpenbay extends Model {
 	public function requirementTest() {
 		$error = array();
 
-		if (!function_exists('mcrypt_encrypt')) {
+		if (!function_exists('mcrypt_encrypt') && !function_exists('openssl_encrypt')) {
 			$error[] = $this->language->get('error_mcrypt');
+			$error[] = $this->language->get('error_openssl');
 		}
 
 		if (!function_exists('mb_detect_encoding')) {

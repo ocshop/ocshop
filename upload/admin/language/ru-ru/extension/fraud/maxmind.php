@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -8,10 +8,11 @@
 $_['heading_title']                           = 'MaxMind Anti-Fraud';
 
 // Text
+$_['text_extension']                          = 'Расширения';
 $_['text_fraud']                              = 'Антифрод';
 $_['text_success']                            = 'Настройки успешно изменены!';
 $_['text_edit']                               = 'Редактирование';
-$_['text_signup']                             = 'MaxMind is a fraud detection service. If you don\'t have a license key you can <a href="http://www.maxmind.com/?rId=opencart" target="_blank"><u>sign up here</u></a>.';
+$_['text_signup']                             = 'MaxMind is a fraud detection service. If you don\'t have a license key you can <a href="https://www.maxmind.com/?rId=opencart" rel="noreferrer noopener" target="_blank"><u>sign up here</u></a>.';
 $_['text_country_match']                      = 'Country Match:';
 $_['text_country_code']                       = 'Country Code:';
 $_['text_high_risk_country']                  = 'High Risk Country:';
@@ -125,4 +126,4 @@ $_['help_error']                              = 'Returns an error string with a 
 
 // Error
 $_['error_permission']                        = 'У вас недостаточно прав для внесения изменений!';
-$_['error_key']		                          = 'License Key Required!';
+$_['error_key']                               = 'License Key Required!';

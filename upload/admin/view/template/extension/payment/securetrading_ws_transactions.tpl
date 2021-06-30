@@ -17,7 +17,7 @@
             <?php foreach ($transactions as $transaction) { ?>
             
             <tr>
-                <td class="left"><a href="<?php echo $transaction['order_href']; ?>" target="_blank"><?php echo $transaction['order_id']; ?></a></td>
+                <td class="left"><a href="<?php echo $transaction['order_href']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $transaction['order_id']; ?></a></td>
                 <td class="left"><?php echo $transaction['transaction_reference']; ?></td>
                 <td class="left"><?php echo $transaction['customer']; ?></td>
                 <td class="left"><?php echo $transaction['total']; ?></td>

@@ -1,6 +1,6 @@
 <?php
 // *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -240,7 +240,7 @@ class ModelUpgrade1001 extends Model {
 				$lines = file($file);
 
 				foreach ($lines as $line) {
-					if (strpos($line, "'mysql'") !== false) {
+					if (strpos($line, "define('DB_DRIVER', 'mysql');") !== false) {
 						$upgrade = true;
 
 						break;
@@ -251,7 +251,7 @@ class ModelUpgrade1001 extends Model {
 					$output = '';
 
 					foreach ($lines as $line_id => $line) {
-						if (strpos($line, "'mysql'") !== false) {
+						if (strpos($line, "define('DB_DRIVER', 'mysql');") !== false) {
 							$new_line = "define('DB_DRIVER', 'mysqli');";
 							$output .= $new_line . "\n";
 						} else {

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -15,12 +15,12 @@ class File {
 
 		if ($files) {
 			foreach ($files as $file) {
+				$filename = basename($file);
+
 				$time = substr(strrchr($file, '.'), 1);
 
 				if ($time < time()) {
-					if (file_exists($file)) {
-						unlink($file);
-					}
+					$this->delete(substr($filename, 6, strrpos($filename, '.') - 6));
 				}
 			}
 		}
@@ -30,23 +30,27 @@ class File {
 		$files = glob(DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.*');
 
 		if ($files) {
-			$handle = fopen($files[0], 'r');
+			$size = filesize($files[0]);
 
-			flock($handle, LOCK_SH);
+			if ($size > 0) {
+				$handle = fopen($files[0], 'r');
 
-			$data = fread($handle, filesize($files[0]));
+				flock($handle, LOCK_SH);
 
-			flock($handle, LOCK_UN);
+				$data = fread($handle, $size);
 
-			fclose($handle);
+				flock($handle, LOCK_UN);
 
-			return json_decode($data, true);
+				fclose($handle);
+
+				return json_decode($data, true);
+			}
 		}
 
 		return false;
 	}
 
-	public function set($key, $value) {
+	public function set($key, $value, $expire = 0) {
 		$this->delete($key);
 
 		$file = DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.' . (time() + $this->expire);
@@ -69,10 +73,17 @@ class File {
 
 		if ($files) {
 			foreach ($files as $file) {
-				if (file_exists($file)) {
-					unlink($file);
+				if (is_file($file) && !@unlink($file)) {
+					clearstatcache(false, $file);
 				}
 			}
 		}
+	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		return $status;
 	}
 }

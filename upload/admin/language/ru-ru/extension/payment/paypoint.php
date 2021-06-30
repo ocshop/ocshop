@@ -11,7 +11,7 @@ $_['heading_title']					= 'PayPoint';
 $_['text_payment']					= 'Платеж';
 $_['text_success']					= 'Success: You have modified PayPoint account details!';
 $_['text_edit']                     = 'Редактирование';
-$_['text_paypoint']					= '<a href="https://www.paypoint.net/partners/opencart" target="_blank"><img src="view/image/payment/paypoint.png" alt="PayPoint" title="PayPoint" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_paypoint']					= '<a href="https://www.paypoint.net/partners/opencart" rel="noreferrer noopener" target="_blank"><img src="view/image/payment/paypoint.png" alt="PayPoint" title="PayPoint" style="border: 1px solid #EEEEEE;" /></a>';
 $_['text_live']						= 'Production';
 $_['text_successful']				= 'Always Successful';
 $_['text_fail']						= 'Always Fail';

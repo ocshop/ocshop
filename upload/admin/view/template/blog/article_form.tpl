@@ -70,15 +70,15 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
-                    <div class="col-sm-10">
-                      <textarea name="article_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
                     <label class="col-sm-2 control-label" for="input-meta-description<?php echo $language['language_id']; ?>"><?php echo $entry_meta_description; ?></label>
                     <div class="col-sm-10">
                       <textarea name="article_description[<?php echo $language['language_id']; ?>][meta_description]" rows="5" placeholder="<?php echo $entry_meta_description; ?>" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
+                    <div class="col-sm-10">
+                      <textarea name="article_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($article_description[$language['language_id']]) ? $article_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
                     </div>
                   </div>
                   <div class="form-group">
@@ -241,9 +241,9 @@
                 <div class="col-sm-10">
                   <input type="text" name="relatedproduct" value="" placeholder="<?php echo $entry_related_product; ?>" id="input-related-product" class="form-control" />
                   <div id="product-related" class="well well-sm" style="height: 150px; overflow: auto;">
-                    <?php foreach ($product_relateds as $product_related) { ?>
+                    <?php foreach ($article_related_product as $product_related) { ?>
                     <div id="product-related<?php echo $product_related['product_id']; ?>"><i class="fa fa-minus-circle"></i> <?php echo $product_related['name']; ?>
-                      <input type="hidden" name="product_related[]" value="<?php echo $product_related['product_id']; ?>" />
+                      <input type="hidden" name="article_related_product[]" value="<?php echo $product_related['product_id']; ?>" />
                     </div>
                     <?php } ?>
                   </div>
@@ -308,7 +308,7 @@ $('input[name=\'category\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: 'index.php?route=blog/category/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-			dataType: 'json',			
+			dataType: 'json',
 			success: function(json) {
 				response($.map(json, function(item) {
 					return {
@@ -324,7 +324,7 @@ $('input[name=\'category\']').autocomplete({
 
 		$('#article-category' + item['value']).remove();
 
-		$('#article-category').append('<div id="article-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_category[]" value="' + item['value'] + '" /></div>');	
+		$('#article-category').append('<div id="article-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_category[]" value="' + item['value'] + '" /></div>');
 	}
 });
 
@@ -337,7 +337,7 @@ $('input[name=\'download\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: 'index.php?route=catalog/download/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-			dataType: 'json',			
+			dataType: 'json',
 			success: function(json) {
 				response($.map(json, function(item) {
 					return {
@@ -354,7 +354,7 @@ $('input[name=\'download\']').autocomplete({
 		$('#article-download' + item['value']).remove();
 		
 		$('#article-download').append('<div id="article-download' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_download[]" value="' + item['value'] + '" /></div>');	
-	}	
+	}
 });
 
 $('#article-download').delegate('.fa-minus-circle', 'click', function() {
@@ -366,7 +366,7 @@ $('input[name=\'related\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: 'index.php?route=blog/article/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-			dataType: 'json',			
+			dataType: 'json',
 			success: function(json) {
 				response($.map(json, function(item) {
 					return {
@@ -382,8 +382,8 @@ $('input[name=\'related\']').autocomplete({
 		
 		$('#article-related' + item['value']).remove();
 		
-		$('#article-related').append('<div id="article-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_related[]" value="' + item['value'] + '" /></div>');	
-	}	
+		$('#article-related').append('<div id="article-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_related[]" value="' + item['value'] + '" /></div>');
+	}
 });
 
 $('#article-related').delegate('.fa-minus-circle', 'click', function() {
@@ -395,7 +395,7 @@ $('input[name=\'relatedproduct\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
 			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-			dataType: 'json',			
+			dataType: 'json',
 			success: function(json) {
 				response($.map(json, function(item) {
 					return {
@@ -411,8 +411,8 @@ $('input[name=\'relatedproduct\']').autocomplete({
 		
 		$('#product-related' + item['value']).remove();
 		
-		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="product_related[]" value="' + item['value'] + '" /></div>');	
-	}	
+		$('#product-related').append('<div id="product-related' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="article_related_product[]" value="' + item['value'] + '" /></div>');	
+	}
 });
 
 $('#product-related').delegate('.fa-minus-circle', 'click', function() {
@@ -437,4 +437,4 @@ $('.datetime').datetimepicker({
 $('#language a:first').tab('show');
 //--></script>
 </div>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>

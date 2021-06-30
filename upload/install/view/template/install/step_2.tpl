@@ -155,6 +155,7 @@
                   <span class="text-danger"><i class="fa fa-minus-circle"></i></span>
                   <?php } ?></td>
               </tr>
+              <?php if (version_compare(phpversion(), '7.1.0', '<=') == true) { ?>
               <tr>
                 <td><?php echo $text_mcrypt; ?></td>
                 <td><?php if ($mcrypt_encrypt) { ?>
@@ -169,6 +170,22 @@
                   <span class="text-danger"><i class="fa fa-minus-circle"></i></span>
                   <?php } ?></td>
               </tr>
+              <?php } else { ?>
+              <tr>
+                <td><?php echo $text_openssl; ?></td>
+                <td><?php if ($openssl_encrypt) { ?>
+                  <?php echo $text_on; ?>
+                  <?php } else { ?>
+                  <?php echo $text_off; ?>
+                  <?php } ?></td>
+                <td><?php echo $text_on; ?></td>
+                <td class="text-center"><?php if ($openssl_encrypt) { ?>
+                  <span class="text-success"><i class="fa fa-check-circle"></i></span>
+                  <?php } else { ?>
+                  <span class="text-danger"><i class="fa fa-minus-circle"></i></span>
+                  <?php } ?></td>
+              </tr>
+              <?php } ?>
               <tr>
                 <td><?php echo $text_zlib; ?></td>
                 <td><?php if ($zlib) { ?>
@@ -292,14 +309,6 @@
                   <?php } ?></td>
               </tr>
               <tr>
-                <td><?php echo $logs . '/'; ?></td>
-                <td><?php if (is_writable($logs)) { ?>
-                  <span class="text-success"><?php echo $text_writable; ?></span>
-                  <?php } else { ?>
-                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
-                  <?php } ?></td>
-              </tr>
-              <tr>
                 <td><?php echo $download . '/'; ?></td>
                 <td><?php if (is_writable($download)) { ?>
                   <span class="text-success"><?php echo $text_writable; ?></span>
@@ -308,8 +317,8 @@
                   <?php } ?></td>
               </tr>
               <tr>
-                <td><?php echo $upload . '/'; ?></td>
-                <td><?php if (is_writable($upload)) { ?>
+                <td><?php echo $logs . '/'; ?></td>
+                <td><?php if (is_writable($logs)) { ?>
                   <span class="text-success"><?php echo $text_writable; ?></span>
                   <?php } else { ?>
                   <span class="text-danger"><?php echo $text_unwritable; ?></span>
@@ -318,6 +327,22 @@
               <tr>
                 <td><?php echo $modification . '/'; ?></td>
                 <td><?php if (is_writable($modification)) { ?>
+                  <span class="text-success"><?php echo $text_writable; ?></span>
+                  <?php } else { ?>
+                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
+                  <?php } ?></td>
+              </tr>
+              <tr>
+                <td><?php echo $session . '/'; ?></td>
+                <td><?php if (is_writable($session)) { ?>
+                  <span class="text-success"><?php echo $text_writable; ?></span>
+                  <?php } else { ?>
+                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
+                  <?php } ?></td>
+              </tr>
+              <tr>
+                <td><?php echo $upload . '/'; ?></td>
+                <td><?php if (is_writable($upload)) { ?>
                   <span class="text-success"><?php echo $text_writable; ?></span>
                   <?php } else { ?>
                   <span class="text-danger"><?php echo $text_unwritable; ?></span>

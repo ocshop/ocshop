@@ -11,7 +11,7 @@ $_['heading_title']				= 'Web Payment Software';
 $_['text_extension']			= 'Extensions';
 $_['text_success']				= 'Success: You have modified Web Payment Software account details!';
 $_['text_edit']                 = 'Edit AWeb Payment Software';
-$_['text_web_payment_software']	= '<a href="http://www.web-payment-software.com/" target="_blank"><img src="view/image/payment/wps-logo.jpg" alt="Web Payment Software" title="Web Payment Software" style="border: 1px solid #EEEEEE;" /></a>';
+$_['text_web_payment_software']	= '<a href="https://www.web-payment-software.com/" rel="noreferrer noopener" target="_blank"><img src="view/image/payment/wps-logo.jpg" alt="Web Payment Software" title="Web Payment Software" style="border: 1px solid #EEEEEE;" /></a>';
 $_['text_test']					= 'Test';
 $_['text_live']					= 'Live';
 $_['text_authorization']		= 'Authorization';

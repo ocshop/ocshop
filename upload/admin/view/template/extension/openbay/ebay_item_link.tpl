@@ -115,8 +115,8 @@
               <input type="hidden" name="product_id[]" id="product-id-<?php echo $id; ?>" value="<?php echo $item['product_id']; ?>" />
               <input type="hidden" name="options" id="options-<?php echo $id; ?>" value="<?php echo (int)$item['options']; ?>" />
               <tr id="row-<?php echo $id; ?>">
-                <td class="text-left"><a href="<?php echo $item['link_edit']; ?>" target="_BLANK"><?php echo $item['name']; ?></a></td>
-                <td class="text-center"><a href="<?php echo $item['link_ebay']; ?>" target="_BLANK"><?php echo $id; ?></a></td>
+                <td class="text-left"><a href="<?php echo $item['link_edit']; ?>" target="_blank"><?php echo $item['name']; ?></a></td>
+                <td class="text-center"><a href="<?php echo $item['link_ebay']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $id; ?></a></td>
                 <?php if ($item['options'] == 0) { ?>
                   <td class="text-center"><?php echo $item['allocated']; ?></td>
                   <td class="text-center"><?php echo $item['qty']; ?></td>

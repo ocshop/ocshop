@@ -17,7 +17,7 @@ $_['entry_code']       = 'Код Google Talk';
 $_['entry_status']     = 'Статус';
 
 // Help
-$_['help_code']        = '<a href="https://developers.google.com/+/hangouts/button" target="_blank">Создайте кнопку Google Hangout</a>, скопируйте и вставьте сгенерированный код в текстовое поле.';
+$_['help_code']        = '<a href="https://developers.google.com/+/hangouts/button" rel="noreferrer noopener" target="_blank">Создайте кнопку Google Hangout</a>, скопируйте и вставьте сгенерированный код в текстовое поле.';
 
 // Error
 $_['error_permission'] = 'У вас недостаточно прав для внесения изменений!';

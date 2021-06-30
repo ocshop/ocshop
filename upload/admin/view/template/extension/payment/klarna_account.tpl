@@ -35,7 +35,7 @@
             <li><a href="#tab-log" data-toggle="tab"><?php echo $tab_log; ?></a></li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane active" id="tab-general"><a href="https://merchants.klarna.com/signup?locale=en&partner_id=d5c87110cebc383a826364769047042e777da5e8&utm_campaign=Platform&utm_medium=Partners&utm_source=Opencart" target="_blank" style="float: right;"><img src="view/image/payment/klarna_banner.gif" /></a>
+            <div class="tab-pane active" id="tab-general"><a href="https://merchants.klarna.com/signup?locale=en&partner_id=d5c87110cebc383a826364769047042e777da5e8&utm_campaign=Platform&utm_medium=Partners&utm_source=Opencart" rel="noreferrer noopener" target="_blank" style="float: right;"><img src="view/image/payment/klarna_banner.gif" /></a>
               <ul class="nav nav-tabs" id="country">
                 <?php foreach ($countries as $country) { ?>
                 <li><a href="#tab-<?php echo $country['code']; ?>" data-toggle="tab"><?php echo $country['name']; ?></a></li>
