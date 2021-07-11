@@ -72,7 +72,8 @@ class Session {
 					} else {
 						ini_set('session.entropy_length', $this->config->get('session_length'));
 						ini_set('session.hash_bits_per_character', $this->config->get('session_bits_per_char'));
-						ini_set('session.hash_function', 'sha512');
+						// https://www.php.net/manual/ru/function.hash-algos.php
+						ini_set('session.hash_function', 0);
 					}
 
 					session_set_save_handler($this->adaptor);
@@ -106,7 +107,8 @@ class Session {
 						} else {
 							$session_setting['entropy_length'] = $this->config->get('session_length');
 							$session_setting['hash_bits_per_character'] = $this->config->get('session_bits_per_char');
-							$session_setting['hash_function'] = 'sha512';
+							// https://www.php.net/manual/ru/function.hash-algos.php
+							$session_setting['hash_function'] = 0;
 						}
 						session_start($session_setting);
 					} else {
