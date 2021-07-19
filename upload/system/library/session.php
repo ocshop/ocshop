@@ -154,7 +154,7 @@ class Session {
 				$this->data = $this->adaptor->read($session_id);
 			}
 
-			if ($this->engine != 'native' || $this->engine == 'native' && version_compare(phpversion(), '7.3.0', '<')) {
+			if ($this->engine != 'native') {
 				$this->setcookie($name, $this->session_id, array(
 					'expires'   => ($this->config->get('session_lifetime') ? time() + $this->config->get('session_lifetime') : 0),
 					'path'      => $this->config->get('session_path'),
