@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -102,8 +102,8 @@ $_['button_link']                   = 'Ссылка';
 $_['button_currency']               = 'Обновить курсы валют';
 $_['button_apply']                  = 'Применить';
 $_['button_category_add']           = 'Добавить категорию';
-$_['button_enable']           		= 'Включить';
-$_['button_disable']          		= 'Отключить';
+$_['button_order']                  = 'Просмотреть заказ';
+$_['button_order_recurring']        = 'Просмотреть переодический заказ';
 
 // Tab
 $_['tab_address']                   = 'Адрес';
@@ -144,9 +144,9 @@ $_['tab_recurring']                 = 'Периодичность';
 $_['tab_action']                    = 'Действие';
 $_['tab_google']                    = 'Google';
 $_['tab_sms']                       = 'SMS';
-$_['tab_extra_tab']          		= 'Доп Таб';
-$_['tab_module']          	 		= 'Таб';
-$_['tab_related']          	 		= 'Рекомендуем';
+$_['tab_extra_tab']                 = 'Доп Таб';
+$_['tab_module']                    = 'Таб';
+$_['tab_related']                   = 'Рекомендуем';
 
 // Error
 $_['error_exception']               = 'Ошибка кода(%s): %s в %s на строке %s';

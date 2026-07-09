@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->
+
+<modification>
+    <code><![CDATA[01000024]]></code>
+    <name><![CDATA[Буслік Кэш - "Buslik Cache"]]></name>
+    <version><![CDATA[1.0.15 Full]]></version>
+    <author><![CDATA[BuslikDrev.by]]></author>
+    <link><![CDATA[https://liveopencart.ru/buslikdrev]]></link>
+    <!-- ↓ АДМИНКА КОНТРОЛЛЕРЫ ↓ -->
+    <file path="admin/controller/module/cachemanager.php">
+        <operation>
+            <search>
+            <![CDATA['cache.*']]>
+            </search>
+            <add position="replace">
+            <![CDATA['*']]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/controller/extension/module/cachemanager.php">
+        <operation>
+            <search>
+            <![CDATA['cache.*']]>
+            </search>
+            <add position="replace">
+            <![CDATA['*']]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/controller/common/developer.php">
+        <operation>
+            <search index="0">
+            <![CDATA[foreach ($directories as $directory) {]]>
+            </search>
+            <add position="after">
+            <![CDATA[					if (DIR_CACHE . 'buslik' == $directory) {continue;}]]>
+            </add>
+        </operation>
+        <operation>
+            <search>
+            <![CDATA['cache.*']]>
+            </search>
+            <add position="replace">
+            <![CDATA['*']]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/controller/common/dashboard.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$data['header'] =]]>
+            </search>
+            <add position="before">
+            <![CDATA[		if ($this->config->get('bus_cache_support_disc_warning')) {
+			$bus_cache_support_disc_warning = $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/notification', true);
+			if ($bus_cache_support_disc_warning) {
+				$data['error_install'] = $bus_cache_support_disc_warning;
+			}
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ АДМИНКА КОНТРОЛЛЕРЫ ↑ -->
+
+    <!-- ↓ АДМИНКА МОДЕЛИ ↓ -->
+    <file path="admin/model/blog/category.php">
+        <operation>
+            <search>
+            <![CDATA[$this->cache->delete('blog_category');]]>
+            </search>
+            <add position="after">
+            <![CDATA[		($this->config->get('bus_cache_clear_blog_category') ? $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/clear', array('tables' => array('blog_category'))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/model/blog/article.php">
+        <operation>
+            <search>
+            <![CDATA[$this->cache->delete('article');]]>
+            </search>
+            <add position="after">
+            <![CDATA[		($this->config->get('bus_cache_clear_blog_article') ? $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/clear', array('tables' => array('blog_article'))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/model/catalog/category.php">
+        <operation>
+            <search>
+            <![CDATA[$this->cache->delete('category');]]>
+            </search>
+            <add position="after">
+            <![CDATA[		($this->config->get('bus_cache_clear_category') ? $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/clear', array('tables' => array('category'))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/model/catalog/information.php">
+        <operation>
+            <search>
+            <![CDATA[$this->cache->delete('information');]]>
+            </search>
+            <add position="after">
+            <![CDATA[		($this->config->get('bus_cache_clear_information') ? $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/clear', array('tables' => array('information'))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/model/catalog/manufacturer.php">
+        <operation>
+            <search>
+            <![CDATA[$this->cache->delete('manufacturer');]]>
+            </search>
+            <add position="after">
+            <![CDATA[		($this->config->get('bus_cache_clear_manufacturer') ? $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/clear', array('tables' => array('manufacturer'))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="admin/model/catalog/product.php">
+        <operation>
+            <search>
+            <![CDATA[$this->cache->delete('product');]]>
+            </search>
+            <add position="after">
+            <![CDATA[		($this->config->get('bus_cache_clear_product') ? $this->load->controller((version_compare(VERSION, '2.3.0', '>=') ? 'extension/' : false) . 'module/bus_cache/clear', array('tables' => array('product', 'special', 'latest', 'bestseller'))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ АДМИНКА МОДЕЛИ ↑ -->
+
+    <!-- ↓ САЙТ МОДЕЛИ ↓ -->
+    <file path="catalog/model/setting/module.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$this->db->query("SELECT * FROM " . DB_PREFIX . "module]]>
+            </search>
+            <add position="after">
+            <![CDATA[
+		if (!empty($query->row['setting']) && $query->row['setting'] != '[]') {
+			$query->row['setting'] = '{"module_id":"' . (int)$module_id . '",' . mb_substr($query->row['setting'], 1, null, 'UTF-8');
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/model/extension/module.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$this->db->query("SELECT * FROM " . DB_PREFIX . "module]]>
+            </search>
+            <add position="after">
+            <![CDATA[
+		if (!empty($query->row['setting']) && $query->row['setting'] != '[]') {
+			$query->row['setting'] = '{"module_id":"' . (int)$module_id . '",' . mb_substr($query->row['setting'], 1, null, 'UTF-8');
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↓ 2.0 - 2.1 ↓ -->
+    <file path="catalog/model/tool/image.php">
+        <operation>
+            <search index="0">
+            <![CDATA[public function resize(]]>
+            </search>
+            <add position="after">
+            <![CDATA[		if (version_compare(VERSION, '2.2.0', '<') && $this->config->get('bus_cache_image_first_boot_status') && empty($this->request->get['bus_cache_first_boot']) && $this->registry->has('bus_cache')) {
+			if (is_file(DIR_IMAGE . $filename)) {
+				if (isset($_SERVER['HTTP_ACCEPT']) && stripos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false && is_file(DIR_IMAGE . 'cache/webp/' . mb_substr($filename, 0, mb_strrpos($filename, '.')) . '-' . (int)$width . 'x' . (int)$height . '.webp')) {
+					$ex = 'webp';
+				} else {
+					$ex = pathinfo($filename, PATHINFO_EXTENSION);
+				}
+				if ($this->registry->get('config')->get('config_ssl') && $this->registry->get('request')->server['HTTPS']) {
+					return $this->registry->get('config')->get('config_ssl') . '?bus_cache_first_boot=' . $this->registry->get('bus_cache')->encrypt($this->registry->get('config')->get('config_encryption'), $filename . ',' . $width . ',' . $height) . '&e=-' . $width . 'x' . $height . '.' . $ex;
+				} else {
+					return $this->registry->get('config')->get('config_url') . '?bus_cache_first_boot=' . $this->registry->get('bus_cache')->encrypt($this->registry->get('config')->get('config_encryption'), $filename . ',' . $width . ',' . $height) . '&e=-' . $width . 'x' . $height . '.' . $ex;
+				}
+			} else {
+				return false;
+			}
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0 - 2.1 ↑ -->
+    <!-- ↑ САЙТ МОДЕЛИ ↑ -->
+
+    <!-- ↓ СИСТЕМА ↓ -->
+    <!-- ↓ 2.0.0.0 - 3.1.0.0 - start ↓ -->
+    <file path="system/engine/action.php">
+        <operation>
+            <search index="0">
+            <![CDATA[class Action {]]>
+            </search>
+            <add position="before">
+            <![CDATA[(!defined('BUS_CACHE_TIMER') ? define('BUS_CACHE_TIMER', microtime(true)) : false);]]>
+            </add>
+        </operation>
+        <operation>
+            <search index="0">
+            <![CDATA[public function __construct($route]]>
+            </search>
+            <add position="before">
+            <![CDATA[private $bus_id;
+	public function getBusId() {
+		return $this->bus_id;
+	}
+]]>
+            </add>
+        </operation>
+        <operation>
+            <search index="0">
+            <![CDATA[public function __construct($route]]>
+            </search>
+            <add position="after">
+            <![CDATA[		$this->bus_id = $route;]]>
+            </add>
+        </operation>
+    </file>
+    <file path="system/engine/front.php">
+        <operation>
+            <search index="0">
+            <![CDATA[foreach ($this->pre_action as $pre_action) {]]>
+            </search>
+            <add position="after">
+            <![CDATA[			(!defined('DIR_CATALOG') && substr(php_sapi_name(), 0, 3) != 'cli' && in_array($pre_action->getBusId(), array('startup/maintenance', 'common/maintenance')) ? $this->registry->set('bus_cache', new Bus_Cache\Bus_Cache($this->registry, microtime(true))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <file path="system/engine/router.php">
+        <operation>
+            <search index="0">
+            <![CDATA[foreach ($this->pre_action as $pre_action) {]]>
+            </search>
+            <add position="after">
+            <![CDATA[			(!defined('DIR_CATALOG') && substr(php_sapi_name(), 0, 3) != 'cli' && in_array($pre_action->getBusId(), array('startup/maintenance', 'common/maintenance')) ? $this->registry->set('bus_cache', new Bus_Cache\Bus_Cache($this->registry, microtime(true))) : false);]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0.0.0 - 3.1.0.0 - start ↑ -->
+    <!-- ↓ 2.0.0.0 - 3.1.0.0 - output ↓ -->
+    <file path="system/library/response.php">
+        <operation>
+            <search index="0">
+            <![CDATA[class Response {]]>
+            </search>
+            <add position="after">
+            <![CDATA[	private $setBuslikCache = array();
+
+	public function setBuslikCache($data = array()) {
+		if (is_array($data)) {
+			if (!$data) {
+				$this->setBuslikCache = array();
+			}
+			foreach ($data as $key => $result) {
+				if ($key == 'getDebugSpeed' && isset($this->setBuslikCache[$key])) {
+					$this->setBuslikCache[$key] .= $result;
+				} elseif ($key == 'bus_cache_size_limit_one' && isset($this->setBuslikCache[$key])) {
+					$this->setBuslikCache[$key] += $result;
+				} else {
+					$this->setBuslikCache[$key] = $result;
+				}
+			}
+		}
+	}]]>
+            </add>
+        </operation>
+        <operation>
+            <search index="0">
+            <![CDATA[if ($this->output) {]]>
+            </search>
+            <add position="after">
+            <![CDATA[			($this->setBuslikCache ? $this->setBuslikCache['headers'] = $this->headers : false);
+			$this->output = (!defined('DIR_CATALOG') && substr(php_sapi_name(), 0, 3) != 'cli' && $this->setBuslikCache ? (new Bus_Cache\Bus_Cache())->output($this->output, $this->setBuslikCache) : $this->output);]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0.0.0 - 3.1.0.0 - output ↑ -->
+    <!-- ↓ 2.2.0.0 - 3.1.0.0 - controller ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$action = new Action($route);]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$action = ($this->registry->get('bus_cache') ? $route : new Action($route));]]>
+            </add>
+        </operation>
+        <operation>
+            <search index="0">
+            <![CDATA[$output = $action->execute($this->registry, array(&$data));]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$output = ($this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->controller($action, $route, array(&$data)) : $action->execute($this->registry, array(&$data)));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.2.0.0 - 3.1.0.0 - controller ↑ -->
+    <!-- ↓ 2.1.0.0 - 2.1.0.2 - controller ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[// $this->event->trigger('pre.controller.' . $route, $data);]]>
+            </search>
+            <add position="before">
+            <![CDATA[		if ($this->registry->get('bus_cache')) {
+			return $this->registry->get('bus_cache')->controller($route, $route, $data);
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.1.0.0 - 2.1.0.2 - controller ↑ -->
+    <!-- ↓ 2.0.0.0 - 2.0.3.1 - controller ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$action = new Action($route, $args);]]>
+            </search>
+            <add position="before">
+            <![CDATA[		if ($this->registry->get('bus_cache')) {
+			return $this->registry->get('bus_cache')->controller($route, $route, $data);
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0.0.0 - 2.0.3.1 - controller ↑ -->
+    <!-- ↓ 2.3.0.0 - 3.1.0.0 - model ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$output = call_user_func_array($callable, $args);]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$output = ($this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->model($callable, $route, $args) : call_user_func_array($callable, $args));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.3.0.0 - 3.1.0.0 - model ↑ -->
+    <!-- ↓ 2.2.0.0 - 2.2.0.0 - model ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$output = call_user_func_array(array($model, $method), $args);]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$output = ($this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->model(array($model, $method), $route, $args) : call_user_func_array(array($model, $method), $args));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.2.0.0 - 2.2.0.0 - model ↑ -->
+    <!-- ↓ 2.0.0.0 - 2.1.0.2 - model ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$this->registry->set('model_' . str_replace('/', '_', $model), new $class($this->registry));]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$this->registry->set('model_' . str_replace('/', '_', $model), (!defined('DIR_CATALOG') && $this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->models($class, $model) : new $class($this->registry)));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0.0.0 - 2.1.0.2 - model ↑ -->
+    <!-- ↑ СИСТЕМА ↑ -->
+</modification>
+
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->

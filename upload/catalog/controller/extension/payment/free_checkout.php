@@ -1,11 +1,13 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2025.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionPaymentFreeCheckout extends Controller {
 	public function index() {
+		$this->load->language('extension/payment/free_checkout');
+
 		$data['button_confirm'] = $this->language->get('button_confirm');
 
 		$data['text_loading'] = $this->language->get('text_loading');

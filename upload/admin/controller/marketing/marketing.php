@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -465,7 +465,7 @@ class ControllerMarketingMarketing extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
-		$data['store'] = HTTP_CATALOG;
+		$data['store'] = ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG);
 
 		if (isset($this->request->post['name'])) {
 			$data['name'] = $this->request->post['name'];

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,7 +9,7 @@ class ControllerExtensionInstaller extends Controller {
 		$this->load->language('extension/installer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		
+
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(
@@ -21,18 +21,18 @@ class ControllerExtensionInstaller extends Controller {
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('extension/installer', 'token=' . $this->session->data['token'], true)
 		);
-		
+
 		$data['heading_title'] = $this->language->get('heading_title');
         
 		$data['text_upload'] = $this->language->get('text_upload');
 		$data['text_loading'] = $this->language->get('text_loading');
-			
+
 		$data['entry_upload'] = $this->language->get('entry_upload');
 		$data['entry_overwrite'] = $this->language->get('entry_overwrite');
 		$data['entry_progress'] = $this->language->get('entry_progress');
-	
+
 		$data['help_upload'] = $this->language->get('help_upload');
-		
+
 		$data['button_upload'] = $this->language->get('button_upload');
 		$data['button_clear'] = $this->language->get('button_clear');
 		$data['button_continue'] = $this->language->get('button_continue');
@@ -46,14 +46,14 @@ class ControllerExtensionInstaller extends Controller {
 		} else {
 			$data['error_warning'] = '';
 		}
-		
+
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
-		
+
 		$this->response->setOutput($this->load->view('extension/installer', $data));
 	}
-	
+
 	public function upload() {
 		$this->load->language('extension/installer');
 
@@ -121,9 +121,15 @@ class ControllerExtensionInstaller extends Controller {
 				move_uploaded_file($this->request->files['file']['tmp_name'], $file);
 
 				if (file_exists($file)) {
-					$zip = zip_open($file);
+					$zip = new \ZipArchive(); /* $zip = zip_open($file); */
 
-					if ($zip) {
+					if (defined('ZipArchive::RDONLY')) {
+						$flag = \ZipArchive::RDONLY;
+					} else {
+						$flag = 16;
+					}
+
+					if ($zip->open($file, $flag)) { /* if ($zip) { */
 						// Zip
 						$json['step'][] = array(
 							'text' => $this->language->get('text_unzip'),
@@ -139,8 +145,8 @@ class ControllerExtensionInstaller extends Controller {
 						);
 
 						// Send make and array of actions to carry out
-						while ($entry = zip_read($zip)) {
-							$zip_name = zip_entry_name($entry);
+						for ($i = 0; $i < $zip->numFiles; $i++) { /* while ($entry = zip_read($zip)) { */
+							$zip_name = $zip->getNameIndex($i); /* $zip_name = zip_entry_name($entry); */
 
 							// SQL
 							if (substr($zip_name, 0, 11) == 'install.sql') {
@@ -205,7 +211,7 @@ class ControllerExtensionInstaller extends Controller {
 							'path' => $path
 						);
 
-						zip_close($zip);
+						$zip->close(); /* zip_close($zip); */
 					} else {
 						$json['error'] = $this->language->get('error_unzip');
 					}

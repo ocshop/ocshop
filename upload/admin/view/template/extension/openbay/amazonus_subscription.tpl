@@ -15,7 +15,7 @@
     <?php if (!$user_plan) { ?>
     <div class="row">
       <p><?php echo $text_register_invite; ?></p>
-      <p><a href="<?php echo $link_register; ?>" class="btn btn-primary" target="_blank"><?php echo $button_register; ?></a></p>
+      <p><a href="<?php echo $link_register; ?>" class="btn btn-primary" rel="noreferrer noopener" target="_blank"><?php echo $button_register; ?></a></p>
     </div>
     <?php } else { ?>
     <div class="row">
@@ -29,7 +29,7 @@
               <tbody>
                 <tr>
                   <td class="text-right"><b><?php echo $text_merchantid;?>:</b></td>
-                  <td class="text-left"><?php echo $user_plan['merchant_id']; ?> [ <a href="<?php echo $link_change_seller; ?>" target="_blank"><?php echo $text_change_merchantid; ?></a> ]</td>
+                  <td class="text-left"><?php echo $user_plan['merchant_id']; ?> [ <a href="<?php echo $link_change_seller; ?>" rel="noreferrer noopener" target="_blank"><?php echo $text_change_merchantid; ?></a> ]</td>
                 </tr>
                 <tr>
                   <td class="text-right"><b><?php echo $text_account_status; ?>:</b></td>
@@ -113,7 +113,7 @@
               </tbody>
             </table>
             <?php if ($link_change_plan) { ?>
-            <div class="pull-right"> <a href="<?php echo $link_change_plan; ?>" class="btn btn-primary" target="_blank"><i class="fa fa-arrow-right fa-lg"></i> <?php echo $button_change_plan; ?></a> </div>
+            <div class="pull-right"> <a href="<?php echo $link_change_plan; ?>" class="btn btn-primary" rel="noreferrer noopener" target="_blank"><i class="fa fa-arrow-right fa-lg"></i> <?php echo $button_change_plan; ?></a> </div>
             <?php } ?>
           </div>
         </div>

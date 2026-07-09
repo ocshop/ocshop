@@ -1,22 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
-	<name>CMS</name>
-	<code>OT_1.0</code>
-	<version>1.0.0</version>
-	<author>opencart.pro</author>
-	<link>http://opencart.pro</link>
-	<file path="catalog/view/theme/*/template/common/header.tpl">
-		<operation>
-		<search><![CDATA[<base href="<?php echo $base; ?>" />]]></search>
-			<add position="before"><![CDATA[<?php if ($robots) { ?><meta name="robots" content="<?php echo $robots; ?>" /><?php } ?>
-			]]></add>
-		</operation>
-	</file>
-	<file path="catalog/view/theme/*/template/common/footer.tpl">
-		<operation>
-		<search><![CDATA[<li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>]]></search>
-			<add position="after"><![CDATA[<li><a href="<?php echo $mostviewed; ?>"><?php echo $text_mostviewed; ?></a></li><li><a href="<?php echo $bestseller; ?>"><?php echo $text_bestseller; ?></a></li><li><a href="<?php echo $latest; ?>"><?php echo $text_latest; ?></a></li>
-			]]></add>
-		</operation>
-	</file>
+    <name>CMS</name>
+    <code>OT_1.0</code>
+    <version>1.0.2</version>
+    <author>opencart.pro</author>
+    <link>https://opencart.pro</link>
+    <file path="admin/view/template/common/footer.tpl">
+        <operation error="skip">
+            <search>
+            <![CDATA[</body>]]>
+            </search>
+            <add position="before">
+            <![CDATA[<script type="text/javascript"><!--
+function addCodeViewBus() {
+	if ($('.summernote').length) {
+		$('.btn-codeview').after('<button type="button" onclick="getCodeViewBus();" class="note-btn btn btn-warning btn-sm btn-codeview-bus" title="" data-original-title="Code View Bus"><i class="note-icon-code"></i></button>');
+	}
+}
+
+function deleteCodeViewBus() {
+	$('.btn-codeview-bus').remove();
+}
+
+function getCodeViewBus() {
+	summernote = $('.summernote');
+	if ($(summernote).css('display') == 'none') {
+		summernote.show().css('height', 300);
+		$('.btn-codeview-bus').addClass('active');
+	} else {
+		summernote.hide();
+		$('.btn-codeview-bus').removeClass('active');
+	}
+}
+
+if (window.addEventListener) {
+	window.addEventListener("load", function() {
+		addCodeViewBus();
+	}, false);
+} else if (window.attachEvent) {
+	window.attachEvent("onload", function() {
+		addCodeViewBus();
+	});
+} else {
+	window.onload = function() {
+		addCodeViewBus();
+	}
+}
+//--></script>]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/common/header.tpl">
+        <operation error="skip">
+            <search>
+            <![CDATA[<base href="<?php echo $base; ?>"]]>
+            </search>
+            <add position="before">
+            <![CDATA[<?php if ($robots) { ?><meta name="robots" content="<?php echo $robots; ?>" /><?php } ?>]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search>
+            <![CDATA[catalog/view/javascript/font-awesome/css/font-awesome.min.css]]>
+            </search>
+            <add position="replace">
+            <![CDATA[catalog/view/javascript/font-awesome/4.7.0/css/all.min.css]]>
+            </add>
+        </operation>
+    </file>
+    <file path="catalog/view/theme/*/template/common/footer.tpl">
+        <operation error="skip">
+            <search>
+            <![CDATA[<li><a href="<?php echo $special; ?>"><?php echo $text_special; ?></a></li>]]>
+            </search>
+            <add position="after">
+            <![CDATA[<li><a href="<?php echo $mostviewed; ?>"><?php echo $text_mostviewed; ?></a></li><li><a href="<?php echo $bestseller; ?>"><?php echo $text_bestseller; ?></a></li><li><a href="<?php echo $latest; ?>"><?php echo $text_latest; ?></a></li>]]>
+            </add>
+        </operation>
+    </file>
 </modification>

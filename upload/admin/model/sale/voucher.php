@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -101,7 +101,7 @@ class ModelSaleVoucher extends Model {
 
 				$data['title'] = sprintf($language->get('text_subject'), $voucher_info['from_name']);
 
-				$data['text_greeting'] = sprintf($language->get('text_greeting'), $this->currency->format($voucher_info['amount'], (!empty($order_info['currency_code']) ? $order_info['currency_code'] : $this->config->get('config_currency')), (!empty($order_info['currency_value']) ? $order_info['currency_value'] : $this->currency->getValue($this->config->get('config_currency')))));
+				$data['text_greeting'] = sprintf($language->get('text_greeting'), $this->currency->format($voucher_info['amount'], (!empty($order_info['currency_code']) ? $order_info['currency_code'] : $this->config->get('config_currency')), (!empty($order_info['currency_value']) ? $order_info['currency_value'] : false)));
 				$data['text_from'] = sprintf($language->get('text_from'), $voucher_info['from_name']);
 				$data['text_message'] = $language->get('text_message');
 				$data['text_redeem'] = sprintf($language->get('text_redeem'), $voucher_info['code']);
@@ -145,7 +145,7 @@ class ModelSaleVoucher extends Model {
 
 				$data['title'] = sprintf($this->language->get('text_subject'), $voucher_info['from_name']);
 
-				$data['text_greeting'] = sprintf($this->language->get('text_greeting'), $this->currency->format($voucher_info['amount'], $order_info['currency_code'], $order_info['currency_value']));
+				$data['text_greeting'] = sprintf($this->language->get('text_greeting'), $this->currency->format($voucher_info['amount'], $this->config->get('config_currency')));
 				$data['text_from'] = sprintf($this->language->get('text_from'), $voucher_info['from_name']);
 				$data['text_message'] = $this->language->get('text_message');
 				$data['text_redeem'] = sprintf($this->language->get('text_redeem'), $voucher_info['code']);

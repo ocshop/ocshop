@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,11 +9,8 @@ class ControllerExtensionModuleBanner extends Controller {
 		static $module = 0;
 
 		$this->load->model('design/banner');
-		$this->load->model('tool/image');
 
-		$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.carousel.css');
-		$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.transitions.css');
-		$this->document->addScript('catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js');
+		$this->load->model('tool/image');
 
 		$data['banners'] = array();
 
@@ -29,8 +26,16 @@ class ControllerExtensionModuleBanner extends Controller {
 			}
 		}
 
-		$data['module'] = $module++;
+		if ($data['banners']) {
+			$data['module'] = $module++;
 
-		return $this->load->view('extension/module/banner', $data);
+			$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.carousel.css');
+			$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.transitions.css');
+			$this->document->addScript('catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js');
+
+			return $this->load->view('extension/module/banner', $data);
+		} else {
+			return false;
+		}
 	}
 }

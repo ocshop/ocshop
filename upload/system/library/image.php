@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -13,6 +13,10 @@ class Image {
 	private $mime;
 
 	public function __construct($file) {
+		if (!extension_loaded('gd')) {
+			exit('Error: PHP GD is not installed!');
+		}
+
 		if (file_exists($file)) {
 			$this->file = $file;
 
@@ -64,7 +68,7 @@ class Image {
 
 		$extension = strtolower($info['extension']);
 
-		if (is_resource($this->image)) {
+		if (is_object($this->image) || is_resource($this->image)) {
 			if ($extension == 'jpeg' || $extension == 'jpg') {
 				imagejpeg($this->image, $file, $quality);
 			} elseif ($extension == 'png') {
@@ -166,7 +170,7 @@ class Image {
 				$watermark_pos_y = $this->height - $watermark->getHeight();
 				break;
 		}
-		
+
 		imagealphablending( $this->image, true );
 		imagesavealpha( $this->image, true );
 		imagecopy($this->image, $watermark->getImage(), $watermark_pos_x, $watermark_pos_y, 0, 0, $watermark->getWidth(), $watermark->getHeight());

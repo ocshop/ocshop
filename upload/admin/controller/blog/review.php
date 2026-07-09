@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -170,7 +170,7 @@ class ControllerBlogReview extends Controller {
 
 		$this->load->model('blog/review');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $review_article_id) {
 				$data = array();
 
@@ -230,7 +230,7 @@ class ControllerBlogReview extends Controller {
 
 		$this->load->model('blog/review');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $review_article_id) {
 				$data = array();
 
@@ -383,8 +383,8 @@ class ControllerBlogReview extends Controller {
 			'filter_date_added' => $filter_date_added,
 			'sort'              => $sort,
 			'order'             => $order,
-			'start'             => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'             => $this->config->get('config_limit_admin')
+			'start'             => ($page - 1) * $this->config->get('configblog_limit_admin'),
+			'limit'             => $this->config->get('configblog_limit_admin')
 		);
 
 		$review_total = $this->model_blog_review->getTotalReviews($filter_data);
@@ -500,12 +500,12 @@ class ControllerBlogReview extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $review_total;
 		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_limit_admin');
+		$pagination->limit = $this->config->get('configblog_limit_admin');
 		$pagination->url = $this->url->link('blog/review', 'token=' . $this->session->data['token'] . $url . '&page={page}', true);
 
 		$data['pagination'] = $pagination->render();
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($review_total - $this->config->get('config_limit_admin'))) ? $review_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $review_total, ceil($review_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * $this->config->get('configblog_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('configblog_limit_admin')) > ($review_total - $this->config->get('configblog_limit_admin'))) ? $review_total : ((($page - 1) * $this->config->get('configblog_limit_admin')) + $this->config->get('configblog_limit_admin')), $review_total, ceil($review_total / $this->config->get('configblog_limit_admin')));
 
 		$data['filter_article'] = $filter_article;
 		$data['filter_author'] = $filter_author;
@@ -689,7 +689,7 @@ class ControllerBlogReview extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('blog/review_form.tpl', $data));
+		$this->response->setOutput($this->load->view('blog/review_form', $data));
 	}
 
 	protected function validateForm() {
@@ -697,15 +697,15 @@ class ControllerBlogReview extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->request->post['article_id']) {
+		if (empty($this->request->post['article_id'])) {
 			$this->error['article'] = $this->language->get('error_article');
 		}
 
-		if ((utf8_strlen($this->request->post['author']) < 3) || (utf8_strlen($this->request->post['author']) > 64)) {
+		if (!isset($this->request->post['author']) || (utf8_strlen($this->request->post['author']) < 3) || (utf8_strlen($this->request->post['author']) > 64)) {
 			$this->error['author'] = $this->language->get('error_author');
 		}
 
-		if (utf8_strlen($this->request->post['text']) < 1) {
+		if (!isset($this->request->post['text']) || utf8_strlen($this->request->post['text']) < 1) {
 			$this->error['text'] = $this->language->get('error_text');
 		}
 

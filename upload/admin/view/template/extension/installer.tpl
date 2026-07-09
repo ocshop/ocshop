@@ -56,12 +56,12 @@ var total = 0;
 $('#button-upload').on('click', function() {
 	$('#form-upload').remove();
 
-	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" accept="application/zip,.zip" /></form>');
 
 	$('#form-upload input[name=\'file\']').trigger('click');
 
 	if (typeof timer != 'undefined') {
-    	clearInterval(timer);
+		clearInterval(timer);
 	}
 
 	timer = setInterval(function() {
@@ -191,4 +191,4 @@ $('#button-clear').bind('click', function() {
 	});
 });
 //--></script></div>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>

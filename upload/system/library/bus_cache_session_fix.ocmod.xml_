@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->
+
+<modification>
+    <code><![CDATA[01000024-SESSION-FIX]]></code>
+    <name><![CDATA[Буслік Кэш - "Buslik Cache" Session FIX]]></name>
+    <version><![CDATA[1.0.15 Full]]></version>
+    <author><![CDATA[BuslikDrev.by]]></author>
+    <link><![CDATA[https://liveopencart.ru/buslikdrev]]></link>
+    <!-- ↓ СИСТЕМА ↓ -->
+    <file path="system/library/session.php">
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[class Session]]>
+            </search>
+            <add position="after">
+            <![CDATA[	private $bus_cache_cookie_status = true;]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search>
+            <![CDATA[public function]]>
+            </search>
+            <add position="after">
+            <![CDATA[		if (!$this->bus_cache_cookie_status) {
+			return false;
+		}]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[function __construct(]]>
+            </search>
+            <add position="after">
+            <![CDATA[			$bus_cache_cookie_id = md5($_SERVER['REMOTE_ADDR']);
+			$bus_cache_cookie_folder = DIR_CACHE . 'buslik/bus_cache_session/' . substr($bus_cache_cookie_id, 0, 2) . '/';
+
+			if (!is_dir($bus_cache_cookie_folder)) {
+				mkdir($bus_cache_cookie_folder, 0755, true);
+			}
+
+			if (!isset($_COOKIE['bus_cache_cookie_status'])) {
+				setcookie('bus_cache_cookie_status', 1, 0, '/');
+				if (!is_file($bus_cache_cookie_folder . $bus_cache_cookie_id)) {
+					file_put_contents($bus_cache_cookie_folder . $bus_cache_cookie_id, false);
+				} else {
+					$this->bus_cache_cookie_status = false;
+					return false;
+				}
+			} else {
+				if (is_file($bus_cache_cookie_folder . $bus_cache_cookie_id)) {
+					@unlink($bus_cache_cookie_folder . $bus_cache_cookie_id);
+				}
+			}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ СИСТЕМА ↑ -->
+</modification>
+
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->

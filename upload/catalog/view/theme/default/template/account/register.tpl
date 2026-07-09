@@ -507,7 +507,7 @@
         </fieldset>
         <?php echo $captcha; ?>
         <?php if ($text_agree) { ?>
-        <div class="buttons">
+        <div class="buttons clearfix">
           <div class="pull-right"><?php echo $text_agree; ?>
             <?php if ($agree) { ?>
             <input type="checkbox" name="agree" value="1" checked="checked" />
@@ -519,7 +519,7 @@
           </div>
         </div>
         <?php } else { ?>
-        <div class="buttons">
+        <div class="buttons clearfix">
           <div class="pull-right">
             <input type="submit" value="<?php echo $button_continue; ?>" class="btn btn-primary" />
           </div>

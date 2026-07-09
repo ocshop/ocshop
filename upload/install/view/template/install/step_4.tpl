@@ -29,18 +29,28 @@
     </div>
   </div>
   <div class="modules">
-    <div id="extensions" class="row"><div class="col-sm-6 module">  
-	<a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/2-x-revolution-adaptivnyiy-universalnyiy-shablon" target="_BLANK" class="thumbnail pull-left">
-	<img alt="Revolution. Адаптивный универсальный шаблон" src="/install/view/image/revolution.png"></a>  
-	<h5>Revolution. Адаптивный универсальный шаблон</h5>  <p><a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/2-x-revolution-adaptivnyiy-universalnyiy-shablon" target="_BLANK">Подробнее</a></p>  
-	<div class="clearfix"></div></div><div class="col-sm-6 module">  
-	<a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/newstore-universalnyiy-adaptivnyiy-shablon" target="_BLANK" class="thumbnail pull-left">
-	<img alt="NewStore - универсальный, адаптивный шаблон" src="/install/view/image/newstore.png"></a>
-	<h5>NewStore - универсальный, адаптивный шаблон</h5>
-	<p><a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/newstore-universalnyiy-adaptivnyiy-shablon" target="_BLANK">Подробнее</a></p>  
-	<div class="clearfix"></div></div><div class="col-sm-6 module">  <a href="http://simpleopencart.com/" target="_BLANK" class="thumbnail pull-left">
-	<img alt="Простая регистрация и заказ Simple" src="/install/view/image/simple.png"></a>  <h5>Простая регистрация и заказ Simple</h5>  <p><a href="http://simpleopencart.com/" target="_BLANK">Подробнее</a></p>  
-	<div class="clearfix"></div></div></div>
+    <div id="extensions" class="row">
+    <div class="col-sm-6 module">
+    <a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/2-x-revolution-adaptivnyiy-universalnyiy-shablon" target="_BLANK" class="thumbnail pull-left"><img alt="Revolution. Адаптивный универсальный шаблон" src="/install/view/image/revolution.png"></a>  
+    <h5>Revolution. Адаптивный универсальный шаблон</h5><p><a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/2-x-revolution-adaptivnyiy-universalnyiy-shablon" target="_BLANK">Подробнее</a></p>  
+    <div class="clearfix"></div>
+    </div>
+    <div class="col-sm-6 module">
+    <a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/newstore-universalnyiy-adaptivnyiy-shablon" target="_BLANK" class="thumbnail pull-left"><img alt="NewStore - универсальный, адаптивный шаблон" src="/install/view/image/newstore.png"></a>
+    <h5>NewStore - универсальный, адаптивный шаблон</h5><p><a href="https://liveopencart.ru/opencart-moduli-shablony/shablonyi/newstore-universalnyiy-adaptivnyiy-shablon" target="_BLANK">Подробнее</a></p>  
+    <div class="clearfix"></div>
+    </div>
+    <div class="col-sm-6 module">
+    <a href="http://simpleopencart.com/" target="_BLANK" class="thumbnail pull-left"><img alt="Простая регистрация и заказ Simple" src="/install/view/image/simple.png"></a>
+    <h5>Простая регистрация и заказ Simple</h5><p><a href="http://simpleopencart.com/" target="_BLANK">Подробнее</a></p>  
+    <div class="clearfix"></div>
+    </div>
+    <div class="col-sm-6 module">
+    <a href="https://liveopencart.ru/index.php?route=product/product&product_id=1668" target="_BLANK" class="thumbnail pull-left"><img alt="ЫМеню - мультифункциональный модуль" src="/install/view/image/blMenu.gif"></a>
+    <h5>ЫМеню - мультифункциональный модуль</h5><p><a href="https://liveopencart.ru/index.php?route=product/product&product_id=1668" target="_BLANK">Подробнее</a></p>  
+    <div class="clearfix"></div>
+    </div>
+    </div>
     <div class="row">
       <div class="col-sm-12 text-center"><a href="https://liveopencart.ru/" target="_BLANK" class="btn btn-default"><?php echo $text_extension; ?></a></div>
     </div>

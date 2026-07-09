@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -138,21 +138,17 @@ class ControllerExtensionModuleProductTab extends Controller {
 		} else {
 			$data['height'] = 200;
 		}
-		
-		$data['modules'] = array();
-		$modules = $this->model_extension_module->getModulesByCode('featured');
-		$data['modules'] = $modules;
-		
-		
+
+		$data['modules'] = $this->model_extension_module->getModulesByCode('featured');
+
 		if (isset($this->request->post['active_module'])) {
 			$data['active_module'] = $this->request->post['active_module'];
-		} elseif (!empty($module_info)) {
+		} elseif (!empty($module_info['active_module'])) {
 			$data['active_module'] = $module_info['active_module'];
 		} else {
 			$data['active_module'] = '';
 		}
-		
-				
+	
 		if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
 		} elseif (!empty($module_info)) {

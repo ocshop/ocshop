@@ -24,7 +24,7 @@
   <div class="container-fluid">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-comment-o fa-fw"></i> Прежде чем настраивать SMS уведомления о новых заказах необходимо зарегистрироваться в сервисе <a style="color:#1e91cf;" href="http://smsc.ru/?ppocshop" target="_blank">smsc.ru</a></h3>
+        <h3 class="panel-title"><i class="fa fa-comment-o fa-fw"></i> Прежде чем настраивать SMS уведомления о новых заказах необходимо зарегистрироваться в сервисе <a style="color:#1e91cf;" href="https://smsc.ru/?ppocshop" rel="noreferrer noopener" target="_blank">smsc.ru</a></h3>
       </div>
       <div class="content">
 	  <img src="view/image/howto/smsc.png" width="1180" />

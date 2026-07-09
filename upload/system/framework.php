@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -12,6 +12,78 @@ $config = new Config();
 $config->load('default');
 $config->load($application_config);
 $registry->set('config', $config);
+
+// Pre config
+if ($config->get('pre_config') && isset($_GET['route'])) {
+	if ($_GET['route']) {
+		$pre_config_route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$_GET['route']);
+
+		if (!is_file(DIR_APPLICATION . 'controller/' . $pre_config_route . '.php')) {
+			$pre_config_route = substr($pre_config_route, 0, -strlen('/' . basename($pre_config_route)));
+			if (!is_file(DIR_APPLICATION . 'controller/' . $pre_config_route . '.php')) {
+				$pre_config_route = false;
+			}
+		}
+	} else {
+		$pre_config_route = $config->get('action_default');
+	}
+
+	if ($pre_config_route) {
+		$pre_config = new Action($pre_config_route . '/preConfig');
+		$pre_config = $pre_config->execute($registry, array((string)$_GET['route']));
+
+		if (is_array($pre_config)) {
+			foreach ($pre_config as $key => $result) {
+				$registry->get('config')->set($key, $result);
+				$config->set($key, $result);
+			}
+		}
+	}
+}
+
+// Logging
+if ($config->get('error_log')) {
+	$log = new Log($config->get('error_filename'));
+	$registry->set('log', $log);
+}
+
+// Error Handler Fix
+set_error_handler(function($code, $message, $file, $line) use($log, $config) {
+	// error suppressed with @
+	if (error_reporting() === 0) {
+		return false;
+	}
+
+	switch ($code) {
+		case E_NOTICE:
+		case E_USER_NOTICE:
+			$error = 'Notice';
+			break;
+		case E_WARNING:
+		case E_USER_WARNING:
+			$error = 'Warning';
+			break;
+		case E_ERROR:
+		case E_USER_ERROR:
+			$error = 'Fatal Error';
+			break;
+		default:
+			$error = 'Unknown';
+			break;
+	}
+
+	if ($config->get('error_log')) {
+		$log->write('PHP ' . $error . ':  ' . $message . ' in ' . $file . ' on line ' . $line);
+	}
+
+	if ($config->get('error_display')) {
+		echo '<b>' . $error . '</b>: ' . $message . ' in <b>' . $file . '</b> on line <b>' . $line . '</b>';
+	} else {
+		error_reporting(0);
+	}
+
+	return true;
+});
 
 // Event
 $event = new Event($registry);
@@ -33,8 +105,13 @@ $registry->set('request', new Request());
 
 // Response
 $response = new Response();
-$response->addHeader('Content-Type: text/html; charset=utf-8');
 $registry->set('response', $response);
+
+foreach ($config->get('response_header') as $header) {
+	$response->addHeader($header);
+}
+
+$response->setCompression((int)$config->get('response_compression'));
 
 // Database
 if ($config->get('db_autostart')) {
@@ -42,13 +119,11 @@ if ($config->get('db_autostart')) {
 }
 
 // Session
-$session = new Session();
-
 if ($config->get('session_autostart')) {
-	$session->start();
+	$session = new Session($config->get('session_engine'), $registry);
+	$registry->set('session', $session);
+	$session->start($config->get('session_name'));
 }
-
-$registry->set('session', $session);
 
 // Cache 
 $registry->set('cache', new Cache($config->get('cache_type'), $config->get('cache_expire')));
@@ -108,5 +183,4 @@ if ($config->has('action_pre_action')) {
 $controller->dispatch(new Action($config->get('action_router')), new Action($config->get('action_error')));
 
 // Output
-$response->setCompression($config->get('config_compression'));
 $response->output();

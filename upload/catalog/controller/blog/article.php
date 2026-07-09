@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2026.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -14,7 +14,7 @@ class ControllerBlogArticle extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home'),		
+			'href'      => $this->url->link('common/home'),
 			'separator' => false
 		);
 
@@ -127,9 +127,6 @@ class ControllerBlogArticle extends Controller {
 			$this->document->addLink($this->url->link('blog/article', 'article_id=' . $this->request->get['article_id']), 'canonical');
 			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/magnific/magnific-popup.css');
-			//$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/moment.js');
-			//$this->document->addScript('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js');
-			//$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 
 			if ($article_info['meta_h1']) {
 				$data['heading_title'] = $article_info['meta_h1'];
@@ -147,6 +144,10 @@ class ControllerBlogArticle extends Controller {
 			$data['text_views'] = $this->language->get('text_views');
 			$data['text_related'] = $this->language->get('text_related');
 			$data['text_related_product'] = $this->language->get('text_related_product');
+			$data['text_benefits'] = $this->language->get('text_benefits');
+			$data['text_author'] = $this->language->get('text_author');
+			$data['text_date_added'] = $this->language->get('text_date_added');
+			$data['text_date_modified'] = $this->language->get('text_date_modified');
 
 			$data['entry_name'] = $this->language->get('entry_name');
 			$data['entry_review'] = $this->language->get('entry_review');
@@ -176,7 +177,7 @@ class ControllerBlogArticle extends Controller {
 			}
 
 			if ($this->customer->isLogged()) {
-				$data['customer_name'] = $this->customer->getFirstName() . '&nbsp;' . $this->customer->getLastName();
+				$data['customer_name'] = trim($this->customer->getFirstName() . ' ' . $this->customer->getLastName());
 			} else {
 				$data['customer_name'] = '';
 			}
@@ -185,6 +186,10 @@ class ControllerBlogArticle extends Controller {
 			$data['reviews'] = sprintf($this->language->get('text_reviews'), (int)$article_info['reviews']);
 			$data['rating'] = (int)$article_info['rating'];
 			$data['gstatus'] = (int)$article_info['gstatus'];
+			$data['date_added'] = date($this->language->get('datetime_format'), strtotime($article_info['date_added']));
+			$data['date_modified'] = ($article_info['date_modified'] && $article_info['date_modified'] > $article_info['date_added'] ? date($this->language->get('datetime_format'), strtotime($article_info['date_modified'])) : false);
+			$data['viewed'] = (int)$article_info['viewed'];
+			$data['author'] = $article_info['author'];
 
 			// Captcha
 			if ($this->config->get($this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
@@ -408,7 +413,7 @@ class ControllerBlogArticle extends Controller {
 				exit('Error: Headers already sent out!');
 			}
 		} else {
-			$this->redirect(HTTP_SERVER . 'index.php?route=account/download');
+			$this->redirect($this->url->link('account/download', '', true));
 		}
 	}
 
@@ -461,11 +466,11 @@ class ControllerBlogArticle extends Controller {
 		$json = array();
 
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
+			if (empty($this->request->post['name']) || (utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
 				$json['error'] = $this->language->get('error_name');
 			}
 
-			if ((utf8_strlen($this->request->post['text']) < 25) || (utf8_strlen($this->request->post['text']) > 1000)) {
+			if (empty($this->request->post['text']) || (utf8_strlen($this->request->post['text']) < 25) || (utf8_strlen($this->request->post['text']) > 1000)) {
 				$json['error'] = $this->language->get('error_text');
 			}
 

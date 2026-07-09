@@ -166,15 +166,15 @@
                     <?php } else { ?>
                     <button type="button" class="btn btn-success" disabled><i class="fa fa-thumbs-o-up"></i></button>
                     <?php } ?>
-                    <div class="btn-group" data-toggle="tooltip" title="<?php echo $button_login; ?>">
+                    <span class="collapsing" data-toggle="tooltip" title="<?php echo $button_login; ?>">
                       <button type="button" data-toggle="dropdown" class="btn btn-info dropdown-toggle"><i class="fa fa-lock"></i></button>
                       <ul class="dropdown-menu pull-right">
-                        <li><a href="index.php?route=customer/customer/login&token=<?php echo $token; ?>&customer_id=<?php echo $customer['customer_id']; ?>&store_id=0" target="_blank"><?php echo $text_default; ?></a></li>
+                        <li><a href="index.php?route=customer/customer/login&token=<?php echo $token; ?>&customer_id=<?php echo $customer['customer_id']; ?>&store_id=0" rel="noreferrer noopener" target="_blank"><?php echo $text_default; ?></a></li>
                         <?php foreach ($stores as $store) { ?>
-                        <li><a href="index.php?route=customer/customer/login&token=<?php echo $token; ?>&customer_id=<?php echo $customer['customer_id']; ?>&store_id=<?php echo $store['store_id']; ?>" target="_blank"><?php echo $store['name']; ?></a></li>
+                        <li><a href="index.php?route=customer/customer/login&token=<?php echo $token; ?>&customer_id=<?php echo $customer['customer_id']; ?>&store_id=<?php echo $store['store_id']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $store['name']; ?></a></li>
                         <?php } ?>
                       </ul>
-                    </div>
+                    </span>
                     <?php if ($customer['unlock']) { ?>
                     <a href="<?php echo $customer['unlock']; ?>" data-toggle="tooltip" title="<?php echo $button_unlock; ?>" class="btn btn-warning"><i class="fa fa-unlock"></i></a>
                     <?php } else { ?>
@@ -202,49 +202,49 @@
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
 	url = 'index.php?route=customer/customer&token=<?php echo $token; ?>';
-	
+
 	var filter_name = $('input[name=\'filter_name\']').val();
-	
+
 	if (filter_name) {
 		url += '&filter_name=' + encodeURIComponent(filter_name);
 	}
-	
+
 	var filter_email = $('input[name=\'filter_email\']').val();
-	
+
 	if (filter_email) {
 		url += '&filter_email=' + encodeURIComponent(filter_email);
 	}
-	
+
 	var filter_customer_group_id = $('select[name=\'filter_customer_group_id\']').val();
-	
+
 	if (filter_customer_group_id != '*') {
 		url += '&filter_customer_group_id=' + encodeURIComponent(filter_customer_group_id);
-	}	
-	
+	}
+
 	var filter_status = $('select[name=\'filter_status\']').val();
-	
+
 	if (filter_status != '*') {
 		url += '&filter_status=' + encodeURIComponent(filter_status); 
-	}	
-	
+	}
+
 	var filter_approved = $('select[name=\'filter_approved\']').val();
-	
+
 	if (filter_approved != '*') {
 		url += '&filter_approved=' + encodeURIComponent(filter_approved);
-	}	
-	
+	}
+
 	var filter_ip = $('input[name=\'filter_ip\']').val();
-	
+
 	if (filter_ip) {
 		url += '&filter_ip=' + encodeURIComponent(filter_ip);
 	}
-		
+
 	var filter_date_added = $('input[name=\'filter_date_added\']').val();
-	
+
 	if (filter_date_added) {
 		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
 	}
-	
+
 	location = url;
 });
 //--></script> 
@@ -294,4 +294,4 @@ $('.date').datetimepicker({
 	pickTime: false
 });
 //--></script></div>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>

@@ -1422,7 +1422,7 @@
       /** @property {String} blank */
       blank: blankHTML,
       /** @property {String} emptyPara */
-      emptyPara: '<p>' + blankHTML + '</p>',
+      emptyPara: '', //'<p>' + blankHTML + '</p>',
       makePredByNodeName: makePredByNodeName,
       isEditable: isEditable,
       isControlSizing: isControlSizing,
@@ -4274,6 +4274,7 @@
 
       $.each(anchors, function (idx, anchor) {
         $(anchor).attr('href', linkUrl);
+		$(anchor).attr('rel', 'noreferrer noopener nofollow');
         if (isNewWindow) {
           $(anchor).attr('target', '_blank');
         } else {

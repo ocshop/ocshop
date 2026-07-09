@@ -35,9 +35,9 @@ $('#button-filter').on('click', function() {
 	});
 
 	if (filter != 0) {
-        	location = '<?php echo $action; ?>&filter=' + filter.join(',');
-    	} else if (filter = []) {
-        	location = '<?php echo $action; ?>';
-    	}
+		location = '<?php echo $action; ?>&filter=' + filter.join(',');
+	} else if (filter = []) {
+		location = '<?php echo $action; ?>';
+	}
 });
 //--></script>

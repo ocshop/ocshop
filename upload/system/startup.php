@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -29,6 +29,7 @@ if (ini_get('magic_quotes_gpc')) {
 	$_GET = clean($_GET);
 	$_POST = clean($_POST);
 	$_COOKIE = clean($_COOKIE);
+	$_SERVER = clean($_SERVER);
 }
 
 if (!ini_get('date.timezone')) {
@@ -90,11 +91,6 @@ function modification($filename) {
 	return $filename;
 }
 
-// Autoloader
-if (is_file(DIR_SYSTEM . '../../vendor/autoload.php')) {
-	require_once(DIR_SYSTEM . '../../vendor/autoload.php');
-}
-
 function library($class) {
 	$file = DIR_SYSTEM . 'library/' . str_replace('\\', '/', strtolower($class)) . '.php';
 
@@ -110,20 +106,25 @@ function library($class) {
 spl_autoload_register('library');
 spl_autoload_extensions('.php');
 
-// Engine
+// Helper
+require_once(DIR_SYSTEM . 'helper/general.php');
+require_once(DIR_SYSTEM . 'helper/utf8.php');
+require_once(DIR_SYSTEM . 'helper/json.php');
+
+// Vendor Autoloader
+if (is_file(DIR_SYSTEM . '../../vendor/autoload.php')) {
+	require_once(DIR_SYSTEM . '../../vendor/autoload.php');
+}
+
+// OpenCart Autoloader
 require_once(modification(DIR_SYSTEM . 'engine/action.php'));
 require_once(modification(DIR_SYSTEM . 'engine/controller.php'));
 require_once(modification(DIR_SYSTEM . 'engine/event.php'));
 require_once(modification(DIR_SYSTEM . 'engine/front.php'));
 require_once(modification(DIR_SYSTEM . 'engine/loader.php'));
 require_once(modification(DIR_SYSTEM . 'engine/model.php'));
-require_once(modification(DIR_SYSTEM . 'engine/registry.php'));
 require_once(modification(DIR_SYSTEM . 'engine/proxy.php'));
-
-// Helper
-require_once(DIR_SYSTEM . 'helper/general.php');
-require_once(DIR_SYSTEM . 'helper/utf8.php');
-require_once(DIR_SYSTEM . 'helper/json.php');
+require_once(modification(DIR_SYSTEM . 'engine/registry.php'));
 
 function start($application_config) {
 	require_once(DIR_SYSTEM . 'framework.php');	

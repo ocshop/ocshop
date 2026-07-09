@@ -18,7 +18,7 @@ $_['text_import_confirm']		 = 'This will import all of your eBay items as new pr
 $_['text_import_notify']		 = 'Your import request has been sent for processing. An import takes about 1 hour per 1000 items.';
 $_['text_import_images_msg1']    = 'images are pending import/copy from eBay. Refresh this page, if the number does not decrease then';
 $_['text_import_images_msg2']    = 'click here';
-$_['text_import_images_msg3']    = 'and wait. More information about why this happened can be found <a href="http://shop.openbaypro.com/index.php?route=information/faq&topic=8_45" target="_blank">here</a>';
+$_['text_import_images_msg3']    = 'and wait. More information about why this happened can be found <a href="https://shop.openbaypro.com/index.php?route=information/faq&topic=8_45" rel="noreferrer noopener" target="_blank">here</a>';
 
 // Entry
 $_['entry_import_item_advanced'] = 'Get advanced data';

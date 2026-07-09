@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -12,15 +12,27 @@ class ControllerAccountReset extends Controller {
 			$this->response->redirect($this->url->link('account/account', '', true));
 		}
 
+		$this->document->setRobots('nocache,noarchive,noindex,nofollow');
+
 		if (isset($this->request->get['code'])) {
 			$code = $this->request->get['code'];
 		} else {
 			$code = '';
 		}
 
-		$this->load->model('account/customer');
+		if ($code) {
+			$this->load->model('account/customer');
 
-		$customer_info = $this->model_account_customer->getCustomerByCode($code);
+			$customer_info = $this->model_account_customer->getCustomerByCode($code);
+		} else {
+			$customer_info = array();
+		}
+
+		if ($customer_info && !isset($this->session->data['forgotten_code']) || $customer_info && $this->session->data['forgotten_code'] != $code) {
+			$this->model_account_customer->editCode($customer_info['email'], '');
+
+			$customer_info = array();
+		}
 
 		if ($customer_info) {
 			$this->load->language('account/reset');
@@ -28,6 +40,8 @@ class ControllerAccountReset extends Controller {
 			$this->document->setTitle($this->language->get('heading_title'));
 
 			if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
+				unset($this->session->data['forgotten_code']);
+
 				$this->model_account_customer->editPassword($customer_info['email'], $this->request->post['password']);
 
 				if ($this->config->get('config_customer_activity')) {
@@ -119,11 +133,11 @@ class ControllerAccountReset extends Controller {
 	}
 
 	protected function validate() {
-		if ((utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
+		if (!isset($this->request->post['password']) || (utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
 			$this->error['password'] = $this->language->get('error_password');
 		}
 
-		if ($this->request->post['confirm'] != $this->request->post['password']) {
+		if (isset($this->request->post['confirm']) && isset($this->request->post['password']) && $this->request->post['confirm'] != $this->request->post['password']) {
 			$this->error['confirm'] = $this->language->get('error_confirm');
 		}
 

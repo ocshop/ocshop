@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,6 +9,8 @@ class ControllerCheckoutPaymentMethod extends Controller {
 		$this->load->language('checkout/checkout');
 
 		if (isset($this->session->data['payment_address'])) {
+			$this->load->model('extension/extension');
+
 			// Totals
 			$totals = array();
 			$taxes = $this->cart->getTaxes();
@@ -20,8 +22,6 @@ class ControllerCheckoutPaymentMethod extends Controller {
 				'taxes'  => &$taxes,
 				'total'  => &$total
 			);
-			
-			$this->load->model('extension/extension');
 
 			$sort_order = array();
 
@@ -44,8 +44,6 @@ class ControllerCheckoutPaymentMethod extends Controller {
 
 			// Payment Methods
 			$method_data = array();
-
-			$this->load->model('extension/extension');
 
 			$results = $this->model_extension_extension->getExtensions('payment');
 

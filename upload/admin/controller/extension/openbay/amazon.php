@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2025.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -861,7 +861,6 @@ class ControllerExtensionOpenbayAmazon extends Controller {
 			$pagination->total = $product_total;
 			$pagination->page = $page;
 			$pagination->limit = $this->config->get('config_limit_admin');
-			$pagination->text = $this->language->get('text_pagination');
 			$pagination->url = $this->url->link('extension/openbay/amazon/bulkListProducts', 'token=' . $this->session->data['token'] . '&page={page}&filter_marketplace=' . $filter_marketplace, true);
 
 			$data['pagination'] = $pagination->render();
@@ -886,14 +885,17 @@ class ControllerExtensionOpenbayAmazon extends Controller {
 		$this->document->addScript('view/javascript/openbay/js/faq.js');
 
 		$data['breadcrumbs'] = array();
+
 		$data['breadcrumbs'][] = array(
 			'href'      => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true),
 			'text'      => $this->language->get('text_home'),
 		);
+
 		$data['breadcrumbs'][] = array(
 			'href'      => $this->url->link('extension/openbay', 'token=' . $this->session->data['token'], true),
 			'text'      => $this->language->get('text_openbay'),
 		);
+
 		$data['breadcrumbs'][] = array(
 			'href'      => $this->url->link('extension/openbay/amazon', 'token=' . $this->session->data['token'], true),
 			'text'      => $this->language->get('text_amazon'),
@@ -907,6 +909,7 @@ class ControllerExtensionOpenbayAmazon extends Controller {
 		$ping_info = simplexml_load_string($this->openbay->amazon->call('ping/info'));
 
 		$bulk_linking_status = false;
+
 		if ($ping_info) {
 			$bulk_linking_status = ((string)$ping_info->BulkLinking == 'true') ? true : false;
 		}
@@ -970,10 +973,10 @@ class ControllerExtensionOpenbayAmazon extends Controller {
 		$pagination->total = $total_linked;
 		$pagination->page = $linked_item_page;
 		$pagination->limit = $linked_item_limit;
-		$pagination->text = $this->language->get('text_pagination');
 		$pagination->url = $this->url->link('extension/openbay/amazon/bulklinking', 'token=' . $this->session->data['token'] . '&linked_item_page={page}&marketplace=' . $marketplace_code, true);
 
 		$data['pagination'] = $pagination->render();
+
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($total_linked) ? (($linked_item_page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($linked_item_page - 1) * $this->config->get('config_limit_admin')) > ($total_linked - $this->config->get('config_limit_admin'))) ? $total_linked : ((($linked_item_page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $total_linked, ceil($total_linked / $this->config->get('config_limit_admin')));
 
 		$results = $this->model_extension_openbay_amazon->getUnlinkedItemsFromReport($marketplace_code, $linked_item_limit, $linked_item_page);
@@ -1002,6 +1005,7 @@ class ControllerExtensionOpenbayAmazon extends Controller {
 		$data['marketplace_code'] = $marketplace_code;
 
 		$data['marketplaces_processing'] = array();
+
 		if (is_array($this->config->get('openbay_amazon_processing_listing_reports'))) {
 			$data['marketplaces_processing'] = $this->config->get('openbay_amazon_processing_listing_reports');
 		}
@@ -1009,7 +1013,6 @@ class ControllerExtensionOpenbayAmazon extends Controller {
 		$data['cancel'] = $this->url->link('extension/openbay/amazon', 'token=' . $this->session->data['token'], true);
 		$data['link_do_listings'] = $this->url->link('extension/openbay/amazon/doBulkLinking', 'token=' . $this->session->data['token'], true);
 		$data['token'] = $this->session->data['token'];
-
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');

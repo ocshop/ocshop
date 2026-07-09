@@ -1,3 +1,18 @@
+/* Chrome error off/block cookie "'Window': Access is denied for this document." */
+try {
+	window.localStorage.length;
+} catch (e) {
+	delete window.localStorage;
+	window.localStorage = {
+		'getItem':function(a) {},
+		'setItem':function(a, b) {},
+		'key':function(a) {},
+		'removeItem':function(a) {},
+		'clear':function() {},
+		'length':0
+	};
+}
+
 function getURLVar(key) {
 	var value = [];
 
@@ -161,7 +176,7 @@ var cart = {
 				$('#cart > button').button('reset');
 			},
 			success: function(json) {
-				$('.alert, .text-danger').remove();
+				$('.alert-success, .text-danger').remove();
 
 				if (json['redirect']) {
 					location = json['redirect'];
@@ -288,7 +303,7 @@ var wishlist = {
 			data: 'product_id=' + product_id,
 			dataType: 'json',
 			success: function(json) {
-				$('.alert').remove();
+				$('.alert-success').remove();
 
 				if (json['redirect']) {
 					location = json['redirect'];
@@ -321,7 +336,7 @@ var compare = {
 			data: 'product_id=' + product_id,
 			dataType: 'json',
 			success: function(json) {
-				$('.alert').remove();
+				$('.alert-success').remove();
 
 				if (json['success']) {
 					$('#content').parent().before('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
@@ -495,7 +510,6 @@ $(document).delegate('.agree', 'click', function(e) {
 
 			$(this).after('<ul class="dropdown-menu"></ul>');
 			$(this).siblings('ul.dropdown-menu').delegate('a', 'click', $.proxy(this.click, this));
-
 		});
 	}
 })(window.jQuery);

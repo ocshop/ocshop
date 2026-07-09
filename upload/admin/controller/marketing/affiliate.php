@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -431,6 +431,7 @@ class ControllerMarketingAffiliate extends Controller {
 		$data['text_disabled'] = $this->language->get('text_disabled');
 		$data['text_yes'] = $this->language->get('text_yes');
 		$data['text_no'] = $this->language->get('text_no');
+		$data['text_default'] = $this->language->get('text_default');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
 		$data['text_none'] = $this->language->get('text_none');
@@ -453,6 +454,7 @@ class ControllerMarketingAffiliate extends Controller {
 		$data['button_edit'] = $this->language->get('button_edit');
 		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_filter'] = $this->language->get('button_filter');
+		$data['button_login'] = $this->language->get('button_login');
 		$data['button_unlock'] = $this->language->get('button_unlock');
 		
 		$data['token'] = $this->session->data['token'];
@@ -559,6 +561,10 @@ class ControllerMarketingAffiliate extends Controller {
 		$data['filter_status'] = $filter_status;
 		$data['filter_approved'] = $filter_approved;
 		$data['filter_date_added'] = $filter_date_added;
+
+		$this->load->model('setting/store');
+
+		$data['stores'] = $this->model_setting_store->getStores();
 
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -1148,6 +1154,64 @@ class ControllerMarketingAffiliate extends Controller {
 		}
 
 		return !$this->error;
+	}
+
+	public function login() {
+		if (isset($this->request->get['affiliate_id'])) {
+			$affiliate_id = $this->request->get['affiliate_id'];
+		} else {
+			$affiliate_id = 0;
+		}
+
+		$this->load->model('marketing/affiliate');
+
+		$customer_info = $this->model_marketing_affiliate->getAffiliate($affiliate_id);
+
+		if ($customer_info) {
+			$this->session->data['affiliate_id'] = $affiliate_id;
+
+			if (isset($this->request->get['store_id'])) {
+				$store_id = $this->request->get['store_id'];
+			} else {
+				$store_id = 0;
+			}
+
+			$this->load->model('setting/store');
+
+			$store_info = $this->model_setting_store->getStore($store_id);
+
+			if ($store_info) {
+				$this->response->redirect($store_info['url'] . 'index.php?route=affiliate/login');
+			} else {
+				$this->response->redirect(($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG) . 'index.php?route=affiliate/login');
+			}
+		} else {
+			$this->load->language('error/not_found');
+
+			$this->document->setTitle($this->language->get('heading_title'));
+
+			$data['heading_title'] = $this->language->get('heading_title');
+
+			$data['text_not_found'] = $this->language->get('text_not_found');
+
+			$data['breadcrumbs'] = array();
+
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('text_home'),
+				'href' => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true)
+			);
+
+			$data['breadcrumbs'][] = array(
+				'text' => $this->language->get('heading_title'),
+				'href' => $this->url->link('error/not_found', 'token=' . $this->session->data['token'], true)
+			);
+
+			$data['header'] = $this->load->controller('common/header');
+			$data['column_left'] = $this->load->controller('common/column_left');
+			$data['footer'] = $this->load->controller('common/footer');
+
+			$this->response->setOutput($this->load->view('error/not_found', $data));
+		}
 	}
 
 	public function transaction() {

@@ -1,19 +1,29 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
+//https://ospanel.io/forum/viewtopic.php?f=3&t=2191&start=10
 namespace Cache;
 class Mem {
 	private $expire;
 	private $memcache;
-	
-	const CACHEDUMP_LIMIT = 9999;
 
-	public function __construct($expire) {
+	public function __construct($expire = 3600) {
+		if (!defined('CACHEDUMP_LIMIT')) {
+			define('CACHEDUMP_LIMIT', 9999);
+		}
+		if (!defined('CACHE_HOSTNAME')) {
+			define('CACHE_HOSTNAME', 'localhost');
+		}
+		if (!defined('CACHE_PORT')) {
+			define('CACHE_PORT', 11211);
+		}
+		if (!defined('CACHE_PREFIX')) {
+			define('CACHE_PREFIX', 'cache_');
+		}
 		$this->expire = $expire;
-
 		$this->memcache = new \Memcache();
 		$this->memcache->pconnect(CACHE_HOSTNAME, CACHE_PORT);
 	}
@@ -22,28 +32,26 @@ class Mem {
 		return $this->memcache->get(CACHE_PREFIX . $key);
 	}
 
-	public function set($key, $value) {
+	public function set($key, $value, $expire = 3600) {
 		return $this->memcache->set(CACHE_PREFIX . $key, $value, MEMCACHE_COMPRESSED, $this->expire);
 	}
 
 	public function delete($key) {
-		$all_slabs = $this->memcache->getExtendedStats('slabs');
-		foreach ($all_slabs as $server => $slabs) {
-			foreach ($slabs as $slab_id => $slab_meta) {
-				if (!is_int($slab_id)) {
-					continue;
-				}
-				$cachedump = $this->memcache->getExtendedStats('cachedump', $slab_id, self::CACHEDUMP_LIMIT);
-				foreach ($cachedump as $server => $entries) {
-					if (!empty($entries) && is_array($entries)) {
-						foreach (array_keys($entries) as $entry_key) {
-							if (strpos($entry_key, CACHE_PREFIX . $key) === 0) {
-								$this->memcache->delete($entry_key);
-							}
-						}
-					}
-				}
-			}
+		$this->memcache->delete(CACHE_PREFIX . $key);
+	}
+
+	// чистка всего кэша
+	public function flush($timer = 5) {
+		$status = false;
+
+		if (method_exists($this->memcache, 'flush')) {
+			$this->memcache->flush();
+			$status = true;
 		}
+		if (method_exists($this->memcache, 'close')) {
+			$this->memcache->close();
+		}
+
+		return $status;
 	}
 }

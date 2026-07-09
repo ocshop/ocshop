@@ -39,17 +39,20 @@
                     <a href="<?php echo $sort_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_name; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_name; ?>"><?php echo $column_name; ?></a>
-                    <?php } ?></td>
+                    <?php } ?>
+                  </td>
                   <td class="text-right"><?php if ($sort == 'sort_order') { ?>
                     <a href="<?php echo $sort_sort_order; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_sort_order; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_sort_order; ?></a>
-                    <?php } ?></td>
-					<td class="text-right"><?php if ($sort == 'noindex') { ?>
+                    <?php } ?>
+                  </td>
+                  <td class="text-right"><?php if ($sort == 'noindex') { ?>
                     <a href="<?php echo $sort_noindex; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_noindex; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_noindex; ?>"><?php echo $column_noindex; ?></a>
-                    <?php } ?></td>
+                    <?php } ?>
+                  </td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -61,14 +64,15 @@
                     <input type="checkbox" name="selected[]" value="<?php echo $manufacturer['manufacturer_id']; ?>" checked="checked" />
                     <?php } else { ?>
                     <input type="checkbox" name="selected[]" value="<?php echo $manufacturer['manufacturer_id']; ?>" />
-                    <?php } ?></td>
+                    <?php } ?>
+                  </td>
                   <td class="text-left"><?php echo $manufacturer['name']; ?></td>
                   <td class="text-right"><?php echo $manufacturer['sort_order']; ?></td>
-				  <td class="text-right"><?php echo $manufacturer['noindex']; ?></td>
+                  <td class="text-right"><?php echo $manufacturer['noindex']; ?></td>
                   <td class="text-right">
-				  <a target="_blank" href="<?php echo $manufacturer['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
-				  <a href="<?php echo $manufacturer['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
-				  </td>
+                    <a href="<?php echo $manufacturer['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success" rel="noreferrer noopener" target="_blank"><i class="fa fa-eye"></i></a>
+                    <a href="<?php echo $manufacturer['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                  </td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>

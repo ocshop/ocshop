@@ -30,11 +30,11 @@
               <a href="https://maps.google.com/maps?q=<?php echo urlencode($geocode); ?>&hl=<?php echo $geocode_hl; ?>&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> <?php echo $button_map; ?></a>
               <?php } ?>
             </div>
-            <div class="col-sm-3"><strong><?php echo $text_telephone; ?></strong><br>
+            <div class="col-sm-3"><strong><?php echo $text_telephone; ?></strong><br />
               <?php echo $telephone; ?><br />
               <br />
               <?php if ($fax) { ?>
-              <strong><?php echo $text_fax; ?></strong><br>
+              <strong><?php echo $text_fax; ?></strong><br />
               <?php echo $fax; ?>
               <?php } ?>
             </div>
@@ -74,11 +74,11 @@
                   <a href="https://maps.google.com/maps?q=<?php echo urlencode($location['geocode']); ?>&hl=<?php echo $geocode_hl; ?>&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> <?php echo $button_map; ?></a>
                   <?php } ?>
                 </div>
-                <div class="col-sm-3"> <strong><?php echo $text_telephone; ?></strong><br>
+                <div class="col-sm-3"> <strong><?php echo $text_telephone; ?></strong><br />
                   <?php echo $location['telephone']; ?><br />
                   <br />
                   <?php if ($location['fax']) { ?>
-                  <strong><?php echo $text_fax; ?></strong><br>
+                  <strong><?php echo $text_fax; ?></strong><br />
                   <?php echo $location['fax']; ?>
                   <?php } ?>
                 </div>
@@ -132,7 +132,7 @@
           </div>
           <?php echo $captcha; ?>
         </fieldset>
-        <div class="buttons">
+        <div class="buttons clearfix">
           <div class="pull-right">
             <input class="btn btn-primary" type="submit" value="<?php echo $button_submit; ?>" />
           </div>

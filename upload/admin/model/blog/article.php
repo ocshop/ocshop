@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2026.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,6 +9,15 @@ class ModelBlogArticle extends Model {
 		$this->db->query("INSERT INTO " . DB_PREFIX . "article SET status = '" . (int)$data['status'] . "', noindex = '" . (int)$data['noindex'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_added = NOW()");
 
 		$article_id = $this->db->getLastId();
+
+		if (isset($data['author'])) {
+			if (!empty($data['author']['user_id'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "article SET user_id = '" . (int)$data['author']['user_id'] . "' WHERE article_id = '" . (int)$article_id . "'");
+			}
+			if (!empty($data['author']['customer_id'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "article SET customer_id = '" . (int)$data['author']['customer_id'] . "' WHERE article_id = '" . (int)$article_id . "'");
+			}
+		}
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "article SET image = '" . $this->db->escape($data['image']) . "' WHERE article_id = '" . (int)$article_id . "'");
@@ -58,8 +67,8 @@ class ModelBlogArticle extends Model {
 			}
 		}
 
-		if (isset($data['product_related'])) {
-			foreach ($data['product_related'] as $related_id) {
+		if (isset($data['article_related_product'])) {
+			foreach ($data['article_related_product'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "' AND product_id = '" . (int)$related_id . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related_product SET article_id = '" . (int)$article_id . "', product_id = '" . (int)$related_id . "'");
 			}
@@ -83,8 +92,16 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function editArticle($article_id, $data) {
-
 		$this->db->query("UPDATE " . DB_PREFIX . "article SET status = '" . (int)$data['status'] . "', noindex = '" . (int)$data['noindex'] . "', sort_order = '" . (int)$data['sort_order'] . "', date_modified = NOW() WHERE article_id = '" . (int)$article_id . "'");
+
+		if (isset($data['author'])) {
+			if (!empty($data['author']['user_id'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "article SET user_id = '" . (int)$data['author']['user_id'] . "' WHERE article_id = '" . (int)$article_id . "'");
+			}
+			if (!empty($data['author']['customer_id'])) {
+				$this->db->query("UPDATE " . DB_PREFIX . "article SET customer_id = '" . (int)$data['author']['customer_id'] . "' WHERE article_id = '" . (int)$article_id . "'");
+			}
+		}
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "article SET image = '" . $this->db->escape($data['image']) . "' WHERE article_id = '" . (int)$article_id . "'");
@@ -148,9 +165,9 @@ class ModelBlogArticle extends Model {
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "'");
-		
-		if (isset($data['product_related'])) {
-			foreach ($data['product_related'] as $related_id) {
+
+		if (isset($data['article_related_product'])) {
+			foreach ($data['article_related_product'] as $related_id) {
 				$this->db->query("DELETE FROM " . DB_PREFIX . "article_related_product WHERE article_id = '" . (int)$article_id . "' AND product_id = '" . (int)$related_id . "'");
 				$this->db->query("INSERT INTO " . DB_PREFIX . "article_related_product SET article_id = '" . (int)$article_id . "', product_id = '" . (int)$related_id . "'");
 			}
@@ -197,7 +214,7 @@ class ModelBlogArticle extends Model {
 			$data['article_description'] = $this->getArticleDescriptions($article_id);
 			$data['article_image'] = $this->getArticleImages($article_id);
 			$data['article_related'] = $this->getArticleRelated($article_id);
-			$data['product_related'] = $this->getProductRelated($article_id);
+			$data['article_related_product'] = $this->getProductRelated($article_id);
 			$data['article_category'] = $this->getArticleCategories($article_id);
 			$data['article_download'] = $this->getArticleDownloads($article_id);
 			$data['article_layout'] = $this->getArticleLayouts($article_id);
@@ -225,13 +242,13 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getArticle($article_id) {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'article_id=" . (int)$article_id . "') AS keyword FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) WHERE p.article_id = '" . (int)$article_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT *, (SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'article_id=" . (int)$article_id . "' LIMIT 1) AS keyword FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) WHERE p.article_id = '" . (int)$article_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
 
 	public function getArticles($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id)";
+		$sql = "SELECT p.*, pd.* FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id)";
 
 		if (isset($data['filter_category'])) {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "article_to_blog_category a2c ON (p.article_id = a2c.article_id)";
@@ -243,8 +260,28 @@ class ModelBlogArticle extends Model {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
-		if (isset($data['filter_category'])) {
-			$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_category'] . "'";
+		if (isset($data['filter_category']) && !is_null($data['filter_category'])) {
+			if (!empty($data['filter_category']) && !empty($data['filter_sub_category'])) {
+				$implode_data = array();
+
+				$this->load->model('blog/category');
+
+				$categories = $this->model_blog_category->getCategoriesChildren($data['filter_category']);
+
+				foreach ($categories as $category) {
+					$implode_data[] = "a2c.blog_category_id = '" . (int)$category['blog_category_id'] . "'";
+				}
+
+				if ($implode_data) {
+					$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+				}
+			} else {
+				if ((int)$data['filter_category'] > 0) {
+					$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_category'] . "'";
+				} else {
+					$sql .= " AND a2c.blog_category_id IS NULL";
+				}
+			}
 		}
 
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
@@ -294,7 +331,7 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getArticlesByCategoryId($blog_category_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_blog_category p2c ON (p.article_id = p2c.article_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p2c.blog_category_id = '" . (int)$blog_category_id . "' ORDER BY pd.name ASC");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_blog_category a2c ON (p.article_id = a2c.article_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND a2c.blog_category_id = '" . (int)$blog_category_id . "' ORDER BY pd.name ASC");
 
 		return $query->rows;
 	}
@@ -385,7 +422,9 @@ class ModelBlogArticle extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "article_related WHERE article_id = '" . (int)$article_id . "'");
 
 		foreach ($query->rows as $result) {
-			$article_related_data[] = $result['related_id'];
+			if ($result['related_id'] != $article_id) {
+				$article_related_data[] = $result['related_id'];
+			}
 		}
 
 		return $article_related_data;
@@ -406,10 +445,38 @@ class ModelBlogArticle extends Model {
 	public function getTotalArticles($data = array()) {
 		$sql = "SELECT COUNT(DISTINCT p.article_id) AS total FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id)";
 
+		if (isset($data['filter_category']) && !is_null($data['filter_category'])) {
+			$sql .= " LEFT JOIN " . DB_PREFIX . "article_to_blog_category a2c ON (p.article_id = a2c.article_id)";
+		}
+
 		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
+		}
+
+		if (isset($data['filter_category']) && !is_null($data['filter_category'])) {
+			if (!empty($data['filter_category']) && !empty($data['filter_sub_category'])) {
+				$implode_data = array();
+
+				$this->load->model('blog/category');
+
+				$categories = $this->model_blog_category->getCategoriesChildren($data['filter_category']);
+
+				foreach ($categories as $category) {
+					$implode_data[] = "a2c.blog_category_id = '" . (int)$category['blog_category_id'] . "'";
+				}
+
+				if ($implode_data) {
+					$sql .= " AND (" . implode(' OR ', $implode_data) . ")";
+				}
+			} else {
+				if ((int)$data['filter_category'] > 0) {
+					$sql .= " AND a2c.blog_category_id = '" . (int)$data['filter_category'] . "'";
+				} else {
+					$sql .= " AND a2c.blog_category_id IS NULL";
+				}
+			}
 		}
 
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {

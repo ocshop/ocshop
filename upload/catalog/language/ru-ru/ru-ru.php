@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -23,6 +23,7 @@ $_['text_select']           = ' --- Выберите --- ';
 $_['text_all_zones']        = 'Все зоны';
 $_['text_pagination']       = 'Показано с %d по %d из %d (всего %d страниц)';
 $_['text_loading']          = 'Загрузка...';
+$_['text_no_results']       = 'Результатов нет!';
 
 // Buttons
 $_['button_address_add']    = 'Добавить адрес';
@@ -51,7 +52,7 @@ $_['button_return']         = 'Возврат товара';
 $_['button_shopping']       = 'Продолжить покупки';
 $_['button_search']         = 'Поиск';
 $_['button_shipping']       = 'Применить Доставку';
-$_['button_submit']         = 'Применить';
+$_['button_submit']         = 'Отправить';
 $_['button_guest']          = 'Оформить заказ без регистрации';
 $_['button_view']           = 'Просмотр';
 $_['button_voucher']        = 'Применить подарочный сертификат';
@@ -63,7 +64,7 @@ $_['button_grid']           = 'Сетка';
 $_['button_map']            = 'Посмотреть карту';
 
 // Error
-$_['error_exception']       = 'Ошибка кода(%s): %s в %s на строке %s';
+$_['error_exception']       = 'Код ошибки (%s): %s в %s на строке %s';
 $_['error_upload_1']        = 'Размер загружаемого файла превышает значение upload_max_filesize в php.ini!';
 $_['error_upload_2']        = 'Загруженный файл превышает MAX_FILE_SIZE значение, которая была указана в настройках!';
 $_['error_upload_3']        = 'Загруженные файлы были загружены лишь частично!';
@@ -72,3 +73,4 @@ $_['error_upload_6']        = 'Не найдены во временной па�
 $_['error_upload_7']        = 'Ошибка записи!';
 $_['error_upload_8']        = 'Запрещено загружать файлы данного типа!';
 $_['error_upload_999']      = 'Неизвестная ошибка!';
+$_['error_curl']            = 'CURL: Код ошибки (%s): %s';

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -13,7 +13,7 @@ $_['text_list']           = 'Список макетов';
 $_['text_add']            = 'Добавить';
 $_['text_edit']           = 'Редактирование';
 $_['text_remove']         = 'Удалить';
-$_['text_route']          = 'Выберите магазины и роуты, которые будут использоваться с этом макете';
+$_['text_route']          = 'Выберите магазины и роуты, которые будут использоваться в этом макете';
 $_['text_module']         = 'Выберите положение модулей';
 $_['text_default']        = 'По умолчанию';
 $_['text_content_top']    = 'Верх страницы';

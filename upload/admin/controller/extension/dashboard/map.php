@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -69,11 +69,11 @@ class ControllerExtensionDashboardMap extends Controller {
 		}
 
 		$data['columns'] = array();
-		
+
 		for ($i = 3; $i <= 12; $i++) {
 			$data['columns'][] = $i;
 		}
-				
+
 		if (isset($this->request->post['dashboard_map_status'])) {
 			$data['dashboard_map_status'] = $this->request->post['dashboard_map_status'];
 		} else {
@@ -100,7 +100,7 @@ class ControllerExtensionDashboardMap extends Controller {
 
 		return !$this->error;
 	}
-		
+
 	public function dashboard() {
 		$this->load->language('extension/dashboard/map');
 
@@ -110,7 +110,7 @@ class ControllerExtensionDashboardMap extends Controller {
 		$data['text_sale'] = $this->language->get('text_sale');
 
 		$data['token'] = $this->session->data['token'];
-		
+
 		return $this->load->view('extension/dashboard/map_info', $data);
 	}
 
@@ -122,10 +122,12 @@ class ControllerExtensionDashboardMap extends Controller {
 		$results = $this->model_report_sale->getTotalOrdersByCountry();
 
 		foreach ($results as $result) {
-			$json[strtolower($result['iso_code_2'])] = array(
-				'total'  => $result['total'],
-				'amount' => $this->currency->format($result['amount'], $this->config->get('config_currency'))
-			);
+			if ($result['iso_code_2']) {
+				$json[strtolower($result['iso_code_2'])] = array(
+					'total'  => $result['total'],
+					'amount' => $this->currency->format($result['amount'], $this->config->get('config_currency'))
+				);
+			}
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

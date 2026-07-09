@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -69,10 +69,11 @@ class ModelUpgrade1006 extends Model {
 					$output .= $line;
 				}
 
-				$output = str_replace('system/modification', 'system/storage/modification', $output);
+				$output = str_replace('system/cache', 'system/storage/cache', $output);
 				$output = str_replace('system/upload', 'system/storage/upload', $output);
 				$output = str_replace('system/logs', 'system/storage/logs', $output);
-				$output = str_replace('system/cache', 'system/storage/cache', $output);
+				$output = str_replace('system/session', 'system/storage/session', $output);
+				$output = str_replace('system/modification', 'system/storage/modification', $output);
 
 				// Since the download folder has had multiple locations, first set them all back to /download, then adjust to the new location
 				$output = str_replace('system/download', '/download', $output);
@@ -84,7 +85,6 @@ class ModelUpgrade1006 extends Model {
 				fwrite($file, $output);
 
 				fclose($file);
-
 			}
 		}
 
@@ -99,9 +99,9 @@ class ModelUpgrade1006 extends Model {
 			DIR_SYSTEM . 'cache/',
 		);
 
-        $files = array();
+		$files = array();
 
-        foreach ($directories as $dir) {
+		foreach ($directories as $dir) {
 			if (is_dir($dir)){
 				// Make path into an array
 				$path = array($dir . '*');
@@ -178,31 +178,30 @@ class ModelUpgrade1006 extends Model {
 		$this->db->query("UPDATE `" . DB_PREFIX . "information_description` SET `description` = REPLACE (description , 'data/', 'catalog/')");
 	}
 
-	private function recursive_move($src, $dest){
+	private function recursive_move($src, $dest) {
+		// If source is not a directory stop processing
+		if(!is_dir($src)) return false;
 
-	    // If source is not a directory stop processing
-	    if(!is_dir($src)) return false;
+		// If the destination directory does not exist create it
+		if(!is_dir($dest)) {
+			if(!@mkdir($dest)) {
+				// If the destination directory could not be created stop processing
+				return false;
+			}
+		}
 
-	    // If the destination directory does not exist create it
-	    if(!is_dir($dest)) {
-	        if(!@mkdir($dest)) {
-	            // If the destination directory could not be created stop processing
-	    		return false;
-	        }
-	    }
-
-	    // Open the source directory to read in files
-	    $i = new DirectoryIterator($src);
-	    foreach($i as $f) {
-	        if($f->isFile() && !file_exists("$dest/" . $f->getFilename())) {
-	            @rename($f->getRealPath(), "$dest/" . $f->getFilename());
-	        } elseif(!$f->isDot() && $f->isDir()) {
-	            $this->recursive_move($f->getRealPath(), "$dest/$f");
-	            @unlink($f->getRealPath());
-	        }
-	    }
+		// Open the source directory to read in files
+		$i = new DirectoryIterator($src);
+		foreach($i as $f) {
+			if($f->isFile() && !file_exists("$dest/" . $f->getFilename())) {
+				@rename($f->getRealPath(), "$dest/" . $f->getFilename());
+			} elseif(!$f->isDot() && $f->isDir()) {
+				$this->recursive_move($f->getRealPath(), "$dest/$f");
+				@unlink($f->getRealPath());
+			}
+		}
 
 		// Remove source folder after move
-	    @unlink($src);
+		@unlink($src);
 	}
 }

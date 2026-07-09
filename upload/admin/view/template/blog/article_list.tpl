@@ -142,7 +142,7 @@
                   <td class="text-left"><?php echo $article['status']; ?></td>
                   <td class="text-left"><?php echo $article['noindex']; ?></td>
                   <td class="text-right">
-                    <a target="_blank" href="<?php echo $article['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success"><i class="fa fa-eye"></i></a>
+                    <a href="<?php echo $article['href_shop']; ?>" data-toggle="tooltip" title="<?php echo $button_shop; ?>" class="btn btn-success" rel="noreferrer noopener" target="_blank"><i class="fa fa-eye"></i></a>
                     <a href="<?php echo $article['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                   </td>
                 </tr>

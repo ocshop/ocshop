@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,10 +9,10 @@ class ControllerCheckoutShippingMethod extends Controller {
 		$this->load->language('checkout/checkout');
 
 		if (isset($this->session->data['shipping_address'])) {
+			$this->load->model('extension/extension');
+
 			// Shipping Methods
 			$method_data = array();
-
-			$this->load->model('extension/extension');
 
 			$results = $this->model_extension_extension->getExtensions('shipping');
 

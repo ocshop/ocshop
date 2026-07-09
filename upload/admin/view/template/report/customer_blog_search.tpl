@@ -106,7 +106,7 @@
               <?php if ($searches) { ?>
               <?php foreach ($searches as $search) { ?>
               <tr>
-                <td class="text-left"><a href="<?php echo $search['store']['url']; ?>"><?php echo $search['store']['url']; ?></a></td>
+                <td class="text-left"><a href="<?php echo $search['store']['url']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $search['store']['url']; ?></a></td>
                 <td class="text-left"><img src="language/<?php echo $search['language']['code']; ?>/<?php echo $search['language']['code']; ?>.png" title="<?php echo $search['language']['name']; ?>" /><?php //echo $search['language']['name']; ?></td>
                 <td class="text-left"><?php echo $search['keyword']; ?></td>
                 <td class="text-left"><?php echo $search['articles']; ?></td>

@@ -17,6 +17,24 @@ Options -Indexes
 # Deny from all
 </FilesMatch>
 
+# запрещаем скрипты кроме index.php
+<FilesMatch "\.php$">
+  Order deny,allow
+  Deny from all
+</FilesMatch>
+<FilesMatch "(index[0-9]?)\.php$">
+  Order deny,allow
+  Allow from all
+</FilesMatch>
+
+<IfModule mod_headers.c>
+ # Header unset Access-Control-Allow-Origin
+ # SetEnvIf Origin "^(https?://(demo\.site\.by|site\.by))$" ORIGIN_SUB=$1
+ # Header set Access-Control-Allow-Origin "%{ORIGIN_SUB}e" env=ORIGIN_SUB
+ # Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+ # Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+</IfModule>
+
 # SEO URL Settings
 RewriteEngine On
 # If your opencart installation does not run on the main web folder make sure you folder it does run in ie. / becomes /shop/

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2026.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -232,7 +232,7 @@ class ControllerBlogArticle extends Controller {
 
 		$this->load->model('blog/article');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_article->editArticleStatus($article_id, 1);
 			}
@@ -266,7 +266,7 @@ class ControllerBlogArticle extends Controller {
 
 		$this->load->model('blog/article');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_article->editArticleStatus($article_id, 0);
 			}
@@ -294,7 +294,6 @@ class ControllerBlogArticle extends Controller {
 	}
 
 	protected function getList() {
-
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_list'] = $this->language->get('text_list');
@@ -337,8 +336,10 @@ class ControllerBlogArticle extends Controller {
 		}
 
 		$filter_sub_category = null;
+
 		if (isset($this->request->get['filter_category'])) {
 			$filter_category = $this->request->get['filter_category'];
+
 			if (!empty($filter_category) && isset($this->request->get['filter_sub_category'])) {
 				$filter_sub_category = true;
 			} elseif (isset($this->request->get['filter_sub_category'])) {
@@ -346,22 +347,28 @@ class ControllerBlogArticle extends Controller {
 			}
 		} else {
 			$filter_category = null;
+
 			if (isset($this->request->get['filter_sub_category'])) {
 				unset($this->request->get['filter_sub_category']);
 			}
 		}
 
 		$filter_category_name = null;
+
 		if (isset($filter_category)) {
-			if ($filter_category>0) {
+			if ($filter_category > 0) {
 				$this->load->model('blog/category');
+
 				$category = $this->model_blog_category->getCategory($filter_category);
+
 				if ($category) {
 					$filter_category_name = ($category['path']) ? $category['path'] . ' &gt; ' . $category['name'] : $category['name'];
 				} else {
 					$filter_category = null;
-					unset($this->request->get['filter_category']);
 					$filter_sub_category = null;
+
+					unset($this->request->get['filter_category']);
+
 					if (isset($this->request->get['filter_sub_category'])) {
 						unset($this->request->get['filter_sub_category']);
 					}
@@ -399,6 +406,12 @@ class ControllerBlogArticle extends Controller {
 			$page = $this->request->get['page'];
 		} else {
 			$page = 1;
+		}
+
+		if ($this->request->server['HTTPS']) {
+			$server = HTTPS_CATALOG;
+		} else {
+			$server = HTTP_CATALOG;
 		}
 
 		$url = '';
@@ -462,8 +475,8 @@ class ControllerBlogArticle extends Controller {
 			'filter_noindex'      => $filter_noindex,
 			'sort'                => $sort,
 			'order'               => $order,
-			'start'               => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'               => $this->config->get('config_limit_admin')
+			'start'               => ($page - 1) * $this->config->get('configblog_limit_admin'),
+			'limit'               => $this->config->get('configblog_limit_admin')
 		);
 
 		$this->load->model('tool/image');
@@ -483,9 +496,9 @@ class ControllerBlogArticle extends Controller {
 				'article_id' => $result['article_id'],
 				'image'      => $image,
 				'name'       => $result['name'],
-				'status'     => ($result['status']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-				'noindex'    => ($result['noindex']) ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-				'href_shop'  => HTTP_CATALOG . 'index.php?route=blog/article&article_id=' . ($result['article_id']),
+				'status'     => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				'noindex'    => ($result['noindex'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				'href_shop'  => $server . 'index.php?route=blog/article&article_id=' . $result['article_id'],
 				'edit'       => $this->url->link('blog/article/edit', 'token=' . $this->session->data['token'] . '&article_id=' . $result['article_id'] . $url, true)
 			);
 		}
@@ -578,12 +591,12 @@ class ControllerBlogArticle extends Controller {
 		$pagination = new Pagination();
 		$pagination->total = $article_total;
 		$pagination->page = $page;
-		$pagination->limit = $this->config->get('config_limit_admin');
+		$pagination->limit = $this->config->get('configblog_limit_admin');
 		$pagination->url = $this->url->link('blog/article', 'token=' . $this->session->data['token'] . $url . '&page={page}', true);
 
 		$data['pagination'] = $pagination->render();
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($article_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($article_total - $this->config->get('config_limit_admin'))) ? $article_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $article_total, ceil($article_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($article_total) ? (($page - 1) * $this->config->get('configblog_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('configblog_limit_admin')) > ($article_total - $this->config->get('configblog_limit_admin'))) ? $article_total : ((($page - 1) * $this->config->get('configblog_limit_admin')) + $this->config->get('configblog_limit_admin')), $article_total, ceil($article_total / $this->config->get('configblog_limit_admin')));
 
 		$data['filter_name'] = $filter_name;
 		$data['filter_category_name'] = $filter_category_name;
@@ -622,6 +635,7 @@ class ControllerBlogArticle extends Controller {
 		$data['entry_meta_description'] = $this->language->get('entry_meta_description');
 		$data['entry_meta_keyword'] = $this->language->get('entry_meta_keyword');
 		$data['entry_keyword'] = $this->language->get('entry_keyword');
+		$data['entry_author'] = $this->language->get('entry_author');
 		$data['entry_image'] = $this->language->get('entry_image');
 		$data['entry_store'] = $this->language->get('entry_store');
 		$data['entry_download'] = $this->language->get('entry_download');
@@ -759,6 +773,34 @@ class ControllerBlogArticle extends Controller {
 			$data['heading_title'] = $data['article_description'][$language_id]['name'];
 		}
 
+		if (isset($this->request->post['author'])) {
+			$data['author'] = $this->request->post['author'];
+		} elseif (!empty($article_info)) {
+			$data['author'] = array();
+
+			if (!empty($article_info['user_id'])) {
+				$this->load->model('user/user');
+
+				$user = $this->model_user_user->getUser($article_info['user_id']);
+
+				if ($user) {
+					$data['author']['user_id'] = $user['user_id'];
+					$data['author']['name'] = trim($user['firstname'] . ' ' . $user['lastname']);
+				}
+			} elseif (!empty($article_info['customer_id'])) {
+				$this->load->model('customer/customer');
+
+				$customer = $this->model_customer_customer->getCustomer($article_info['customer_id']);
+
+				if ($customer) {
+					$data['author']['customer_id'] = $customer['customer_id'];
+					$data['author']['name'] = trim($customer['firstname'] . ' ' . $customer['lastname']);
+				}
+			}
+		} else {
+			$data['author'] = array();
+		}
+
 		if (isset($this->request->post['image'])) {
 			$data['image'] = $this->request->post['image'];
 		} elseif (!empty($article_info)) {
@@ -826,9 +868,7 @@ class ControllerBlogArticle extends Controller {
 		// Categories
 		$this->load->model('blog/category');
 
-		$categories = $this->model_blog_category->getAllCategories();
-
-		$data['categories'] = $this->model_blog_category->getCategories($categories);
+		$data['categories'] = $this->model_blog_category->getCategories();
 
 		if (isset($this->request->post['main_blog_category_id'])) {
 			$data['main_blog_category_id'] = $this->request->post['main_blog_category_id'];
@@ -931,15 +971,15 @@ class ControllerBlogArticle extends Controller {
 			}
 		}
 
-		if (isset($this->request->post['product_related'])) {
-			$products = $this->request->post['product_related'];
+		if (isset($this->request->post['article_related_product'])) {
+			$products = $this->request->post['article_related_product'];
 		} elseif (isset($article_info)) {
 			$products = $this->model_blog_article->getProductRelated($this->request->get['article_id']);
 		} else {
 			$products = array();
 		}
 
-		$data['product_relateds'] = array();
+		$data['article_related_product'] = array();
 
 		$this->load->model('catalog/product');
 
@@ -947,7 +987,7 @@ class ControllerBlogArticle extends Controller {
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 
 			if ($product_info) {
-				$data['product_relateds'][] = array(
+				$data['article_related_product'][] = array(
 					'product_id' => $product_info['product_id'],
 					'name'       => $product_info['name']
 				);
@@ -978,21 +1018,23 @@ class ControllerBlogArticle extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->post['article_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 255)) {
-				$this->error['name'][$language_id] = $this->language->get('error_name');
-			}
+		if (isset($this->request->post['article_description']) && is_array($this->request->post['article_description'])) {
+			foreach ($this->request->post['article_description'] as $language_id => $value) {
+				if (!isset($value['name']) || (utf8_strlen($value['name']) < 2) || (utf8_strlen($value['name']) > 255)) {
+					$this->error['name'][$language_id] = $this->language->get('error_name');
+				}
 
-			if ((utf8_strlen($value['meta_title']) < 0) || (utf8_strlen($value['meta_title']) > 255)) {
-				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
-			}
+				if (!isset($value['meta_h1']) || (utf8_strlen($value['meta_h1']) < 0) || (utf8_strlen($value['meta_h1']) > 255)) {
+					$this->error['meta_h1'][$language_id] = $this->language->get('error_meta_h1');
+				}
 
-			if ((utf8_strlen($value['meta_h1']) < 0) || (utf8_strlen($value['meta_h1']) > 255)) {
-				$this->error['meta_h1'][$language_id] = $this->language->get('error_meta_h1');
+				if (!isset($value['meta_title']) || (utf8_strlen($value['meta_title']) < 0) || (utf8_strlen($value['meta_title']) > 255)) {
+					$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+				}
 			}
 		}
 
-		if (utf8_strlen($this->request->post['keyword']) > 0) {
+		if (!empty($this->request->post['keyword'])) {
 			$this->load->model('catalog/url_alias');
 
 			$url_alias_info = $this->model_catalog_url_alias->getUrlAlias($this->request->post['keyword']);
@@ -1052,7 +1094,7 @@ class ControllerBlogArticle extends Controller {
 			if (isset($this->request->get['limit'])) {
 				$limit = $this->request->get['limit'];
 			} else {
-				$limit = 5;
+				$limit = $this->config->get('configblog_limit_admin');
 			}
 
 			$filter_data = array(

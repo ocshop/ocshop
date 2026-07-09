@@ -139,6 +139,15 @@
                     <?php } else { ?>
                     <button type="button" class="btn btn-success" disabled><i class="fa fa-thumbs-o-up"></i></button>
                     <?php } ?>
+                    <span class="collapsing" data-toggle="tooltip" title="<?php echo $button_login; ?>">
+                      <button type="button" data-toggle="dropdown" class="btn btn-info dropdown-toggle"><i class="fa fa-lock"></i></button>
+                      <ul class="dropdown-menu pull-right">
+                        <li><a href="index.php?route=marketing/affiliate/login&token=<?php echo $token; ?>&affiliate_id=<?php echo $affiliate['affiliate_id']; ?>&store_id=0" rel="noreferrer noopener" target="_blank"><?php echo $text_default; ?></a></li>
+                        <?php foreach ($stores as $store) { ?>
+                        <li><a href="index.php?route=marketing/affiliate/login&token=<?php echo $token; ?>&affiliate_id=<?php echo $affiliate['affiliate_id']; ?>&store_id=<?php echo $store['store_id']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $store['name']; ?></a></li>
+                        <?php } ?>
+                      </ul>
+                    </span>
                     <?php if ($affiliate['unlock']) { ; ?>
                     <a href="<?php echo $affiliate['unlock']; ?>" data-toggle="tooltip" title="<?php echo $button_unlock; ?>" class="btn btn-warning"><i class="fa fa-unlock"></i></a>
                     <?php } else { ?>
@@ -166,37 +175,37 @@
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
 	url = 'index.php?route=marketing/affiliate&token=<?php echo $token; ?>';
-	
+
 	var filter_name = $('input[name=\'filter_name\']').val();
-	
+
 	if (filter_name) {
 		url += '&filter_name=' + encodeURIComponent(filter_name);
 	}
-	
+
 	var filter_email = $('input[name=\'filter_email\']').val();
-	
+
 	if (filter_email) {
 		url += '&filter_email=' + encodeURIComponent(filter_email);
 	}
-		
+
 	var filter_status = $('select[name=\'filter_status\']').val();
 	
 	if (filter_status != '*') {
 		url += '&filter_status=' + encodeURIComponent(filter_status); 
-	}	
-	
+	}
+
 	var filter_approved = $('select[name=\'filter_approved\']').val();
-	
+
 	if (filter_approved != '*') {
 		url += '&filter_approved=' + encodeURIComponent(filter_approved);
-	}	
-	
+	}
+
 	var filter_date_added = $('input[name=\'filter_date_added\']').val();
-	
+
 	if (filter_date_added) {
 		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
 	}
-	
+
 	location = url;
 });
 //--></script> 

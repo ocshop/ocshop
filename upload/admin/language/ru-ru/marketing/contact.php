@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -39,3 +39,4 @@ $_['help_product']        = 'Отправить покупателям, кото
 $_['error_permission']     = 'У Вас нет прав для отправки сообщений!';
 $_['error_subject']        = 'Необходимо указать тему письма!';
 $_['error_message']        = 'Необходим текст сообщения!';
+$_['error_email']          = 'Необходимо указать E-Mail получателя!';

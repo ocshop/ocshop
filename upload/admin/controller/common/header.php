@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -45,7 +45,7 @@ class ControllerCommonHeader extends Controller {
 		$data['text_support'] = $this->language->get('text_support');
 		$data['text_logged'] = sprintf($this->language->get('text_logged'), $this->user->getUserName());
 		$data['text_logout'] = $this->language->get('text_logout');
-		
+
 		$data['text_search_options'] = $this->language->get('text_search_options');
 		$data['text_new'] = $this->language->get('text_new');
 		$data['text_new_category'] = $this->language->get('text_new_category');
@@ -53,7 +53,7 @@ class ControllerCommonHeader extends Controller {
 		$data['text_new_download'] = $this->language->get('text_new_download');
 		$data['text_new_manufacturer'] = $this->language->get('text_new_manufacturer');
 		$data['text_new_product'] = $this->language->get('text_new_product');
-		
+
 		$data['button_clearallcache'] = $this->language->get('button_clearallcache');
 		$data['button_clearcache'] = $this->language->get('button_clearcache');
 		$data['button_clearsystemcache'] = $this->language->get('button_clearsystemcache');
@@ -67,7 +67,7 @@ class ControllerCommonHeader extends Controller {
 
 			$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true);
 			$data['logout'] = $this->url->link('common/logout', 'token=' . $this->session->data['token'], true);
-			
+
 			//CacheManager
 			$data['clearallcache'] = (HTTPS_SERVER . 'index.php?route=extension/module/cachemanager/clearallcache&token=' . $this->session->data['token']);
 			$data['clearcache'] = (HTTPS_SERVER . 'index.php?route=extension/module/cachemanager/clearcache&token=' . $this->session->data['token']);
@@ -148,7 +148,7 @@ class ControllerCommonHeader extends Controller {
 
 			$data['stores'][] = array(
 				'name' => $this->config->get('config_name'),
-				'href' => HTTP_CATALOG
+				'href' => ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG)
 			);
 
 			$this->load->model('setting/store');
@@ -162,7 +162,7 @@ class ControllerCommonHeader extends Controller {
 				);
 			}
 		}
-		
+
 		$data['search'] = $this->load->controller('search/search');
 
 		return $this->load->view('common/header', $data);

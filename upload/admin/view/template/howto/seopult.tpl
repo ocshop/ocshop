@@ -12,7 +12,7 @@
   </div>
   <div class="container-fluid">
     <div class="panel panel-default">
-      <p>Прежде всего, вам нужно зарегистрироваться в системе перейдя по этой <a href="http://seopult.ru/ref/f8924f1b27c4ffd6/aHR0cDovL3Nlb3B1bHQucnUvcmVnaXN0ZXIuaHRtbD9zPXRodG9w" target="_blank">ссылке</a>
+      <p>Прежде всего, вам нужно зарегистрироваться в системе перейдя по этой <a href="https://seopult.ru/ref/f8924f1b27c4ffd6/aHR0cDovL3Nlb3B1bHQucnUvcmVnaXN0ZXIuaHRtbD9zPXRodG9w" rel="noreferrer noopener" target="_blank">ссылке</a>
 Как вы видите тут все просто заполняем поля и регистрируемся.</p>
 <img src="view/image/howto/seopult/register-scrin-1.png" width="958" height="440" />
 <p>После того как вы зарегистрировались вам необходимо пополнить баланс, я бы не рекомендовал пополнять сразу на много, во первых если вдруг вы не разбересь вы не потеряете много денег во вторых как я говорил в предыдущем посте вредно покупать сразу много ссылок.
@@ -35,7 +35,7 @@
 <img src="view/image/howto/seopult/proekt-zapusk-scrin-8.png" width="960" height="416" />
 <p>Вот и все вы запустили закупку ссылок для свое магазина, скажите просто ? а SEO студии за это берут не малые деньги.
 Теперь мы подождем несколько дней, дадим системе собрать данные и приступим к анализу и исправлению своих ошибок.</p>
-<p>В том случае если у вас остались вопросы задавайте их на нашем <a href="http://forum.opencart.pro/index.php?/topic/1023-seopultru/" target="_blank"><strong>форуме</strong></a>.</p>
+<p>В том случае если у вас остались вопросы задавайте их на нашем <a href="https://forum.opencart.pro/index.php?/topic/1023-seopultru/" rel="noreferrer noopener" target="_blank"><strong>форуме</strong></a>.</p>
     </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2025.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -13,6 +13,16 @@ class ModelBlogArticle extends Model {
 		$query = $this->db->query("SELECT DISTINCT *, pd.name AS name, p.image, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review_article r1 WHERE r1.article_id = p.article_id AND r1.status = '1' GROUP BY r1.article_id) AS rating, (SELECT COUNT(*) AS total FROM " . DB_PREFIX . "review_article r2 WHERE r2.article_id = p.article_id AND r2.status = '1' GROUP BY r2.article_id) AS reviews, p.sort_order FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id)  WHERE p.article_id = '" . (int)$article_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 		if ($query->num_rows) {
+			if (!empty($query->row['user_id'])) {
+				$author = $this->db->query("SELECT TRIM(CONCAT(firstname, ' ', lastname)) AS author FROM " . DB_PREFIX . "user WHERE user_id='" . (int)$query->row['user_id'] . "'");
+				$author = ($author->num_rows ? $author->row['author'] : false);
+			} elseif (!empty($query->row['customer_id'])) {
+				$author = $this->db->query("SELECT TRIM(CONCAT(firstname, ' ', lastname)) AS author FROM " . DB_PREFIX . "customer WHERE customer_id='" . (int)$query->row['customer_id'] . "'");
+				$author = ($author->num_rows ? $author->row['author'] : false);
+			} else {
+				$author = false;
+			}
+
 			return array(
 				'meta_title'       => $query->row['meta_title'],
 				'noindex'          => $query->row['noindex'],
@@ -23,7 +33,7 @@ class ModelBlogArticle extends Model {
 				'meta_description' => $query->row['meta_description'],
 				'meta_keyword'     => $query->row['meta_keyword'],
 				'image'            => $query->row['image'],
-				'rating'           => round($query->row['rating']),
+				'rating'           => (int)$query->row['rating'],
 				'reviews'          => $query->row['reviews'],
 				'sort_order'       => $query->row['sort_order'],
 				'article_review'   => $query->row['article_review'],
@@ -31,7 +41,8 @@ class ModelBlogArticle extends Model {
 				'gstatus'          => $query->row['gstatus'],
 				'date_added'       => $query->row['date_added'],
 				'date_modified'    => $query->row['date_modified'],
-				'viewed'           => $query->row['viewed']
+				'viewed'           => $query->row['viewed'],
+				'author'           => $author,
 			);
 		} else {
 			return false;
@@ -39,18 +50,21 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getArticles($data = array()) {
-		$article_data = false;
-		$cache = $this->config->get('configblog_cache_status');
+		$article_data = array();
 
-		if ($cache) {
-			$cache = 'article.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . md5(http_build_query($data));
+		$cache_status = $this->config->get('configblog_cache_status');
 
-			$article_data = $this->cache->get($cache);
+		if ($cache_status) {
+			$cache_name = 'article.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . md5(http_build_query($data));
+
+			$cache_data = $this->cache->get($cache_name);
+
+			if ($cache_data) {
+				$article_data = $cache_data;
+			}
 		}
 
 		if (!$article_data) {
-			$article_data = array();
-
 			$sql = "SELECT p.article_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review_article r1 WHERE r1.article_id = p.article_id AND r1.status = '1' GROUP BY r1.article_id) AS rating FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_description pd ON (p.article_id = pd.article_id) LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id)";
 
 			if (!empty($data['filter_blog_category_id'])) {
@@ -149,11 +163,11 @@ class ModelBlogArticle extends Model {
 			}
 
 			if (isset($data['start']) || isset($data['limit'])) {
-				if ($data['start'] < 0) {
+				if (!isset($data['start']) || $data['start'] < 0) {
 					$data['start'] = 0;
 				}
 
-				if ($data['limit'] < 1) {
+				if (!isset($data['limit']) || $data['limit'] < 1) {
 					$data['limit'] = 20;
 				}
 
@@ -166,8 +180,8 @@ class ModelBlogArticle extends Model {
 				$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
 			}
 
-			if ($cache) {
-				$this->cache->set($cache, $article_data);
+			if ($cache_status) {
+				$this->cache->set($cache_name, $article_data);
 			}
 		}
 
@@ -175,25 +189,29 @@ class ModelBlogArticle extends Model {
 	}
 
 	public function getLatestArticles($limit) {
-		$cache = $this->config->get('configblog_cache_status');
+		$article_data = array();
 
-		if ($cache) {
-			$cache = 'article.latest.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . (int)$limit;
+		$cache_status = $this->config->get('configblog_cache_status');
 
-			$article_data = $this->cache->get($cache);
+		if ($cache_status) {
+			$cache_name = 'article.latest.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . (int)$limit;
+
+			$cache_data = $this->cache->get($cache_name);
+
+			if ($cache_data) {
+				$article_data = $cache_data;
+			}
 		}
 
 		if (!$article_data) {
-			$article_data = array();
-
 			$query = $this->db->query("SELECT p.article_id FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.date_added DESC LIMIT " . (int)$limit);
 
 			foreach ($query->rows as $result) {
 				$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
 			}
 
-			if ($cache) {
-				$this->cache->set($cache, $article_data);
+			if ($cache_status) {
+				$this->cache->set($cache_name, $article_data);
 			}
 		}
 
@@ -203,10 +221,28 @@ class ModelBlogArticle extends Model {
 	public function getPopularArticles($limit) {
 		$article_data = array();
 
-		$query = $this->db->query("SELECT p.article_id FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
+		$cache_status = $this->config->get('configblog_cache_status');
 
-		foreach ($query->rows as $result) {
-			$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
+		if ($cache_status) {
+			$cache_name = 'article.popular.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . (int)$limit;
+
+			$cache_data = $this->cache->get($cache_name);
+
+			if ($cache_data) {
+				$article_data = $cache_data;
+			}
+		}
+
+		if (!$article_data) {
+			$query = $this->db->query("SELECT p.article_id FROM " . DB_PREFIX . "article p LEFT JOIN " . DB_PREFIX . "article_to_store p2s ON (p.article_id = p2s.article_id) WHERE p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ORDER BY p.viewed DESC, p.date_added DESC LIMIT " . (int)$limit);
+
+			foreach ($query->rows as $result) {
+				$article_data[$result['article_id']] = $this->getArticle($result['article_id']);
+			}
+
+			if ($cache_status) {
+				$this->cache->set($cache_name, $article_data);
+			}
 		}
 
 		return $article_data;
@@ -316,13 +352,17 @@ class ModelBlogArticle extends Model {
 
 	public function getTotalArticles($data = array()) {
 		$article_data = false;
-		//$cache = $this->config->get('configblog_cache_status');
-		$cache = false;
 
-		if ($cache) {
-			$cache = 'article.total.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . md5(http_build_query($data));
+		$cache_status = false; //$this->config->get('configblog_cache_status');
 
-			$article_data = $this->cache->get($cache);
+		if ($cache_status) {
+			$cache_name = 'article.' . (int)$this->config->get('config_language_id') . '.' . (int)$this->config->get('config_store_id') . '.' . (int)$this->config->get('config_customer_group_id') . '.' . md5(http_build_query($data));
+
+			$cache_data = $this->cache->get($cache_name);
+
+			if ($cache_data) {
+				$article_data = $cache_data;
+			}
 		}
 
 		if (!$article_data) {
@@ -400,8 +440,8 @@ class ModelBlogArticle extends Model {
 
 			$article_data = $query->row['total'];
 
-			if ($cache) {
-				$this->cache->set($cache, $article_data);
+			if ($cache_status) {
+				$this->cache->set($cache_name, $article_data);
 			}
 		}
 

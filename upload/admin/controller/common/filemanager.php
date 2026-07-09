@@ -1,11 +1,39 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerCommonFileManager extends Controller {
 	public function index() {
+		// History
+		if (isset($this->request->get['directory'])) {
+			$this->session->data['filemanager_directory'] = $this->request->get['directory'];
+		} else {
+			if (isset($this->session->data['filemanager_directory']) && !isset($this->request->get['history_off'])) {
+				$this->request->get['directory'] = $this->session->data['filemanager_directory'];
+			}
+			unset($this->session->data['filemanager_directory']);
+		}
+
+		if (isset($this->request->get['page'])) {
+			$this->session->data['filemanager_page'] = $this->request->get['page'];
+		} else {
+			if (isset($this->session->data['filemanager_page']) && !isset($this->request->get['history_off'])) {
+				$this->request->get['page'] = $this->session->data['filemanager_page'];
+			}
+			unset($this->session->data['filemanager_page']);
+		}
+
+		if (isset($this->request->get['filter_name'])) {
+			$this->session->data['filemanager_filter_name'] = $this->request->get['filter_name'];
+		} else {
+			if (isset($this->session->data['filemanager_filter_name']) && !isset($this->request->get['history_off'])) {
+				$this->request->get['filter_name'] = $this->session->data['filemanager_filter_name'];
+			}
+			unset($this->session->data['filemanager_filter_name']);
+		}
+
 		$this->load->language('common/filemanager');
 
 		// Find which protocol to use to pass the full image link back
@@ -50,7 +78,7 @@ class ControllerCommonFileManager extends Controller {
 			}
 
 			// Get files
-			$files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
+			$files = glob($directory . '/*' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
 
 			if (!$files) {
 				$files = array();
@@ -143,6 +171,7 @@ class ControllerCommonFileManager extends Controller {
 
 		// Parent
 		$url = '';
+		$url .= '&history_off=1';
 
 		if (isset($this->request->get['directory'])) {
 			$pos = strrpos($this->request->get['directory'], '/');
@@ -164,6 +193,7 @@ class ControllerCommonFileManager extends Controller {
 
 		// Refresh
 		$url = '';
+		$url .= '&history_off=1';
 
 		if (isset($this->request->get['directory'])) {
 			$url .= '&directory=' . urlencode($this->request->get['directory']);
@@ -179,7 +209,9 @@ class ControllerCommonFileManager extends Controller {
 
 		$data['refresh'] = $this->url->link('common/filemanager', 'token=' . $this->session->data['token'] . $url, true);
 
+		// Transition
 		$url = '';
+		$url .= '&history_off=1';
 
 		if (isset($this->request->get['directory'])) {
 			$url .= '&directory=' . urlencode(html_entity_decode($this->request->get['directory'], ENT_QUOTES, 'UTF-8'));
@@ -255,7 +287,7 @@ class ControllerCommonFileManager extends Controller {
 					if ((utf8_strlen($filename) < 3) || (utf8_strlen($filename) > 255)) {
 						$json['error'] = $this->language->get('error_filename');
 					}
-					
+
 					// Allowed file extension types
 					$allowed = array(
 						'jpg',
@@ -263,11 +295,11 @@ class ControllerCommonFileManager extends Controller {
 						'gif',
 						'png'
 					);
-	
+
 					if (!in_array(utf8_strtolower(utf8_substr(strrchr($filename, '.'), 1)), $allowed)) {
 						$json['error'] = $this->language->get('error_filetype');
 					}
-					
+
 					// Allowed file mime types
 					$allowed = array(
 						'image/jpeg',
@@ -276,7 +308,7 @@ class ControllerCommonFileManager extends Controller {
 						'image/x-png',
 						'image/gif'
 					);
-	
+
 					if (!in_array($file['type'], $allowed)) {
 						$json['error'] = $this->language->get('error_filetype');
 					}

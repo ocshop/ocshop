@@ -1,10 +1,11 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
+
 /*
-CREATE TABLE IF NOT EXISTS `session` (
+CREATE TABLE IF NOT EXISTS `oc_session` (
   `session_id` varchar(32) NOT NULL,
   `data` text NOT NULL,
   `expire` datetime NOT NULL,
@@ -13,54 +14,69 @@ CREATE TABLE IF NOT EXISTS `session` (
 */
 namespace Session;
 final class DB {
-	public $data = array();
-	public $expire = array();
-	
+	private $db;
+	private $config;
+
 	public function __construct($registry) {
 		$this->db = $registry->get('db');
-		
-		register_shutdown_function('session_write_close');
-		
-		$this->expire = ini_get('session.gc_maxlifetime');
+		$this->config = $registry->get('config');
 	}
-	
-	public function open() {
-		if ($this->db){
+
+	public function read($session_id = '') {
+		if ($this->config->get('session_prefix')) {
+			$session_id = substr_replace($session_id, $this->config->get('session_prefix'), (int)($this->config->get('session_length')/100*20), 0);
+		}
+		$query = $this->db->query("SELECT `data` FROM `" . DB_PREFIX . "session` WHERE `session_id` = '" . $this->db->escape($session_id) . "' AND `expire` > '" . $this->db->escape(date('Y-m-d H:i:s'))  . "'");
+
+		if ($query->num_rows) {
+			return json_decode($query->row['data'], true);
+		} else {
+			return array();
+		}
+	}
+
+	public function write($session_id = '', $data = array()) {
+		if ($session_id) {
+			if ($this->config->get('session_prefix')) {
+				$session_id = substr_replace($session_id, $this->config->get('session_prefix'), (int)($this->config->get('session_length')/100*20), 0);
+			}
+			if ($this->config->get('session_lifetime')) {
+				$session_lifetime = $this->config->get('session_lifetime');
+			} else {
+				$session_lifetime = $this->config->get('session_maxlifetime');
+			}
+			$this->db->query("REPLACE INTO `" . DB_PREFIX . "session` SET `session_id` = '" . $this->db->escape($session_id) . "', `data` = '" . $this->db->escape($data ? json_encode($data) : '') . "', `expire` = '" . $this->db->escape(date('Y-m-d H:i:s', time() + $session_lifetime)) . "'");
+
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public function close() {
-		return true;
-	}
-	
-	public function read($session_id) {
-		$query = $this->db->query("SELECT `data` FROM `" . DB_PREFIX . "session` WHERE session_id = '" . $this->db->escape($session_id) . "' AND expire > " . (int)time());
-		
-		if ($query->num_rows) {
-			return $query->row['data'];
-		} else {
-			return false;
+
+	public function destroy($session_id = '') {
+		if ($this->config->get('session_prefix')) {
+			$session_id = substr_replace($session_id, $this->config->get('session_prefix'), (int)($this->config->get('session_length')/100*20), 0);
 		}
-	}
-	
-	public function write($session_id, $data) {
-		$this->db->query("REPLACE INTO SET `data` = '" . $this->db->escape($data) . "', expire = '" . $this->db->escape(date('Y-m-d H:i:s', time() + $this->expire)) . "' FROM `" . DB_PREFIX . "session` WHERE session_id = '" . $this->db->escape($session_id) . "' AND expire > " . (int)time());
-		
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE `session_id` = '" . $this->db->escape($session_id) . "'");
+
 		return true;
 	}
-	
-	public function destroy($session_id) {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE session_id = '" . $this->db->escape($session_id) . "'");
-		
-		return true;
-	}
-	
-	public function gc($expire) {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE expire < " . ((int)time() + $expire));
-		
-		return true;
+
+	public function gc($maxlifetime = 1440) {
+		$total = 0;
+
+		if (round(rand(1, $this->config->get('session_divisor') / $this->config->get('session_probability'))) == 1) {
+			$query = $this->db->query("DELETE FROM `" . DB_PREFIX . "session` WHERE `expire` < '" . $this->db->escape(date('Y-m-d H:i:s', time())) . "' OR `expire` > '" . $this->db->escape(date('Y-m-d H:i:s', time() + $maxlifetime)) . "'");
+
+			if ($query) {
+				$query = $this->db->query("SELECT ROW_COUNT() AS total")->row['total'];
+
+				if (isset($query->row['total'])) {
+					$total = $query->row['total'];
+				}
+			}
+		}
+
+		return $total;
 	}
 }

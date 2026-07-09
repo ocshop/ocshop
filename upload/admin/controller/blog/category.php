@@ -1,12 +1,11 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerBlogCategory extends Controller {
 	private $error = array();
-	private $blog_category_id = 0;
 	private $path = array();
 
 	public function index() {
@@ -144,7 +143,7 @@ class ControllerBlogCategory extends Controller {
 
 		$this->load->model('blog/category');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_category->editCategoryStatus($article_id, 1);
 			}
@@ -178,7 +177,7 @@ class ControllerBlogCategory extends Controller {
 
 		$this->load->model('blog/category');
 
-		if (isset($this->request->post['selected']) && validateProStatus()) {
+		if (isset($this->request->post['selected']) && $this->validateProStatus()) {
 			foreach ($this->request->post['selected'] as $article_id) {
 				$this->model_blog_category->editCategoryStatus($article_id, 0);
 			}
@@ -217,7 +216,7 @@ class ControllerBlogCategory extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('blog/category', 'token=' . $this->session->data['token'] . $url, true)
+			'href' => $this->url->link('blog/category', 'token=' . $this->session->data['token'] . '&path=' . $url, true)
 		);
 
 		$data['add'] = $this->url->link('blog/category/add', 'token=' . $this->session->data['token'] . $url, true);
@@ -228,15 +227,13 @@ class ControllerBlogCategory extends Controller {
 
 		if (isset($this->request->get['path'])) {
 			if ($this->request->get['path'] != '') {
-					$this->path = explode('_', $this->request->get['path']);
-					$this->blog_category_id = end($this->path);
-					$this->session->data['path'] = $this->request->get['path'];
+				$this->path = explode('_', $this->request->get['path']);
+				$this->session->data['path'] = $this->request->get['path'];
 			} else {
 				unset($this->session->data['path']);
 			}
 		} elseif (isset($this->session->data['path'])) {
-				$this->path = explode('_', $this->session->data['path']);
-				$this->blog_category_id = end($this->path);
+			$this->path = explode('_', $this->session->data['path']);
  		}
 
 		$data['categories'] = $this->getCategories(0);
@@ -284,7 +281,7 @@ class ControllerBlogCategory extends Controller {
 
 		$category_total = $this->model_blog_category->getTotalCategories();
 
-		$data['results'] = $this->language->get('text_category_total') . ($category_total);
+		$data['results'] = $this->language->get('text_category_total') . $category_total;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -538,21 +535,23 @@ class ControllerBlogCategory extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		foreach ($this->request->post['category_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['name']) < 2) || (utf8_strlen($value['name']) > 255)) {
-				$this->error['name'][$language_id] = $this->language->get('error_name');
-			}
+		if (isset($this->request->post['category_description']) && is_array($this->request->post['category_description'])) {
+			foreach ($this->request->post['category_description'] as $language_id => $value) {
+				if (!isset($value['name']) || (utf8_strlen($value['name']) < 2) || (utf8_strlen($value['name']) > 255)) {
+					$this->error['name'][$language_id] = $this->language->get('error_name');
+				}
 
-			if ((utf8_strlen($value['meta_title']) < 0) || (utf8_strlen($value['meta_title']) > 255)) {
-				$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
-			}
-			
-			if ((utf8_strlen($value['meta_h1']) < 0) || (utf8_strlen($value['meta_h1']) > 255)) {
-				$this->error['meta_h1'][$language_id] = $this->language->get('error_meta_h1');
+				if (!isset($value['meta_h1']) || (utf8_strlen($value['meta_h1']) < 0) || (utf8_strlen($value['meta_h1']) > 255)) {
+					$this->error['meta_h1'][$language_id] = $this->language->get('error_meta_h1');
+				}
+
+				if (!isset($value['meta_title']) || (utf8_strlen($value['meta_title']) < 0) || (utf8_strlen($value['meta_title']) > 255)) {
+					$this->error['meta_title'][$language_id] = $this->language->get('error_meta_title');
+				}
 			}
 		}
 
-		if (utf8_strlen($this->request->post['keyword']) > 0) {
+		if (!empty($this->request->post['keyword'])) {
 			$this->load->model('catalog/url_alias');
 
 			$url_alias_info = $this->model_catalog_url_alias->getUrlAlias($this->request->post['keyword']);
@@ -608,7 +607,7 @@ class ControllerBlogCategory extends Controller {
 				'sort'        => 'name',
 				'order'       => 'ASC',
 				'start'       => 0,
-				'limit'       => 5
+				'limit'       => $this->config->get('configblog_limit_admin')
 			);
 
 			$results = $this->model_blog_category->getCategories($filter_data);
@@ -634,48 +633,47 @@ class ControllerBlogCategory extends Controller {
 	}
 
 	private function getCategories($parent_id, $parent_path = '', $indent = '') {
-		$blog_category_id = array_shift($this->path);
-		$output = array();
-		static $href_category = null;
-		static $href_action = null;
-		if ($href_category === null) {
-			$href_category = $this->url->link('blog/category', 'token=' . $this->session->data['token'] . '&path=', true);
-			$href_action = $this->url->link('blog/category/update', 'token=' . $this->session->data['token'] . '&blog_category_id=', true);
+		if ($this->request->server['HTTPS']) {
+			$server = HTTPS_CATALOG;
+		} else {
+			$server = HTTP_CATALOG;
 		}
+
+		$blog_category_id = array_shift($this->path);
+
+		$output = array();
+
 		$results = $this->model_blog_category->getCategoriesByParentId($parent_id);
+
 		foreach ($results as $result) {
-			$path = $parent_path . $result['blog_category_id'];
-			$href = ($result['children']) ? $href_category . $path : '';
-			$name = $result['name'];
 			if ($blog_category_id == $result['blog_category_id']) {
-				$name = '<b>' . $name . '</b>';
-				$data['breadcrumbs'][] = array(
-					'text'      => $result['name'],
-					'href'      => $href,
-					'separator' => ' :: '
-			);
+				$name = '<b>' . $result['name'] . '</b>';
 				$href = '';
+			} else {
+				$name = $result['name'];
+				if ($result['children']) {
+					$href = $this->url->link('blog/category', 'token=' . $this->session->data['token'] . '&path=' . $parent_path . $result['blog_category_id'], true);
+				} else {
+					$href = '';
+				}
 			}
+
 			$selected = isset($this->request->post['selected']) && in_array($result['blog_category_id'], $this->request->post['selected']);
-			$action = array();
-			$action[] = array(
-				'text' => $this->language->get('text_edit'),
-				'href' => $href_action . $result['blog_category_id']
-			);
+
 			$output[$result['blog_category_id']] = array(
 				'blog_category_id' => $result['blog_category_id'],
 				'name'        => $name,
 				'sort_order'  => $result['sort_order'],
-				'noindex'     => $result['noindex'],
+				'noindex'     => ($result['noindex'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'edit'        => $this->url->link('blog/category/edit', 'token=' . $this->session->data['token'] . '&blog_category_id=' . $result['blog_category_id'], true),
 				'selected'    => $selected,
-				'action'      => $action,
 				'href'        => $href,
-				'href_shop'   => HTTP_CATALOG . 'index.php?route=blog/category&blog_category_id=' . ($result['blog_category_id']),
+				'href_shop'   => $server . 'index.php?route=blog/category&blog_category_id=' . $result['blog_category_id'],
 				'indent'      => $indent
 			);
+
 			if ($blog_category_id == $result['blog_category_id']) {
-				$output += $this->getCategories($result['blog_category_id'], $path . '_', $indent . str_repeat('&nbsp;', 8));
+				$output += $this->getCategories($result['blog_category_id'], $parent_path . $result['blog_category_id'] . '_', $indent . str_repeat('&nbsp;', 8));
 			}
 		}
 
@@ -684,15 +682,18 @@ class ControllerBlogCategory extends Controller {
 
 	private function getAllCategories($categories, $parent_id = 0, $parent_name = '') {
 		$output = array();
+
 		if (array_key_exists($parent_id, $categories)) {
 			if ($parent_name != '') {
 				$parent_name .= $this->language->get('text_separator');
 			}
+
 			foreach ($categories[$parent_id] as $category) {
 				$output[$category['blog_category_id']] = array(
 					'blog_category_id' => $category['blog_category_id'],
 					'name'             => $parent_name . $category['name']
 				);
+
 				$output += $this->getAllCategories($categories, $category['blog_category_id'], $parent_name . $category['name']);
 			}
 		}

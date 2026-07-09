@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -19,6 +19,7 @@ $_['text_yes']                      = 'Yes';
 $_['text_no']                       = 'No';
 $_['text_enabled']                  = 'Enabled';
 $_['text_disabled']                 = 'Disabled';
+$_['text_all']                      = ' --- All --- ';
 $_['text_none']                     = ' --- None --- ';
 $_['text_select']                   = ' --- Please Select --- ';
 $_['text_select_all']               = 'Select All';
@@ -73,8 +74,6 @@ $_['button_special_add']            = 'Add Special';
 $_['button_image_add']              = 'Add Image';
 $_['button_geo_zone_add']           = 'Add Geo Zone';
 $_['button_history_add']            = 'Add History';
-$_['button_translation']            = 'Load Default Translation';
-$_['button_translation_add']        = 'Add Translation';
 $_['button_transaction_add']        = 'Add Transaction';
 $_['button_route_add']              = 'Add Route';
 $_['button_rule_add']               = 'Add Rule';
@@ -130,7 +129,7 @@ $_['tab_session']                   = 'Session';
 $_['tab_local']                     = 'Local';
 $_['tab_mail']                      = 'Mail';
 $_['tab_module']                    = 'Module';
-$_['tab_related']          	 		= 'Related';
+$_['tab_related']                   = 'Related';
 $_['tab_payment']                   = 'Payment Details';
 $_['tab_product']                   = 'Products';
 $_['tab_reward']                    = 'Reward Points';
@@ -145,8 +144,8 @@ $_['tab_activity']                  = 'Recent Activity';
 $_['tab_recurring']                 = 'Recurring';
 $_['tab_action']                    = 'Action';
 $_['tab_google']                    = 'Google';
-$_['tab_extra_tab']          		= 'Extra Tab';
-$_['tab_module']          	 		= 'Tab';
+$_['tab_extra_tab']                 = 'Extra Tab';
+$_['tab_module']                    = 'Tab';
 
 // Error
 $_['error_exception']               = 'Error Code(%s): %s in %s on line %s';

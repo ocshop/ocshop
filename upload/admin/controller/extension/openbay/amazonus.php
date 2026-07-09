@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2025.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -841,7 +841,6 @@ class ControllerExtensionOpenbayAmazonus extends Controller {
 			$pagination->total = $product_total;
 			$pagination->page = $page;
 			$pagination->limit = $this->config->get('config_limit_admin');
-			$pagination->text = $this->language->get('text_pagination');
 			$pagination->url = $this->url->link('extension/openbay/amazonus/bulkListProducts', 'token=' . $this->session->data['token'] . '&page={page}', true);
 
 			$data['pagination'] = $pagination->render();
@@ -911,7 +910,6 @@ class ControllerExtensionOpenbayAmazonus extends Controller {
 		$pagination->total = $total_linked;
 		$pagination->page = $linked_item_page;
 		$pagination->limit = $linked_item_limit;
-		$pagination->text = $this->language->get('text_pagination');
 		$pagination->url = $this->url->link('extension/openbay/amazonus/bulkLinking', 'token=' . $this->session->data['token'] . '&linked_item_page={page}', true);
 
 		$data['pagination'] = $pagination->render();

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -8,6 +8,7 @@
 $_['heading_title']                = 'UPS';
 
 // Text
+$_['text_extension']               = 'Расширения';
 $_['text_shipping']                = 'Доставка';
 $_['text_success']                 = 'Настройки успешно изменены!';
 $_['text_edit']                    = 'Редактирование';
@@ -77,7 +78,7 @@ $_['entry_insurance']              = 'Enable Insurance';
 $_['entry_display_weight']         = 'Display Delivery Weight';
 $_['entry_weight_class']           = 'Единица измерения веса';
 $_['entry_length_class']           = 'Единица измерения длины';
-$_['entry_dimension']			   = 'Размеры (Д х Ш х В)';
+$_['entry_dimension']              = 'Размеры (Д х Ш х В)';
 $_['entry_length']                 = 'Длина';
 $_['entry_height']                 = 'Высота';
 $_['entry_width']                  = 'Ширина';
@@ -85,7 +86,7 @@ $_['entry_tax_class']              = 'Класс налога';
 $_['entry_geo_zone']               = 'Географическая зона';
 $_['entry_status']                 = 'Статус';
 $_['entry_sort_order']             = 'Порядок сортировки';
-$_['entry_debug']      			   = 'Debug Mode';
+$_['entry_debug']                  = 'Debug Mode';
 
 // Help
 $_['help_key']                     = 'Enter the XML rates access key assigned to you by UPS.';
@@ -106,8 +107,8 @@ $_['help_insurance']               = 'Enables insurance with product total as th
 $_['help_display_weight']          = 'Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 kg)';
 $_['help_weight_class']            = 'Set to kilograms or pounds.';
 $_['help_length_class']            = 'Set to centimeters or inches.';
-$_['help_dimension']			   = 'This is assumed to be your average packing box size. Individual item dimensions are not supported at this time so you must enter average dimensions like 5x5x5.';
-$_['help_debug']      			   = 'Saves send/recv data to the system log';
+$_['help_dimension']               = 'This is assumed to be your average packing box size. Individual item dimensions are not supported at this time so you must enter average dimensions like 5x5x5.';
+$_['help_debug']                   = 'Saves send/recv data to the system log';
 
 // Error
 $_['error_permission']             = 'У вас недостаточно прав для внесения изменений!';

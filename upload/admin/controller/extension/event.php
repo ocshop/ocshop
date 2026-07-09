@@ -1,12 +1,12 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionEvent extends Controller {
 	private $error = array();
-	
+
 	public function index() {
 		$this->load->language('extension/event');
 
@@ -80,7 +80,42 @@ class ControllerExtensionEvent extends Controller {
 
 		$this->getList();
 	}
-	
+
+	public function delete() {
+		$this->load->language('extension/event');
+
+		$this->document->setTitle($this->language->get('heading_title'));
+
+		$this->load->model('extension/event');
+
+		if (isset($this->request->post['selected']) && $this->validate()) {
+			foreach ($this->request->post['selected'] as $event_id) {
+				//$this->model_extension_event->deleteEvent($event_id);
+				$this->db->query("DELETE FROM `" . DB_PREFIX . "event` WHERE `event_id` = '" . (int)$event_id . "'");
+			}
+
+			$this->session->data['success'] = $this->language->get('text_success');
+
+			$url = '';
+
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+
+			$this->response->redirect($this->url->link('extension/event', 'token=' . $this->session->data['token'] . $url, true));
+		}
+
+		$this->getList();
+	}	
+
 	public function getList() {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -126,6 +161,8 @@ class ControllerExtensionEvent extends Controller {
 			'href' => $this->url->link('extension/event', 'token=' . $this->session->data['token'] . $url, true)
 		);
 
+		$data['delete'] = $this->url->link('extension/event/delete', 'token=' . $this->session->data['token'] . $url, true);
+
 		$data['events'] = array();
 
 		$filter_data = array(
@@ -155,6 +192,7 @@ class ControllerExtensionEvent extends Controller {
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
+		$data['text_confirm'] = $this->language->get('text_confirm');
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_event'] = $this->language->get('text_event');
@@ -166,6 +204,7 @@ class ControllerExtensionEvent extends Controller {
 		$data['column_date_added'] = $this->language->get('column_date_added');
 		$data['column_action'] = $this->language->get('column_action');
 
+		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_enable'] = $this->language->get('button_enable');
 		$data['button_disable'] = $this->language->get('button_disable');
 

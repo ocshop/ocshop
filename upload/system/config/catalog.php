@@ -1,48 +1,51 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2023.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Site
-$_['site_base']        = HTTP_SERVER;
-$_['site_ssl']         = HTTPS_SERVER;
+$_['site_base']             = HTTP_SERVER;
+$_['site_ssl']              = HTTPS_SERVER;
 
 // Url
-$_['url_autostart']    = false;
+$_['url_autostart']         = false;
 
 // Database
-$_['db_autostart']     = true;
-$_['db_type']          = DB_DRIVER; // mpdo, mssql, mysql, mysqli or postgre
-$_['db_hostname']      = DB_HOSTNAME;
-$_['db_username']      = DB_USERNAME;
-$_['db_password']      = DB_PASSWORD;
-$_['db_database']      = DB_DATABASE;
-$_['db_port']          = DB_PORT;
+$_['db_autostart']          = true;
+$_['db_type']               = DB_DRIVER; // mpdo, mssql, mysql, mysqli or postgre
+$_['db_hostname']           = DB_HOSTNAME;
+$_['db_username']           = DB_USERNAME;
+$_['db_password']           = DB_PASSWORD;
+$_['db_database']           = DB_DATABASE;
+$_['db_port']               = DB_PORT;
 
 // Session
-$_['session_autostart'] = false;
+$_['session_autostart']     = false;
+$_['session_engine']        = 'native'; //native, db or file
+$_['session_name']          = 'PHPSESSID';
 
 // Autoload Libraries
-$_['library_autoload'] = array(
-	'openbay'
+$_['library_autoload']      = array(
+	//'openbay'
 );
 
 // Actions
-$_['action_pre_action'] = array(
+$_['action_pre_action']     = array(
+	'startup/setting',
+	'startup/error',
 	'startup/session',
 	'startup/startup',
-	'startup/error',
 	'startup/event',
 	'startup/maintenance',
-//	'startup/seo_url'
+	//'startup/seo_url'
 	'startup/seo_pro'
 );
 
 // Action Events
-$_['action_event'] = array(
+$_['action_event']         = array(
 	'view/*/before'                         => 'event/theme',
-	
+
 	'model/extension/analytics/*/before'    => 'event/compatibility/beforeModel',
 	'model/extension/captcha/*/before'      => 'event/compatibility/beforeModel',
 	'model/extension/credit_card/*/before'  => 'event/compatibility/beforeModel',
@@ -54,7 +57,7 @@ $_['action_event'] = array(
 	'model/extension/shipping/*/before'     => 'event/compatibility/beforeModel',
 	'model/extension/theme/*/before'        => 'event/compatibility/beforeModel',
 	'model/extension/total/*/before'        => 'event/compatibility/beforeModel',
-	 	
+
 	'model/analytics/*/after'               => 'event/compatibility/afterModel',
 	'model/captcha/*/after'                 => 'event/compatibility/afterModel',
 	'model/credit_card/*/after'             => 'event/compatibility/afterModel',
@@ -66,7 +69,7 @@ $_['action_event'] = array(
 	'model/shipping/*/after'                => 'event/compatibility/afterModel',
 	'model/theme/*/after'                   => 'event/compatibility/afterModel',
 	'model/total/*/after'                   => 'event/compatibility/afterModel',
-	
+
 	//'language/extension/*/before'         => 'event/translation',
 	'language/extension/analytics/*/before' => 'event/compatibility/language',
 	'language/extension/captcha/*/before'   => 'event/compatibility/language',
@@ -78,7 +81,7 @@ $_['action_event'] = array(
 	'language/extension/shipping/*/before'  => 'event/compatibility/language',
 	'language/extension/theme/*/before'     => 'event/compatibility/language',
 	'language/extension/total/*/before'     => 'event/compatibility/language'	
-	
+
 	//'controller/*/before'                 => 'event/debug/before',
 	//'controller/*/after'                  => 'event/debug/after'
 );

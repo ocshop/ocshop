@@ -151,23 +151,23 @@ $('.date').datetimepicker({
 //--></script>
   <script type="text/javascript"><!--
 $('input[name=\'filter_customer\']').autocomplete({
-  'source': function(request, response) {
-    $.ajax({
-      url: 'index.php?route=customer/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item['name'],
-            value: item['customer_id']
-          }
-        }));
-      }
-    });
-  },
-  'select': function(item) {
-    $('input[name=\'filter_customer\']').val(item['label']);
-  }
+	'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=customer/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					response($.map(json, function(item) {
+						return {
+							label: item['name'],
+							value: item['customer_id']
+						}
+					}));
+				}
+		});
+	},
+	'select': function(item) {
+		$('input[name=\'filter_customer\']').val(item['label']);
+	}
 });
 //--></script></div>
 <?php echo $footer; ?>

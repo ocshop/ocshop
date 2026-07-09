@@ -1,12 +1,16 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionModuleLatest extends Controller {
 	public function index($setting) {
 		$this->load->language('extension/module/latest');
+
+		$this->load->model('catalog/product');
+
+		$this->load->model('tool/image');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -15,10 +19,6 @@ class ControllerExtensionModuleLatest extends Controller {
 		$data['button_cart'] = $this->language->get('button_cart');
 		$data['button_wishlist'] = $this->language->get('button_wishlist');
 		$data['button_compare'] = $this->language->get('button_compare');
-
-		$this->load->model('catalog/product');
-
-		$this->load->model('tool/image');
 
 		$data['products'] = array();
 
@@ -62,8 +62,10 @@ class ControllerExtensionModuleLatest extends Controller {
 				} else {
 					$rating = false;
 				}
-				
-				$stickers = $this->getStickers($result['product_id']) ;
+
+				if ($result['description_mini']) {
+					$result['description'] = $result['description_mini'];
+				}
 
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
@@ -73,7 +75,8 @@ class ControllerExtensionModuleLatest extends Controller {
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,
-					'sticker'     => $stickers,
+					'sticker'     => $this->getProStickers($result['product_id']),
+					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating'      => $rating,
 					'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				);
@@ -82,26 +85,26 @@ class ControllerExtensionModuleLatest extends Controller {
 			return $this->load->view('extension/module/latest', $data);
 		}
 	}
-	
-	private function getStickers($product_id) {
-	
- 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
 
-		
+	private function getProStickers($product_id) {
+		$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id);
+
 		if (!$stickers) {
 			return;
 		}
-		
+
+		$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
+
 		$data['stickers'] = array();
-		
+
 		foreach ($stickers as $sticker) {
 			$data['stickers'][] = array(
 				'position' => $sticker['position'],
-				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
-			);		
+				'name'     => $sticker['name'],
+				'image'    => ($sticker['image'] ? $server . 'image/' . $sticker['image'] : false)
+			);
 		}
-				
+
 		return $this->load->view('product/stickers', $data);
-	
 	}
 }

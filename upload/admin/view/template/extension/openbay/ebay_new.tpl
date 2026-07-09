@@ -1018,7 +1018,7 @@
         <div class="alert alert-success"><?php echo $text_created_msg; ?>: <span id="item-number"></span></div>
         <div class="well">
           <div class="row">
-            <div class="col-sm-6 text-left"> <a class="btn btn-primary" id="button-view" target="_BLANK"><i class="fa fa-external-link fa-lg"></i> <?php echo $button_view; ?></a> <a class="btn btn-primary" href="<?php echo $product['edit_link']; ?>"><i class="fa fa-pencil fa-lg"></i> <?php echo $button_edit; ?></a> </div>
+            <div class="col-sm-6 text-left"> <a class="btn btn-primary" id="button-view" rel="noreferrer noopener" target="_blank"><i class="fa fa-external-link fa-lg"></i> <?php echo $button_view; ?></a> <a class="btn btn-primary" href="<?php echo $product['edit_link']; ?>"><i class="fa fa-pencil fa-lg"></i> <?php echo $button_edit; ?></a> </div>
             <div class="col-sm-6 text-right"> <a class="btn btn-primary" href="<?php echo $cancel; ?>"><i class="fa fa-reply fa-lg"></i> <?php echo $text_return; ?></a> </div>
           </div>
         </div>

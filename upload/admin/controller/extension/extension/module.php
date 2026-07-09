@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -39,7 +39,7 @@ class ControllerExtensionExtensionModule extends Controller {
 		} else {
 			$this->session->data['error'] = $this->error['warning'];
 		}
-	
+
 		$this->getList();
 	}
 
@@ -63,7 +63,7 @@ class ControllerExtensionExtensionModule extends Controller {
 
 		$this->getList();
 	}
-	
+
 	public function add() {
 		$this->load->language('extension/extension/module');
 
@@ -94,7 +94,7 @@ class ControllerExtensionExtensionModule extends Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 		}
-		
+
 		$this->getList();
 	}
 
@@ -143,60 +143,55 @@ class ControllerExtensionExtensionModule extends Controller {
 
 		// Compatibility code for old extension folders
 		$files = glob(DIR_APPLICATION . 'controller/{extension/module,module}/*.php', GLOB_BRACE);
-		
-		$this->load->model('user/user_group');
-
-		$user_group_info = $this->model_user_user_group->getUserGroup($this->user->user_group_id);
-
-		if(isset($user_group_info['permission']['hiden'])) {
-			$hiden = $user_group_info['permission']['hiden'];
-		} else {
-			$hiden = array();
-		}
-
-		$data['hiden'] = false;
 
 		if ($files) {
-            foreach ($files as $file) {
-                $extension = basename($file, '.php');
+			$this->load->model('user/user_group');
 
-                if (!in_array('extension/module/' . $extension, $hiden)) {
-                    $this->load->language('extension/module/' . $extension);
+			$user_group_info = $this->model_user_user_group->getUserGroup($this->user->getGroupId());
 
-                    $module_data = array();
+			if (isset($user_group_info['permission']['hiden'])) {
+				$hiden = $user_group_info['permission']['hiden'];
+			} else {
+				$hiden = array();
+			}
 
-                    $modules = $this->model_extension_module->getModulesByCode($extension);
+			foreach ($files as $file) {
+				$extension = basename($file, '.php');
 
-                    foreach ($modules as $module) {
-                        $module_data[] = array(
-                            'module_id' => $module['module_id'],
-                            'name' => $module['name'],
-                            'edit' => $this->url->link('extension/module/' . $extension, 'token=' . $this->session->data['token'] . '&module_id=' . $module['module_id'], true),
-                            'delete' => $this->url->link('extension/extension/module/delete', 'token=' . $this->session->data['token'] . '&module_id=' . $module['module_id'], true)
-                        );
-                    }
+				if (in_array('extension/module/' . $extension, $hiden)) {
+					continue;
+				}
 
-                    $data['extensions'][] = array(
-                        'name' => $this->language->get('heading_title'),
-                        'module' => $module_data,
-                        'install' => $this->url->link('extension/extension/module/install', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
-                        'uninstall' => $this->url->link('extension/extension/module/uninstall', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
-                        'installed' => in_array($extension, $extensions),
-                        'edit' => $this->url->link('extension/module/' . $extension, 'token=' . $this->session->data['token'], true)
-                    );
-                }
-            }
-        }
+				$this->load->language('extension/module/' . $extension);
+
+				$module_data = array();
+
+				$modules = $this->model_extension_module->getModulesByCode($extension);
+
+				foreach ($modules as $module) {
+					$module_data[] = array(
+						'module_id' => $module['module_id'],
+						'name'      => $module['name'],
+						'edit'      => $this->url->link('extension/module/' . $extension, 'token=' . $this->session->data['token'] . '&module_id=' . $module['module_id'], true),
+						'delete'    => $this->url->link('extension/extension/module/delete', 'token=' . $this->session->data['token'] . '&module_id=' . $module['module_id'], true)
+					);
+				}
+
+				$data['extensions'][] = array(
+					'name'      => $this->language->get('heading_title'),
+					'module'    => $module_data,
+					'install'   => $this->url->link('extension/extension/module/install', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
+					'uninstall' => $this->url->link('extension/extension/module/uninstall', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
+					'installed' => in_array($extension, $extensions),
+					'edit'      => $this->url->link('extension/module/' . $extension, 'token=' . $this->session->data['token'], true)
+				);
+			}
+		}
 
 		$sort_order = array();
 
 		foreach ($data['extensions'] as $key => $value) {
-			if($value['installed']){
-				$add = '0';
-			}else{
-				$add = '1';
-			}
-				$sort_order[$key] = $add.$value['name'];
+			$sort_order[$key] = ($value['installed'] ? '0' : '1') . $value['name'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $data['extensions']);

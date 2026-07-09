@@ -1,0 +1,18 @@
+/*  Аўтар: "БуслікДрэў" ( http://buslikdrev.by/ )
+	© 2016-2020; BuslikDrev - Усе правы захаваныя.
+	Спецыяльна для сайта: "OpenCart.pro" ( http://opencart.pro/ ) */
+
+/* style 3 */
+.bus-menu-style-2-3{margin-bottom:20px}
+.bus-menu-style-2-3 .bus-menu_thumbnail > a{font-size:18px;font-weight:400;position:relative}
+.bus-menu-style-2-3.covers .bus-menu_thumbnail{position:relative;overflow:hidden;padding-right:15px;padding-left:15px;margin-bottom:20px}
+.bus-menu-style-2-3.covers .bus-menu_thumbnail > h4 > a.parent{z-index:3;display:block;position:relative}
+.bus-menu-style-2-3.covers .bus-menu_thumbnail:hover > h4 > a.parent{color:#fff}
+.bus-menu-style-2-3.covers .bus-menu_thumbnail > img{margin-bottom:15px}
+.bus-menu-style-2-3.covers .caption{position:absolute;top:0;right:0;background:rgba(66,139,202,0.75);width:100%;height:100%;padding:10px 10px 20px;display:none;text-align:center;color:#fff!important;z-index:2}
+.bus-menu-style-2-3.covers .caption ul{margin:0;padding:0 10px;text-align:left}
+.bus-menu-style-2-3.covers .caption ul li a{color:#fff;font-size:14px;line-height:16px;word-break:break-all}
+.bus-menu-style-2-3 .caption{position:absolute;display:none;width:100%;z-index:2}
+.bus-menu-style-2-3 img{margin:0 auto}
+.bus-menu-style-2-3 a:hover{text-decoration:underline}
+.bus-menu-style-2-3 .category_name{padding:10px 0}

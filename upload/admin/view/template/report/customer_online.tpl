@@ -49,11 +49,11 @@
               <?php if ($customers) { ?>
               <?php foreach ($customers as $customer) { ?>
               <tr>
-                <td class="text-left"><a href="http://whatismyipaddress.com/ip/<?php echo $customer['ip']; ?>" target="_blank"><?php echo $customer['ip']; ?></a></td>
+                <td class="text-left"><a href="https://whatismyipaddress.com/ip/<?php echo $customer['ip']; ?>" rel="noreferrer noopener" target="_blank"><?php echo $customer['ip']; ?></a></td>
                 <td class="text-left"><?php echo $customer['customer']; ?></td>
-                <td class="text-left"><a href="<?php echo $customer['url']; ?>" target="_blank"><?php echo implode('<br/>', str_split($customer['url'], 30)); ?></a></td>
+                <td class="text-left"><a href="<?php echo $customer['url']; ?>" rel="noreferrer noopener" target="_blank"><?php echo implode('<br/>', str_split($customer['url'], 30)); ?></a></td>
                 <td class="text-left"><?php if ($customer['referer']) { ?>
-                  <a href="<?php echo $customer['referer']; ?>" target="_blank"><?php echo implode('<br/>', str_split($customer['referer'], 30)); ?></a>
+                  <a href="<?php echo $customer['referer']; ?>" rel="noreferrer noopener" target="_blank"><?php echo implode('<br/>', str_split($customer['referer'], 30)); ?></a>
                   <?php } ?></td>
                 <td class="text-left"><?php echo $customer['date_added']; ?></td>
                 <td class="text-right"><?php if ($customer['customer_id']) { ?>

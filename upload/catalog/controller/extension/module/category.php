@@ -1,12 +1,16 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerExtensionModuleCategory extends Controller {
 	public function index() {
 		$this->load->language('extension/module/category');
+
+		$this->load->model('catalog/category');
+
+		$this->load->model('catalog/product');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 
@@ -28,44 +32,42 @@ class ControllerExtensionModuleCategory extends Controller {
 			$data['child_id'] = 0;
 		}
 
-		$this->load->model('catalog/category');
-
-		$this->load->model('catalog/product');
-
 		$data['categories'] = array();
 
 		$categories = $this->model_catalog_category->getCategories(0);
 
-		foreach ($categories as $category) {
-			$children_data = array();
+		if ($categories) {
+			foreach ($categories as $category) {
+				$children_data = array();
 
-			if ($category['category_id'] == $data['category_id']) {
-				$children = $this->model_catalog_category->getCategories($category['category_id']);
+				if ($category['category_id'] == $data['category_id']) {
+					$children = $this->model_catalog_category->getCategories($category['category_id']);
 
-				foreach($children as $child) {
-					$filter_data = array('filter_category_id' => $child['category_id'], 'filter_sub_category' => true);
+					foreach($children as $child) {
+						$filter_data = array('filter_category_id' => $child['category_id'], 'filter_sub_category' => true);
 
-					$children_data[] = array(
-						'category_id' => $child['category_id'],
-						'name' => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
-						'href' => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
-					);
+						$children_data[] = array(
+							'category_id' => $child['category_id'],
+							'name' => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+							'href' => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
+						);
+					}
 				}
+
+				$filter_data = array(
+					'filter_category_id'  => $category['category_id'],
+					'filter_sub_category' => true
+				);
+
+				$data['categories'][] = array(
+					'category_id' => $category['category_id'],
+					'name'        => $category['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+					'children'    => $children_data,
+					'href'        => $this->url->link('product/category', 'path=' . $category['category_id'])
+				);
 			}
 
-			$filter_data = array(
-				'filter_category_id'  => $category['category_id'],
-				'filter_sub_category' => true
-			);
-
-			$data['categories'][] = array(
-				'category_id' => $category['category_id'],
-				'name'        => $category['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
-				'children'    => $children_data,
-				'href'        => $this->url->link('product/category', 'path=' . $category['category_id'])
-			);
+			return $this->load->view('extension/module/category', $data);
 		}
-
-		return $this->load->view('extension/module/category', $data);
 	}
 }

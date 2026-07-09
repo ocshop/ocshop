@@ -1,3 +1,4 @@
+<?php if ($banners) { ?>
 <div id="slideshow<?php echo $module; ?>" class="owl-carousel" style="opacity: 1;">
   <?php foreach ($banners as $banner) { ?>
   <div class="item">
@@ -18,4 +19,5 @@ $('#slideshow<?php echo $module; ?>').owlCarousel({
 	navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
 	pagination: true
 });
---></script>
+//--></script>
+<?php } ?>

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -34,3 +34,10 @@ $_['entry_customer']      = 'Customer';
 $_['entry_ip']            = 'IP';
 $_['entry_date_start']    = 'Date Start';
 $_['entry_date_end']      = 'Date End';
+
+// Success
+$_['success']             = 'Data successfully updated!';
+$_['success_clear']       = 'The buyer activity list has been successfully cleared!';
+
+// Error
+$_['error_permission']    = 'Warning: You do not have permission to reset products viewed report!';

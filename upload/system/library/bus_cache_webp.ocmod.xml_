@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->
+
+<modification>
+    <code><![CDATA[01000024-WEBP]]></code>
+    <name><![CDATA[Буслік Кэш - "Buslik Cache" WEBP]]></name>
+    <version><![CDATA[1.0.15 Full]]></version>
+    <author><![CDATA[BuslikDrev.by]]></author>
+    <link><![CDATA[https://liveopencart.ru/buslikdrev]]></link>
+    <!-- ↓ АДМИНКА КОНТРОЛЛЕРЫ ↓ -->
+    <file path="admin/controller/common/filemanager.php">
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[}', GLOB_BRACE)]]>
+            </search>
+            <add position="replace">
+            <![CDATA[,webp,WEBP}', GLOB_BRACE)]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[$allowed = array(]]>
+            </search>
+            <add position="after">
+            <![CDATA[					'webp','WEBP',]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="1">
+            <![CDATA[$allowed = array(]]>
+            </search>
+            <add position="after">
+            <![CDATA[					'image/webp',]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ АДМИНКА КОНТРОЛЛЕРЫ ↑ -->
+
+    <!-- ↓ АДМИНКА МОДЕЛИ ↓ -->
+    <!-- ↓ 2.0 - 2.1 ↓ -->
+    <file path="admin/model/tool/image.php">
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[if (!is_file(DIR_IMAGE . $new_image)]]>
+            </search>
+            <add position="after">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height));
+			if ($bus_cache_webp) {
+				$new_image = $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[return $this->config->get('config_ssl') . 'image/' . $new_image;]]>
+            </search>
+            <add position="before" offset="1">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height, 'convert' => true));
+			if ($bus_cache_webp) {
+				$new_image = $bus_cache_webp;
+				$image_new = $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0 - 2.1 ↑ -->
+    <!-- ↓ 2.2 - 3.1 ↓ -->
+    <file path="admin/model/tool/image.php">
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[if (!in_array($image_type, array(]]>
+            </search>
+            <add position="after">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height));
+			if ($bus_cache_webp) {
+				return $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[return $this->config->get('config_ssl') . 'image/' . $image_new;]]>
+            </search>
+            <add position="before" offset="1">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height, 'convert' => true));
+			if ($bus_cache_webp) {
+				$new_image = $bus_cache_webp;
+				$image_new = $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.2 - 3.1 ↑ -->
+    <!-- ↑ АДМИНКА МОДЕЛИ ↑ -->
+
+    <!-- ↓ САЙТ МОДЕЛИ ↓ -->
+    <!-- ↓ 2.0 - 2.1 ↓ -->
+    <file path="catalog/model/tool/image.php">
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[if (!is_file(DIR_IMAGE . $new_image)]]>
+            </search>
+            <add position="after">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height));
+			if ($bus_cache_webp) {
+				$new_image = $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[return $this->config->get('config_ssl') . 'image/' . $new_image;]]>
+            </search>
+            <add position="before" offset="1">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height, 'convert' => true));
+			if ($bus_cache_webp) {
+				$new_image = $bus_cache_webp;
+				$image_new = $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0 - 2.1 ↑ -->
+    <!-- ↓ 2.2 - 3.1 ↓ -->
+    <file path="catalog/model/tool/image.php">
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[if (!in_array($image_type, array(]]>
+            </search>
+            <add position="after">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height));
+			if ($bus_cache_webp) {
+				return $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+        <operation error="skip">
+            <search index="0">
+            <![CDATA[return $this->config->get('config_ssl') . 'image/' . $image_new;]]>
+            </search>
+            <add position="before" offset="1">
+            <![CDATA[		if ($this->config->get('bus_cache_image_webp_status') && $this->registry->has('bus_cache')) {
+			$bus_cache_webp = $this->registry->get('bus_cache')->image(array('filename' => $filename, 'width' => $width, 'height' => $height, 'convert' => true));
+			if ($bus_cache_webp) {
+				$new_image = $bus_cache_webp;
+				$image_new = $bus_cache_webp;
+			}
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.2 - 3.1 ↑ -->
+    <!-- ↑ САЙТ МОДЕЛИ ↑ -->
+</modification>
+
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->

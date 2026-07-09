@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -292,7 +292,7 @@ class ControllerBlogSetting extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('blog/setting.tpl', $data));
+		$this->response->setOutput($this->load->view('blog/setting', $data));
 	}
 
 	protected function validate() {
@@ -300,27 +300,27 @@ class ControllerBlogSetting extends Controller {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->request->post['configblog_image_category_width'] || !$this->request->post['configblog_image_category_height']) {
+		if ((!isset($this->request->post['configblog_image_category_width']) || !(int)$this->request->post['configblog_image_category_width']) || (!isset($this->request->post['configblog_image_category_height']) || !(int)$this->request->post['configblog_image_category_height'])) {
 			$this->error['image_category'] = $this->language->get('error_image_category');
 		}
 
-		if (!$this->request->post['configblog_image_article_width'] || !$this->request->post['configblog_image_article_height']) {
+		if ((!isset($this->request->post['configblog_image_article_width']) || !(int)$this->request->post['configblog_image_article_width']) || (!isset($this->request->post['configblog_image_article_height']) || !(int)$this->request->post['configblog_image_article_height'])) {
 			$this->error['image_article'] = $this->language->get('error_image_article');
 		}
 
-		if (!$this->request->post['configblog_image_related_width'] || !$this->request->post['configblog_image_related_height']) {
+		if ((!isset($this->request->post['configblog_image_related_width']) || !(int)$this->request->post['configblog_image_related_width']) || (!isset($this->request->post['configblog_image_related_height']) || !(int)$this->request->post['configblog_image_related_height'])) {
 			$this->error['image_related'] = $this->language->get('error_image_related');
 		}
 
-		if (!$this->request->post['configblog_article_limit']) {
+		if (!isset($this->request->post['configblog_article_limit']) || !(int)$this->request->post['configblog_article_limit']) {
 			$this->error['article_limit'] = $this->language->get('error_limit');
 		}
 
-		if (!$this->request->post['configblog_article_description_length']) {
+		if (!isset($this->request->post['configblog_article_description_length']) || !(int)$this->request->post['configblog_article_description_length']) {
 			$this->error['article_description_length'] = $this->language->get('error_limit');
 		}
 
-		if (!$this->request->post['configblog_limit_admin']) {
+		if (!isset($this->request->post['configblog_limit_admin']) || !(int)$this->request->post['configblog_limit_admin']) {
 			$this->error['limit_admin'] = $this->language->get('error_limit');
 		}
 

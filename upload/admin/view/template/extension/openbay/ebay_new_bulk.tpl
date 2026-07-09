@@ -922,7 +922,7 @@
                   var fee_total = '';
                   var currency = '';
 
-                  $('#p_row_buttons_'+data.i).prepend('<a class="btn btn-primary button-preview" target="_BLANK" href="'+data.preview+'"><?php echo $text_preview; ?></a>');
+                  $('#p_row_buttons_'+data.i).prepend('<a class="btn btn-primary button-preview" href="'+data.preview+'" rel="noreferrer noopener" target="_blank"><?php echo $text_preview; ?></a>');
 
                   if (data.errors) {
                     $.each(data.errors, function(k,v) {
@@ -1013,7 +1013,7 @@
                       });
                     }
 
-                    $('#p_row_buttons_'+data.i).prepend('<a class="btn btn-primary button-listing-view" href="<?php echo $listing_link; ?>'+data.itemid+'" target="_BLANK"><?php echo $button_view; ?></a>');
+                    $('#p_row_buttons_'+data.i).prepend('<a class="btn btn-primary button-listing-view" href="<?php echo $listing_link; ?>'+data.itemid+'" rel="noreferrer noopener" target="_blank"><?php echo $button_view; ?></a>');
 
                     html += '<div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $text_listed; ?>'+data.itemid+'</div>';
                   } else {

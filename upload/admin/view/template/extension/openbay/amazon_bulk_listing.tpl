@@ -53,7 +53,7 @@
             <tr>
               <td class="text-center"><input class="amazon-listing" type="checkbox" name="product_ids[]" value="<?php echo $product['product_id'] ?>"/></td>
               <td class="text-center"><img src="<?php echo $product['image'] ?>"/></td>
-              <td class="text-left"><a href="<?php echo $product['href'] ?>" target="_blank"><?php echo $product['name'] ?></a></td>
+              <td class="text-left"><a href="<?php echo $product['href'] ?>" rel="noreferrer noopener" target="_blank"><?php echo $product['name'] ?></a></td>
               <td class="text-right"><?php echo $product['model'] ?></td>
               <td class="text-right"><?php echo $product['search_status'] ?></td>
               <td class="text-right"><?php echo ($product['matches'] !== null ? $product['matches'] : '-'); ?></td>
@@ -69,7 +69,7 @@
                 <?php } else { ?>
                 <input class="amazon-listing" type="radio" name="products[<?php echo $product['product_id'] ?>]" value="<?php echo $search_result['asin'] ?>"/>
                 <?php } ?>
-                <a target="_blank" href="<?php echo $search_result['href'] ?>"><?php echo $search_result['title'] ?></a><br/>
+                <a href="<?php echo $search_result['href'] ?>" rel="noreferrer noopener" target="_blank"><?php echo $search_result['title'] ?></a><br/>
                 <?php } ?>
                 <?php } else { ?>
                 <input class="amazon-listing" checked="checked" type="radio" name="products[<?php echo $product['product_id'] ?>]" value=""/>

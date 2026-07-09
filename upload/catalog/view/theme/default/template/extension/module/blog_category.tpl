@@ -1,3 +1,4 @@
+<?php if ($categories) { ?>
 <div class="list-group">
   <?php foreach ($categories as $category) { ?>
   <?php if ($category['blog_category_id'] == $blog_category_id) { ?>
@@ -16,3 +17,4 @@
   <?php } ?>
   <?php } ?>
 </div>
+<?php } ?>

@@ -14,7 +14,7 @@
   <div class="container-fluid">
     <?php if ($validation === true) { ?>
       <?php if ($image_import > 0){ ?>
-      <div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> <?php echo $image_import; ?> <?php echo $text_import_images_msg1; ?> <a href="<?php echo $image_import_link; ?>" target="_blank"><?php echo $text_import_images_msg2; ?></a> <?php echo $text_import_images_msg3; ?> </div>
+      <div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> <?php echo $image_import; ?> <?php echo $text_import_images_msg1; ?> <a href="<?php echo $image_import_link; ?>" rel="noreferrer noopener" target="_blank"><?php echo $text_import_images_msg2; ?></a> <?php echo $text_import_images_msg3; ?> </div>
       <?php } ?>
       <?php if ($maintenance == 1){ ?>
       <div class="alert alert-danger"> <i class="fa fa-exclamation-circle"></i> <?php echo $error_maintenance; ?> </div>

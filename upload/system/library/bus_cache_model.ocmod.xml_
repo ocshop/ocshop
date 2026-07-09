@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->
+
+<modification>
+    <code><![CDATA[01000024-MODEL]]></code>
+    <name><![CDATA[Буслік Кэш - "Buslik Cache" MODEL]]></name>
+    <version><![CDATA[1.0.15 Full]]></version>
+    <author><![CDATA[BuslikDrev.by]]></author>
+    <link><![CDATA[https://liveopencart.ru/buslikdrev]]></link>
+    <!-- ↓ СИСТЕМА ↓ -->
+    <!-- ↓ 2.3.0.0 - 3.1.0.0 - model ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$output = call_user_func_array($callable, $args);]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$output = ($this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->model($callable, $route, $args) : call_user_func_array($callable, $args));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.3.0.0 - 3.1.0.0 - model ↑ -->
+    <!-- ↓ 2.2.0.0 - 2.2.0.0 - model ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$output = call_user_func_array(array($model, $method), $args);]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$output = ($this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->model(array($model, $method), $route, $args) : call_user_func_array(array($model, $method), $args));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.2.0.0 - 2.2.0.0 - model ↑ -->
+    <!-- ↓ 2.0.0.0 - 2.1.0.2 - model ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$this->registry->set('model_' . str_replace('/', '_', $model), new $class($this->registry));]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$this->registry->set('model_' . str_replace('/', '_', $model), (!defined('DIR_CATALOG') && $this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->models($class, $model) : new $class($this->registry)));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0.0.0 - 2.1.0.2 - model ↑ -->
+    <!-- ↑ СИСТЕМА ↑ -->
+</modification>
+
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->

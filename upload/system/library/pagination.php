@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2016.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -39,7 +39,7 @@ class Pagination {
 
 		if ($page > 1) {
 			$output .= '<li><a href="' . str_replace(array('&amp;page={page}', '&page={page}', '?page={page}'), '', $this->url) . '">' . $this->text_first . '</a></li>';
-			
+
 			if ($page - 1 === 1) {
 				$output .= '<li><a href="' . str_replace(array('&amp;page={page}', '&page={page}', '?page={page}'), '', $this->url) . '">' . $this->text_prev . '</a></li>';
 			} else {
@@ -52,8 +52,8 @@ class Pagination {
 				$start = 1;
 				$end = $num_pages;
 			} else {
-				$start = $page - floor($num_links / 2);
-				$end = $page + floor($num_links / 2);
+				$start = $page - (int)floor($num_links / 2);
+				$end = $page + (int)floor($num_links / 2);
 
 				if ($start < 1) {
 					$end += abs($start) + 1;
@@ -71,7 +71,7 @@ class Pagination {
 					$output .= '<li class="active"><span>' . $i . '</span></li>';
 				} else {
 					if ($i === 1) {
-					$output .= '<li><a href="' . str_replace(array('&amp;page={page}', '&page={page}', '?page={page}'), '', $this->url) . '">' . $i . '</a></li>';
+						$output .= '<li><a href="' . str_replace(array('&amp;page={page}', '&page={page}', '?page={page}'), '', $this->url) . '">' . $i . '</a></li>';
 					} else {
 						$output .= '<li><a href="' . str_replace('{page}', $i, $this->url) . '">' . $i . '</a></li>';
 					}

@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -9,7 +9,7 @@ class ControllerExtensionExtensionPayment extends Controller {
 
 	public function index() {
 		$this->load->language('extension/extension/payment');
-		
+
 		$this->load->model('extension/extension');
 
 		$this->getList();
@@ -99,57 +99,51 @@ class ControllerExtensionExtensionPayment extends Controller {
 		// Compatibility code for old extension folders
 		$files = glob(DIR_APPLICATION . 'controller/{extension/payment,payment}/*.php', GLOB_BRACE);
 
-		$this->load->model('user/user_group');
+		if ($files) {
+			$this->load->model('user/user_group');
 
-		$user_group_info = $this->model_user_user_group->getUserGroup($this->user->user_group_id);
+			$user_group_info = $this->model_user_user_group->getUserGroup($this->user->getGroupId());
 
-		if(isset($user_group_info['permission']['hiden'])) {
-			$hiden = $user_group_info['permission']['hiden'];
-		} else {
-			$hiden = array();
+			if (isset($user_group_info['permission']['hiden'])) {
+				$hiden = $user_group_info['permission']['hiden'];
+			} else {
+				$hiden = array();
+			}
+
+			foreach ($files as $file) {
+				$extension = basename($file, '.php');
+
+				if (in_array('extension/payment/' . $extension, $hiden)) {
+					continue;
+				}
+
+				$this->load->language('extension/payment/' . $extension);
+
+				$text_link = $this->language->get('text_' . $extension);
+
+				if ($text_link != 'text_' . $extension) {
+					$link = $this->language->get('text_' . $extension);
+				} else {
+					$link = '';
+				}
+
+				$data['extensions'][] = array(
+					'name'       => $this->language->get('heading_title'),
+					'link'       => $link,
+					'status'     => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
+					'sort_order' => $this->config->get($extension . '_sort_order'),
+					'install'   => $this->url->link('extension/extension/payment/install', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
+					'uninstall' => $this->url->link('extension/extension/payment/uninstall', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
+					'installed' => in_array($extension, $extensions),
+					'edit'      => $this->url->link('extension/payment/' . $extension, 'token=' . $this->session->data['token'], true)
+				);
+			}
 		}
 
-		$data['hiden'] = false;
-		
-		if ($files) {
-            foreach ($files as $file) {
-                $extension = basename($file, '.php');
-
-                $this->load->language('extension/payment/' . $extension);
-                if (!in_array('extension/payment/' . $extension, $hiden)) {
-                    $this->load->language('extension/payment/' . $extension);
-
-                    $text_link = $this->language->get('text_' . $extension);
-
-                    if ($text_link != 'text_' . $extension) {
-                        $link = $this->language->get('text_' . $extension);
-                    } else {
-                        $link = '';
-                    }
-
-                    $data['extensions'][] = array(
-                        'name' => $this->language->get('heading_title'),
-                        'link' => $link,
-                        'status' => $this->config->get($extension . '_status') ? $this->language->get('text_enabled') : $this->language->get('text_disabled'),
-                        'sort_order' => $this->config->get($extension . '_sort_order'),
-                        'install' => $this->url->link('extension/extension/payment/install', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
-                        'uninstall' => $this->url->link('extension/extension/payment/uninstall', 'token=' . $this->session->data['token'] . '&extension=' . $extension, true),
-                        'installed' => in_array($extension, $extensions),
-                        'edit' => $this->url->link('extension/payment/' . $extension, 'token=' . $this->session->data['token'], true)
-                    );
-                }
-            }
-        }
-		
 		$sort_order = array();
 
 		foreach ($data['extensions'] as $key => $value) {
-			if($value['installed']){
-				$add = '0';
-			}else{
-				$add = '1';
-			}
-				$sort_order[$key] = $add.$value['name'];
+			$sort_order[$key] = ($value['installed'] ? '0' : '1') . $value['name'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $data['extensions']);

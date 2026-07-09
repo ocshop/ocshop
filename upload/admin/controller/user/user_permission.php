@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -185,7 +185,7 @@ class ControllerUserUserPermission extends Controller {
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
-		
+
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
@@ -263,7 +263,7 @@ class ControllerUserUserPermission extends Controller {
 
 	protected function getForm() {
 		$data['heading_title'] = $this->language->get('heading_title');
-		
+
 		$data['text_form'] = !isset($this->request->get['user_group_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 		$data['text_select_all'] = $this->language->get('text_select_all');
 		$data['text_unselect_all'] = $this->language->get('text_unselect_all');
@@ -272,7 +272,7 @@ class ControllerUserUserPermission extends Controller {
 		$data['entry_access'] = $this->language->get('entry_access');
 		$data['entry_modify'] = $this->language->get('entry_modify');
 		$data['entry_hide'] = $this->language->get('entry_hide');
-		
+
 		$data['help_hide'] = $this->language->get('help_hide');
 
 		$data['button_save'] = $this->language->get('button_save');
@@ -338,7 +338,6 @@ class ControllerUserUserPermission extends Controller {
 
 		$ignore = array(
 			'common/dashboard',
-			'common/startup',
 			'common/login',
 			'common/logout',
 			'common/forgotten',
@@ -346,7 +345,19 @@ class ControllerUserUserPermission extends Controller {
 			'common/footer',
 			'common/header',
 			'error/not_found',
-			'error/permission'
+			'error/permission',
+			'event/compatibility',
+			'event/theme',
+			'startup/compatibility',
+			'startup/error',
+			'startup/event',
+			'startup/login',
+			'startup/permission',
+			'startup/router',
+			'startup/sass',
+			'startup/session',
+			'startup/setting',
+			'startup/startup'
 		);
 
 		$data['permissions'] = array();

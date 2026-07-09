@@ -87,7 +87,7 @@
                       <td class="text-left"><?php echo $modification['status']; ?></td>
                       <td class="text-left"><?php echo $modification['date_added']; ?></td>
                       <td class="text-right"><?php if ($modification['link']) { ?>
-                        <a href="<?php echo $modification['link']; ?>" data-toggle="tooltip" title="<?php echo $button_link; ?>" class="btn btn-info" target="_blank"><i class="fa fa-link"></i></a>
+                        <a href="<?php echo $modification['link']; ?>" data-toggle="tooltip" title="<?php echo $button_link; ?>" class="btn btn-info" rel="noreferrer noopener" target="_blank"><i class="fa fa-link"></i></a>
                         <?php } else { ?>
                         <button type="button" class="btn btn-info" disabled="disabled"><i class="fa fa-link"></i></button>
                         <?php } ?>

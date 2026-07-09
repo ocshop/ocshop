@@ -1,6 +1,6 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2020.
-// *	@forum		http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2022.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
@@ -177,13 +177,13 @@ class ControllerReportCustomerBlogSearch extends Controller {
 
 		$this->load->model('setting/store');
 
+		$data['stores'] = array();
+
 		$store_default = array(
 			'store_id' => 0,
-			'name'     => HTTP_CATALOG . ' - ' . $this->config->get('config_name') . $this->language->get('text_default'),
-			'url'      => HTTP_CATALOG
+			'name'     => ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG) . ' - ' . $this->config->get('config_name') . ' ' . $this->language->get('text_default'),
+			'url'      => ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG)
 		);
-
-		$data['stores'] = array();
 
 		$data['stores'][] = $store_default;
 
@@ -211,8 +211,8 @@ class ControllerReportCustomerBlogSearch extends Controller {
 			'filter_keyword'    => $filter_keyword,
 			'filter_customer'   => $filter_customer,
 			'filter_ip'         => $filter_ip,
-			'start'             => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'             => $this->config->get('config_limit_admin')
+			'start'             => ($page - 1) * $this->config->get('configblog_limit_admin'),
+			'limit'             => $this->config->get('configblog_limit_admin')
 		);
 
 		$this->load->model('blog/category');

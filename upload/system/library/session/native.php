@@ -1,36 +1,57 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2024.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 namespace Session;
 class Native extends \SessionHandler {
-    public function create_sid() {
-        return parent::create_sid();
-    }
+	private $config;
 
-    public function open($path, $name) {
-        return parent::open($path, $name);
-    }
+	public function __construct($registry) {
+		$this->config = $registry->get('config');
+	}
 
-    public function close() {
-        return parent::close();
-    }
-	
-    public function read($session_id) {
-        return parent::read($session_id);
-    }
+	#[\ReturnTypeWillChange]
+	public function create_sid() /* : string */ {
+		return (string)parent::create_sid();
+	}
 
-    public function write($session_id, $data) {
-		return parent::write($session_id, $data);
-    }
+	/* public function validate_sid($session_id) {
+		return parent::validate_sid($session_id);
+	}
 
-    public function destroy($session_id) {
-        return parent::destroy($session_id);
-    }
+	public function update_timestamp($session_id, $data = '')) {
+		return parent::update_timestamp($session_id, $data);
+	} */
 
-    public function gc($maxlifetime) {
-        return parent::gc($maxlifetime);
-    }	
+	#[\ReturnTypeWillChange]
+	public function open($path, $session_id) /* : bool */ {
+		return (bool)parent::open($path, $session_id);
+	}
+
+	#[\ReturnTypeWillChange]
+	public function close() /* : bool */ {
+		return (bool)parent::close();
+	}
+
+	#[\ReturnTypeWillChange]
+	public function read($session_id) /* : string|false */ {
+		return (string)parent::read($session_id);
+	}
+
+	#[\ReturnTypeWillChange]
+	public function write($session_id, $data = '') /* : bool */ {
+		return (bool)parent::write($session_id, $data);
+	}
+
+	#[\ReturnTypeWillChange]
+	public function destroy($session_id) /* : bool */ {
+		return (bool)parent::destroy($session_id);
+	}
+
+	#[\ReturnTypeWillChange]
+	public function gc($maxlifetime = 0) /* : int|false */ {
+		return (int)parent::gc($maxlifetime);
+	}
 }

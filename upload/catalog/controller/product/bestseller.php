@@ -1,18 +1,25 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2021.
+// *	@forum		https://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 class ControllerProductBestseller extends Controller {
-	private $max = 100;
 	public function index() {
 		$this->load->language('product/bestseller');
 
-		$this->load->model('catalog/product');
 		$this->load->model('catalog/cms');
 
+		$this->load->model('catalog/product');
+
 		$this->load->model('tool/image');
+
+		$data['breadcrumbs'] = array();
+
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+		);
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -23,12 +30,13 @@ class ControllerProductBestseller extends Controller {
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
+			$this->document->setRobots('noindex,follow');
 		} else {
 			$order = 'DESC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+			$page = (int)$this->request->get['page'];
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$page = 1;
@@ -36,62 +44,15 @@ class ControllerProductBestseller extends Controller {
 
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
+			$limit = ($limit > 100 && $limit > $this->config->get($this->config->get('config_theme') . '_product_limit') ? 100 : $limit);
 			$this->document->setRobots('noindex,follow');
 		} else {
 			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
 		}
-	
-		if ($this->config->get('seomanager_meta_title_bestseller')) {
-			$this->document->setTitle($this->config->get('seomanager_meta_title_bestseller'));
-		} else {
-			$this->document->setTitle($this->language->get('heading_title'));
-		}
-		
-		if ($this->config->get('seomanager_html_h1_bestseller')) {
-			$data['heading_title'] = $this->config->get('seomanager_html_h1_bestseller');
-		} else {
-			$data['heading_title'] = $this->language->get('heading_title');
-		}
-		
-		if ($this->config->get('seomanager_meta_description_bestseller')) {
-			$this->document->setDescription($this->config->get('seomanager_meta_description_bestseller'));
-		}		
-		
-		if ($this->config->get('seomanager_meta_keyword_bestseller')) {
-			$this->document->setKeywords($this->config->get('seomanager_meta_keyword_bestseller'));
-		}
-		
-		$data['description'] = html_entity_decode(($this->config->get('seomanager_description_bestseller')), ENT_QUOTES, 'UTF-8');
 
-		$data['breadcrumbs'] = array();
+		$this->document->setTitle($this->language->get('heading_title'));
 
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home')
-		);
-
-		$url = '';
-
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
-		}
-
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
-		}
-
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
-		}
-
-		if (isset($this->request->get['limit'])) {
-			$url .= '&limit=' . $this->request->get['limit'];
-		}
-
-		$data['breadcrumbs'][] = array(
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/bestseller', $url)
-		);
+		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_empty'] = $this->language->get('text_empty');
 		$data['text_quantity'] = $this->language->get('text_quantity');
@@ -112,27 +73,47 @@ class ControllerProductBestseller extends Controller {
 		$data['button_grid'] = $this->language->get('button_grid');
 		$data['button_continue'] = $this->language->get('button_continue');
 
+		// Set the last category breadcrumb
+		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('product/bestseller')
+		);
+
+		$data['description'] = false;
+		$data['description_bottom'] = false;
+
 		$data['compare'] = $this->url->link('product/compare');
+
+		$url = '';
+
+		if (isset($this->request->get['sort'])) {
+			$url .= '&sort=' . $this->request->get['sort'];
+		}
+
+		if (isset($this->request->get['order'])) {
+			$url .= '&order=' . $this->request->get['order'];
+		}
+
+		if (isset($this->request->get['page'])) {
+			$url .= '&page=' . $this->request->get['page'];
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$url .= '&limit=' . $this->request->get['limit'];
+		}
 
 		$data['products'] = array();
 
-
-		$m_start=($page - 1) * $limit;
-		
 		$filter_data = array(
 			'sort'  => $sort,
 			'order' => $order,
-			'start' => $m_start,
-			'limit' => ( ($m_start+$limit) > $this->max)?$this->max-$m_start:$limit
+			'start' => ($page - 1) * $limit,
+			'limit' => $limit
 		);
-
-		$results = $this->model_catalog_cms->getBestSeller($filter_data);
 
 		$product_total = $this->model_catalog_cms->getTotalBestSeller();
 
-		if ($product_total > $this->max) {
-			$product_total = $this->max;
-		}
+		$results = $this->model_catalog_cms->getBestSeller($filter_data);
 
 		foreach ($results as $result) {
 			if ($result['image']) {
@@ -164,50 +145,21 @@ class ControllerProductBestseller extends Controller {
 			} else {
 				$rating = false;
 			}
-			
+
 			if ($result['description_mini']) {
-				$description = utf8_substr(strip_tags(html_entity_decode($result['description_mini'], ENT_QUOTES, 'UTF-8')), 0);
-			} else {
-				$description = utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..';
+				$result['description'] = $result['description_mini'];
 			}
-			
-			$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($result['product_id']);
-				
-				$benefits = array();
-				
-				foreach ($productbenefits as $benefit) {
-					if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
-						$bimage = $benefit['image'];
-						if ($benefit['type']) {
-							$bimage = $this->model_tool_image->resize($bimage, 25, 25);
-						} else {
-							$bimage = $this->model_tool_image->resize($bimage, 120, 60);
-						}
-					} else {
-						$bimage = 'no_image.jpg';
-					}
-					$benefits[] = array(
-						'benefit_id'      	=> $benefit['benefit_id'],
-						'name'      		=> $benefit['name'],
-						'description'      	=> strip_tags(html_entity_decode($benefit['description'])),
-						'thumb'      		=> $bimage,
-						'link'      		=> $benefit['link'],
-						'type'      		=> $benefit['type']
-					);
-				}
-				
-				$stickers = $this->getStickers($result['product_id']) ;
 
 			$data['products'][] = array(
 				'product_id'  => $result['product_id'],
 				'thumb'       => $image,
 				'name'        => $result['name'],
-				'description' => $description,
+				'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get($this->config->get('config_theme') . '_product_description_length')) . '..',
 				'price'       => $price,
 				'special'     => $special,
 				'tax'         => $tax,
-				'sticker'     => $stickers,
-				'benefits'    => $benefits,
+				'sticker'     => $this->getProStickers($result['product_id']),
+				'benefits'    => $this->getProBenefits($result['product_id']),
 				'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
 				'rating'      => $result['rating'],
 				'href'        => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
@@ -327,11 +279,11 @@ class ControllerProductBestseller extends Controller {
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
 		// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-		if ($page == 1) {
-		    $this->document->addLink($this->url->link('product/bestseller', '', true), 'canonical');
-		} elseif ($page == 2) {
+		$this->document->addLink($this->url->link('product/bestseller', '', true), 'canonical');
+
+		if ($page == 2) {
 		    $this->document->addLink($this->url->link('product/bestseller', '', true), 'prev');
-		} else {
+		} elseif($page > 2)   {
 		    $this->document->addLink($this->url->link('product/bestseller', 'page='. ($page - 1), true), 'prev');
 		}
 
@@ -354,26 +306,64 @@ class ControllerProductBestseller extends Controller {
 
 		$this->response->setOutput($this->load->view('product/special', $data));
 	}
-	
-	private function getStickers($product_id) {
-	
- 	$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id) ;	
 
-		
+	private function getProStickers($product_id) {
+		$stickers = $this->model_catalog_product->getProductStickerbyProductId($product_id);
+
 		if (!$stickers) {
 			return;
 		}
-		
+
+		$server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
+
 		$data['stickers'] = array();
-		
+
 		foreach ($stickers as $sticker) {
 			$data['stickers'][] = array(
 				'position' => $sticker['position'],
-				'image'    => HTTP_SERVER . 'image/' . $sticker['image']
-			);		
+				'name'     => $sticker['name'],
+				'image'    => ($sticker['image'] ? $server . 'image/' . $sticker['image'] : false)
+			);
 		}
-				
+
 		return $this->load->view('product/stickers', $data);
-	
+	}
+
+	private function getProBenefits($product_id, $width = 120, $height = 60) {
+		$benefits = array();
+
+		$productbenefits = $this->model_catalog_product->getProductBenefitsbyProductId($product_id);
+
+		foreach ($productbenefits as $benefit) {
+			if ($benefit['image'] && file_exists(DIR_IMAGE . $benefit['image'])) {
+				if ($benefit['type']) {
+					$bimage = $this->model_tool_image->resize($benefit['image'], 25, 25);
+				} else {
+					$bimage = $this->model_tool_image->resize($benefit['image'], $width, $height);
+				}
+			} else {
+				if ($benefit['type']) {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', 25, 25);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', 25, 25);
+				} else {
+					//$bimage = false;
+					$bimage = $this->model_tool_image->resize('no_image.png', $width, $height);
+					//$bimage = $this->model_tool_image->resize('placeholder.jpg', $width, $height);
+				}
+			}
+
+			$benefits[] = array(
+				'benefit_id'  => $benefit['benefit_id'],
+				'name'        => $benefit['name'],
+				'description' => strip_tags(html_entity_decode($benefit['description'])),
+				'thumb'       => $bimage,
+				'link'        => $benefit['link'],
+				'type'        => $benefit['type']
+				//'sort_order'  => $benefit['sort_order']
+			);
+		}
+
+		return $benefits;
 	}
 }

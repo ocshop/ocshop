@@ -1,122 +1,101 @@
 <?php
-// *	@copyright	OPENCART.PRO 2011 - 2017.
-// *	@forum	http://forum.opencart.pro
+// *	@copyright	OPENCART.PRO 2011 - 2020.
+// *	@forum		http://forum.opencart.pro
 // *	@source		See SOURCE.txt for source and other copyright.
 // *	@license	GNU General Public License version 3; see LICENSE.txt
 
 // Heading
-$_['heading_title']        				= 'OpenBay Pro';
+$_['heading_title']            = 'OpenBay Pro';
 
 // Buttons
-$_['button_retry']						= 'Retry';
-$_['button_update']						= 'Update';
-$_['button_patch']						= 'Patch';
-$_['button_ftp_test']					= 'Test connection';
-$_['button_faq']						= 'View FAQ topic';
+$_['button_retry']             = 'Повторить';
+$_['button_update']            = 'Обновить';
+$_['button_patch']             = 'Патч';
+$_['button_faq']               = 'Открыть FAQ';
 
 // Tab
-$_['tab_setting']						= 'Settings';
-$_['tab_update']						= 'Software updates';
-$_['tab_update_v1']						= 'Easy updater';
-$_['tab_update_v2']						= 'Legacy updater';
-$_['tab_patch']							= 'Patch';
-$_['tab_developer']						= 'Developer';
+$_['tab_setting']              = 'Настройки';
+$_['tab_update']               = 'Обновление';
+$_['tab_update_v1']            = 'Автоматически';
+$_['tab_patch']                = 'Патч';
+$_['tab_developer']            = 'Разработчик';
 
 // Text
-$_['text_dashboard']         			= 'Dashboard';
-$_['text_success']         				= 'Success: Settings have been saved';
-$_['text_products']          			= 'Items';
-$_['text_orders']          				= 'Orders';
-$_['text_manage']          				= 'Manage';
-$_['text_help']                     	= 'Help';
-$_['text_tutorials']                    = 'Tutorials';
-$_['text_suggestions']                  = 'Ideas';
-$_['text_version_latest']               = 'You are running the latest version';
-$_['text_version_check']     			= 'Checking software version';
-$_['text_version_installed']    		= 'Installed version of OpenBay Pro: v';
-$_['text_version_current']        		= 'Your version is';
-$_['text_version_available']        	= 'the latest is';
-$_['text_language']             		= 'API response language';
-$_['text_getting_messages']     		= 'Getting OpenBay Pro messages';
-$_['text_complete']     				= 'Complete';
-$_['text_test_connection']              = 'Test FTP connection';
-$_['text_run_update']           		= 'Run update';
-$_['text_patch_complete']           	= 'Patch has been applied';
-$_['text_connection_ok']				= 'Connected to server OK. OpenCart folders found';
-$_['text_updated']						= 'Module has been updated (v.%s)';
-$_['text_update_description']			= 'The update tool will make changes to your shop file system. Make sure you have a complete file and database backup before updating.';
-$_['text_patch_description']			= 'If you uploaded the update files manually, you need to run the patch to complete the update';
-$_['text_clear_faq']                    = 'Clear hidden FAQ popups';
-$_['text_clear_faq_complete']           = 'Notifications will now show again';
-$_['text_install_success']              = 'Marketplace has been installed';
-$_['text_uninstall_success']            = 'Marketplace has been removed';
-$_['text_title_messages']               = 'Messages &amp; notifications';
-$_['text_marketplace_shipped']			= 'The order status will be updated to shipped on the marketplace';
-$_['text_action_warning']				= 'This action is dangerous so is password protected.';
-$_['text_check_new']					= 'Checking for newer version';
-$_['text_downloading']					= 'Downloading update files';
-$_['text_extracting']					= 'Extracting files';
-$_['text_running_patch']				= 'Running patch files';
-$_['text_fail_patch']					= 'Unable to extract update files';
-$_['text_updated_ok']					= 'Update complete, installed version is now ';
-$_['text_check_server']					= 'Checking server requirements';
-$_['text_version_ok']					= 'Software is already up to date, installed version is ';
-$_['text_remove_files']					= 'Removing files no longer required';
-$_['text_confirm_backup']				= 'Ensure that you have a full backup before continuing';
+$_['text_dashboard']           = 'Панель управления';
+$_['text_success']             = 'Настройки успешно сохранены!';
+$_['text_products']            = 'Товары';
+$_['text_orders']              = 'Заказы';
+$_['text_manage']              = 'Менеджер';
+$_['text_help']                = 'Помощь';
+$_['text_tutorials']           = 'Примеры на YouTube';
+$_['text_suggestions']         = 'Есть идея!';
+$_['text_version_latest']      = 'Вы используете последнюю версию';
+$_['text_version_check']       = 'Проверка доступной версии';
+$_['text_version_installed']   = 'Установленная версия OpenBay Pro: v';
+$_['text_version_current']     = 'Ваша версия:';
+$_['text_version_available']   = 'последняя доступная:';
+$_['text_language']            = 'Язык API';
+$_['text_getting_messages']    = 'Чтение сообщений от OpenBay Pro';
+$_['text_complete']            = 'Завершено';
+$_['text_patch_complete']      = 'Патч успешно установлен!';
+$_['text_connection_ok']       = 'Подключение к серверу установлено!';
+$_['text_updated']             = 'Модуль был обновлен (v.%s)';
+$_['text_update_description']  = 'ВНИМАНИЕ! Обновление произведёт изменения в системных файлах. Перед обновлением убедитесь, что у вас есть резервная копия ВСЕХ! файлов, включая базу данных!';
+$_['text_patch_description']   = 'Если вы загрузили файлы обновления вручную, необходимо запустить патч для завершения обновления';
+$_['text_clear_faq']           = 'Показать скрытые подсказки';
+$_['text_clear_faq_complete']  = 'Теперь уведомления будут показываться снова';
+$_['text_install_success']     = 'Торговая площадка успешно установлена!';
+$_['text_uninstall_success']   = 'Торговая площадка успешно удалена!';
+$_['text_title_messages']      = 'Сообщения и уведомления';
+$_['text_marketplace_shipped'] = 'Статус заказа будет обновлен в marketplace';
+$_['text_action_warning']      = 'Это действие опасно так как защищено паролем.';
+$_['text_check_new']           = 'Проверка доступной версии';
+$_['text_downloading']         = 'Загружаю файлы обновления';
+$_['text_extracting']          = 'Распаковка файлов';
+$_['text_running_patch']       = 'Запуск патча';
+$_['text_fail_patch']          = 'Невозможно извлечь файлы обновления';
+$_['text_updated_ok']          = 'Обновление завершено, установленная версия ';
+$_['text_check_server']        = 'Проверка требования к серверу';
+$_['text_version_ok']          = 'Программное обеспечение уже готово, установлена версия ';
+$_['text_remove_files']        = 'Удаление файлов больше не требуется';
+$_['text_confirm_backup']      = 'Убедитесь, что у вас есть полная резервная копия, прежде чем продолжить!';
 
 // Column
-$_['column_name']          				= 'Plugin name';
-$_['column_status']        				= 'Status';
-$_['column_action']        				= 'Action';
+$_['column_name']              = 'Название Plugin\'а';
+$_['column_status']            = 'Статус';
+$_['column_action']            = 'Действие';
 
 // Entry
-$_['entry_patch']            			= 'Manual update patch';
-$_['entry_ftp_username']				= 'FTP Username';
-$_['entry_ftp_password']				= 'FTP Password';
-$_['entry_ftp_server']					= 'FTP server address';
-$_['entry_ftp_root']					= 'FTP path on server';
-$_['entry_ftp_admin']            		= 'Admin directory';
-$_['entry_ftp_pasv']                    = 'PASV mode';
-$_['entry_ftp_beta']             		= 'Use beta version';
-$_['entry_courier']						= 'Courier';
-$_['entry_courier_other']           	= 'Other courier';
-$_['entry_tracking']                	= 'Tracking #';
-$_['entry_empty_data']					= 'Empty store data?';
-$_['entry_password_prompt']				= 'Please enter the data wipe password';
-$_['entry_update']						= 'Easy 1 click update';
+$_['entry_patch']              = 'Руное обновление';
+$_['entry_courier']            = 'Курьер';
+$_['entry_courier_other']      = 'Другой курьер';
+$_['entry_tracking']           = 'Отслеживание #';
+$_['entry_empty_data']         = 'Очистить все данные?';
+$_['entry_password_prompt']    = 'Пожалуйста введите данные';
+$_['entry_update']             = 'Установить автоматически';
+$_['entry_beta']               = 'Использовать бета версию';
 
 // Error
-$_['error_username']             		= 'FTP username required';
-$_['error_password']             		= 'FTP password required';
-$_['error_server']               		= 'FTP server required';
-$_['error_admin']             			= 'Admin directory expected';
-$_['error_no_admin']					= 'Connection OK but your OpenCart admin directory was not found';
-$_['error_no_files']					= 'Connection OK but OpenCart folders were not found! Is your root path correct?';
-$_['error_ftp_login']					= 'Could not login with that user';
-$_['error_ftp_connect']					= 'Could not connect to server';
-$_['error_failed']						= 'Failed to load, retry?';
-$_['error_tracking_id_format']			= 'Your tracking ID cannot contain the characters > or <';
-$_['error_tracking_courier']			= 'You must select a courier if you want to add a tracking ID';
-$_['error_tracking_custom']				= 'Please leave courier field empty if you want to use custom courier';
-$_['error_permission']					= 'You do not have permission to modify the OpenBay Pro extension';
-$_['error_mkdir']						= 'PHP mkdir function is disabled, contact your host';
-$_['error_file_delete']					= 'Unable to remove these files, you should delete them manually';
-$_['error_mcrypt']            			= 'PHP function "mcrypt_encrypt" is not enabled. Contact your hosting provider.';
-$_['error_mbstring']               		= 'PHP library "mb strings" is not enabled. Contact your hosting provider.';
-$_['error_ftpconnect']             		= 'PHP FTP functions are not enabled. Contact your hosting provider.';
-$_['error_oc_version']             		= 'Your version of OpenCart is not tested to work with this module. You may experience problems.';
-$_['error_fopen']             			= 'PHP function "fopen" is disabled by your host - you will be unable to import images when importing products';
-$_['lang_error_vqmod']             		= 'Your vqmod folder contains older OpenBay Pro files - these need to be removed!';
+$_['error_admin']              = 'Укажите директорию папки admin';
+$_['error_no_admin']           = 'Соединение установлено, но ваш каталог администратора OpenCart не найден';
+$_['error_no_files']           = 'Соединение установлено, но ни одной папки OpenCart ни найдено! Корневой путь указан верно?';
+$_['error_failed']             = 'Не удалось загрузить, повторить?';
+$_['error_tracking_id_format'] = 'Ваш tracking ID не может содержать символы > или <';
+$_['error_tracking_courier']   = 'Если вы хотите добавить tracking ID, вам необходимо выбрать курьера';
+$_['error_tracking_custom']    = 'Оставьте поле курьера пустым, если вы хотите использовать пользовательского курьера';
+$_['error_permission']         = 'У вас нет разрешения на изменение OpenBay Pro';
+$_['error_mkdir']              = 'PHP mkdir функция отключена, обратитесь к своему хостингу';
+$_['error_file_delete']        = 'Невозможно удалить эти файлы, вы должны удалить их вручную';
+$_['error_mcrypt']             = 'PHP функция "mcrypt_encrypt" не включена. Обратитесь к своему хостингу.';
+$_['error_openssl']            = 'PHP библиотека "OpenSSL" не включена. Обратитесь к своему хостингу.';
+$_['error_mbstring']           = 'PHP библиотека "mb strings" не установлена. Обратитесь к своему хостингу.';
+$_['error_oc_version']         = 'Ваша версия OpenCart не протестирована с этим модулем. У вас могут возникнуть проблемы.';
+$_['error_fopen']              = 'PHP функция "fopen" отключена на хостинге - вы не сможете добавлять изображения при импорте товаров.';
+$_['lang_error_vqmod']         = 'Папка vqmod содержит старые OpenBay Pro файлы - они должны быть удалены!';
 
 // Help
-$_['help_ftp_username']           		= 'Use the FTP username from your host';
-$_['help_ftp_password']           		= 'Use the FTP password from your host';
-$_['help_ftp_server']      				= 'IP address or domain name for your FTP server';
-$_['help_ftp_root']           			= '(No trailing slash e.g. httpdocs/www)';
-$_['help_ftp_admin']               		= 'If you have changed your admin directory update it to the new location';
-$_['help_ftp_pasv']                    	= 'Change your FTP connection to passive mode';
-$_['help_ftp_beta']             		= 'Caution! The beta version may not work correctly';
-$_['help_clear_faq']					= 'Show all of the help notifications again';
-$_['help_empty_data']					= 'This can cause serious damage, do not use it if you do not know what it does!';
-$_['help_easy_update']					= 'Click update to install the latest version of OpenBay Pro automatically';
-$_['help_patch']						= 'Click to run the patch scripts';
+$_['help_clear_faq']           = 'Показать ранее скрытые подсказки.';
+$_['help_empty_data']          = 'ВНИМАНИЕ! Это может привести к серьезным последствиям, вплоть до неработающего интернет магазина. Не нажимайте на Сброс - если не знаете что он делает!';
+$_['help_easy_update']         = 'Установить последнюю версию OpenBay Pro в автоматическом режиме.';
+$_['help_patch']               = 'Нажмите, чтобы запустить патч из сохраненного ранее скрипта.';
+$_['help_beta']                = 'ВНИМАНИЕ! Бета версия является последней версией "для тестирования" и она по своему определению не может быть стабильной. Ошибки и баги неизбежны!';

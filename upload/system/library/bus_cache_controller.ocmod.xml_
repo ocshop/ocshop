@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->
+
+<modification>
+    <code><![CDATA[01000024-CONTROLLER]]></code>
+    <name><![CDATA[Буслік Кэш - "Buslik Cache" CONTROLLER]]></name>
+    <version><![CDATA[1.0.15 Full]]></version>
+    <author><![CDATA[BuslikDrev.by]]></author>
+    <link><![CDATA[https://liveopencart.ru/buslikdrev]]></link>
+    <!-- ↓ СИСТЕМА ↓ -->
+    <!-- ↓ 2.2.0.0 - 3.1.0.0 - controller ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$action = new Action($route);]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$action = ($this->registry->get('bus_cache') ? $route : new Action($route));]]>
+            </add>
+        </operation>
+        <operation>
+            <search index="0">
+            <![CDATA[$output = $action->execute($this->registry, array(&$data));]]>
+            </search>
+            <add position="replace">
+            <![CDATA[$output = ($this->registry->get('bus_cache') ? $this->registry->get('bus_cache')->controller($action, $route, array(&$data)) : $action->execute($this->registry, array(&$data)));]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.2.0.0 - 3.1.0.0 - controller ↑ -->
+    <!-- ↓ 2.1.0.0 - 2.1.0.2 - controller ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[// $this->event->trigger('pre.controller.' . $route, $data);]]>
+            </search>
+            <add position="before">
+            <![CDATA[		if ($this->registry->get('bus_cache')) {
+			return $this->registry->get('bus_cache')->controller($route, $route, $data);
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.1.0.0 - 2.1.0.2 - controller ↑ -->
+    <!-- ↓ 2.0.0.0 - 2.0.3.1 - controller ↓ -->
+    <file path="system/engine/loader.php">
+        <operation>
+            <search index="0">
+            <![CDATA[$action = new Action($route, $args);]]>
+            </search>
+            <add position="before">
+            <![CDATA[		if ($this->registry->get('bus_cache')) {
+			return $this->registry->get('bus_cache')->controller($route, $route, $data);
+		}]]>
+            </add>
+        </operation>
+    </file>
+    <!-- ↑ 2.0.0.0 - 2.0.3.1 - controller ↑ -->
+    <!-- ↑ СИСТЕМА ↑ -->
+</modification>
+
+<!-- Аўтар: "БуслікДрэў" ( https://buslikdrev.by/ )
+© 2016-2024; BuslikDrev - Усе правы захаваны. -->

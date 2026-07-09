@@ -125,7 +125,7 @@
               <div class="col-sm-12 text-right">
                 <a class="btn btn-danger" id="button-end-item"><i class="fa fa-minus-circle"></i> <?php echo $button_end; ?></a>
                 <a class="btn btn-danger" id="button-remove-link"><i class="fa fa-minus-circle"></i> <?php echo $button_remove; ?></a>
-                <a class="btn btn-primary" href="<?php echo $view_link; ?>" target="_BLANK" data-toggle="tooltip" title="<?php echo $button_view; ?>"><i class="fa fa-external-link"></i></a>
+                <a class="btn btn-primary" href="<?php echo $view_link; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" rel="noreferrer noopener" target="_blank"><i class="fa fa-external-link"></i></a>
                 <a class="btn btn-primary" id="button-edit-item" data-toggle="tooltip" title="<?php echo $button_edit; ?>" style="display:none;"><i class="fa fa-pencil"></i></a>
                 <a class="btn btn-primary" id="button-save" data-toggle="tooltip" title="<?php echo $button_save; ?>"><i class="fa fa-save"></i></a>
               </div>
